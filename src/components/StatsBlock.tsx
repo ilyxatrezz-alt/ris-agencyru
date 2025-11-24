@@ -59,7 +59,7 @@ const StatsBlock = () => {
     <section className="py-20 bg-secondary/50 relative overflow-hidden" ref={ref}>
       {/* Animated Background Elements */}
       <motion.div
-        className="absolute top-0 left-0 w-96 h-96 bg-primary/5 rounded-full blur-3xl"
+        className="absolute top-0 left-0 w-96 h-96 bg-primary/5 rounded-full blur-3xl pointer-events-none"
         animate={{
           scale: [1, 1.2, 1],
           opacity: [0.3, 0.5, 0.3],
@@ -71,7 +71,7 @@ const StatsBlock = () => {
         }}
       />
       <motion.div
-        className="absolute bottom-0 right-0 w-96 h-96 bg-accent/5 rounded-full blur-3xl"
+        className="absolute bottom-0 right-0 w-96 h-96 bg-accent/5 rounded-full blur-3xl pointer-events-none"
         animate={{
           scale: [1.2, 1, 1.2],
           opacity: [0.5, 0.3, 0.5],
@@ -114,11 +114,6 @@ const StatsBlock = () => {
                   delay: index * 0.1,
                   ease: "easeOut" 
                 }}
-                whileHover={{ 
-                  scale: 1.05,
-                  rotate: 2,
-                  transition: { duration: 0.3 }
-                }}
               >
                 {/* Gradient Border Effect */}
                 <div className="absolute inset-0 bg-gradient-to-br from-primary/0 via-primary/5 to-primary/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
@@ -140,9 +135,7 @@ const StatsBlock = () => {
 
                 <div className="flex flex-col items-center text-center space-y-4 relative z-10">
                   <motion.div 
-                    className="flex h-16 w-16 items-center justify-center rounded-full gradient-primary group-hover:scale-110 transition-transform duration-300"
-                    whileHover={{ rotate: 360 }}
-                    transition={{ duration: 0.6 }}
+                    className="flex h-16 w-16 items-center justify-center rounded-full gradient-primary transition-transform duration-300"
                   >
                     <Icon className="h-8 w-8 text-white" />
                   </motion.div>
