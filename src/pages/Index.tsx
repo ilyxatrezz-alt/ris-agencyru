@@ -4,6 +4,7 @@ import StatsBlock from "@/components/StatsBlock";
 import ComparisonBlock from "@/components/ComparisonBlock";
 import ProcessBlock from "@/components/ProcessBlock";
 import ContactForm from "@/components/ContactForm";
+import QuickContact from "@/components/QuickContact";
 import Footer from "@/components/Footer";
 
 const Index = () => {
@@ -12,9 +13,13 @@ const Index = () => {
       <Header />
       <main>
         <Hero />
+        <QuickContact />
         <StatsBlock />
+        <QuickContact />
         <ComparisonBlock />
+        <QuickContact />
         <ProcessBlock />
+        <QuickContact />
         <ContactForm />
       </main>
       <Footer />
