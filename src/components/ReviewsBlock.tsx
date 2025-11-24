@@ -58,7 +58,7 @@ const ReviewsBlock = () => {
     <section className="py-20 bg-secondary/30 relative overflow-hidden">
       {/* Decorative Elements */}
       <motion.div
-        className="absolute top-20 right-10 w-64 h-64 bg-primary/5 rounded-full blur-3xl"
+        className="absolute top-20 right-10 w-64 h-64 bg-primary/5 rounded-full blur-3xl pointer-events-none"
         animate={{
           scale: [1, 1.3, 1],
           opacity: [0.3, 0.5, 0.3],
@@ -168,7 +168,6 @@ const ReviewsBlock = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.15 }}
-              whileHover={{ y: -5 }}
             >
               {/* Hover Gradient Effect */}
               <motion.div
@@ -180,8 +179,6 @@ const ReviewsBlock = () => {
               <div className="flex items-start gap-4 mb-4 relative z-10">
                 <motion.div 
                   className="flex h-12 w-12 items-center justify-center rounded-full bg-primary text-white font-bold text-lg flex-shrink-0 shadow-lg"
-                  whileHover={{ scale: 1.1, rotate: 360 }}
-                  transition={{ duration: 0.6 }}
                 >
                   {review.initials}
                 </motion.div>
@@ -205,16 +202,14 @@ const ReviewsBlock = () => {
 
               {/* Footer */}
               <div className="flex items-center justify-between pt-4 border-t border-border/50 relative z-10">
-                <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    className="text-muted-foreground hover:text-primary transition-colors"
-                  >
-                    <ThumbsUp className="h-4 w-4 mr-2" />
-                    Полезно ({review.helpful})
-                  </Button>
-                </motion.div>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="text-muted-foreground hover:text-primary transition-colors"
+                >
+                  <ThumbsUp className="h-4 w-4 mr-2" />
+                  Полезно ({review.helpful})
+                </Button>
               </div>
             </motion.div>
           ))}

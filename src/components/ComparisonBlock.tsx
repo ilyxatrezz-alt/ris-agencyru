@@ -26,7 +26,7 @@ const ComparisonBlock = () => {
   return (
     <section className="py-20 relative overflow-hidden">
       {/* Background Pattern */}
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808008_1px,transparent_1px),linear-gradient(to_bottom,#80808008_1px,transparent_1px)] bg-[size:24px_24px]" />
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808008_1px,transparent_1px),linear-gradient(to_bottom,#80808008_1px,transparent_1px)] bg-[size:24px_24px] pointer-events-none" />
       
       <div className="container mx-auto px-4 relative z-10">
         <motion.div 
@@ -58,8 +58,6 @@ const ComparisonBlock = () => {
               >
                 <motion.div 
                   className="flex items-start space-x-4 p-6 rounded-xl bg-primary/5 border-2 border-primary/20 hover:border-primary/40 transition-all duration-300 relative overflow-hidden group"
-                  whileHover={{ scale: 1.02, x: 5 }}
-                  transition={{ duration: 0.3 }}
                 >
                   {/* Animated Background */}
                   <motion.div
@@ -69,8 +67,6 @@ const ComparisonBlock = () => {
                   
                   <motion.div 
                     className="flex h-12 w-12 items-center justify-center rounded-full gradient-primary flex-shrink-0 shadow-lg"
-                    whileHover={{ rotate: 360, scale: 1.1 }}
-                    transition={{ duration: 0.6 }}
                   >
                     <Check className="h-6 w-6 text-white" />
                   </motion.div>
@@ -85,8 +81,6 @@ const ComparisonBlock = () => {
 
                 <motion.div 
                   className="flex items-start space-x-4 p-6 rounded-xl bg-destructive/5 border-2 border-destructive/20 hover:border-destructive/40 transition-all duration-300 relative overflow-hidden group"
-                  whileHover={{ scale: 1.02, x: -5 }}
-                  transition={{ duration: 0.3 }}
                 >
                   {/* Animated Background */}
                   <motion.div
@@ -96,8 +90,6 @@ const ComparisonBlock = () => {
                   
                   <motion.div 
                     className="flex h-12 w-12 items-center justify-center rounded-full bg-destructive flex-shrink-0 shadow-lg"
-                    whileHover={{ rotate: -360, scale: 1.1 }}
-                    transition={{ duration: 0.6 }}
                   >
                     <X className="h-6 w-6 text-white" />
                   </motion.div>

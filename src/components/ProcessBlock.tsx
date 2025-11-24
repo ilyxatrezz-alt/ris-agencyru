@@ -44,8 +44,8 @@ const ProcessBlock = () => {
   return (
     <section className="py-20 bg-secondary/50 relative overflow-hidden">
       {/* Decorative Elements */}
-      <div className="absolute top-10 right-10 w-72 h-72 bg-primary/5 rounded-full blur-3xl" />
-      <div className="absolute bottom-10 left-10 w-72 h-72 bg-accent/5 rounded-full blur-3xl" />
+      <div className="absolute top-10 right-10 w-72 h-72 bg-primary/5 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute bottom-10 left-10 w-72 h-72 bg-accent/5 rounded-full blur-3xl pointer-events-none" />
 
       <div className="container mx-auto px-4 relative z-10">
         <motion.div 
@@ -78,10 +78,6 @@ const ProcessBlock = () => {
                   delay: index * 0.15,
                   ease: "easeOut" 
                 }}
-                whileHover={{ 
-                  y: -10,
-                  transition: { duration: 0.3 }
-                }}
               >
                 {/* Animated Background Gradient */}
                 <motion.div
@@ -104,11 +100,6 @@ const ProcessBlock = () => {
                 <div className="relative space-y-4">
                   <motion.div 
                     className="flex h-14 w-14 items-center justify-center rounded-xl gradient-primary shadow-lg"
-                    whileHover={{ 
-                      scale: 1.1,
-                      rotate: 360,
-                      transition: { duration: 0.6 }
-                    }}
                   >
                     <Icon className="h-7 w-7 text-white" />
                   </motion.div>
