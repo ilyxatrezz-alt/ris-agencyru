@@ -99,7 +99,11 @@ const ProcessBlock = () => {
 
                 <div className="relative space-y-4">
                   <motion.div 
-                    className="flex h-14 w-14 items-center justify-center rounded-xl gradient-primary shadow-lg"
+                    className="flex h-14 w-14 items-center justify-center rounded-xl gradient-primary shadow-lg group-hover:scale-110 transition-transform duration-300"
+                    whileHover={{ 
+                      rotate: 360,
+                      transition: { duration: 0.6 }
+                    }}
                   >
                     <Icon className="h-7 w-7 text-white" />
                   </motion.div>

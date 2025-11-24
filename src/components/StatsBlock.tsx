@@ -135,7 +135,9 @@ const StatsBlock = () => {
 
                 <div className="flex flex-col items-center text-center space-y-4 relative z-10">
                   <motion.div 
-                    className="flex h-16 w-16 items-center justify-center rounded-full gradient-primary transition-transform duration-300"
+                    className="flex h-16 w-16 items-center justify-center rounded-full gradient-primary transition-transform duration-300 group-hover:scale-110"
+                    whileHover={{ rotate: 360 }}
+                    transition={{ duration: 0.6 }}
                   >
                     <Icon className="h-8 w-8 text-white" />
                   </motion.div>
