@@ -1,16 +1,16 @@
-import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { Phone } from "lucide-react";
+import { Button } from "./ui/button";
+import { Input } from "./ui/input";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import { Phone } from "lucide-react";
+} from "./ui/select";
+import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
+import { motion } from "framer-motion";
 
 const QuickContact = () => {
   const { toast } = useToast();
@@ -22,105 +22,140 @@ const QuickContact = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    
-    // Отправка в WhatsApp
-    const message = `Новая заявка!\n\nИмя: ${formData.name}\nТелефон: ${formData.phone}\nНиша: ${formData.niche}`;
-    const whatsappUrl = `https://wa.me/79493388689?text=${encodeURIComponent(message)}`;
-    window.open(whatsappUrl, "_blank");
-
+    console.log("Form submitted:", formData);
     toast({
       title: "Заявка отправлена!",
       description: "Мы свяжемся с вами в ближайшее время",
     });
-
     setFormData({ name: "", phone: "", niche: "" });
   };
 
   return (
-    <div className="py-16 bg-gradient-to-br from-primary/5 to-accent/5">
-      <div className="container mx-auto px-4">
+    <section className="py-12 bg-gradient-to-br from-primary/5 to-accent/5 relative overflow-hidden">
+      {/* Animated Background Elements */}
+      <motion.div
+        className="absolute top-0 left-0 w-64 h-64 bg-primary/10 rounded-full blur-3xl"
+        animate={{
+          x: [0, 100, 0],
+          y: [0, 50, 0],
+          scale: [1, 1.2, 1],
+        }}
+        transition={{
+          duration: 10,
+          repeat: Infinity,
+          ease: "easeInOut",
+        }}
+      />
+      <motion.div
+        className="absolute bottom-0 right-0 w-64 h-64 bg-accent/10 rounded-full blur-3xl"
+        animate={{
+          x: [0, -100, 0],
+          y: [0, -50, 0],
+          scale: [1.2, 1, 1.2],
+        }}
+        transition={{
+          duration: 12,
+          repeat: Infinity,
+          ease: "easeInOut",
+        }}
+      />
+
+      <div className="container mx-auto px-4 relative z-10">
         <div className="max-w-4xl mx-auto">
-          <div className="grid md:grid-cols-2 gap-8 items-center">
-            {/* Кнопка звонка */}
-            <div className="text-center md:text-left space-y-4">
-              <h3 className="text-2xl md:text-3xl font-bold">
-                Готовы увеличить прибыль?
-              </h3>
-              <p className="text-muted-foreground">
-                Позвоните прямо сейчас или оставьте заявку — мы перезвоним в течение 15 минут
-              </p>
+          <div className="grid md:grid-cols-2 gap-6 items-center">
+            {/* Call Button */}
+            <motion.div 
+              className="flex justify-center"
+              initial={{ opacity: 0, scale: 0.9 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5 }}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
               <Button
-                variant="cta"
-                size="xl"
-                className="w-full md:w-auto"
                 asChild
+                size="lg"
+                className="w-full gradient-primary hover:scale-105 transition-base shadow-cta group text-base md:text-lg h-14"
               >
-                <a href="tel:+79493388689">
-                  <Phone className="mr-2 h-5 w-5" />
+                <a href="tel:+79493388689" className="flex items-center justify-center">
+                  <motion.div
+                    animate={{
+                      rotate: [0, 10, -10, 0],
+                    }}
+                    transition={{
+                      duration: 2,
+                      repeat: Infinity,
+                      ease: "easeInOut",
+                    }}
+                  >
+                    <Phone className="mr-2 h-5 w-5" />
+                  </motion.div>
                   +7 (949) 338-86-89
                 </a>
               </Button>
-            </div>
+            </motion.div>
 
-            {/* Форма */}
-            <div className="bg-card p-6 rounded-2xl shadow-card">
-              <h4 className="text-xl font-bold mb-4">Быстрая заявка</h4>
+            {/* Quick Form */}
+            <motion.div 
+              className="p-6 rounded-2xl bg-card/80 backdrop-blur-sm shadow-card border border-border/50 hover:shadow-card-hover transition-all duration-500"
+              initial={{ opacity: 0, x: 50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+            >
+              <motion.h3 
+                className="text-lg font-bold mb-4 text-center"
+                initial={{ opacity: 0, y: -20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.2 }}
+              >
+                Быстрая заявка
+              </motion.h3>
               <form onSubmit={handleSubmit} className="space-y-4">
-                <div>
-                  <Label htmlFor="quick-name">Ваше имя</Label>
-                  <Input
-                    id="quick-name"
-                    value={formData.name}
-                    onChange={(e) =>
-                      setFormData({ ...formData, name: e.target.value })
-                    }
-                    required
-                    placeholder="Иван"
-                  />
-                </div>
-                <div>
-                  <Label htmlFor="quick-phone">Телефон</Label>
-                  <Input
-                    id="quick-phone"
-                    type="tel"
-                    value={formData.phone}
-                    onChange={(e) =>
-                      setFormData({ ...formData, phone: e.target.value })
-                    }
-                    required
-                    placeholder="+7 (999) 123-45-67"
-                  />
-                </div>
-                <div>
-                  <Label htmlFor="quick-niche">Ниша бизнеса</Label>
-                  <Select
-                    value={formData.niche}
-                    onValueChange={(value) =>
-                      setFormData({ ...formData, niche: value })
-                    }
-                    required
-                  >
-                    <SelectTrigger id="quick-niche">
-                      <SelectValue placeholder="Выберите нишу" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="medicine-beauty">Медицина & Beauty</SelectItem>
-                      <SelectItem value="construction">Строительство & Коттеджи</SelectItem>
-                      <SelectItem value="horeca">Рестораны & Общепит</SelectItem>
-                      <SelectItem value="lawyers">Юридические услуги</SelectItem>
-                      <SelectItem value="other">Другое</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-                <Button type="submit" className="w-full" variant="hero">
-                  Получить консультацию
-                </Button>
+                <Input
+                  placeholder="Ваше имя"
+                  value={formData.name}
+                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                  required
+                  className="transition-all duration-300 focus:scale-105"
+                />
+                <Input
+                  type="tel"
+                  placeholder="Телефон"
+                  value={formData.phone}
+                  onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                  required
+                  className="transition-all duration-300 focus:scale-105"
+                />
+                <Select
+                  value={formData.niche}
+                  onValueChange={(value) => setFormData({ ...formData, niche: value })}
+                  required
+                >
+                  <SelectTrigger className="transition-all duration-300 focus:scale-105">
+                    <SelectValue placeholder="Ваша ниша" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="medicine">Медицина & Beauty</SelectItem>
+                    <SelectItem value="construction">Строительство</SelectItem>
+                    <SelectItem value="horeca">Рестораны</SelectItem>
+                    <SelectItem value="lawyers">Юридические услуги</SelectItem>
+                    <SelectItem value="other">Другое</SelectItem>
+                  </SelectContent>
+                </Select>
+                <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
+                  <Button type="submit" className="w-full gradient-primary shadow-cta">
+                    Отправить заявку
+                  </Button>
+                </motion.div>
               </form>
-            </div>
+            </motion.div>
           </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 

@@ -1,64 +1,143 @@
+import { ArrowRight, TrendingUp, Users, Target } from "lucide-react";
+import { Button } from "./ui/button";
 import { Link } from "react-router-dom";
-import { Button } from "@/components/ui/button";
-import { TrendingUp, Award, Users } from "lucide-react";
+import { motion } from "framer-motion";
 import heroImage from "@/assets/hero-bg.jpg";
 
 const Hero = () => {
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.2,
+        delayChildren: 0.3,
+      },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 30 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.6 },
+    },
+  };
+
+  const floatingAnimation = {
+    y: [0, -20, 0],
+    transition: {
+      duration: 4,
+      repeat: Infinity,
+      repeatType: "loop" as const,
+    },
+  };
+
   return (
-    <section className="relative overflow-hidden gradient-hero">
-      <div className="absolute inset-0 z-0">
+    <section className="relative min-h-[600px] md:min-h-screen flex items-center justify-center overflow-hidden">
+      {/* Background Image with Overlay */}
+      <motion.div 
+        className="absolute inset-0 z-0"
+        initial={{ scale: 1.1 }}
+        animate={{ scale: 1 }}
+        transition={{ duration: 1.5, ease: "easeOut" }}
+      >
         <img
           src={heroImage}
-          alt="Digital marketing analytics"
-          className="w-full h-full object-cover opacity-5"
+          alt="Hero Background"
+          className="w-full h-full object-cover"
         />
-      </div>
-      
-      <div className="container relative z-10 mx-auto px-4 py-12 md:py-24 lg:py-32">
-        <div className="max-w-4xl mx-auto text-center space-y-6 md:space-y-8">
-          <div className="inline-flex items-center space-x-2 px-3 py-1.5 md:px-4 md:py-2 rounded-full bg-primary/10 border border-primary/20">
-            <Award className="h-3 w-3 md:h-4 md:w-4 text-primary" />
-            <span className="text-xs md:text-sm font-medium text-primary">10+ лет успешной работы</span>
-          </div>
+        <div className="absolute inset-0 bg-gradient-to-br from-background/95 via-background/90 to-background/80" />
+      </motion.div>
 
-          <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold leading-tight px-2">
-            G-TARGET: Реклама и Сайты,{" "}
-            <span className="text-gradient-primary">которые приносят прибыль</span>
-          </h1>
+      {/* Floating Shapes */}
+      <motion.div
+        className="absolute top-20 left-10 w-32 h-32 rounded-full bg-primary/10 blur-3xl"
+        animate={floatingAnimation}
+      />
+      <motion.div
+        className="absolute bottom-20 right-10 w-40 h-40 rounded-full bg-accent/10 blur-3xl"
+        animate={{ y: [0, -20, 0], transition: { duration: 5, repeat: Infinity, repeatType: "loop" as const, delay: 1 } }}
+      />
 
-          <p className="text-base md:text-lg lg:text-xl text-muted-foreground max-w-3xl mx-auto px-4">
-            Запускаем контекстную (Яндекс) и таргетированную (ВК) рекламу, создаем конверсионные
-            сайты с 2014 года. Гарантируем результат по всей России.
-          </p>
+      {/* Content */}
+      <div className="container relative z-10 mx-auto px-4 py-16 md:py-20">
+        <motion.div 
+          className="max-w-4xl mx-auto text-center space-y-6 md:space-y-8"
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
+        >
+          <motion.h1 
+            className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-bold leading-tight"
+            variants={itemVariants}
+          >
+            <span className="text-gradient-primary inline-block">Делаем сайты и рекламу</span>
+            <br />
+            <span className="text-foreground">для бизнеса с 2014 года</span>
+          </motion.h1>
 
-          <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3 md:gap-4 px-4">
-            <Button variant="cta" size="lg" className="w-full sm:w-auto text-sm md:text-base" asChild>
-              <Link to="/contacts">Получить прогноз</Link>
+          <motion.p 
+            className="text-base sm:text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto"
+            variants={itemVariants}
+          >
+            Привлекаем клиентов через Яндекс.Директ, ВКонтакте, Telegram и другие каналы.
+            Вы платите только за реальные лиды.
+          </motion.p>
+
+          <motion.div 
+            className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center pt-4"
+            variants={itemVariants}
+          >
+            <Button
+              asChild
+              size="lg"
+              className="w-full sm:w-auto gradient-primary hover:scale-105 transition-base shadow-cta group text-sm sm:text-base"
+            >
+              <Link to="/contacts">
+                Получить расчет
+                <ArrowRight className="ml-2 h-4 w-4 sm:h-5 sm:w-5 group-hover:translate-x-1 transition-transform" />
+              </Link>
             </Button>
-            <Button variant="outline" size="lg" className="w-full sm:w-auto text-sm md:text-base" asChild>
-              <Link to="/cases">Посмотреть кейсы</Link>
+            <Button
+              asChild
+              variant="outline"
+              size="lg"
+              className="w-full sm:w-auto border-primary/20 hover:bg-primary/10 transition-base text-sm sm:text-base"
+            >
+              <Link to="/cases">Смотреть кейсы</Link>
             </Button>
-          </div>
+          </motion.div>
+        </motion.div>
 
-          {/* Stats */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 md:gap-6 pt-8 md:pt-12 px-4">
-            <div className="flex flex-col items-center space-y-2 p-4 md:p-6 rounded-xl bg-card shadow-card">
-              <TrendingUp className="h-6 w-6 md:h-8 md:w-8 text-accent" />
-              <div className="text-2xl md:text-3xl font-bold text-primary">500+ млн</div>
-              <div className="text-xs md:text-sm text-muted-foreground text-center">рекламных бюджетов освоено</div>
-            </div>
-            <div className="flex flex-col items-center space-y-2 p-4 md:p-6 rounded-xl bg-card shadow-card">
-              <Users className="h-6 w-6 md:h-8 md:w-8 text-accent" />
-              <div className="text-2xl md:text-3xl font-bold text-primary">70%</div>
-              <div className="text-xs md:text-sm text-muted-foreground text-center">клиентов с нами более 3 лет</div>
-            </div>
-            <div className="flex flex-col items-center space-y-2 p-4 md:p-6 rounded-xl bg-card shadow-card">
-              <Award className="h-6 w-6 md:h-8 md:w-8 text-accent" />
-              <div className="text-2xl md:text-3xl font-bold text-primary">-40%</div>
-              <div className="text-xs md:text-sm text-muted-foreground text-center">средний CPL ниже конкурентов</div>
-            </div>
-          </div>
-        </div>
+        {/* Stats */}
+        <motion.div 
+          className="mt-12 md:mt-20 grid grid-cols-1 sm:grid-cols-3 gap-4 md:gap-8 max-w-4xl mx-auto"
+          initial={{ opacity: 0, y: 50 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.8, duration: 0.6 }}
+        >
+          {[
+            { icon: TrendingUp, value: "500+ млн ₽", label: "освоено на рекламе", delay: 0 },
+            { icon: Users, value: "100+ проектов", label: "успешно запущено", delay: 0.1 },
+            { icon: Target, value: "10+ лет", label: "на рынке", delay: 0.2 },
+          ].map((stat, index) => (
+            <motion.div
+              key={index}
+              className="flex items-center justify-center gap-3 p-3 md:p-4 rounded-xl bg-card/50 backdrop-blur-sm border border-border/50 shadow-card hover:shadow-card-hover hover:scale-105 transition-all duration-300"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 1 + stat.delay, duration: 0.5 }}
+            >
+              <stat.icon className="h-6 w-6 md:h-8 md:w-8 text-primary flex-shrink-0" />
+              <div className="text-left">
+                <div className="text-lg md:text-2xl font-bold text-foreground">{stat.value}</div>
+                <div className="text-xs md:text-sm text-muted-foreground">{stat.label}</div>
+              </div>
+            </motion.div>
+          ))}
+        </motion.div>
       </div>
     </section>
   );
