@@ -6,6 +6,8 @@ import ProcessBlock from "@/components/ProcessBlock";
 import ContactForm from "@/components/ContactForm";
 import QuickContact from "@/components/QuickContact";
 import PriceCalculator from "@/components/PriceCalculator";
+import CasesSlider from "@/components/CasesSlider";
+import ReviewsBlock from "@/components/ReviewsBlock";
 import Footer from "@/components/Footer";
 
 const Index = () => {
@@ -17,10 +19,12 @@ const Index = () => {
         <QuickContact />
         <StatsBlock />
         <QuickContact />
+        <CasesSlider />
         <PriceCalculator />
         <ComparisonBlock />
         <QuickContact />
         <ProcessBlock />
+        <ReviewsBlock />
         <QuickContact />
         <ContactForm />
       </main>
