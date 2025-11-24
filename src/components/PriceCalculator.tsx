@@ -119,25 +119,25 @@ const PriceCalculator = () => {
   const costs = calculateTotal();
 
   return (
-    <section className="py-16 md:py-24 bg-gradient-to-br from-primary/5 to-accent/5">
+    <section className="py-12 md:py-16 lg:py-24 bg-gradient-to-br from-primary/5 to-accent/5">
       <div className="container mx-auto px-4">
-        <div className="max-w-6xl mx-auto space-y-8">
+        <div className="max-w-6xl mx-auto space-y-6 md:space-y-8">
           {/* Header */}
-          <div className="text-center space-y-4">
-            <h2 className="text-3xl md:text-5xl font-bold">
+          <div className="text-center space-y-3 md:space-y-4">
+            <h2 className="text-2xl md:text-4xl lg:text-5xl font-bold">
               Калькулятор <span className="text-gradient-primary">Стоимости</span>
             </h2>
-            <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">
+            <p className="text-base md:text-lg lg:text-xl text-muted-foreground max-w-2xl mx-auto px-4">
               Рассчитайте стоимость продвижения вашего бизнеса за 1 минуту
             </p>
           </div>
 
-          <div className="grid lg:grid-cols-2 gap-8">
+          <div className="grid lg:grid-cols-2 gap-6 md:gap-8">
             {/* Левая часть - Настройки */}
-            <div className="space-y-6">
-              <Card className="p-6 space-y-6">
+            <div className="space-y-4 md:space-y-6">
+              <Card className="p-4 md:p-6 space-y-4 md:space-y-6">
                 <div>
-                  <h3 className="text-xl font-bold mb-4">Выберите услуги</h3>
+                  <h3 className="text-lg md:text-xl font-bold mb-3 md:mb-4">Выберите услуги</h3>
                   <div className="space-y-3">
                     {services.map((service) => {
                       const isDisabled =
@@ -152,7 +152,7 @@ const PriceCalculator = () => {
                       return (
                         <div
                           key={service.id}
-                          className={`flex items-start space-x-3 p-4 rounded-lg border-2 transition-base ${
+                          className={`flex items-start space-x-3 p-3 md:p-4 rounded-lg border-2 transition-base ${
                             selectedServices.includes(service.id)
                               ? "border-primary bg-primary/5"
                               : "border-border hover:border-primary/50"
@@ -163,24 +163,25 @@ const PriceCalculator = () => {
                             checked={selectedServices.includes(service.id)}
                             onCheckedChange={() => toggleService(service.id)}
                             disabled={isDisabled}
+                            className="mt-1"
                           />
-                          <div className="flex-1">
+                          <div className="flex-1 min-w-0">
                             <Label
                               htmlFor={service.id}
-                              className="text-base font-semibold cursor-pointer flex items-center gap-2"
+                              className="text-sm md:text-base font-semibold cursor-pointer flex items-center gap-2 flex-wrap"
                             >
-                              {service.name}
+                              <span className="break-words">{service.name}</span>
                               {showBonus && (
                                 <Badge
                                   variant="secondary"
-                                  className="bg-accent text-accent-foreground"
+                                  className="bg-accent text-accent-foreground text-xs"
                                 >
                                   <Gift className="h-3 w-3 mr-1" />
                                   БОНУС
                                 </Badge>
                               )}
                             </Label>
-                            <p className="text-sm text-muted-foreground mt-1">
+                            <p className="text-xs md:text-sm text-muted-foreground mt-1">
                               {service.id === "website" &&
                                 "Лендинг или корпоративный сайт под ключ"}
                               {service.id === "yandex" &&
@@ -203,7 +204,7 @@ const PriceCalculator = () => {
                 </div>
 
                 <div>
-                  <Label htmlFor="niche" className="text-base font-semibold">
+                  <Label htmlFor="niche" className="text-sm md:text-base font-semibold">
                     Ниша бизнеса
                   </Label>
                   <Select value={niche} onValueChange={setNiche}>
@@ -233,7 +234,7 @@ const PriceCalculator = () => {
                 ) && (
                   <>
                     <div>
-                      <Label className="text-base font-semibold">
+                      <Label className="text-sm md:text-base font-semibold">
                         Рекламный бюджет: {adBudget[0].toLocaleString("ru-RU")}{" "}
                         ₽/мес
                       </Label>
@@ -252,7 +253,7 @@ const PriceCalculator = () => {
                     </div>
 
                     <div>
-                      <Label htmlFor="period" className="text-base font-semibold">
+                      <Label htmlFor="period" className="text-sm md:text-base font-semibold">
                         Период ведения
                       </Label>
                       <Select value={period} onValueChange={setPeriod}>
@@ -273,61 +274,61 @@ const PriceCalculator = () => {
             </div>
 
             {/* Правая часть - Результат */}
-            <div className="space-y-6">
-              <Card className="p-6 md:p-8 space-y-6 bg-card shadow-card-hover sticky top-4">
+            <div className="space-y-4 md:space-y-6">
+              <Card className="p-4 md:p-6 lg:p-8 space-y-4 md:space-y-6 bg-card shadow-card-hover lg:sticky lg:top-4">
                 <div>
-                  <h3 className="text-2xl font-bold mb-2">
+                  <h3 className="text-xl md:text-2xl font-bold mb-2">
                     Расчет стоимости
                   </h3>
-                  <p className="text-sm text-muted-foreground">
+                  <p className="text-xs md:text-sm text-muted-foreground">
                     Прозрачное ценообразование без скрытых платежей
                   </p>
                 </div>
 
-                <div className="space-y-4 py-4 border-y">
-                  <div className="flex justify-between items-center">
-                    <span className="text-muted-foreground">
+                <div className="space-y-3 md:space-y-4 py-3 md:py-4 border-y">
+                  <div className="flex justify-between items-center gap-4">
+                    <span className="text-sm md:text-base text-muted-foreground">
                       Настройка и запуск:
                     </span>
-                    <span className="text-xl font-bold">
+                    <span className="text-lg md:text-xl font-bold whitespace-nowrap">
                       {costs.setup.toLocaleString("ru-RU")} ₽
                     </span>
                   </div>
                   {costs.monthly > 0 && (
-                    <div className="flex justify-between items-center">
-                      <span className="text-muted-foreground">
+                    <div className="flex justify-between items-center gap-4">
+                      <span className="text-sm md:text-base text-muted-foreground">
                         Ведение в месяц:
                       </span>
-                      <span className="text-xl font-bold">
+                      <span className="text-lg md:text-xl font-bold whitespace-nowrap">
                         {costs.monthly.toLocaleString("ru-RU")} ₽
                       </span>
                     </div>
                   )}
                   {costs.discount && (
-                    <div className="flex items-center gap-2 text-accent text-sm font-medium">
-                      <Check className="h-4 w-4" />
-                      Скидка 10% за комплексный заказ
+                    <div className="flex items-center gap-2 text-accent text-xs md:text-sm font-medium">
+                      <Check className="h-4 w-4 flex-shrink-0" />
+                      <span>Скидка 10% за комплексный заказ</span>
                     </div>
                   )}
                   {telegramIsBonus && hasTelegram && (
-                    <div className="flex items-center gap-2 text-accent text-sm font-medium">
-                      <Gift className="h-4 w-4" />
-                      Telegram реклама в подарок (экономия 15 000 ₽)
+                    <div className="flex items-center gap-2 text-accent text-xs md:text-sm font-medium">
+                      <Gift className="h-4 w-4 flex-shrink-0" />
+                      <span>Telegram реклама в подарок (экономия 15 000 ₽)</span>
                     </div>
                   )}
                 </div>
 
                 <div className="space-y-4">
-                  <div className="flex justify-between items-center">
-                    <span className="text-lg font-semibold">
+                  <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2">
+                    <span className="text-base md:text-lg font-semibold">
                       Итого за {period} мес:
                     </span>
-                    <div className="text-right">
-                      <div className="text-3xl font-bold text-primary">
+                    <div className="text-left sm:text-right">
+                      <div className="text-2xl md:text-3xl font-bold text-primary">
                         {costs.total.toLocaleString("ru-RU")} ₽
                       </div>
                       {costs.monthly > 0 && (
-                        <div className="text-sm text-muted-foreground">
+                        <div className="text-xs md:text-sm text-muted-foreground">
                           + {adBudget[0].toLocaleString("ru-RU")} ₽/мес на рекламу
                         </div>
                       )}
@@ -337,7 +338,7 @@ const PriceCalculator = () => {
                   <Button
                     variant="cta"
                     size="lg"
-                    className="w-full"
+                    className="w-full text-sm md:text-base"
                     asChild
                     disabled={selectedServices.length === 0}
                   >
@@ -347,36 +348,36 @@ const PriceCalculator = () => {
                   </Button>
                 </div>
 
-                <div className="space-y-3 pt-4 border-t">
-                  <div className="flex items-start gap-3 text-sm">
-                    <Check className="h-5 w-5 text-accent flex-shrink-0 mt-0.5" />
+                <div className="space-y-3 pt-3 md:pt-4 border-t">
+                  <div className="flex items-start gap-3 text-xs md:text-sm">
+                    <Check className="h-4 md:h-5 w-4 md:w-5 text-accent flex-shrink-0 mt-0.5" />
                     <span className="text-muted-foreground">
                       Прогноз результатов и ROI до старта
                     </span>
                   </div>
-                  <div className="flex items-start gap-3 text-sm">
-                    <Check className="h-5 w-5 text-accent flex-shrink-0 mt-0.5" />
+                  <div className="flex items-start gap-3 text-xs md:text-sm">
+                    <Check className="h-4 md:h-5 w-4 md:w-5 text-accent flex-shrink-0 mt-0.5" />
                     <span className="text-muted-foreground">
                       Еженедельные отчеты и оптимизация
                     </span>
                   </div>
-                  <div className="flex items-start gap-3 text-sm">
-                    <Check className="h-5 w-5 text-accent flex-shrink-0 mt-0.5" />
+                  <div className="flex items-start gap-3 text-xs md:text-sm">
+                    <Check className="h-4 md:h-5 w-4 md:w-5 text-accent flex-shrink-0 mt-0.5" />
                     <span className="text-muted-foreground">
                       Гарантия снижения CPL на 30% за 2 месяца
                     </span>
                   </div>
                 </div>
 
-                <div className="bg-primary/5 rounded-lg p-4 border border-primary/20">
+                <div className="bg-primary/5 rounded-lg p-3 md:p-4 border border-primary/20">
                   <div className="flex items-start gap-3">
-                    <TrendingUp className="h-6 w-6 text-primary flex-shrink-0 mt-0.5" />
+                    <TrendingUp className="h-5 md:h-6 w-5 md:w-6 text-primary flex-shrink-0 mt-0.5" />
                     <div className="space-y-1">
-                      <p className="font-semibold text-primary">
+                      <p className="text-sm md:text-base font-semibold text-primary">
                         Средний ROI наших клиентов
                       </p>
-                      <p className="text-3xl font-bold">+180%</p>
-                      <p className="text-sm text-muted-foreground">
+                      <p className="text-2xl md:text-3xl font-bold">+180%</p>
+                      <p className="text-xs md:text-sm text-muted-foreground">
                         За первые 3 месяца работы
                       </p>
                     </div>
