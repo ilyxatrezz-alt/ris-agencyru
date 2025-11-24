@@ -73,17 +73,16 @@ const Hero = () => {
             className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-bold leading-tight"
             variants={itemVariants}
           >
-            <span className="text-gradient-primary inline-block">Делаем сайты и рекламу</span>
+            <span className="text-gradient-primary inline-block">Реклама и Сайты,</span>
             <br />
-            <span className="text-foreground">для бизнеса с 2014 года</span>
+            <span className="text-foreground">которые приносят прибыль</span>
           </motion.h1>
 
           <motion.p 
             className="text-base sm:text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto"
             variants={itemVariants}
           >
-            Привлекаем клиентов через Яндекс.Директ, ВКонтакте, Telegram и другие каналы.
-            Вы платите только за реальные лиды.
+            Работаем с 2014 года. Привлекаем клиентов через Яндекс.Директ, ВКонтакте, Telegram и другие каналы.
           </motion.p>
 
           <motion.div 
