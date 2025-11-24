@@ -31,6 +31,13 @@ const Cases = () => {
       image: caseRestaurant,
       stats: { leads: "1 500+", cpl: "от 95₽", roi: "+150%" },
     },
+    {
+      slug: "lawyers",
+      title: "Юридические услуги",
+      description: "Успешные кампании для юристов, адвокатов и юридических компаний",
+      image: caseDentistry,
+      stats: { leads: "470+", cpl: "от 285₽", roi: "+175%" },
+    },
   ];
 
   return (
@@ -52,9 +59,9 @@ const Cases = () => {
         </section>
 
         {/* Cases Grid */}
-        <section className="py-20">
+        <section className="py-16 md:py-20">
           <div className="container mx-auto px-4">
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
               {caseCategories.map((category) => (
                 <Link
                   key={category.slug}
@@ -69,29 +76,29 @@ const Cases = () => {
                         className="w-full h-full object-cover group-hover:scale-105 transition-base"
                       />
                     </div>
-                    <div className="p-6 space-y-4 bg-card">
-                      <h3 className="text-2xl font-bold group-hover:text-primary transition-base">
+                    <div className="p-4 md:p-6 space-y-3 md:space-y-4 bg-card">
+                      <h3 className="text-xl md:text-2xl font-bold group-hover:text-primary transition-base">
                         {category.title}
                       </h3>
-                      <p className="text-sm text-muted-foreground">{category.description}</p>
+                      <p className="text-xs md:text-sm text-muted-foreground">{category.description}</p>
 
-                      <div className="grid grid-cols-3 gap-4 pt-4 border-t">
+                      <div className="grid grid-cols-3 gap-2 md:gap-4 pt-3 md:pt-4 border-t">
                         <div>
-                          <div className="text-lg font-bold text-primary">{category.stats.leads}</div>
-                          <div className="text-xs text-muted-foreground">Лиды</div>
+                          <div className="text-base md:text-lg font-bold text-primary">{category.stats.leads}</div>
+                          <div className="text-[10px] md:text-xs text-muted-foreground">Лиды</div>
                         </div>
                         <div>
-                          <div className="text-lg font-bold text-primary">{category.stats.cpl}</div>
-                          <div className="text-xs text-muted-foreground">CPL</div>
+                          <div className="text-base md:text-lg font-bold text-primary">{category.stats.cpl}</div>
+                          <div className="text-[10px] md:text-xs text-muted-foreground">CPL</div>
                         </div>
                         <div>
-                          <div className="text-lg font-bold text-accent">{category.stats.roi}</div>
-                          <div className="text-xs text-muted-foreground">ROI</div>
+                          <div className="text-base md:text-lg font-bold text-accent">{category.stats.roi}</div>
+                          <div className="text-[10px] md:text-xs text-muted-foreground">ROI</div>
                         </div>
                       </div>
 
-                      <Button variant="ghost" className="w-full group-hover:bg-primary group-hover:text-primary-foreground">
-                        Смотреть кейсы <ArrowRight className="ml-2 h-4 w-4" />
+                      <Button variant="ghost" size="sm" className="w-full group-hover:bg-primary group-hover:text-primary-foreground text-xs md:text-sm">
+                        Смотреть кейсы <ArrowRight className="ml-2 h-3 w-3 md:h-4 md:w-4" />
                       </Button>
                     </div>
                   </div>

@@ -17,14 +17,14 @@ All colors MUST be HSL.
     --popover: 0 0% 100%;
     --popover-foreground: 215 25% 15%;
 
-    --primary: 215 85% 25%;
+    --primary: 160 85% 20%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 215 20% 95%;
-    --secondary-foreground: 215 25% 15%;
+    --secondary: 160 20% 95%;
+    --secondary-foreground: 160 25% 15%;
 
-    --muted: 215 20% 96%;
-    --muted-foreground: 215 15% 45%;
+    --muted: 160 20% 96%;
+    --muted-foreground: 160 15% 45%;
 
     --accent: 25 95% 55%;
     --accent-foreground: 0 0% 100%;
@@ -32,26 +32,26 @@ All colors MUST be HSL.
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 215 20% 90%;
-    --input: 215 20% 90%;
-    --ring: 215 85% 25%;
+    --border: 160 20% 90%;
+    --input: 160 20% 90%;
+    --ring: 160 85% 20%;
 
     --radius: 0.75rem;
 
     /* Custom G-TARGET colors */
-    --brand-blue: 215 85% 25%;
-    --brand-blue-light: 215 75% 35%;
+    --brand-green: 160 85% 20%;
+    --brand-green-light: 160 75% 30%;
     --brand-orange: 25 95% 55%;
     --brand-orange-light: 25 95% 65%;
     
     /* Gradients */
-    --gradient-primary: linear-gradient(135deg, hsl(215 85% 25%) 0%, hsl(215 75% 35%) 100%);
+    --gradient-primary: linear-gradient(135deg, hsl(160 85% 20%) 0%, hsl(160 75% 30%) 100%);
     --gradient-accent: linear-gradient(135deg, hsl(25 95% 55%) 0%, hsl(25 95% 65%) 100%);
-    --gradient-hero: linear-gradient(to bottom, hsl(215 25% 98%) 0%, hsl(0 0% 100%) 100%);
+    --gradient-hero: linear-gradient(to bottom, hsl(160 25% 98%) 0%, hsl(0 0% 100%) 100%);
     
     /* Shadows */
-    --shadow-card: 0 4px 20px -2px hsl(215 85% 25% / 0.08);
-    --shadow-card-hover: 0 8px 30px -4px hsl(215 85% 25% / 0.15);
+    --shadow-card: 0 4px 20px -2px hsl(160 85% 20% / 0.08);
+    --shadow-card-hover: 0 8px 30px -4px hsl(160 85% 20% / 0.15);
     --shadow-cta: 0 4px 20px -2px hsl(25 95% 55% / 0.3);
     
     /* Transitions */
@@ -59,33 +59,33 @@ All colors MUST be HSL.
   }
 
   .dark {
-    --background: 215 30% 10%;
+    --background: 160 30% 10%;
     --foreground: 0 0% 98%;
 
-    --card: 215 25% 15%;
+    --card: 160 25% 15%;
     --card-foreground: 0 0% 98%;
 
-    --popover: 215 25% 15%;
+    --popover: 160 25% 15%;
     --popover-foreground: 0 0% 98%;
 
-    --primary: 215 75% 55%;
-    --primary-foreground: 215 30% 10%;
+    --primary: 160 75% 40%;
+    --primary-foreground: 160 30% 10%;
 
-    --secondary: 215 25% 20%;
+    --secondary: 160 25% 20%;
     --secondary-foreground: 0 0% 98%;
 
-    --muted: 215 25% 20%;
-    --muted-foreground: 215 15% 65%;
+    --muted: 160 25% 20%;
+    --muted-foreground: 160 15% 65%;
 
     --accent: 25 95% 55%;
-    --accent-foreground: 215 30% 10%;
+    --accent-foreground: 160 30% 10%;
 
     --destructive: 0 62.8% 50%;
     --destructive-foreground: 0 0% 98%;
 
-    --border: 215 25% 20%;
-    --input: 215 25% 20%;
-    --ring: 215 75% 55%;
+    --border: 160 25% 20%;
+    --input: 160 25% 20%;
+    --ring: 160 75% 40%;
 
     --shadow-card: 0 4px 20px -2px hsl(0 0% 0% / 0.3);
     --shadow-card-hover: 0 8px 30px -4px hsl(0 0% 0% / 0.4);
