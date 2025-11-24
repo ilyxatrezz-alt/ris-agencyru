@@ -1,0 +1,394 @@
+import { useState, useEffect } from "react";
+import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
+import { Checkbox } from "@/components/ui/checkbox";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Slider } from "@/components/ui/slider";
+import { Card } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Check, Gift, TrendingUp } from "lucide-react";
+import { Link } from "react-router-dom";
+
+interface Service {
+  id: string;
+  name: string;
+  setupPrice: number;
+  monthlyPercent?: number;
+  monthlyFixed?: number;
+  isBonus?: boolean;
+}
+
+const PriceCalculator = () => {
+  const [selectedServices, setSelectedServices] = useState<string[]>([]);
+  const [niche, setNiche] = useState("");
+  const [adBudget, setAdBudget] = useState([50000]);
+  const [period, setPeriod] = useState("3");
+
+  const services: Service[] = [
+    {
+      id: "website",
+      name: "Создание сайта",
+      setupPrice: 80000,
+    },
+    {
+      id: "yandex",
+      name: "Яндекс.Директ (Поиск + РСЯ)",
+      setupPrice: 25000,
+      monthlyPercent: 15,
+      monthlyFixed: 20000,
+    },
+    {
+      id: "vk",
+      name: "ВКонтакте (Таргет)",
+      setupPrice: 18000,
+      monthlyPercent: 15,
+      monthlyFixed: 15000,
+    },
+    {
+      id: "telegram",
+      name: "Telegram Ads",
+      setupPrice: 15000,
+      monthlyPercent: 15,
+      monthlyFixed: 12000,
+      isBonus: true,
+    },
+  ];
+
+  const hasWebsite = selectedServices.includes("website");
+  const hasYandex = selectedServices.includes("yandex");
+  const hasVK = selectedServices.includes("vk");
+  const hasTelegram = selectedServices.includes("telegram");
+  
+  // Telegram бонус если есть сайт + (Яндекс ИЛИ ВК)
+  const telegramIsBonus = hasWebsite && (hasYandex || hasVK);
+
+  const calculateTotal = () => {
+    let setupCost = 0;
+    let monthlyCost = 0;
+
+    selectedServices.forEach((serviceId) => {
+      const service = services.find((s) => s.id === serviceId);
+      if (!service) return;
+
+      // Telegram бесплатно при условии
+      if (service.id === "telegram" && telegramIsBonus) {
+        return;
+      }
+
+      setupCost += service.setupPrice;
+
+      if (service.monthlyPercent || service.monthlyFixed) {
+        const percentCost = service.monthlyPercent
+          ? (adBudget[0] * service.monthlyPercent) / 100
+          : 0;
+        const fixedCost = service.monthlyFixed || 0;
+        monthlyCost += Math.max(percentCost, fixedCost);
+      }
+    });
+
+    // Скидка 10% при заказе 3+ услуг
+    if (selectedServices.length >= 3 && !telegramIsBonus) {
+      setupCost *= 0.9;
+      monthlyCost *= 0.9;
+    }
+
+    const totalForPeriod = setupCost + monthlyCost * parseInt(period);
+
+    return {
+      setup: Math.round(setupCost),
+      monthly: Math.round(monthlyCost),
+      total: Math.round(totalForPeriod),
+      discount: selectedServices.length >= 3 && !telegramIsBonus,
+    };
+  };
+
+  const toggleService = (serviceId: string) => {
+    setSelectedServices((prev) =>
+      prev.includes(serviceId)
+        ? prev.filter((id) => id !== serviceId)
+        : [...prev, serviceId]
+    );
+  };
+
+  const costs = calculateTotal();
+
+  return (
+    <section className="py-16 md:py-24 bg-gradient-to-br from-primary/5 to-accent/5">
+      <div className="container mx-auto px-4">
+        <div className="max-w-6xl mx-auto space-y-8">
+          {/* Header */}
+          <div className="text-center space-y-4">
+            <h2 className="text-3xl md:text-5xl font-bold">
+              Калькулятор <span className="text-gradient-primary">Стоимости</span>
+            </h2>
+            <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">
+              Рассчитайте стоимость продвижения вашего бизнеса за 1 минуту
+            </p>
+          </div>
+
+          <div className="grid lg:grid-cols-2 gap-8">
+            {/* Левая часть - Настройки */}
+            <div className="space-y-6">
+              <Card className="p-6 space-y-6">
+                <div>
+                  <h3 className="text-xl font-bold mb-4">Выберите услуги</h3>
+                  <div className="space-y-3">
+                    {services.map((service) => {
+                      const isDisabled =
+                        service.id === "telegram" &&
+                        telegramIsBonus &&
+                        !hasTelegram;
+                      const showBonus =
+                        service.id === "telegram" &&
+                        telegramIsBonus &&
+                        hasTelegram;
+
+                      return (
+                        <div
+                          key={service.id}
+                          className={`flex items-start space-x-3 p-4 rounded-lg border-2 transition-base ${
+                            selectedServices.includes(service.id)
+                              ? "border-primary bg-primary/5"
+                              : "border-border hover:border-primary/50"
+                          }`}
+                        >
+                          <Checkbox
+                            id={service.id}
+                            checked={selectedServices.includes(service.id)}
+                            onCheckedChange={() => toggleService(service.id)}
+                            disabled={isDisabled}
+                          />
+                          <div className="flex-1">
+                            <Label
+                              htmlFor={service.id}
+                              className="text-base font-semibold cursor-pointer flex items-center gap-2"
+                            >
+                              {service.name}
+                              {showBonus && (
+                                <Badge
+                                  variant="secondary"
+                                  className="bg-accent text-accent-foreground"
+                                >
+                                  <Gift className="h-3 w-3 mr-1" />
+                                  БОНУС
+                                </Badge>
+                              )}
+                            </Label>
+                            <p className="text-sm text-muted-foreground mt-1">
+                              {service.id === "website" &&
+                                "Лендинг или корпоративный сайт под ключ"}
+                              {service.id === "yandex" &&
+                                "Настройка и ведение контекстной рекламы"}
+                              {service.id === "vk" &&
+                                "Настройка и ведение таргетированной рекламы"}
+                              {service.id === "telegram" &&
+                                "Реклама в Telegram каналах и ботах"}
+                            </p>
+                            {showBonus && (
+                              <p className="text-xs text-accent font-medium mt-2">
+                                🎁 Бесплатно при покупке сайта + Яндекс или ВК!
+                              </p>
+                            )}
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                <div>
+                  <Label htmlFor="niche" className="text-base font-semibold">
+                    Ниша бизнеса
+                  </Label>
+                  <Select value={niche} onValueChange={setNiche}>
+                    <SelectTrigger id="niche" className="mt-2">
+                      <SelectValue placeholder="Выберите нишу" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="medicine-beauty">
+                        Медицина & Beauty
+                      </SelectItem>
+                      <SelectItem value="construction">
+                        Строительство & Коттеджи
+                      </SelectItem>
+                      <SelectItem value="horeca">
+                        Рестораны & Общепит
+                      </SelectItem>
+                      <SelectItem value="lawyers">
+                        Юридические услуги
+                      </SelectItem>
+                      <SelectItem value="other">Другое</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                {selectedServices.some((s) =>
+                  ["yandex", "vk", "telegram"].includes(s)
+                ) && (
+                  <>
+                    <div>
+                      <Label className="text-base font-semibold">
+                        Рекламный бюджет: {adBudget[0].toLocaleString("ru-RU")}{" "}
+                        ₽/мес
+                      </Label>
+                      <Slider
+                        value={adBudget}
+                        onValueChange={setAdBudget}
+                        min={20000}
+                        max={500000}
+                        step={10000}
+                        className="mt-4"
+                      />
+                      <div className="flex justify-between text-xs text-muted-foreground mt-2">
+                        <span>20 000 ₽</span>
+                        <span>500 000 ₽</span>
+                      </div>
+                    </div>
+
+                    <div>
+                      <Label htmlFor="period" className="text-base font-semibold">
+                        Период ведения
+                      </Label>
+                      <Select value={period} onValueChange={setPeriod}>
+                        <SelectTrigger id="period" className="mt-2">
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="1">1 месяц</SelectItem>
+                          <SelectItem value="3">3 месяца</SelectItem>
+                          <SelectItem value="6">6 месяцев</SelectItem>
+                          <SelectItem value="12">12 месяцев</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                  </>
+                )}
+              </Card>
+            </div>
+
+            {/* Правая часть - Результат */}
+            <div className="space-y-6">
+              <Card className="p-6 md:p-8 space-y-6 bg-card shadow-card-hover sticky top-4">
+                <div>
+                  <h3 className="text-2xl font-bold mb-2">
+                    Расчет стоимости
+                  </h3>
+                  <p className="text-sm text-muted-foreground">
+                    Прозрачное ценообразование без скрытых платежей
+                  </p>
+                </div>
+
+                <div className="space-y-4 py-4 border-y">
+                  <div className="flex justify-between items-center">
+                    <span className="text-muted-foreground">
+                      Настройка и запуск:
+                    </span>
+                    <span className="text-xl font-bold">
+                      {costs.setup.toLocaleString("ru-RU")} ₽
+                    </span>
+                  </div>
+                  {costs.monthly > 0 && (
+                    <div className="flex justify-between items-center">
+                      <span className="text-muted-foreground">
+                        Ведение в месяц:
+                      </span>
+                      <span className="text-xl font-bold">
+                        {costs.monthly.toLocaleString("ru-RU")} ₽
+                      </span>
+                    </div>
+                  )}
+                  {costs.discount && (
+                    <div className="flex items-center gap-2 text-accent text-sm font-medium">
+                      <Check className="h-4 w-4" />
+                      Скидка 10% за комплексный заказ
+                    </div>
+                  )}
+                  {telegramIsBonus && hasTelegram && (
+                    <div className="flex items-center gap-2 text-accent text-sm font-medium">
+                      <Gift className="h-4 w-4" />
+                      Telegram реклама в подарок (экономия 15 000 ₽)
+                    </div>
+                  )}
+                </div>
+
+                <div className="space-y-4">
+                  <div className="flex justify-between items-center">
+                    <span className="text-lg font-semibold">
+                      Итого за {period} мес:
+                    </span>
+                    <div className="text-right">
+                      <div className="text-3xl font-bold text-primary">
+                        {costs.total.toLocaleString("ru-RU")} ₽
+                      </div>
+                      {costs.monthly > 0 && (
+                        <div className="text-sm text-muted-foreground">
+                          + {adBudget[0].toLocaleString("ru-RU")} ₽/мес на рекламу
+                        </div>
+                      )}
+                    </div>
+                  </div>
+
+                  <Button
+                    variant="cta"
+                    size="lg"
+                    className="w-full"
+                    asChild
+                    disabled={selectedServices.length === 0}
+                  >
+                    <Link to="/contacts">
+                      Получить коммерческое предложение
+                    </Link>
+                  </Button>
+                </div>
+
+                <div className="space-y-3 pt-4 border-t">
+                  <div className="flex items-start gap-3 text-sm">
+                    <Check className="h-5 w-5 text-accent flex-shrink-0 mt-0.5" />
+                    <span className="text-muted-foreground">
+                      Прогноз результатов и ROI до старта
+                    </span>
+                  </div>
+                  <div className="flex items-start gap-3 text-sm">
+                    <Check className="h-5 w-5 text-accent flex-shrink-0 mt-0.5" />
+                    <span className="text-muted-foreground">
+                      Еженедельные отчеты и оптимизация
+                    </span>
+                  </div>
+                  <div className="flex items-start gap-3 text-sm">
+                    <Check className="h-5 w-5 text-accent flex-shrink-0 mt-0.5" />
+                    <span className="text-muted-foreground">
+                      Гарантия снижения CPL на 30% за 2 месяца
+                    </span>
+                  </div>
+                </div>
+
+                <div className="bg-primary/5 rounded-lg p-4 border border-primary/20">
+                  <div className="flex items-start gap-3">
+                    <TrendingUp className="h-6 w-6 text-primary flex-shrink-0 mt-0.5" />
+                    <div className="space-y-1">
+                      <p className="font-semibold text-primary">
+                        Средний ROI наших клиентов
+                      </p>
+                      <p className="text-3xl font-bold">+180%</p>
+                      <p className="text-sm text-muted-foreground">
+                        За первые 3 месяца работы
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </Card>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default PriceCalculator;

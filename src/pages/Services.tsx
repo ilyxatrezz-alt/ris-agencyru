@@ -3,7 +3,7 @@ import Footer from "@/components/Footer";
 import ContactForm from "@/components/ContactForm";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
-import { Search, Target, Globe, BarChart, TrendingUp, Users } from "lucide-react";
+import { Search, Target, Globe, BarChart, TrendingUp, Users, Send, Gift } from "lucide-react";
 
 const Services = () => {
   const services = [
@@ -42,6 +42,25 @@ const Services = () => {
         "Высокая вовлеченность пользователей",
         "Низкая стоимость клика (CPC)",
       ],
+    },
+    {
+      icon: Send,
+      title: "Реклама в Telegram",
+      description: "Размещение рекламы в Telegram каналах и через Telegram Ads платформу",
+      features: [
+        "Подбор релевантных каналов для вашей ниши",
+        "Настройка рекламы через Telegram Ads",
+        "Создание продающих креативов и текстов",
+        "Геотаргетинг и таргетинг по интересам",
+        "Аналитика и отчетность по показам",
+        "Оптимизация рекламных кампаний",
+      ],
+      benefits: [
+        "Высокая вовлеченность аудитории Telegram",
+        "Точный таргетинг на целевую аудиторию",
+        "Прозрачная статистика по каждому каналу",
+      ],
+      isBonus: true,
     },
     {
       icon: Globe,
@@ -96,7 +115,17 @@ const Services = () => {
                       <div className="flex h-16 w-16 items-center justify-center rounded-2xl gradient-primary">
                         <Icon className="h-8 w-8 text-white" />
                       </div>
-                      <h2 className="text-3xl font-bold">{service.title}</h2>
+                      <div className="flex-1">
+                        <h2 className="text-3xl font-bold">{service.title}</h2>
+                        {service.isBonus && (
+                          <div className="flex items-center gap-2 mt-2">
+                            <Gift className="h-4 w-4 text-accent" />
+                            <span className="text-sm font-semibold text-accent">
+                              БОНУС при покупке сайта + Яндекс/ВК реклама
+                            </span>
+                          </div>
+                        )}
+                      </div>
                     </div>
                     <p className="text-lg text-muted-foreground">{service.description}</p>
 
