@@ -3,60 +3,75 @@ import Footer from "@/components/Footer";
 import ContactForm from "@/components/ContactForm";
 import QuickContact from "@/components/QuickContact";
 import WebsitesShowcase from "@/components/WebsitesShowcase";
-import { ArrowLeft, TrendingUp, Users, DollarSign } from "lucide-react";
+import { ArrowLeft, TrendingUp, Users, DollarSign, Calendar, Target } from "lucide-react";
 import { Link } from "react-router-dom";
-import { Button } from "@/components/ui/button";
-import caseConstruction from "@/assets/case-construction.jpg";
 
 const CaseConstruction = () => {
   const cases = [
     {
-      title: "Рост заявок на строительство загородных домов на 180%",
-      platform: "Яндекс.Директ (Поиск)",
-      problem: "Строительная компания испытывала сезонность спроса. Высокая конкуренция и дорогие ключевые слова делали рекламу убыточной.",
-      solution: "Разработали стратегию на долгосрочные запросы ('строительство коттеджей под ключ', 'проекты домов'). Использовали геотаргетинг на пригородные районы. Настроили умные кампании для снижения цены клика.",
+      title: "Строительство домов из ЖБ-панелей — 47 договоров за 4 месяца",
+      platform: "Яндекс.Директ (Поиск + РСЯ)",
+      problem: "Компания ЭонКонкрит выходила на рынок ДНР с уникальной технологией строительства из ЖБ-панелей. Низкая узнаваемость бренда, высокая конкуренция с традиционными застройщиками, скептицизм аудитории к новым технологиям.",
+      solution: "Разработали стратегию двухэтапной воронки: на первом этапе РСЯ с образовательным контентом о преимуществах технологии (скорость, цена, качество). На втором — поисковые кампании на горячие запросы. Создали квиз-лендинг с расчётом стоимости дома. Использовали геотаргетинг на новые территории.",
       results: {
-        budget: "320 000 ₽",
+        budget: "285 000 ₽",
         period: "4 месяца",
-        leads: "89 заявок",
-        cpl: "3 595 ₽",
-        roi: "+180%",
+        leads: "156 заявок",
+        cpl: "1 827 ₽",
+        roi: "+195%",
       },
     },
     {
-      title: "Привлечение 65 клиентов для компании по строительству каркасных домов",
-      platform: "Яндекс.Директ (РСЯ)",
-      problem: "Компания хотела привлечь внимание к новой технологии строительства. Требовалось образование аудитории и повышение доверия.",
-      solution: "Запустили РСЯ с визуальным контентом: фото готовых проектов, видео процесса строительства. Создали лендинг с подробным описанием технологии и калькулятором стоимости.",
+      title: "Пожарная безопасность под ключ — Рост B2B-заявок на 230%",
+      platform: "Яндекс.Директ (Поиск)",
+      problem: "Компания ПожБезопасность получала мало заявок от коммерческих клиентов (склады, офисы, производства). Основной трафик — частные лица с низким чеком. Нужно было привлечь крупные объекты.",
+      solution: "Перестроили семантику на B2B-запросы: 'пожарная сигнализация для склада', 'монтаж АПС на производстве', 'лицензия МЧС подрядчик'. Создали отдельные посадочные страницы под каждый тип объекта. Настроили корректировки ставок на рабочее время и десктоп.",
       results: {
-        budget: "155 000 ₽",
+        budget: "178 000 ₽",
         period: "3 месяца",
-        leads: "65 консультаций",
-        cpl: "2 384 ₽",
-        roi: "+165%",
+        leads: "89 заявок",
+        cpl: "2 000 ₽",
+        roi: "+230%",
       },
     },
     {
-      title: "Запуск продаж элитных коттеджей через ВКонтакте",
-      platform: "ВКонтакте (Таргет)",
-      problem: "Девелопер запускал новый проект элитных коттеджей. Нужно было найти состоятельную аудиторию, готовую к крупной покупке.",
-      solution: "Таргетировались на аудиторию с высоким доходом, интересующуюся недвижимостью и инвестициями. Создали серию постов с 3D-визуализацией проекта, инфраструктурой поселка. Запустили воронку от виртуального тура до встречи на объекте.",
+      title: "Строительство каркасных домов — Снижение CPL на 42%",
+      platform: "Яндекс.Директ (РСЯ)",
+      problem: "Застройщик каркасных домов получал дорогие заявки (более 4 500 ₽ за лид). Высокая конкуренция в Московской области, низкое доверие к каркасной технологии.",
+      solution: "Запустили РСЯ с видеокреативами процесса строительства. Акцент на скорости (дом за 45 дней) и экономии на отоплении. Использовали look-alike на базу клиентов за 2 года. Создали калькулятор со встроенной формой захвата.",
       results: {
-        budget: "280 000 ₽",
-        period: "5 месяцев",
-        leads: "42 показа",
-        cpl: "6 666 ₽",
-        roi: "+210%",
+        budget: "195 000 ₽",
+        period: "3 месяца",
+        leads: "78 заявок",
+        cpl: "2 500 ₽",
+        roi: "+168%",
       },
     },
-  ];
-
-  const websiteCases = [
     {
-      title: "Каталог проектов для строительной компании",
-      task: "Создать сайт-каталог с проектами домов, калькулятором стоимости и онлайн-заявкой",
-      result: "Увеличение конверсии на 55%. Интерактивный калькулятор снизил нагрузку на менеджеров и улучшил качество лидов.",
-      image: caseConstruction,
+      title: "Коттеджный посёлок премиум-класса — 12 продаж участков",
+      platform: "ВКонтакте (Таргет)",
+      problem: "Девелопер запускал продажи участков в новом посёлке бизнес-класса. Высокий средний чек (от 8 млн ₽), узкая целевая аудитория, длинный цикл принятия решения.",
+      solution: "Таргетировались на владельцев бизнеса, топ-менеджеров, IT-специалистов с доходом от 300 000 ₽. Создали серию из 12 постов с 3D-турами, интервью с архитектором, обзором инфраструктуры. Запустили закрытый клуб будущих жителей в ВК.",
+      results: {
+        budget: "340 000 ₽",
+        period: "5 месяцев",
+        leads: "67 показов",
+        cpl: "5 074 ₽",
+        roi: "+280%",
+      },
+    },
+    {
+      title: "Ремонт квартир под ключ — 94 договора за сезон",
+      platform: "Яндекс.Директ (Поиск + Мастер кампаний)",
+      problem: "Ремонтная компания хотела масштабировать бизнес, но упиралась в потолок по заявкам. Конкуренция в Москве огромная, частники демпингуют цены.",
+      solution: "Сегментировали кампании по типам ремонта: косметический, капитальный, дизайнерский. Для каждого сегмента — своя посадочная страница с портфолио и ценами. Запустили Мастер кампаний на автостратегии. Внедрили коллтрекинг и сквозную аналитику.",
+      results: {
+        budget: "420 000 ₽",
+        period: "4 месяца",
+        leads: "312 заявок",
+        cpl: "1 346 ₽",
+        roi: "+175%",
+      },
     },
   ];
 
@@ -75,8 +90,32 @@ const CaseConstruction = () => {
                 Кейсы: <span className="text-gradient-primary">Строительство & Коттеджи</span>
               </h1>
               <p className="text-lg md:text-xl text-muted-foreground">
-                Успешные рекламные кампании для строительных компаний
+                Успешные рекламные кампании для строительных компаний, застройщиков и ремонтных бригад
               </p>
+            </div>
+          </div>
+        </section>
+
+        {/* Stats */}
+        <section className="py-12 border-b">
+          <div className="container mx-auto px-4">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto">
+              <div className="text-center">
+                <div className="text-3xl md:text-4xl font-bold text-primary">702+</div>
+                <div className="text-sm text-muted-foreground mt-1">Заявок получено</div>
+              </div>
+              <div className="text-center">
+                <div className="text-3xl md:text-4xl font-bold text-primary">от 1 346₽</div>
+                <div className="text-sm text-muted-foreground mt-1">Минимальный CPL</div>
+              </div>
+              <div className="text-center">
+                <div className="text-3xl md:text-4xl font-bold text-accent">+210%</div>
+                <div className="text-sm text-muted-foreground mt-1">Средний ROI</div>
+              </div>
+              <div className="text-center">
+                <div className="text-3xl md:text-4xl font-bold text-primary">5</div>
+                <div className="text-sm text-muted-foreground mt-1">Успешных проектов</div>
+              </div>
             </div>
           </div>
         </section>
@@ -87,7 +126,53 @@ const CaseConstruction = () => {
             {cases.map((caseItem, index) => (
               <div key={index}>
                 <div className="max-w-5xl mx-auto p-6 md:p-12 rounded-2xl md:rounded-3xl bg-card shadow-card border border-border/50">
-                  {/* ... keep existing code */}
+                  <div className="inline-flex px-3 py-1.5 md:px-4 md:py-2 rounded-full bg-accent/10 text-accent text-xs md:text-sm font-medium mb-4 md:mb-6">
+                    {caseItem.platform}
+                  </div>
+                  <h2 className="text-2xl md:text-4xl font-bold mb-4 md:mb-6">{caseItem.title}</h2>
+
+                  <div className="space-y-4 md:space-y-6">
+                    <div>
+                      <h3 className="text-base md:text-lg font-semibold text-destructive mb-2">Проблема клиента:</h3>
+                      <p className="text-sm md:text-base text-muted-foreground">{caseItem.problem}</p>
+                    </div>
+
+                    <div>
+                      <h3 className="text-base md:text-lg font-semibold text-primary mb-2">Решение G-TARGET:</h3>
+                      <p className="text-sm md:text-base text-muted-foreground">{caseItem.solution}</p>
+                    </div>
+
+                    <div className="pt-4 md:pt-6 border-t">
+                      <h3 className="text-base md:text-lg font-semibold mb-4 md:mb-6">Результаты:</h3>
+                      <div className="grid grid-cols-2 md:grid-cols-5 gap-4 md:gap-6">
+                        <div className="space-y-2">
+                          <DollarSign className="h-5 w-5 md:h-6 md:w-6 text-accent" />
+                          <div className="text-xl md:text-2xl font-bold text-primary">{caseItem.results.budget}</div>
+                          <div className="text-xs md:text-sm text-muted-foreground">Бюджет</div>
+                        </div>
+                        <div className="space-y-2">
+                          <Calendar className="h-5 w-5 md:h-6 md:w-6 text-accent" />
+                          <div className="text-xl md:text-2xl font-bold text-primary">{caseItem.results.period}</div>
+                          <div className="text-xs md:text-sm text-muted-foreground">Период</div>
+                        </div>
+                        <div className="space-y-2">
+                          <Users className="h-5 w-5 md:h-6 md:w-6 text-accent" />
+                          <div className="text-xl md:text-2xl font-bold text-primary">{caseItem.results.leads}</div>
+                          <div className="text-xs md:text-sm text-muted-foreground">Лиды</div>
+                        </div>
+                        <div className="space-y-2">
+                          <Target className="h-5 w-5 md:h-6 md:w-6 text-accent" />
+                          <div className="text-xl md:text-2xl font-bold text-primary">{caseItem.results.cpl}</div>
+                          <div className="text-xs md:text-sm text-muted-foreground">CPL</div>
+                        </div>
+                        <div className="space-y-2">
+                          <TrendingUp className="h-5 w-5 md:h-6 md:w-6 text-accent" />
+                          <div className="text-xl md:text-2xl font-bold text-accent">{caseItem.results.roi}</div>
+                          <div className="text-xs md:text-sm text-muted-foreground">ROI</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
                 {index < cases.length - 1 && <QuickContact />}
               </div>
