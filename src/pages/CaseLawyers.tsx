@@ -5,60 +5,73 @@ import QuickContact from "@/components/QuickContact";
 import WebsitesShowcase from "@/components/WebsitesShowcase";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, TrendingUp } from "lucide-react";
+import { ArrowLeft, TrendingUp, Users, DollarSign, Calendar, Target } from "lucide-react";
 
 const CaseLawyers = () => {
   const cases = [
     {
-      title: "Юридическая консультация по семейному праву — Рост заявок на 180%",
+      title: "Семейное право — 134 клиента на разводы и алименты",
       platform: "Яндекс.Директ (Поиск)",
-      problem: "Юридическая фирма испытывала нехватку клиентов по семейным делам. Заявки приходили нерегулярно, стоимость лида была завышена.",
-      solution: "Настроили точечную кампанию по ключевым запросам: 'развод', 'раздел имущества', 'алименты'. Создали релевантные объявления с юридическими гарантиями. Запустили ретаргетинг на посетителей сайта.",
+      problem: "Юридическая компания 'Правозащита' специализировалась на семейных делах, но получала нерелевантные заявки. Средний чек низкий, много консультаций без заключения договора.",
+      solution: "Сегментировали кампании по типам дел: разводы, раздел имущества, алименты, определение места жительства ребёнка. Для каждого сегмента — отдельная посадочная страница с ценами и кейсами. Настроили квалификацию лидов через квиз 'Оцените сложность вашего дела'.",
       results: {
-        budget: "85 000 ₽",
-        period: "2 мес.",
-        leads: "110 шт.",
-        cpl: "770 ₽",
-        roi: "+180%",
-      },
-    },
-    {
-      title: "Юридические услуги для бизнеса — Снижение CPL на 45%",
-      platform: "Яндекс.Директ (Поиск + РСЯ)",
-      problem: "Компания занималась корпоративным правом, но стоимость заявки была слишком высокой (более 2 000 ₽), что делало рекламу нерентабельной.",
-      solution: "Провели аудит конкурентов и переработали семантику. Запустили РСЯ с креативами на типичные проблемы бизнеса: налоги, контракты, споры с партнерами. Внедрили коллтрекинг для точного отслеживания.",
-      results: {
-        budget: "120 000 ₽",
-        period: "3 мес.",
-        leads: "95 шт.",
-        cpl: "1 260 ₽",
-        roi: "+160%",
-      },
-    },
-    {
-      title: "Защита прав потребителей — 200+ заявок за 2 месяца",
-      platform: "ВКонтакте (Таргет)",
-      problem: "Юридическое бюро хотело привлечь людей, пострадавших от действий недобросовестных продавцов и застройщиков.",
-      solution: "Запустили таргет на аудитории: 'дольщики', 'обманутые покупатели', интересы по защите прав. Создали серию креативов с реальными кейсами побед в суде. Добавили квиз 'Сможете ли вы подать в суд?'",
-      results: {
-        budget: "60 000 ₽",
-        period: "2 мес.",
-        leads: "210 шт.",
-        cpl: "285 ₽",
+        budget: "98 000 ₽",
+        period: "3 месяца",
+        leads: "134 заявки",
+        cpl: "731 ₽",
         roi: "+195%",
       },
     },
     {
-      title: "Услуги адвоката по уголовным делам — Целевые клиенты",
-      platform: "ВКонтакте (Таргет)",
-      problem: "Адвокат по уголовным делам нуждался в притоке клиентов по конкретным статьям УК РФ.",
-      solution: "Настроили таргет по интересам: юридическая помощь, уголовное право. Сделали акцент на конфиденциальности и опыте. Запустили ретаргетинг на тех, кто посещал сайт, но не оставил заявку.",
+      title: "Банкротство физических лиц — 89 договоров",
+      platform: "Яндекс.Директ (Поиск + РСЯ)",
+      problem: "Юридическая фирма хотела привлечь клиентов на банкротство (средний чек 120 000₽). Высокая конкуренция, много недобросовестных игроков на рынке.",
+      solution: "Акцент на надёжность: показали лицензии, отзывы, статистику выигранных дел. Запустили РСЯ с таргетингом на людей с кредитами, микрозаймами. Создали калькулятор 'Можете ли вы списать долги?'. Использовали ретаргетинг с кейсами успешных банкротств.",
       results: {
-        budget: "75 000 ₽",
-        period: "2 мес.",
-        leads: "65 шт.",
-        cpl: "1 150 ₽",
-        roi: "+170%",
+        budget: "156 000 ₽",
+        period: "4 месяца",
+        leads: "89 договоров",
+        cpl: "1 752 ₽",
+        roi: "+180%",
+      },
+    },
+    {
+      title: "Корпоративное право — Контракты на 2.8 млн ₽",
+      platform: "ВКонтакте + LinkedIn",
+      problem: "Адвокатское бюро хотело выйти на B2B-сегмент: юридическое сопровождение бизнеса, сделки M&A, корпоративные споры. Длинный цикл продаж, высокие требования к экспертизе.",
+      solution: "Построили воронку через контент-маркетинг: статьи о налоговых рисках, вебинары по защите активов. Таргет на собственников бизнеса, финансовых директоров. Запустили email-рассылку с юридическими новостями. Использовали Lead Ads с оффером 'Бесплатный аудит договоров'.",
+      results: {
+        budget: "134 000 ₽",
+        period: "5 месяцев",
+        leads: "45 контрактов",
+        cpl: "2 978 ₽",
+        roi: "+220%",
+      },
+    },
+    {
+      title: "Защита прав потребителей — 267 обращений",
+      platform: "ВКонтакте (Таргет)",
+      problem: "Юрист-специалист по защите прав потребителей хотел масштабировать практику. Основной запрос — возврат денег за некачественные товары и услуги.",
+      solution: "Таргетировались на аудитории: покупатели автомобилей, дольщики, клиенты туристических агентств. Создали серию креативов с реальными кейсами: '450 000₽ вернули за бракованный автомобиль'. Использовали квиз 'Можете ли вы вернуть деньги?'.",
+      results: {
+        budget: "67 000 ₽",
+        period: "2 месяца",
+        leads: "267 обращений",
+        cpl: "251 ₽",
+        roi: "+210%",
+      },
+    },
+    {
+      title: "Уголовное право — Адвокат по тяжким статьям",
+      platform: "Яндекс.Директ (Поиск)",
+      problem: "Адвокат с 20-летним опытом по уголовным делам нуждался в стабильном потоке клиентов. Деликатная тематика, высокая стоимость услуг (от 300 000₽), требовательная аудитория.",
+      solution: "Настроили показы на целевые запросы по статьям УК РФ. Создали лендинг с акцентом на конфиденциальность и опыт. Использовали коллтрекинг с записью звонков для оценки качества лидов. Показы — круглосуточно (арест может произойти в любое время).",
+      results: {
+        budget: "112 000 ₽",
+        period: "3 месяца",
+        leads: "52 обращения",
+        cpl: "2 153 ₽",
+        roi: "+175%",
       },
     },
   ];
@@ -91,20 +104,20 @@ const CaseLawyers = () => {
           <div className="container mx-auto px-4">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto">
               <div className="text-center">
-                <div className="text-3xl md:text-4xl font-bold text-primary">470+</div>
+                <div className="text-3xl md:text-4xl font-bold text-primary">587+</div>
                 <div className="text-sm text-muted-foreground mt-1">Заявок получено</div>
               </div>
               <div className="text-center">
-                <div className="text-3xl md:text-4xl font-bold text-primary">от 285₽</div>
-                <div className="text-sm text-muted-foreground mt-1">Стоимость заявки</div>
+                <div className="text-3xl md:text-4xl font-bold text-primary">от 251₽</div>
+                <div className="text-sm text-muted-foreground mt-1">Минимальный CPL</div>
               </div>
               <div className="text-center">
-                <div className="text-3xl md:text-4xl font-bold text-accent">+175%</div>
+                <div className="text-3xl md:text-4xl font-bold text-accent">+196%</div>
                 <div className="text-sm text-muted-foreground mt-1">Средний ROI</div>
               </div>
               <div className="text-center">
-                <div className="text-3xl md:text-4xl font-bold text-primary">4</div>
-                <div className="text-sm text-muted-foreground mt-1">Успешных проекта</div>
+                <div className="text-3xl md:text-4xl font-bold text-primary">5</div>
+                <div className="text-sm text-muted-foreground mt-1">Успешных проектов</div>
               </div>
             </div>
           </div>
@@ -116,45 +129,50 @@ const CaseLawyers = () => {
             <div className="max-w-5xl mx-auto space-y-12">
               {cases.map((caseItem, index) => (
                 <div key={index}>
-                  <div className="bg-card rounded-2xl shadow-card p-6 md:p-8 space-y-6">
+                  <div className="bg-card rounded-2xl shadow-card p-6 md:p-8 space-y-6 border border-border/50">
                     <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
                       <h2 className="text-2xl md:text-3xl font-bold">{caseItem.title}</h2>
-                      <div className="inline-flex items-center px-4 py-2 rounded-full bg-primary/10 border border-primary/20 text-primary font-medium text-sm">
+                      <div className="inline-flex items-center px-4 py-2 rounded-full bg-accent/10 text-accent font-medium text-sm">
                         {caseItem.platform}
                       </div>
                     </div>
 
                     <div className="space-y-4">
                       <div>
-                        <h3 className="font-bold text-destructive mb-2">❌ Проблема клиента:</h3>
+                        <h3 className="font-bold text-destructive mb-2">Проблема клиента:</h3>
                         <p className="text-muted-foreground">{caseItem.problem}</p>
                       </div>
 
                       <div>
-                        <h3 className="font-bold text-primary mb-2">✅ Решение G-TARGET:</h3>
+                        <h3 className="font-bold text-primary mb-2">Решение G-TARGET:</h3>
                         <p className="text-muted-foreground">{caseItem.solution}</p>
                       </div>
 
-                      <div>
-                        <h3 className="font-bold mb-3">📊 Результаты:</h3>
+                      <div className="pt-4 border-t">
+                        <h3 className="font-bold mb-4">Результаты:</h3>
                         <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
                           <div className="bg-muted/50 p-4 rounded-lg">
+                            <DollarSign className="h-5 w-5 text-accent mb-2" />
                             <div className="text-sm text-muted-foreground mb-1">Бюджет</div>
                             <div className="font-bold text-lg">{caseItem.results.budget}</div>
                           </div>
                           <div className="bg-muted/50 p-4 rounded-lg">
+                            <Calendar className="h-5 w-5 text-accent mb-2" />
                             <div className="text-sm text-muted-foreground mb-1">Период</div>
                             <div className="font-bold text-lg">{caseItem.results.period}</div>
                           </div>
                           <div className="bg-muted/50 p-4 rounded-lg">
+                            <Users className="h-5 w-5 text-accent mb-2" />
                             <div className="text-sm text-muted-foreground mb-1">Заявки</div>
                             <div className="font-bold text-lg text-primary">{caseItem.results.leads}</div>
                           </div>
                           <div className="bg-muted/50 p-4 rounded-lg">
+                            <Target className="h-5 w-5 text-accent mb-2" />
                             <div className="text-sm text-muted-foreground mb-1">CPL</div>
                             <div className="font-bold text-lg text-primary">{caseItem.results.cpl}</div>
                           </div>
                           <div className="bg-muted/50 p-4 rounded-lg">
+                            <TrendingUp className="h-5 w-5 text-accent mb-2" />
                             <div className="text-sm text-muted-foreground mb-1">ROI</div>
                             <div className="font-bold text-lg text-accent">{caseItem.results.roi}</div>
                           </div>

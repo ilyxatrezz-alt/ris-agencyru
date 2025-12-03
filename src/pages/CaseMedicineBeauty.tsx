@@ -3,73 +3,75 @@ import Footer from "@/components/Footer";
 import ContactForm from "@/components/ContactForm";
 import QuickContact from "@/components/QuickContact";
 import WebsitesShowcase from "@/components/WebsitesShowcase";
-import { ArrowLeft, TrendingUp, Users, DollarSign } from "lucide-react";
+import { ArrowLeft, TrendingUp, Users, DollarSign, Calendar, Target } from "lucide-react";
 import { Link } from "react-router-dom";
-import { Button } from "@/components/ui/button";
-import caseDentistry from "@/assets/case-dentistry.jpg";
 
 const CaseMedicineBeauty = () => {
   const cases = [
     {
-      title: "Рост записей на имплантацию на 150% для стоматологии 'Дента Смайл'",
+      title: "Имплантация зубов под ключ — 89 договоров за квартал",
       platform: "Яндекс.Директ (Поиск)",
-      problem: "Клиника испытывала недостаток записей на дорогостоящие процедуры имплантации. Конкуренция в нише высокая, стоимость клика растет.",
-      solution: "Запустили кампании на поиске с акцентом на коммерческие запросы ('имплантация зубов под ключ', 'сколько стоит имплант'). Использовали расширения объявлений с указанием цен и акций. Настроили ретаргетинг на посетителей сайта.",
+      problem: "Стоматологическая клиника 'ДентаПремиум' в Краснодаре получала мало заявок на имплантацию (средний чек 180 000₽). Высокая конкуренция, дорогие клики (до 850₽), низкая конверсия сайта.",
+      solution: "Провели аудит конкурентов и нашли незанятые ниши: 'имплантация за 1 день', 'All-on-4 под ключ'. Переработали посадочную страницу с акцентом на гарантии и рассрочку. Настроили коллтрекинг и связали с CRM для оптимизации по квалифицированным лидам.",
       results: {
-        budget: "180 000 ₽",
+        budget: "245 000 ₽",
         period: "3 месяца",
-        leads: "72 заявки",
-        cpl: "2 500 ₽",
-        roi: "+150%",
+        leads: "142 заявки",
+        cpl: "1 725 ₽",
+        roi: "+215%",
       },
     },
     {
-      title: "Увеличение потока пациентов для косметологической клиники на 200%",
-      platform: "Яндекс.Директ (РСЯ)",
-      problem: "Клиника хотела расширить базу клиентов на услуги инъекционной косметологии. Требовалось привлечение новой аудитории.",
-      solution: "Запустили РСЯ с визуальными креативами 'до/после'. Использовали таргетинг по интересам (красота, здоровье, anti-age). Настроили связку с Яндекс.Метрикой для отслеживания звонков.",
+      title: "Косметология — Рост записей на инъекции на 180%",
+      platform: "ВКонтакте (Таргет)",
+      problem: "Косметологический центр 'Эстетика' хотел привлечь новых клиентов на ботулинотерапию и контурную пластику. Основная аудитория — женщины 30-50 лет с доходом выше среднего.",
+      solution: "Запустили таргет с визуальным контентом 'до/после' (с согласия пациентов). Использовали видео-отзывы от реальных клиентов. Создали воронку: бесплатная консультация → запись на процедуру. Таргетинг по интересам: anti-age, премиум-косметика, фитнес.",
+      results: {
+        budget: "78 000 ₽",
+        period: "2 месяца",
+        leads: "156 записей",
+        cpl: "500 ₽",
+        roi: "+180%",
+      },
+    },
+    {
+      title: "Пластическая хирургия — 67 консультаций на ринопластику",
+      platform: "Яндекс.Директ (Поиск + РСЯ)",
+      problem: "Пластический хирург с 15-летним опытом хотел увеличить поток пациентов на ринопластику. Высокая стоимость операции (от 350 000₽) и длинный цикл принятия решения.",
+      solution: "Разработали контент-стратегию: серия статей о подготовке к операции, видео с результатами, ответы на частые вопросы. Запустили ретаргетинг на посетителей сайта с оффером 'Бесплатная 3D-визуализация результата'. Использовали look-alike на базу пациентов.",
+      results: {
+        budget: "189 000 ₽",
+        period: "4 месяца",
+        leads: "67 консультаций",
+        cpl: "2 821 ₽",
+        roi: "+240%",
+      },
+    },
+    {
+      title: "Урологическая клиника — Снижение CPL на 48%",
+      platform: "Яндекс.Директ (Поиск)",
+      problem: "Частная урологическая клиника получала дорогие заявки (более 3 500₽ за лид). Деликатная тематика требовала особого подхода к рекламе.",
+      solution: "Сегментировали кампании по симптомам и заболеваниям. Создали анонимный онлайн-тест 'Проверьте своё здоровье'. Использовали мягкие формулировки в объявлениях. Настроили показы в вечернее время (когда пациенты ищут информацию приватно).",
       results: {
         budget: "95 000 ₽",
         period: "2 месяца",
-        leads: "118 заявок",
-        cpl: "805 ₽",
-        roi: "+200%",
-      },
-    },
-    {
-      title: "Снижение CPL на 35% для урологической клиники",
-      platform: "ВКонтакте (Таргет)",
-      problem: "Клиника получала дорогие заявки через другие каналы. Нужно было найти более экономичный источник пациентов.",
-      solution: "Запустили таргетированную рекламу в ВК с фокусом на мужскую аудиторию 35-55 лет. Создали цепочку объявлений с образовательным контентом и призывом к консультации. Использовали look-alike аудитории.",
-      results: {
-        budget: "65 000 ₽",
-        period: "2 месяца",
-        leads: "95 заявок",
-        cpl: "684 ₽",
+        leads: "112 заявок",
+        cpl: "848 ₽",
         roi: "+165%",
       },
     },
     {
-      title: "Привлечение 140 новых пациентов для пластического хирурга",
-      platform: "ВКонтакте (Таргет)",
-      problem: "Клиент нуждался в стабильном потоке консультаций на дорогостоящие операции. Аудитория узкая и требовательная.",
-      solution: "Разработали стратегию доверия: запустили серию статей и видео с отзывами реальных пациентов. Таргетировались на женскую аудиторию 25-45 лет с доходом выше среднего. Настроили воронку от консультации до записи.",
+      title: "Сеть медицинских лабораторий — 3 200 записей на анализы",
+      platform: "Яндекс.Директ + ВКонтакте",
+      problem: "Региональная сеть лабораторий 'МедТест' конкурировала с федеральными игроками (Инвитро, Гемотест). Нужно было привлечь аудиторию выгодными ценами и скоростью.",
+      solution: "Запустили акции на популярные чекапы: 'Полное обследование за 2 990₽'. Таргетинг на аудиторию 25-55 лет с интересами: здоровье, ЗОЖ, семья. Интегрировали онлайн-запись с выбором ближайшего филиала. Геотаргетинг на районы с высокой плотностью населения.",
       results: {
-        budget: "220 000 ₽",
-        period: "4 месяца",
-        leads: "140 консультаций",
-        cpl: "1 571 ₽",
-        roi: "+190%",
+        budget: "134 000 ₽",
+        period: "2 месяца",
+        leads: "3 200 записей",
+        cpl: "42 ₽",
+        roi: "+195%",
       },
-    },
-  ];
-
-  const websiteCases = [
-    {
-      title: "Корпоративный сайт стоматологической клиники",
-      task: "Создать современный сайт с онлайн-записью и каталогом услуг",
-      result: "Конверсия в запись выросла на 45%. Интеграция с CRM для автоматической обработки заявок.",
-      image: caseDentistry,
     },
   ];
 
@@ -89,8 +91,32 @@ const CaseMedicineBeauty = () => {
                 Кейсы: <span className="text-gradient-primary">Медицина & Beauty</span>
               </h1>
               <p className="text-lg md:text-xl text-muted-foreground">
-                Успешные рекламные кампании для косметологов, стоматологов, урологов и пластических хирургов
+                Успешные рекламные кампании для клиник, косметологов, стоматологов и пластических хирургов
               </p>
+            </div>
+          </div>
+        </section>
+
+        {/* Stats */}
+        <section className="py-12 border-b">
+          <div className="container mx-auto px-4">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto">
+              <div className="text-center">
+                <div className="text-3xl md:text-4xl font-bold text-primary">3 677+</div>
+                <div className="text-sm text-muted-foreground mt-1">Заявок получено</div>
+              </div>
+              <div className="text-center">
+                <div className="text-3xl md:text-4xl font-bold text-primary">от 42₽</div>
+                <div className="text-sm text-muted-foreground mt-1">Минимальный CPL</div>
+              </div>
+              <div className="text-center">
+                <div className="text-3xl md:text-4xl font-bold text-accent">+199%</div>
+                <div className="text-sm text-muted-foreground mt-1">Средний ROI</div>
+              </div>
+              <div className="text-center">
+                <div className="text-3xl md:text-4xl font-bold text-primary">5</div>
+                <div className="text-sm text-muted-foreground mt-1">Успешных проектов</div>
+              </div>
             </div>
           </div>
         </section>
@@ -126,7 +152,7 @@ const CaseMedicineBeauty = () => {
                           <div className="text-xs md:text-sm text-muted-foreground">Бюджет</div>
                         </div>
                         <div className="space-y-2">
-                          <TrendingUp className="h-5 w-5 md:h-6 md:w-6 text-accent" />
+                          <Calendar className="h-5 w-5 md:h-6 md:w-6 text-accent" />
                           <div className="text-xl md:text-2xl font-bold text-primary">{caseItem.results.period}</div>
                           <div className="text-xs md:text-sm text-muted-foreground">Период</div>
                         </div>
@@ -136,7 +162,7 @@ const CaseMedicineBeauty = () => {
                           <div className="text-xs md:text-sm text-muted-foreground">Лиды</div>
                         </div>
                         <div className="space-y-2">
-                          <DollarSign className="h-5 w-5 md:h-6 md:w-6 text-accent" />
+                          <Target className="h-5 w-5 md:h-6 md:w-6 text-accent" />
                           <div className="text-xl md:text-2xl font-bold text-primary">{caseItem.results.cpl}</div>
                           <div className="text-xs md:text-sm text-muted-foreground">CPL</div>
                         </div>
