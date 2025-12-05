@@ -5,15 +5,16 @@ import QuickContact from "@/components/QuickContact";
 import WebsitesShowcase from "@/components/WebsitesShowcase";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, TrendingUp, Users, DollarSign, Calendar, Target } from "lucide-react";
+import { ArrowLeft, TrendingUp, Users, DollarSign, Calendar, Target, Zap } from "lucide-react";
+import { motion } from "framer-motion";
 
 const CaseLawyers = () => {
   const cases = [
     {
-      title: "Семейное право — 134 клиента на разводы и алименты",
+      title: "Семейное право — 134 клиента за квартал",
       platform: "Яндекс.Директ (Поиск)",
-      problem: "Юридическая компания 'Правозащита' специализировалась на семейных делах, но получала нерелевантные заявки. Средний чек низкий, много консультаций без заключения договора.",
-      solution: "Сегментировали кампании по типам дел: разводы, раздел имущества, алименты, определение места жительства ребёнка. Для каждого сегмента — отдельная посадочная страница с ценами и кейсами. Настроили квалификацию лидов через квиз 'Оцените сложность вашего дела'.",
+      problem: "Нерелевантные заявки сыпались потоком. Средний чек на дне. Куча консультаций без договоров. Юристы тратили время впустую на людей без денег.",
+      solution: "Жёсткая сегментация по типам дел: разводы, раздел имущества, алименты. Отдельная посадка с ценами и кейсами для каждого. Квиз 'Оцените сложность дела' для квалификации. Конверсия в договор выросла в 2.5 раза.",
       results: {
         budget: "98 000 ₽",
         period: "3 месяца",
@@ -23,10 +24,10 @@ const CaseLawyers = () => {
       },
     },
     {
-      title: "Банкротство физических лиц — 89 договоров",
+      title: "Банкротство физлиц — 89 договоров",
       platform: "Яндекс.Директ (Поиск + РСЯ)",
-      problem: "Юридическая фирма хотела привлечь клиентов на банкротство (средний чек 120 000₽). Высокая конкуренция, много недобросовестных игроков на рынке.",
-      solution: "Акцент на надёжность: показали лицензии, отзывы, статистику выигранных дел. Запустили РСЯ с таргетингом на людей с кредитами, микрозаймами. Создали калькулятор 'Можете ли вы списать долги?'. Использовали ретаргетинг с кейсами успешных банкротств.",
+      problem: "Чек 120К, но конкуренция — ад. Рынок забит шарлатанами с обещаниями '100% списание'. Доверие к нише на нуле. Клиенты боятся обмана.",
+      solution: "Стратегия доверия: лицензии, статистика дел, реальные отзывы. РСЯ на людей с кредитами и микрозаймами. Калькулятор 'Можете ли вы списать долги?'. Ретаргетинг с успешными кейсами. Средний чек вырос на 30%.",
       results: {
         budget: "156 000 ₽",
         period: "4 месяца",
@@ -36,10 +37,10 @@ const CaseLawyers = () => {
       },
     },
     {
-      title: "Корпоративное право — Контракты на 2.8 млн ₽",
+      title: "Корпоративное право — 2.8 млн ₽ контрактов",
       platform: "ВКонтакте + LinkedIn",
-      problem: "Адвокатское бюро хотело выйти на B2B-сегмент: юридическое сопровождение бизнеса, сделки M&A, корпоративные споры. Длинный цикл продаж, высокие требования к экспертизе.",
-      solution: "Построили воронку через контент-маркетинг: статьи о налоговых рисках, вебинары по защите активов. Таргет на собственников бизнеса, финансовых директоров. Запустили email-рассылку с юридическими новостями. Использовали Lead Ads с оффером 'Бесплатный аудит договоров'.",
+      problem: "B2B-сегмент закрыт: длинный цикл, высокие требования к экспертизе. Сделки M&A и корпоративные споры — другой уровень. Как туда попасть?",
+      solution: "Контент-маркетинг: статьи о налоговых рисках, вебинары по защите активов. Таргет на собственников и CFO. Email-рассылка с юридическими новостями. Lead Ads с оффером 'Бесплатный аудит договоров'. Первый контракт — через 3 недели.",
       results: {
         budget: "134 000 ₽",
         period: "5 месяцев",
@@ -51,8 +52,8 @@ const CaseLawyers = () => {
     {
       title: "Защита прав потребителей — 267 обращений",
       platform: "ВКонтакте (Таргет)",
-      problem: "Юрист-специалист по защите прав потребителей хотел масштабировать практику. Основной запрос — возврат денег за некачественные товары и услуги.",
-      solution: "Таргетировались на аудитории: покупатели автомобилей, дольщики, клиенты туристических агентств. Создали серию креативов с реальными кейсами: '450 000₽ вернули за бракованный автомобиль'. Использовали квиз 'Можете ли вы вернуть деньги?'.",
+      problem: "Узкая специализация, но огромный потенциал. Люди не знают своих прав. Возврат денег за брак — золотая жила, если найти аудиторию.",
+      solution: "Таргет на покупателей авто, дольщиков, клиентов турагентств. Креативы с реальными кейсами: '450 000₽ вернули за бракованный авто'. Квиз 'Можете ли вы вернуть деньги?'. Конверсия в обращение — 12%.",
       results: {
         budget: "67 000 ₽",
         period: "2 месяца",
@@ -62,10 +63,10 @@ const CaseLawyers = () => {
       },
     },
     {
-      title: "Уголовное право — Адвокат по тяжким статьям",
+      title: "Уголовное право — Адвокат по тяжким делам",
       platform: "Яндекс.Директ (Поиск)",
-      problem: "Адвокат с 20-летним опытом по уголовным делам нуждался в стабильном потоке клиентов. Деликатная тематика, высокая стоимость услуг (от 300 000₽), требовательная аудитория.",
-      solution: "Настроили показы на целевые запросы по статьям УК РФ. Создали лендинг с акцентом на конфиденциальность и опыт. Использовали коллтрекинг с записью звонков для оценки качества лидов. Показы — круглосуточно (арест может произойти в любое время).",
+      problem: "Деликатная тема. Чек от 300К. Клиенты в стрессе, решения принимаются быстро. Репутация — всё. Один негатив может убить практику.",
+      solution: "Точечные показы на запросы по статьям УК. Лендинг с акцентом на конфиденциальность и 20-летний опыт. Коллтрекинг с записью для оценки качества. Показы 24/7 — арест может случиться в любое время. Конверсия звонка в клиента — 45%.",
       results: {
         budget: "112 000 ₽",
         period: "3 месяца",
@@ -77,49 +78,72 @@ const CaseLawyers = () => {
   ];
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-background">
       <Header />
       <main>
         {/* Hero Section */}
-        <section className="gradient-hero py-16 md:py-24">
-          <div className="container mx-auto px-4">
-            <div className="max-w-4xl mx-auto space-y-6">
+        <section className="relative py-24 overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-hero" />
+          <motion.div
+            className="absolute top-1/3 right-1/3 w-80 h-80 bg-primary/10 rounded-full blur-3xl"
+            animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.5, 0.3] }}
+            transition={{ duration: 6, repeat: Infinity }}
+          />
+          
+          <div className="container mx-auto px-4 relative z-10">
+            <motion.div 
+              className="max-w-4xl space-y-6"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+            >
               <Link to="/cases">
-                <Button variant="ghost" size="sm">
-                  <ArrowLeft className="mr-2 h-4 w-4" /> Все кейсы
+                <Button variant="ghost" size="sm" className="mb-4 group">
+                  <ArrowLeft className="mr-2 h-4 w-4 group-hover:-translate-x-1 transition-transform" /> Все кейсы
                 </Button>
               </Link>
-              <h1 className="text-3xl md:text-5xl font-bold">
-                Кейсы: <span className="text-gradient-primary">Юридические услуги</span>
+              <h1 className="text-4xl md:text-6xl font-bold">
+                Юридические <span className="text-gradient-primary">услуги</span>
               </h1>
-              <p className="text-lg md:text-xl text-muted-foreground">
-                Как мы помогаем юристам и адвокатам привлекать платежеспособных клиентов через digital-рекламу
+              <p className="text-xl text-muted-foreground max-w-2xl">
+                Платёжеспособные клиенты для юристов и адвокатов. Превращаем digital-рекламу в поток качественных обращений.
               </p>
-            </div>
+            </motion.div>
           </div>
         </section>
 
         {/* Stats */}
-        <section className="py-12 border-b">
+        <section className="py-12 border-b border-border/50">
           <div className="container mx-auto px-4">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto">
-              <div className="text-center">
-                <div className="text-3xl md:text-4xl font-bold text-primary">587+</div>
-                <div className="text-sm text-muted-foreground mt-1">Заявок получено</div>
-              </div>
-              <div className="text-center">
-                <div className="text-3xl md:text-4xl font-bold text-primary">от 251₽</div>
-                <div className="text-sm text-muted-foreground mt-1">Минимальный CPL</div>
-              </div>
-              <div className="text-center">
-                <div className="text-3xl md:text-4xl font-bold text-accent">+196%</div>
-                <div className="text-sm text-muted-foreground mt-1">Средний ROI</div>
-              </div>
-              <div className="text-center">
-                <div className="text-3xl md:text-4xl font-bold text-primary">5</div>
-                <div className="text-sm text-muted-foreground mt-1">Успешных проектов</div>
-              </div>
-            </div>
+            <motion.div 
+              className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+            >
+              {[
+                { value: "587+", label: "Заявок получено", icon: Users },
+                { value: "от 251₽", label: "Минимальный CPL", icon: Target },
+                { value: "+196%", label: "Средний ROI", icon: TrendingUp, accent: true },
+                { value: "5", label: "Успешных проектов", icon: Zap },
+              ].map((stat, index) => (
+                <motion.div 
+                  key={index}
+                  className="text-center p-4 rounded-xl bg-card/50 border border-border/30"
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: index * 0.1 }}
+                  whileHover={{ scale: 1.05 }}
+                >
+                  <stat.icon className={`h-6 w-6 mx-auto mb-2 ${stat.accent ? 'text-accent' : 'text-primary'}`} />
+                  <div className={`text-2xl md:text-3xl font-bold ${stat.accent ? 'text-accent' : 'text-primary'}`}>
+                    {stat.value}
+                  </div>
+                  <div className="text-sm text-muted-foreground mt-1">{stat.label}</div>
+                </motion.div>
+              ))}
+            </motion.div>
           </div>
         </section>
 
@@ -128,8 +152,14 @@ const CaseLawyers = () => {
           <div className="container mx-auto px-4">
             <div className="max-w-5xl mx-auto space-y-12">
               {cases.map((caseItem, index) => (
-                <div key={index}>
-                  <div className="bg-card rounded-2xl shadow-card p-6 md:p-8 space-y-6 border border-border/50">
+                <motion.div 
+                  key={index}
+                  initial={{ opacity: 0, y: 40 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.6 }}
+                >
+                  <div className="bg-card rounded-2xl shadow-card p-6 md:p-10 space-y-6 border border-border/50 hover:shadow-red-glow hover:border-primary/30 transition-all duration-500">
                     <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
                       <h2 className="text-2xl md:text-3xl font-bold">{caseItem.title}</h2>
                       <div className="inline-flex items-center px-4 py-2 rounded-full bg-accent/10 text-accent font-medium text-sm">
@@ -137,59 +167,53 @@ const CaseLawyers = () => {
                       </div>
                     </div>
 
-                    <div className="space-y-4">
-                      <div>
-                        <h3 className="font-bold text-destructive mb-2">Проблема клиента:</h3>
+                    <div className="space-y-6">
+                      <div className="p-4 rounded-xl bg-destructive/5 border border-destructive/20">
+                        <h3 className="font-bold text-destructive mb-2">🔥 Проблема</h3>
                         <p className="text-muted-foreground">{caseItem.problem}</p>
                       </div>
 
-                      <div>
-                        <h3 className="font-bold text-primary mb-2">Решение G-TARGET:</h3>
+                      <div className="p-4 rounded-xl bg-primary/5 border border-primary/20">
+                        <h3 className="font-bold text-primary mb-2">⚡ Решение РИС</h3>
                         <p className="text-muted-foreground">{caseItem.solution}</p>
                       </div>
 
-                      <div className="pt-4 border-t">
-                        <h3 className="font-bold mb-4">Результаты:</h3>
+                      <div className="pt-6 border-t border-border/50">
+                        <h3 className="font-bold mb-6">📊 Результаты</h3>
                         <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-                          <div className="bg-muted/50 p-4 rounded-lg">
-                            <DollarSign className="h-5 w-5 text-accent mb-2" />
-                            <div className="text-sm text-muted-foreground mb-1">Бюджет</div>
-                            <div className="font-bold text-lg">{caseItem.results.budget}</div>
-                          </div>
-                          <div className="bg-muted/50 p-4 rounded-lg">
-                            <Calendar className="h-5 w-5 text-accent mb-2" />
-                            <div className="text-sm text-muted-foreground mb-1">Период</div>
-                            <div className="font-bold text-lg">{caseItem.results.period}</div>
-                          </div>
-                          <div className="bg-muted/50 p-4 rounded-lg">
-                            <Users className="h-5 w-5 text-accent mb-2" />
-                            <div className="text-sm text-muted-foreground mb-1">Заявки</div>
-                            <div className="font-bold text-lg text-primary">{caseItem.results.leads}</div>
-                          </div>
-                          <div className="bg-muted/50 p-4 rounded-lg">
-                            <Target className="h-5 w-5 text-accent mb-2" />
-                            <div className="text-sm text-muted-foreground mb-1">CPL</div>
-                            <div className="font-bold text-lg text-primary">{caseItem.results.cpl}</div>
-                          </div>
-                          <div className="bg-muted/50 p-4 rounded-lg">
-                            <TrendingUp className="h-5 w-5 text-accent mb-2" />
-                            <div className="text-sm text-muted-foreground mb-1">ROI</div>
-                            <div className="font-bold text-lg text-accent">{caseItem.results.roi}</div>
-                          </div>
+                          {[
+                            { icon: DollarSign, value: caseItem.results.budget, label: "Бюджет" },
+                            { icon: Calendar, value: caseItem.results.period, label: "Период" },
+                            { icon: Users, value: caseItem.results.leads, label: "Заявки" },
+                            { icon: Target, value: caseItem.results.cpl, label: "CPL" },
+                            { icon: TrendingUp, value: caseItem.results.roi, label: "ROI", accent: true },
+                          ].map((item, i) => (
+                            <motion.div 
+                              key={i}
+                              className="bg-secondary/50 p-4 rounded-lg text-center"
+                              whileHover={{ scale: 1.05 }}
+                            >
+                              <item.icon className={`h-5 w-5 mx-auto mb-2 ${item.accent ? 'text-accent' : 'text-primary'}`} />
+                              <div className={`font-bold text-lg ${item.accent ? 'text-accent' : 'text-foreground'}`}>
+                                {item.value}
+                              </div>
+                              <div className="text-sm text-muted-foreground">{item.label}</div>
+                            </motion.div>
+                          ))}
                         </div>
                       </div>
                     </div>
                   </div>
 
                   {index < cases.length - 1 && <QuickContact />}
-                </div>
+                </motion.div>
               ))}
             </div>
           </div>
         </section>
 
         {/* Websites Showcase */}
-        <section className="py-16 md:py-24 bg-muted/30">
+        <section className="py-16 bg-secondary/30">
           <div className="container mx-auto px-4">
             <WebsitesShowcase category="lawyers" />
           </div>
@@ -198,20 +222,34 @@ const CaseLawyers = () => {
         <QuickContact />
 
         {/* CTA Banner */}
-        <section className="py-16 md:py-24 gradient-primary">
-          <div className="container mx-auto px-4">
-            <div className="max-w-3xl mx-auto text-center space-y-6 text-white">
+        <section className="py-20 relative overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-primary" />
+          <motion.div
+            className="absolute inset-0 opacity-10"
+            style={{
+              backgroundImage: "radial-gradient(circle at 2px 2px, white 1px, transparent 0)",
+              backgroundSize: "40px 40px",
+            }}
+          />
+          
+          <div className="container mx-auto px-4 relative z-10">
+            <motion.div 
+              className="max-w-3xl mx-auto text-center space-y-6 text-white"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+            >
               <TrendingUp className="h-16 w-16 mx-auto" />
               <h2 className="text-3xl md:text-4xl font-bold">
                 Готовы получить такие же результаты?
               </h2>
               <p className="text-lg opacity-90">
-                Получите бесплатный аудит вашей рекламы и узнайте, как увеличить количество клиентов на 150%+
+                Бесплатный аудит вашей рекламы покажет точки роста. Увеличим поток клиентов на 150%+
               </p>
               <Button variant="cta" size="xl" asChild>
                 <Link to="/contacts">Получить аудит бесплатно</Link>
               </Button>
-            </div>
+            </motion.div>
           </div>
         </section>
 

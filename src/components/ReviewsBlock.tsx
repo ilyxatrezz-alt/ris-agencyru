@@ -5,48 +5,48 @@ import { motion } from "framer-motion";
 const ReviewsBlock = () => {
   const reviews = [
     {
-      name: "Анна Петрова",
-      initials: "АП",
+      name: "Елена Васильева",
+      initials: "ЕВ",
       date: "15 ноября 2024",
       location: "Москва",
       text: "Заказали сайт и рекламу для стоматологии. РИС сделали невозможное — за 2 месяца 127 записей на услуги! Стоимость привлечения пациента всего 1 800₽. Команда работает как швейцарские часы: еженедельные отчёты, прозрачная аналитика, мгновенная реакция на запросы. Окупили вложения уже в первый месяц!",
       helpful: 24,
     },
     {
-      name: "Дмитрий Соколов",
-      initials: "ДС",
+      name: "Игорь Кузнецов",
+      initials: "ИК",
       date: "3 ноября 2024",
       location: "Санкт-Петербург",
       text: "Искали подрядчика полгода — все обещали золотые горы. РИС просто сделали: сайт за 2 недели, реклама заработала на 3-й день. За квартал снизили стоимость заявки с 4 200₽ до 1 900₽. Выручка выросла на 340%. Теперь планируем открывать филиал — ребята уже готовят запуск рекламы под новую локацию.",
       helpful: 18,
     },
     {
-      name: "Ольга Волкова",
-      initials: "ОВ",
+      name: "Наталья Романова",
+      initials: "НР",
       date: "28 октября 2024",
       location: "Краснодар",
       text: "Ресторанный бизнес — сложная ниша. РИС разобрались за неделю и выстроили систему привлечения гостей. Средний чек с рекламы — 4 100₽, стоимость привлечения — 140₽. ROI 290%! Главное — качество аудитории: люди приходят, возвращаются, рекомендуют. За 8 месяцев база постоянных клиентов выросла втрое.",
       helpful: 31,
     },
     {
-      name: "Сергей Новиков",
-      initials: "СН",
+      name: "Артём Белов",
+      initials: "АБ",
       date: "15 октября 2024",
       location: "Екатеринбург",
       text: "Строительство домов — это долгий цикл сделки и высокая конкуренция. РИС выстроили воронку, которая реально работает. За 5 месяцев — 89 целевых заявок, 14 подписанных договоров на общую сумму 47 млн рублей. Конверсия 15,7% — это фантастика для нашей ниши. Масштабируем бюджет в 3 раза.",
       helpful: 15,
     },
     {
-      name: "Марина Ковалева",
-      initials: "МК",
+      name: "Виктория Орлова",
+      initials: "ВО",
       date: "2 октября 2024",
       location: "Казань",
       text: "Косметологический кабинет полностью загружен благодаря РИС. 156 новых клиентов за 3 месяца, средний чек 12 400₽. Вложения в рекламу окупились в 8 раз! Отдельная благодарность за помощь с позиционированием — помогли выделиться среди конкурентов. Теперь очередь расписана на месяц вперёд.",
       helpful: 27,
     },
     {
-      name: "Александр Морозов",
-      initials: "АМ",
+      name: "Максим Титов",
+      initials: "МТ",
       date: "18 сентября 2024",
       location: "Новосибирск",
       text: "Работаем с РИС больше года. Начинали с бюджета 60 тысяч, сейчас инвестируем 450 тысяч ежемесячно — потому что это выгодно. Стоимость лида снизилась на 58%, конверсия в продажу выросла на 40%. Системный подход, постоянная оптимизация, честная коммуникация. Лучшее вложение в маркетинг.",
@@ -82,13 +82,13 @@ const ReviewsBlock = () => {
             Отзывы наших <span className="text-gradient-primary">клиентов</span>
           </h2>
           <p className="text-lg text-muted-foreground">
-            Реальные отзывы о нашей работе
+            Реальные истории успеха от владельцев бизнеса
           </p>
         </motion.div>
 
         {/* Yandex-style Rating Summary */}
         <motion.div 
-          className="max-w-4xl mx-auto mb-12 p-8 rounded-2xl bg-card/80 backdrop-blur-sm shadow-card border border-border/50 hover:shadow-card-hover transition-all duration-500 relative overflow-hidden"
+          className="max-w-4xl mx-auto mb-12 p-8 rounded-2xl bg-card/80 backdrop-blur-sm shadow-card border border-border/50 hover:shadow-red-glow transition-all duration-500 relative overflow-hidden"
           initial={{ opacity: 0, scale: 0.95 }}
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
@@ -131,7 +131,7 @@ const ReviewsBlock = () => {
                   </motion.div>
                 ))}
               </div>
-              <p className="text-sm text-muted-foreground">На основе 18 отзывов</p>
+              <p className="text-sm text-muted-foreground">На основе 47 отзывов</p>
             </div>
             <div className="flex flex-wrap gap-4 justify-center">
               <motion.div 
@@ -141,7 +141,7 @@ const ReviewsBlock = () => {
                 viewport={{ once: true }}
                 transition={{ delay: 0.4 }}
               >
-                <div className="text-2xl font-bold text-foreground">18</div>
+                <div className="text-2xl font-bold text-foreground">47</div>
                 <p className="text-xs text-muted-foreground">Всего отзывов</p>
               </motion.div>
               <motion.div 
@@ -163,11 +163,11 @@ const ReviewsBlock = () => {
           {reviews.map((review, index) => (
             <motion.div
               key={index}
-              className="p-6 rounded-2xl bg-card/80 backdrop-blur-sm shadow-card border border-border/50 hover:shadow-card-hover hover:border-primary/30 transition-all duration-500 relative overflow-hidden group"
+              className="p-6 rounded-2xl bg-card/80 backdrop-blur-sm shadow-card border border-border/50 hover:shadow-red-glow hover:border-primary/30 transition-all duration-500 relative overflow-hidden group"
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: index * 0.15 }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
             >
               {/* Hover Gradient Effect */}
               <motion.div

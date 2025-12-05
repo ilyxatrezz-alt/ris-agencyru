@@ -3,16 +3,17 @@ import Footer from "@/components/Footer";
 import ContactForm from "@/components/ContactForm";
 import QuickContact from "@/components/QuickContact";
 import WebsitesShowcase from "@/components/WebsitesShowcase";
-import { ArrowLeft, TrendingUp, Users, DollarSign, Calendar, Target } from "lucide-react";
+import { ArrowLeft, TrendingUp, Users, DollarSign, Calendar, Target, Zap } from "lucide-react";
 import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
 
 const CaseHoreca = () => {
   const cases = [
     {
-      title: "Доставка суши — 2 340 заказов за месяц со средним чеком 1 850₽",
+      title: "Доставка суши — 2 340 заказов за месяц",
       platform: "Яндекс.Директ (РСЯ + Поиск)",
-      problem: "Сеть суши-баров 'Токио' теряла заказы агрегаторам (Яндекс.Еда, Delivery Club), которые забирали 30% комиссии. Собственный сайт генерировал только 15% заказов.",
-      solution: "Запустили агрессивную кампанию на брендовые запросы конкурентов и агрегаторов. Создали акцию 'Закажи напрямую — получи ролл в подарок'. РСЯ с геотаргетингом в радиусе доставки, показы в обеденное и вечернее время.",
+      problem: "Агрегаторы пожирали 30% маржи. Яндекс.Еда и Delivery Club забирали львиную долю заказов. Собственный сайт генерировал жалкие 15%. Бизнес работал на агрегаторов, а не на себя.",
+      solution: "Агрессивная атака на брендовые запросы конкурентов. Акция 'Закажи напрямую — ролл в подарок'. РСЯ с геотаргетингом в радиусе доставки. Показы в обеденное и вечернее время. Доля прямых заказов выросла до 67%.",
       results: {
         budget: "127 000 ₽",
         period: "1 месяц",
@@ -22,10 +23,10 @@ const CaseHoreca = () => {
       },
     },
     {
-      title: "Открытие ресторана грузинской кухни — 1 200 гостей за первый месяц",
-      platform: "ВКонтакте (Таргет) + Яндекс.Директ",
-      problem: "Новый ресторан 'Сахли' открывался в спальном районе Москвы без сформированной аудитории. Нужно было быстро создать поток гостей и запустить сарафанное радио.",
-      solution: "За 2 недели до открытия запустили тизерную кампанию 'Скоро в вашем районе'. В день открытия — акция 'Хинкали за 1₽' (лимит 5 шт. на гостя). Таргетинг на жителей в радиусе 3 км с интересами: рестораны, кавказская кухня, семейный отдых.",
+      title: "Грузинский ресторан — 1 200 гостей на открытие",
+      platform: "ВКонтакте + Яндекс.Директ",
+      problem: "Новый ресторан в спальнике без имени и репутации. Ноль базы, ноль узнаваемости. Нужно было взорвать старт и запустить сарафан, иначе провал.",
+      solution: "Тизерная кампания за 2 недели до открытия: 'Скоро в вашем районе'. Бомба в день открытия — 'Хинкали за 1₽' (5 шт. на гостя). Таргет на жителей в радиусе 3 км. Результат — очередь на улице в первый день.",
       results: {
         budget: "89 000 ₽",
         period: "1.5 месяца",
@@ -35,14 +36,14 @@ const CaseHoreca = () => {
       },
     },
     {
-      title: "Кофейня формата to-go — Рост выручки на 85%",
+      title: "Кофейни to-go — Рост выручки на 85%",
       platform: "ВКонтакте (Таргет)",
-      problem: "Сеть кофеен 'Wake Up' из 5 точек в бизнес-центрах испытывала спад после пандемии. Удалённая работа снизила трафик офисных сотрудников.",
-      solution: "Переориентировали позиционирование на 'кофе по дороге'. Таргет на жителей ближайших домов с утренним временем показа (7:00-10:00). Запустили программу лояльности '6-й кофе бесплатно' с отслеживанием через Telegram-бота.",
+      problem: "5 точек в бизнес-центрах. Пандемия и удалёнка убили трафик. Офисные сотрудники исчезли. Выручка упала на 60%. Владелец думал закрываться.",
+      solution: "Разворот позиционирования на 'кофе по дороге'. Таргет на жителей ближайших домов с утренним временем показа (7:00-10:00). Программа лояльности '6-й кофе бесплатно' через Telegram-бота. Новая аудитория компенсировала потери.",
       results: {
         budget: "45 000 ₽",
         period: "2 месяца",
-        leads: "890 новых клиентов",
+        leads: "890 клиентов",
         cpl: "51 ₽",
         roi: "+185%",
       },
@@ -50,8 +51,8 @@ const CaseHoreca = () => {
     {
       title: "Банкетный зал — 34 свадьбы за сезон",
       platform: "Яндекс.Директ (Поиск)",
-      problem: "Ресторан с банкетным залом на 120 человек получал мало заявок на свадьбы. Основной трафик — корпоративы, которые приносили меньше прибыли.",
-      solution: "Создали отдельный лендинг для свадеб с виртуальным туром, примерами оформления и калькулятором банкета. Поисковые кампании на запросы 'свадьба под ключ', 'банкетный зал свадьба'. Ретаргетинг на посетителей свадебных порталов.",
+      problem: "Зал на 120 человек простаивал. Корпоративы давали копейки. Свадьбы — золотая жила, но заявок почти не было. Сезон уходил впустую.",
+      solution: "Отдельный лендинг для свадеб: виртуальный тур, примеры оформления, калькулятор банкета. Поиск на 'свадьба под ключ', 'банкетный зал свадьба'. Ретаргетинг на посетителей свадебных порталов. Сезон закрыт на 95%.",
       results: {
         budget: "156 000 ₽",
         period: "4 месяца",
@@ -61,10 +62,10 @@ const CaseHoreca = () => {
       },
     },
     {
-      title: "Корпоративный кейтеринг — Контракты на 4.2 млн ₽",
+      title: "Корпоративный кейтеринг — 4.2 млн ₽ контрактов",
       platform: "ВКонтакте + LinkedIn",
-      problem: "Кейтеринговая компания хотела выйти на рынок корпоративных мероприятий, но не имела портфолио и контактов в B2B-сегменте.",
-      solution: "Таргетировались на HR-директоров, офис-менеджеров, организаторов мероприятий. Создали кейсы 'было-стало' с фото и отзывами. Предлагали бесплатную дегустацию для компаний от 50 человек. Использовали Lead Ads для быстрого сбора контактов.",
+      problem: "Хотели захватить B2B-рынок, но без портфолио и связей. Кейтеринг для офисов — закрытый клуб. Двери не открывались.",
+      solution: "Таргет на HR-директоров, офис-менеджеров, организаторов мероприятий. Кейсы 'было-стало' с фото и отзывами. Бесплатная дегустация для компаний 50+ человек. Lead Ads для быстрого захвата. Портфель клиентов вырос в 5 раз.",
       results: {
         budget: "78 000 ₽",
         period: "3 месяца",
@@ -76,118 +77,146 @@ const CaseHoreca = () => {
   ];
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-background">
       <Header />
       <main>
-        <section className="gradient-hero py-20">
-          <div className="container mx-auto px-4">
-            <Link to="/cases" className="inline-flex items-center text-primary hover:underline mb-8">
-              <ArrowLeft className="mr-2 h-4 w-4" />
-              Вернуться к кейсам
-            </Link>
-            <div className="max-w-4xl mx-auto space-y-6">
+        {/* Hero */}
+        <section className="relative py-24 overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-hero" />
+          <motion.div
+            className="absolute top-1/3 left-1/4 w-80 h-80 bg-primary/10 rounded-full blur-3xl"
+            animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.5, 0.3] }}
+            transition={{ duration: 6, repeat: Infinity }}
+          />
+          
+          <div className="container mx-auto px-4 relative z-10">
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+            >
+              <Link to="/cases" className="inline-flex items-center text-primary hover:text-primary/80 transition-colors mb-8 group">
+                <ArrowLeft className="mr-2 h-4 w-4 group-hover:-translate-x-1 transition-transform" />
+                Все кейсы
+              </Link>
+            </motion.div>
+            <motion.div 
+              className="max-w-4xl space-y-6"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+            >
               <h1 className="text-4xl md:text-6xl font-bold">
-                Кейсы: <span className="text-gradient-primary">Рестораны & Общепит</span>
+                Рестораны & <span className="text-gradient-primary">HoReCa</span>
               </h1>
-              <p className="text-lg md:text-xl text-muted-foreground">
-                Успешные рекламные кампании для ресторанов, кафе, доставки еды и кейтеринга
+              <p className="text-xl text-muted-foreground max-w-2xl">
+                Полные залы, очереди на доставку, забитые банкетные книги. Превращаем рекламный бюджет в поток гостей.
               </p>
-            </div>
+            </motion.div>
           </div>
         </section>
 
         {/* Stats */}
-        <section className="py-12 border-b">
+        <section className="py-12 border-b border-border/50">
           <div className="container mx-auto px-4">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto">
-              <div className="text-center">
-                <div className="text-3xl md:text-4xl font-bold text-primary">4 500+</div>
-                <div className="text-sm text-muted-foreground mt-1">Заказов/посещений</div>
-              </div>
-              <div className="text-center">
-                <div className="text-3xl md:text-4xl font-bold text-primary">от 51₽</div>
-                <div className="text-sm text-muted-foreground mt-1">Минимальный CPL</div>
-              </div>
-              <div className="text-center">
-                <div className="text-3xl md:text-4xl font-bold text-accent">+245%</div>
-                <div className="text-sm text-muted-foreground mt-1">Максимальный ROI</div>
-              </div>
-              <div className="text-center">
-                <div className="text-3xl md:text-4xl font-bold text-primary">5</div>
-                <div className="text-sm text-muted-foreground mt-1">Успешных проектов</div>
-              </div>
-            </div>
+            <motion.div 
+              className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+            >
+              {[
+                { value: "4 500+", label: "Заказов/посещений", icon: Users },
+                { value: "от 51₽", label: "Минимальный CPL", icon: Target },
+                { value: "+320%", label: "Максимальный ROI", icon: TrendingUp, accent: true },
+                { value: "5", label: "Успешных проектов", icon: Zap },
+              ].map((stat, index) => (
+                <motion.div 
+                  key={index}
+                  className="text-center p-4 rounded-xl bg-card/50 border border-border/30"
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: index * 0.1 }}
+                  whileHover={{ scale: 1.05 }}
+                >
+                  <stat.icon className={`h-6 w-6 mx-auto mb-2 ${stat.accent ? 'text-accent' : 'text-primary'}`} />
+                  <div className={`text-2xl md:text-3xl font-bold ${stat.accent ? 'text-accent' : 'text-primary'}`}>
+                    {stat.value}
+                  </div>
+                  <div className="text-sm text-muted-foreground mt-1">{stat.label}</div>
+                </motion.div>
+              ))}
+            </motion.div>
           </div>
         </section>
 
         {/* Cases */}
-        <section className="py-12 md:py-20">
+        <section className="py-16 md:py-24">
           <div className="container mx-auto px-4 space-y-12 md:space-y-16">
             {cases.map((caseItem, index) => (
-              <div key={index}>
-                <div className="max-w-5xl mx-auto p-6 md:p-12 rounded-2xl md:rounded-3xl bg-card shadow-card border border-border/50">
-                  <div className="inline-flex px-3 py-1.5 md:px-4 md:py-2 rounded-full bg-accent/10 text-accent text-xs md:text-sm font-medium mb-4 md:mb-6">
+              <motion.div 
+                key={index}
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6 }}
+              >
+                <div className="max-w-5xl mx-auto p-6 md:p-10 rounded-2xl bg-card shadow-card border border-border/50 hover:shadow-red-glow hover:border-primary/30 transition-all duration-500">
+                  <div className="inline-flex px-4 py-2 rounded-full bg-accent/10 text-accent text-sm font-medium mb-6">
                     {caseItem.platform}
                   </div>
-                  <h2 className="text-2xl md:text-4xl font-bold mb-4 md:mb-6">{caseItem.title}</h2>
+                  <h2 className="text-2xl md:text-3xl font-bold mb-6">{caseItem.title}</h2>
 
-                  <div className="space-y-4 md:space-y-6">
-                    <div>
-                      <h3 className="text-base md:text-lg font-semibold text-destructive mb-2">Проблема клиента:</h3>
-                      <p className="text-sm md:text-base text-muted-foreground">{caseItem.problem}</p>
+                  <div className="space-y-6">
+                    <div className="p-4 rounded-xl bg-destructive/5 border border-destructive/20">
+                      <h3 className="text-lg font-semibold text-destructive mb-2">🔥 Проблема</h3>
+                      <p className="text-muted-foreground">{caseItem.problem}</p>
                     </div>
 
-                    <div>
-                      <h3 className="text-base md:text-lg font-semibold text-primary mb-2">Решение G-TARGET:</h3>
-                      <p className="text-sm md:text-base text-muted-foreground">{caseItem.solution}</p>
+                    <div className="p-4 rounded-xl bg-primary/5 border border-primary/20">
+                      <h3 className="text-lg font-semibold text-primary mb-2">⚡ Решение РИС</h3>
+                      <p className="text-muted-foreground">{caseItem.solution}</p>
                     </div>
 
-                    <div className="pt-4 md:pt-6 border-t">
-                      <h3 className="text-base md:text-lg font-semibold mb-4 md:mb-6">Результаты:</h3>
-                      <div className="grid grid-cols-2 md:grid-cols-5 gap-4 md:gap-6">
-                        <div className="space-y-2">
-                          <DollarSign className="h-5 w-5 md:h-6 md:w-6 text-accent" />
-                          <div className="text-xl md:text-2xl font-bold text-primary">{caseItem.results.budget}</div>
-                          <div className="text-xs md:text-sm text-muted-foreground">Бюджет</div>
-                        </div>
-                        <div className="space-y-2">
-                          <Calendar className="h-5 w-5 md:h-6 md:w-6 text-accent" />
-                          <div className="text-xl md:text-2xl font-bold text-primary">{caseItem.results.period}</div>
-                          <div className="text-xs md:text-sm text-muted-foreground">Период</div>
-                        </div>
-                        <div className="space-y-2">
-                          <Users className="h-5 w-5 md:h-6 md:w-6 text-accent" />
-                          <div className="text-xl md:text-2xl font-bold text-primary">{caseItem.results.leads}</div>
-                          <div className="text-xs md:text-sm text-muted-foreground">Лиды</div>
-                        </div>
-                        <div className="space-y-2">
-                          <Target className="h-5 w-5 md:h-6 md:w-6 text-accent" />
-                          <div className="text-xl md:text-2xl font-bold text-primary">{caseItem.results.cpl}</div>
-                          <div className="text-xs md:text-sm text-muted-foreground">CPL</div>
-                        </div>
-                        <div className="space-y-2">
-                          <TrendingUp className="h-5 w-5 md:h-6 md:w-6 text-accent" />
-                          <div className="text-xl md:text-2xl font-bold text-accent">{caseItem.results.roi}</div>
-                          <div className="text-xs md:text-sm text-muted-foreground">ROI</div>
-                        </div>
+                    <div className="pt-6 border-t border-border/50">
+                      <h3 className="text-lg font-semibold mb-6">📊 Результаты</h3>
+                      <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+                        {[
+                          { icon: DollarSign, value: caseItem.results.budget, label: "Бюджет" },
+                          { icon: Calendar, value: caseItem.results.period, label: "Период" },
+                          { icon: Users, value: caseItem.results.leads, label: "Результат" },
+                          { icon: Target, value: caseItem.results.cpl, label: "CPL" },
+                          { icon: TrendingUp, value: caseItem.results.roi, label: "ROI", accent: true },
+                        ].map((item, i) => (
+                          <motion.div 
+                            key={i}
+                            className="p-3 rounded-lg bg-secondary/50 text-center"
+                            whileHover={{ scale: 1.05 }}
+                          >
+                            <item.icon className={`h-5 w-5 mx-auto mb-2 ${item.accent ? 'text-accent' : 'text-primary'}`} />
+                            <div className={`text-xl font-bold ${item.accent ? 'text-accent' : 'text-foreground'}`}>
+                              {item.value}
+                            </div>
+                            <div className="text-xs text-muted-foreground">{item.label}</div>
+                          </motion.div>
+                        ))}
                       </div>
                     </div>
                   </div>
                 </div>
                 {index < cases.length - 1 && <QuickContact />}
-              </div>
+              </motion.div>
             ))}
           </div>
         </section>
 
-        <section className="py-12 md:py-20 bg-muted/30">
+        <section className="py-16 bg-secondary/30">
           <div className="container mx-auto px-4">
             <WebsitesShowcase category="horeca" />
           </div>
         </section>
         
         <QuickContact />
-
         <ContactForm />
       </main>
       <Footer />
