@@ -3,82 +3,87 @@ import Footer from "@/components/Footer";
 import ContactForm from "@/components/ContactForm";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
-import { Search, Target, Globe, BarChart, TrendingUp, Users, Send, Gift } from "lucide-react";
+import { Search, Target, Globe, BarChart, TrendingUp, Users, Send, Gift, CheckCircle, ArrowRight } from "lucide-react";
+import { motion } from "framer-motion";
 
 const Services = () => {
   const services = [
     {
       icon: Search,
       title: "Контекстная реклама Яндекс.Директ",
-      description: "Запуск и ведение контекстной рекламы на поиске Яндекса и в рекламной сети (РСЯ)",
+      description: "Находим клиентов, которые уже ищут ваш продукт. Показываемся в момент максимальной готовности к покупке.",
       features: [
-        "Настройка рекламных кампаний в Яндекс.Директ",
-        "Поиск: показы по ключевым запросам",
-        "РСЯ: охват аудитории на партнерских площадках",
-        "Ежедневная оптимизация ставок и объявлений",
-        "Подбор и расширение семантического ядра",
-        "A/B тестирование объявлений",
+        "Глубокий анализ ниши и конкурентов",
+        "Сбор и кластеризация семантического ядра",
+        "Настройка поисковых и РСЯ-кампаний",
+        "Ежедневная оптимизация ставок",
+        "A/B-тестирование объявлений",
+        "Сквозная аналитика до продажи",
       ],
-      benefits: [
-        "Быстрый старт кампании — от 3 дней",
-        "Средний CPL на 40% ниже рынка",
-        "Прозрачная отчетность каждую неделю",
+      results: [
+        "Запуск за 3-5 дней",
+        "CPL на 40% ниже рынка",
+        "ROI от 300%",
       ],
+      price: "от 30 000 ₽/мес",
     },
     {
       icon: Target,
       title: "Таргетированная реклама ВКонтакте",
-      description: "Настройка и ведение таргетированной рекламы в социальной сети ВКонтакте",
+      description: "Достаём вашу аудиторию там, где она проводит время. Работаем с холодным и тёплым трафиком.",
       features: [
-        "Точный таргетинг по интересам и поведению",
-        "Ретаргетинг на базу клиентов и посетителей сайта",
-        "Создание креативов и посадочных страниц",
-        "Тестирование аудиторий и форматов",
-        "Работа с look-alike аудиториями",
-        "Воронка продаж от охвата до конверсии",
+        "Парсинг и сегментация аудиторий",
+        "Создание продающих креативов",
+        "Ретаргетинг и look-alike",
+        "Тестирование гипотез",
+        "Прогрев аудитории через контент",
+        "Интеграция с CRM",
       ],
-      benefits: [
-        "Охват целевой аудитории по всей России",
-        "Высокая вовлеченность пользователей",
-        "Низкая стоимость клика (CPC)",
+      results: [
+        "Охват от 100 000 человек/мес",
+        "CTR выше среднего в 2 раза",
+        "Конверсия в заявку до 15%",
       ],
+      price: "от 25 000 ₽/мес",
     },
     {
       icon: Send,
       title: "Реклама в Telegram",
-      description: "Размещение рекламы в Telegram каналах и через Telegram Ads платформу",
+      description: "Размещение в каналах и через Telegram Ads. Самая платёжеспособная аудитория рунета.",
       features: [
-        "Подбор релевантных каналов для вашей ниши",
-        "Настройка рекламы через Telegram Ads",
-        "Создание продающих креативов и текстов",
-        "Геотаргетинг и таргетинг по интересам",
-        "Аналитика и отчетность по показам",
-        "Оптимизация рекламных кампаний",
+        "Подбор релевантных каналов",
+        "Настройка Telegram Ads",
+        "Создание нативных интеграций",
+        "Геотаргетинг по городам",
+        "Аналитика переходов и конверсий",
+        "Оптимизация размещений",
       ],
-      benefits: [
-        "Высокая вовлеченность аудитории Telegram",
-        "Точный таргетинг на целевую аудиторию",
-        "Прозрачная статистика по каждому каналу",
+      results: [
+        "Вовлечённость до 30%",
+        "Доверие к рекомендациям",
+        "Быстрый охват ЦА",
       ],
+      price: "от 20 000 ₽/мес",
       isBonus: true,
     },
     {
       icon: Globe,
-      title: "Создание сайтов",
-      description: "Разработка конверсионных сайтов и лендингов под ключ",
+      title: "Создание сайтов под ключ",
+      description: "Сайты, которые продают. Не просто красивые картинки, а инструменты для бизнеса с высокой конверсией.",
       features: [
-        "Лендинги с высокой конверсией",
+        "Продающие лендинги от 2 недель",
         "Корпоративные сайты",
         "Интернет-магазины",
-        "Адаптивный дизайн для всех устройств",
+        "Адаптив под все устройства",
         "SEO-оптимизация",
         "Интеграция с CRM и аналитикой",
       ],
-      benefits: [
-        "Срок разработки от 2 недель",
-        "Рост конверсии в среднем на 35%",
-        "Поддержка и техническое обслуживание",
+      results: [
+        "Конверсия от 5%",
+        "Загрузка менее 3 секунд",
+        "Техподдержка 12 месяцев",
       ],
+      price: "от 80 000 ₽",
     },
   ];
 
@@ -87,103 +92,162 @@ const Services = () => {
       <Header />
       <main>
         {/* Hero Section */}
-        <section className="gradient-hero py-20">
-          <div className="container mx-auto px-4">
-            <div className="max-w-4xl mx-auto text-center space-y-6">
-              <h1 className="text-4xl md:text-6xl font-bold">
-                Наши <span className="text-gradient-primary">Услуги</span>
+        <section className="py-24 bg-accent text-accent-foreground relative overflow-hidden noise">
+          <div className="absolute inset-0 gradient-hero" />
+          <motion.div
+            className="absolute bottom-0 left-1/4 w-[600px] h-[600px] rounded-full gradient-red-glow opacity-30"
+            animate={{ scale: [1, 1.1, 1] }}
+            transition={{ duration: 10, repeat: Infinity }}
+          />
+          
+          <div className="container mx-auto px-4 relative z-10">
+            <motion.div 
+              className="max-w-4xl mx-auto text-center space-y-6"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+            >
+              <h1 className="text-4xl md:text-6xl lg:text-7xl font-black">
+                Наши <span className="text-gradient-primary">услуги</span>
               </h1>
-              <p className="text-lg md:text-xl text-muted-foreground">
-                Полный спектр digital-маркетинга для роста вашего бизнеса
+              <p className="text-lg md:text-xl text-accent-foreground/70 max-w-2xl mx-auto">
+                Комплексный digital-маркетинг для роста вашего бизнеса. 
+                От первого клика до повторной продажи.
               </p>
-            </div>
+            </motion.div>
           </div>
         </section>
 
         {/* Services List */}
-        <section className="py-20">
-          <div className="container mx-auto px-4 space-y-20">
+        <section className="py-24">
+          <div className="container mx-auto px-4 space-y-24">
             {services.map((service, index) => {
               const Icon = service.icon;
+              const isEven = index % 2 === 1;
+              
               return (
-                <div
+                <motion.div
                   key={index}
-                  className="grid md:grid-cols-2 gap-12 items-center"
+                  className="grid lg:grid-cols-2 gap-12 items-center"
+                  initial={{ opacity: 0, y: 50 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.6 }}
                 >
-                  <div className={`space-y-6 ${index % 2 === 1 ? "md:order-2" : ""}`}>
-                    <div className="flex items-center space-x-4">
-                      <div className="flex h-16 w-16 items-center justify-center rounded-2xl gradient-primary">
-                        <Icon className="h-8 w-8 text-white" />
-                      </div>
-                      <div className="flex-1">
-                        <h2 className="text-3xl font-bold">{service.title}</h2>
+                  <div className={`space-y-6 ${isEven ? "lg:order-2" : ""}`}>
+                    <div className="flex items-start gap-4">
+                      <motion.div 
+                        className="flex h-16 w-16 items-center justify-center rounded-2xl gradient-primary shadow-cta flex-shrink-0"
+                        whileHover={{ rotate: 10, scale: 1.05 }}
+                      >
+                        <Icon className="h-8 w-8 text-primary-foreground" />
+                      </motion.div>
+                      <div>
+                        <h2 className="text-2xl md:text-3xl font-black">{service.title}</h2>
                         {service.isBonus && (
                           <div className="flex items-center gap-2 mt-2">
-                            <Gift className="h-4 w-4 text-accent" />
-                            <span className="text-sm font-semibold text-accent">
-                              БОНУС при покупке сайта + Яндекс/ВК реклама
+                            <Gift className="h-4 w-4 text-primary" />
+                            <span className="text-sm font-bold text-primary">
+                              БОНУС при заказе сайта + реклама
                             </span>
                           </div>
                         )}
                       </div>
                     </div>
-                    <p className="text-lg text-muted-foreground">{service.description}</p>
+                    
+                    <p className="text-lg text-muted-foreground leading-relaxed">
+                      {service.description}
+                    </p>
 
-                    <div className="space-y-4">
-                      <h3 className="font-semibold text-lg">Что входит:</h3>
-                      <ul className="space-y-2">
+                    <div className="space-y-3">
+                      <h3 className="font-bold text-lg">Что входит:</h3>
+                      <ul className="grid gap-2">
                         {service.features.map((feature, idx) => (
-                          <li key={idx} className="flex items-start space-x-2">
-                            <div className="h-1.5 w-1.5 rounded-full bg-accent mt-2 flex-shrink-0" />
-                            <span className="text-sm text-muted-foreground">{feature}</span>
+                          <li key={idx} className="flex items-start gap-3">
+                            <CheckCircle className="h-5 w-5 text-primary flex-shrink-0 mt-0.5" />
+                            <span className="text-muted-foreground">{feature}</span>
                           </li>
                         ))}
                       </ul>
                     </div>
 
-                    <div className="p-6 rounded-xl bg-accent/10 border border-accent/20 space-y-2">
-                      <h4 className="font-semibold text-accent">Преимущества:</h4>
-                      {service.benefits.map((benefit, idx) => (
-                        <p key={idx} className="text-sm">{benefit}</p>
+                    <div className="p-6 rounded-2xl bg-primary/5 border border-primary/20 space-y-3">
+                      <h4 className="font-bold text-primary">Результаты:</h4>
+                      {service.results.map((result, idx) => (
+                        <p key={idx} className="text-sm font-medium">{result}</p>
                       ))}
                     </div>
 
-                    <Button variant="cta" size="lg" asChild>
-                      <Link to="/contacts">Заказать услугу</Link>
-                    </Button>
-                  </div>
-
-                  <div className={`${index % 2 === 1 ? "md:order-1" : ""}`}>
-                    <div className="grid grid-cols-2 gap-4">
-                      <div className="space-y-4">
-                        <div className="p-6 rounded-2xl bg-card shadow-card">
-                          <BarChart className="h-8 w-8 text-accent mb-2" />
-                          <div className="text-2xl font-bold text-primary">95%</div>
-                          <div className="text-xs text-muted-foreground">Удовлетворенность</div>
-                        </div>
-                        <div className="p-6 rounded-2xl bg-card shadow-card">
-                          <TrendingUp className="h-8 w-8 text-accent mb-2" />
-                          <div className="text-2xl font-bold text-primary">+150%</div>
-                          <div className="text-xs text-muted-foreground">Средний рост</div>
-                        </div>
+                    <div className="flex items-center justify-between flex-wrap gap-4">
+                      <div>
+                        <span className="text-sm text-muted-foreground">Стоимость:</span>
+                        <p className="text-2xl font-black text-primary">{service.price}</p>
                       </div>
-                      <div className="mt-8 space-y-4">
-                        <div className="p-6 rounded-2xl bg-card shadow-card">
-                          <Users className="h-8 w-8 text-accent mb-2" />
-                          <div className="text-2xl font-bold text-primary">100+</div>
-                          <div className="text-xs text-muted-foreground">Проектов</div>
-                        </div>
-                        <div className="p-6 rounded-2xl bg-card shadow-card">
-                          <Target className="h-8 w-8 text-accent mb-2" />
-                          <div className="text-2xl font-bold text-primary">-40%</div>
-                          <div className="text-xs text-muted-foreground">CPL vs рынок</div>
-                        </div>
-                      </div>
+                      <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+                        <Button size="lg" className="gradient-primary shadow-cta font-bold group" asChild>
+                          <Link to="/contacts">
+                            Заказать
+                            <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                          </Link>
+                        </Button>
+                      </motion.div>
                     </div>
                   </div>
-                </div>
+
+                  <div className={`${isEven ? "lg:order-1" : ""}`}>
+                    <div className="grid grid-cols-2 gap-4">
+                      {[
+                        { icon: BarChart, value: "95%", label: "Клиенты довольны" },
+                        { icon: TrendingUp, value: "+150%", label: "Средний рост" },
+                        { icon: Users, value: "100+", label: "Проектов" },
+                        { icon: Target, value: "−40%", label: "CPL vs рынок" },
+                      ].map((stat, idx) => (
+                        <motion.div
+                          key={idx}
+                          className="p-6 rounded-2xl bg-card shadow-card border border-border/50 hover:border-primary/30 hover:shadow-card-hover transition-all"
+                          initial={{ opacity: 0, scale: 0.9 }}
+                          whileInView={{ opacity: 1, scale: 1 }}
+                          viewport={{ once: true }}
+                          transition={{ delay: idx * 0.1 }}
+                          whileHover={{ y: -3 }}
+                        >
+                          <stat.icon className="h-8 w-8 text-primary mb-3" />
+                          <div className="text-2xl font-black text-primary">{stat.value}</div>
+                          <div className="text-xs text-muted-foreground">{stat.label}</div>
+                        </motion.div>
+                      ))}
+                    </div>
+                  </div>
+                </motion.div>
               );
             })}
+          </div>
+        </section>
+
+        {/* Packages CTA */}
+        <section className="py-24 bg-secondary/30">
+          <div className="container mx-auto px-4">
+            <motion.div 
+              className="max-w-3xl mx-auto text-center space-y-6"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+            >
+              <h2 className="text-3xl md:text-4xl font-black">
+                Не знаете, что выбрать?
+              </h2>
+              <p className="text-lg text-muted-foreground">
+                Закажите бесплатный аудит — мы проанализируем вашу ситуацию и предложим 
+                оптимальную стратегию для достижения ваших целей.
+              </p>
+              <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+                <Button size="lg" className="gradient-primary shadow-cta h-14 px-8 font-bold text-lg" asChild>
+                  <Link to="/contacts">
+                    Получить бесплатный аудит
+                    <ArrowRight className="ml-2 h-5 w-5" />
+                  </Link>
+                </Button>
+              </motion.div>
+            </motion.div>
           </div>
         </section>
 

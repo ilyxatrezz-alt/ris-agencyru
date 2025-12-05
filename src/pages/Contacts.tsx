@@ -1,33 +1,56 @@
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ContactForm from "@/components/ContactForm";
-import { Mail, Phone, MapPin, Clock } from "lucide-react";
+import { Mail, Phone, MapPin, Clock, Send, MessageCircle, CheckCircle } from "lucide-react";
+import { motion } from "framer-motion";
 
 const Contacts = () => {
   const contactInfo = [
     {
       icon: Phone,
       title: "Телефон",
-      value: "+7 (XXX) XXX-XX-XX",
-      description: "Звоните в рабочее время",
+      value: "+7 (949) 338-86-89",
+      description: "Звоните с 9:00 до 21:00",
+      href: "tel:+79493388689",
+    },
+    {
+      icon: Send,
+      title: "Telegram",
+      value: "@ris_agency",
+      description: "Отвечаем за 15 минут",
+      href: "https://t.me/ris_agency",
     },
     {
       icon: Mail,
       title: "Email",
-      value: "info@g-target.ru",
-      description: "Ответим в течение 2 часов",
-    },
-    {
-      icon: MapPin,
-      title: "География",
-      value: "Работаем по всей России",
-      description: "Офисы и удаленная работа",
+      value: "info@ris-agency.ru",
+      description: "Для коммерческих предложений",
+      href: "mailto:info@ris-agency.ru",
     },
     {
       icon: Clock,
       title: "Режим работы",
-      value: "Пн-Пт: 9:00 - 19:00",
-      description: "Сб-Вс: по договоренности",
+      value: "Пн-Пт: 9:00 - 21:00",
+      description: "Сб-Вс: по договорённости",
+    },
+  ];
+
+  const benefits = [
+    {
+      title: "Ответ за 15 минут",
+      description: "Не заставляем ждать. Менеджер свяжется с вами в течение 15 минут в рабочее время.",
+    },
+    {
+      title: "Бесплатная консультация",
+      description: "Разберём вашу ситуацию, ответим на вопросы и дадим рекомендации — без обязательств.",
+    },
+    {
+      title: "Аудит текущей рекламы",
+      description: "Проанализируем ваши кампании и найдём минимум 3 точки роста.",
+    },
+    {
+      title: "Персональное предложение",
+      description: "Подготовим стратегию, медиаплан и коммерческое предложение под ваши цели.",
     },
   ];
 
@@ -36,95 +59,99 @@ const Contacts = () => {
       <Header />
       <main>
         {/* Hero */}
-        <section className="gradient-hero py-20">
-          <div className="container mx-auto px-4">
-            <div className="max-w-4xl mx-auto text-center space-y-6">
-              <h1 className="text-4xl md:text-6xl font-bold">
+        <section className="py-24 bg-accent text-accent-foreground relative overflow-hidden noise">
+          <div className="absolute inset-0 gradient-hero" />
+          <motion.div
+            className="absolute top-1/3 left-1/3 w-[500px] h-[500px] rounded-full gradient-red-glow opacity-40"
+            animate={{ scale: [1, 1.15, 1] }}
+            transition={{ duration: 8, repeat: Infinity }}
+          />
+          
+          <div className="container mx-auto px-4 relative z-10">
+            <motion.div 
+              className="max-w-4xl mx-auto text-center space-y-6"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+            >
+              <h1 className="text-4xl md:text-6xl lg:text-7xl font-black">
                 <span className="text-gradient-primary">Свяжитесь</span> с нами
               </h1>
-              <p className="text-lg md:text-xl text-muted-foreground">
-                Готовы обсудить ваш проект? Мы ответим в течение 2 часов и предложим решение
+              <p className="text-lg md:text-xl text-accent-foreground/70 max-w-2xl mx-auto">
+                Готовы обсудить ваш проект? Ответим за 15 минут и предложим решение, 
+                которое принесёт результат.
               </p>
-            </div>
+            </motion.div>
           </div>
         </section>
 
         {/* Contact Info */}
-        <section className="py-20">
+        <section className="py-24">
           <div className="container mx-auto px-4">
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-20">
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-20">
               {contactInfo.map((info, index) => {
                 const Icon = info.icon;
+                const Wrapper = info.href ? "a" : "div";
+                const wrapperProps = info.href ? { href: info.href, target: info.href.startsWith("http") ? "_blank" : undefined } : {};
+                
                 return (
-                  <div
+                  <motion.div
                     key={index}
-                    className="text-center p-8 rounded-2xl bg-card shadow-card hover:shadow-card-hover transition-base border border-border/50"
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: index * 0.1 }}
                   >
-                    <div className="flex h-14 w-14 items-center justify-center rounded-xl gradient-primary mx-auto mb-4">
-                      <Icon className="h-7 w-7 text-white" />
-                    </div>
-                    <h3 className="font-bold text-lg mb-2">{info.title}</h3>
-                    <p className="text-primary font-semibold mb-1">{info.value}</p>
-                    <p className="text-sm text-muted-foreground">{info.description}</p>
-                  </div>
+                    <Wrapper
+                      {...wrapperProps}
+                      className="block text-center p-8 rounded-2xl bg-card shadow-card hover:shadow-card-hover transition-all duration-300 border border-border/50 hover:border-primary/30 group"
+                    >
+                      <div className="flex h-14 w-14 items-center justify-center rounded-xl gradient-primary mx-auto mb-4 shadow-cta group-hover:shadow-glow transition-all">
+                        <Icon className="h-7 w-7 text-primary-foreground" />
+                      </div>
+                      <h3 className="font-bold text-lg mb-2">{info.title}</h3>
+                      <p className="text-primary font-bold mb-1">{info.value}</p>
+                      <p className="text-sm text-muted-foreground">{info.description}</p>
+                    </Wrapper>
+                  </motion.div>
                 );
               })}
             </div>
 
             {/* Why Contact Us */}
-            <div className="max-w-4xl mx-auto">
+            <motion.div 
+              className="max-w-4xl mx-auto"
+              initial={{ opacity: 0, y: 50 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+            >
               <div className="p-8 md:p-12 rounded-3xl bg-card shadow-card border border-border/50">
-                <h2 className="text-3xl font-bold mb-8 text-center">
-                  Что вы получите после <span className="text-gradient-accent">обращения?</span>
+                <h2 className="text-3xl font-black mb-8 text-center">
+                  Что вы получите после <span className="text-gradient-primary">обращения?</span>
                 </h2>
                 <div className="grid md:grid-cols-2 gap-6">
-                  <div className="flex items-start space-x-4">
-                    <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary/10 text-primary font-bold flex-shrink-0">
-                      1
-                    </div>
-                    <div>
-                      <h3 className="font-semibold mb-1">Быстрый ответ</h3>
-                      <p className="text-sm text-muted-foreground">
-                        Мы свяжемся с вами в течение 2 часов в рабочее время
-                      </p>
-                    </div>
-                  </div>
-                  <div className="flex items-start space-x-4">
-                    <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary/10 text-primary font-bold flex-shrink-0">
-                      2
-                    </div>
-                    <div>
-                      <h3 className="font-semibold mb-1">Бесплатная консультация</h3>
-                      <p className="text-sm text-muted-foreground">
-                        Обсудим ваш проект, поделимся опытом и идеями
-                      </p>
-                    </div>
-                  </div>
-                  <div className="flex items-start space-x-4">
-                    <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary/10 text-primary font-bold flex-shrink-0">
-                      3
-                    </div>
-                    <div>
-                      <h3 className="font-semibold mb-1">Аудит рекламы или сайта</h3>
-                      <p className="text-sm text-muted-foreground">
-                        Проанализируем текущую ситуацию и дадим рекомендации
-                      </p>
-                    </div>
-                  </div>
-                  <div className="flex items-start space-x-4">
-                    <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary/10 text-primary font-bold flex-shrink-0">
-                      4
-                    </div>
-                    <div>
-                      <h3 className="font-semibold mb-1">Коммерческое предложение</h3>
-                      <p className="text-sm text-muted-foreground">
-                        Предложим стратегию, сроки и стоимость работ
-                      </p>
-                    </div>
-                  </div>
+                  {benefits.map((benefit, index) => (
+                    <motion.div 
+                      key={index}
+                      className="flex items-start gap-4"
+                      initial={{ opacity: 0, x: index % 2 === 0 ? -20 : 20 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: index * 0.1 }}
+                    >
+                      <div className="flex h-10 w-10 items-center justify-center rounded-full gradient-primary flex-shrink-0 shadow-cta">
+                        <CheckCircle className="h-5 w-5 text-primary-foreground" />
+                      </div>
+                      <div>
+                        <h3 className="font-bold mb-1">{benefit.title}</h3>
+                        <p className="text-sm text-muted-foreground leading-relaxed">
+                          {benefit.description}
+                        </p>
+                      </div>
+                    </motion.div>
+                  ))}
                 </div>
               </div>
-            </div>
+            </motion.div>
           </div>
         </section>
 
