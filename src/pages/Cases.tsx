@@ -3,7 +3,8 @@ import Footer from "@/components/Footer";
 import ContactForm from "@/components/ContactForm";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, TrendingUp } from "lucide-react";
+import { ArrowRight, TrendingUp, Zap, Target, Award } from "lucide-react";
+import { motion } from "framer-motion";
 import caseDentistry from "@/assets/case-dentistry.jpg";
 import caseConstruction from "@/assets/case-construction.jpg";
 import caseRestaurant from "@/assets/case-restaurant.jpg";
@@ -13,126 +14,206 @@ const Cases = () => {
     {
       slug: "medicine-beauty",
       title: "Медицина & Beauty",
-      description: "Кейсы для косметологов, стоматологов, урологов и пластических хирургов",
+      description: "Взрывной рост записей для клиник, стоматологий и косметологов",
       image: caseDentistry,
-      stats: { leads: "450+", cpl: "от 850₽", roi: "+180%" },
+      stats: { leads: "3 600+", cpl: "от 42₽", roi: "+240%" },
     },
     {
       slug: "construction",
-      title: "Строительство & Коттеджи",
-      description: "Успешные проекты по строительству домов и коттеджей",
+      title: "Строительство",
+      description: "Поток качественных заявок для застройщиков и ремонтных компаний",
       image: caseConstruction,
-      stats: { leads: "280+", cpl: "от 1 200₽", roi: "+210%" },
+      stats: { leads: "700+", cpl: "от 1 300₽", roi: "+280%" },
     },
     {
       slug: "horeca",
-      title: "Рестораны & Общепит",
-      description: "Кейсы для ресторанов, кафе и служб доставки еды",
+      title: "Рестораны & HoReCa",
+      description: "Лавина заказов и гостей для ресторанов и доставок",
       image: caseRestaurant,
-      stats: { leads: "1 500+", cpl: "от 95₽", roi: "+150%" },
+      stats: { leads: "4 500+", cpl: "от 51₽", roi: "+320%" },
     },
     {
       slug: "lawyers",
       title: "Юридические услуги",
-      description: "Успешные кампании для юристов, адвокатов и юридических компаний",
+      description: "Платёжеспособные клиенты для юристов и адвокатов",
       image: caseDentistry,
-      stats: { leads: "470+", cpl: "от 285₽", roi: "+175%" },
+      stats: { leads: "580+", cpl: "от 250₽", roi: "+220%" },
     },
   ];
 
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.15,
+      },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 40 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.6, ease: "easeOut" as const },
+    },
+  };
+
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-background">
       <Header />
       <main>
         {/* Hero Section */}
-        <section className="gradient-hero py-20">
-          <div className="container mx-auto px-4">
-            <div className="max-w-4xl mx-auto text-center space-y-6">
-              <h1 className="text-4xl md:text-6xl font-bold">
-                Наши <span className="text-gradient-primary">Кейсы</span>
+        <section className="relative py-24 md:py-32 overflow-hidden">
+          {/* Animated Background */}
+          <div className="absolute inset-0 bg-gradient-hero" />
+          <motion.div
+            className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/10 rounded-full blur-3xl"
+            animate={{
+              scale: [1, 1.3, 1],
+              opacity: [0.3, 0.5, 0.3],
+            }}
+            transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+          />
+          <motion.div
+            className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-accent/10 rounded-full blur-3xl"
+            animate={{
+              scale: [1.2, 1, 1.2],
+              opacity: [0.4, 0.2, 0.4],
+            }}
+            transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+          />
+
+          <div className="container mx-auto px-4 relative z-10">
+            <motion.div 
+              className="max-w-4xl mx-auto text-center space-y-8"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+            >
+              <motion.div
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20"
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.2 }}
+              >
+                <Award className="h-4 w-4 text-primary" />
+                <span className="text-sm font-medium text-primary">Более 200 успешных проектов</span>
+              </motion.div>
+              <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold leading-tight">
+                Наши <span className="text-gradient-primary">кейсы</span>
               </h1>
-              <p className="text-lg md:text-xl text-muted-foreground">
-                Реальные результаты наших клиентов в разных нишах бизнеса
+              <p className="text-xl md:text-2xl text-muted-foreground max-w-2xl mx-auto">
+                Цифры, которые невозможно игнорировать. Результаты, которые меняют бизнес.
               </p>
-            </div>
+            </motion.div>
           </div>
         </section>
 
         {/* Cases Grid */}
-        <section className="py-16 md:py-20">
+        <section className="py-20 md:py-28">
           <div className="container mx-auto px-4">
-            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
+            <motion.div 
+              className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8"
+              variants={containerVariants}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+            >
               {caseCategories.map((category) => (
-                <Link
-                  key={category.slug}
-                  to={`/cases/${category.slug}`}
-                  className="group"
-                >
-                  <div className="relative overflow-hidden rounded-2xl shadow-card hover:shadow-card-hover transition-base border border-border/50">
-                    <div className="aspect-[4/3] overflow-hidden">
-                      <img
-                        src={category.image}
-                        alt={category.title}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-base"
-                      />
-                    </div>
-                    <div className="p-4 md:p-6 space-y-3 md:space-y-4 bg-card">
-                      <h3 className="text-xl md:text-2xl font-bold group-hover:text-primary transition-base">
-                        {category.title}
-                      </h3>
-                      <p className="text-xs md:text-sm text-muted-foreground">{category.description}</p>
-
-                      <div className="grid grid-cols-3 gap-2 md:gap-4 pt-3 md:pt-4 border-t">
-                        <div>
-                          <div className="text-base md:text-lg font-bold text-primary">{category.stats.leads}</div>
-                          <div className="text-[10px] md:text-xs text-muted-foreground">Лиды</div>
-                        </div>
-                        <div>
-                          <div className="text-base md:text-lg font-bold text-primary">{category.stats.cpl}</div>
-                          <div className="text-[10px] md:text-xs text-muted-foreground">CPL</div>
-                        </div>
-                        <div>
-                          <div className="text-base md:text-lg font-bold text-accent">{category.stats.roi}</div>
-                          <div className="text-[10px] md:text-xs text-muted-foreground">ROI</div>
-                        </div>
+                <motion.div key={category.slug} variants={itemVariants}>
+                  <Link to={`/cases/${category.slug}`} className="group block">
+                    <div className="relative overflow-hidden rounded-2xl shadow-card hover:shadow-red-glow transition-all duration-500 border border-border/50 hover:border-primary/50 bg-card">
+                      <div className="aspect-[4/3] overflow-hidden relative">
+                        <img
+                          src={category.image}
+                          alt={category.title}
+                          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/20 to-transparent" />
                       </div>
+                      <div className="p-5 md:p-6 space-y-4">
+                        <h3 className="text-xl md:text-2xl font-bold group-hover:text-primary transition-colors duration-300">
+                          {category.title}
+                        </h3>
+                        <p className="text-sm text-muted-foreground line-clamp-2">{category.description}</p>
 
-                      <Button variant="ghost" size="sm" className="w-full group-hover:bg-primary group-hover:text-primary-foreground text-xs md:text-sm">
-                        Смотреть кейсы <ArrowRight className="ml-2 h-3 w-3 md:h-4 md:w-4" />
-                      </Button>
+                        <div className="grid grid-cols-3 gap-3 pt-4 border-t border-border/50">
+                          <div>
+                            <div className="text-lg font-bold text-primary">{category.stats.leads}</div>
+                            <div className="text-xs text-muted-foreground">Лиды</div>
+                          </div>
+                          <div>
+                            <div className="text-lg font-bold text-primary">{category.stats.cpl}</div>
+                            <div className="text-xs text-muted-foreground">CPL</div>
+                          </div>
+                          <div>
+                            <div className="text-lg font-bold text-accent">{category.stats.roi}</div>
+                            <div className="text-xs text-muted-foreground">ROI</div>
+                          </div>
+                        </div>
+
+                        <Button 
+                          variant="ghost" 
+                          size="sm" 
+                          className="w-full bg-primary/10 hover:bg-primary hover:text-primary-foreground transition-all duration-300"
+                        >
+                          Смотреть кейсы <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                        </Button>
+                      </div>
                     </div>
-                  </div>
-                </Link>
+                  </Link>
+                </motion.div>
               ))}
-            </div>
+            </motion.div>
           </div>
         </section>
 
         {/* Stats Banner */}
-        <section className="py-20 gradient-primary">
-          <div className="container mx-auto px-4">
-            <div className="grid md:grid-cols-4 gap-8 text-center text-white">
-              <div className="space-y-2">
-                <TrendingUp className="h-12 w-12 mx-auto mb-4" />
-                <div className="text-4xl font-bold">2 200+</div>
-                <div className="text-sm opacity-90">Успешных кампаний</div>
-              </div>
-              <div className="space-y-2">
-                <TrendingUp className="h-12 w-12 mx-auto mb-4" />
-                <div className="text-4xl font-bold">-40%</div>
-                <div className="text-sm opacity-90">Средний CPL ниже рынка</div>
-              </div>
-              <div className="space-y-2">
-                <TrendingUp className="h-12 w-12 mx-auto mb-4" />
-                <div className="text-4xl font-bold">+180%</div>
-                <div className="text-sm opacity-90">Средний ROI клиентов</div>
-              </div>
-              <div className="space-y-2">
-                <TrendingUp className="h-12 w-12 mx-auto mb-4" />
-                <div className="text-4xl font-bold">95%</div>
-                <div className="text-sm opacity-90">Возвращаются к нам</div>
-              </div>
-            </div>
+        <section className="py-24 relative overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-primary" />
+          <motion.div
+            className="absolute inset-0 opacity-10"
+            style={{
+              backgroundImage: "radial-gradient(circle at 2px 2px, white 1px, transparent 0)",
+              backgroundSize: "40px 40px",
+            }}
+          />
+          
+          <div className="container mx-auto px-4 relative z-10">
+            <motion.div 
+              className="grid md:grid-cols-4 gap-8 text-center text-white"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+            >
+              {[
+                { icon: TrendingUp, value: "200+", label: "Успешных кампаний" },
+                { icon: Zap, value: "-45%", label: "CPL ниже рынка" },
+                { icon: Target, value: "+210%", label: "Средний ROI" },
+                { icon: Award, value: "97%", label: "Клиентов возвращаются" },
+              ].map((stat, index) => (
+                <motion.div 
+                  key={index}
+                  className="space-y-4"
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: index * 0.1 }}
+                >
+                  <motion.div
+                    whileHover={{ scale: 1.1, rotate: 5 }}
+                    transition={{ type: "spring", stiffness: 300 }}
+                  >
+                    <stat.icon className="h-12 w-12 mx-auto" />
+                  </motion.div>
+                  <div className="text-4xl md:text-5xl font-bold">{stat.value}</div>
+                  <div className="text-sm opacity-90">{stat.label}</div>
+                </motion.div>
+              ))}
+            </motion.div>
           </div>
         </section>
 
