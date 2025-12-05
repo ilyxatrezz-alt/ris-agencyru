@@ -100,7 +100,7 @@ const Hero = () => {
                 asChild
                 variant="outline"
                 size="lg"
-                className="w-full sm:w-auto border-accent-foreground/20 text-accent-foreground hover:bg-accent-foreground/10 text-lg h-14 px-8 font-semibold"
+                className="w-full sm:w-auto border-primary/50 bg-primary/10 text-primary-foreground hover:bg-primary/20 hover:border-primary text-lg h-14 px-8 font-semibold"
               >
                 <Link to="/cases">Смотреть кейсы</Link>
               </Button>
