@@ -1,143 +1,147 @@
-import { ArrowRight, TrendingUp, Users, Target } from "lucide-react";
+import { ArrowRight, Zap, Shield, TrendingUp } from "lucide-react";
 import { Button } from "./ui/button";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import heroImage from "@/assets/hero-bg.jpg";
 
 const Hero = () => {
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.2,
-        delayChildren: 0.3,
-      },
-    },
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 30 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.6 },
-    },
-  };
-
-  const floatingAnimation = {
-    y: [0, -20, 0],
-    transition: {
-      duration: 4,
-      repeat: Infinity,
-      repeatType: "loop" as const,
-    },
-  };
-
   return (
-    <section className="relative min-h-[600px] md:min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Background Image with Overlay */}
-      <motion.div 
-        className="absolute inset-0 z-0"
-        initial={{ scale: 1.1 }}
-        animate={{ scale: 1 }}
-        transition={{ duration: 1.5, ease: "easeOut" }}
-      >
-        <img
-          src={heroImage}
-          alt="Hero Background"
-          className="w-full h-full object-cover"
-        />
-        <div className="absolute inset-0 bg-gradient-to-br from-background/95 via-background/90 to-background/80" />
-      </motion.div>
+    <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden bg-accent noise">
+      {/* Animated Background Elements */}
+      <div className="absolute inset-0 gradient-hero" />
+      
+      <motion.div
+        className="absolute top-1/4 left-1/4 w-[500px] h-[500px] rounded-full gradient-red-glow opacity-60"
+        animate={{
+          scale: [1, 1.2, 1],
+          opacity: [0.4, 0.6, 0.4],
+        }}
+        transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+      />
+      
+      <motion.div
+        className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] rounded-full gradient-red-glow opacity-40"
+        animate={{
+          scale: [1.2, 1, 1.2],
+          opacity: [0.3, 0.5, 0.3],
+        }}
+        transition={{ duration: 10, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+      />
 
-      {/* Floating Shapes */}
-      <motion.div
-        className="absolute top-20 left-10 w-32 h-32 rounded-full bg-primary/10 blur-3xl"
-        animate={floatingAnimation}
-      />
-      <motion.div
-        className="absolute bottom-20 right-10 w-40 h-40 rounded-full bg-accent/10 blur-3xl"
-        animate={{ y: [0, -20, 0], transition: { duration: 5, repeat: Infinity, repeatType: "loop" as const, delay: 1 } }}
-      />
+      {/* Grid Pattern */}
+      <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:60px_60px] pointer-events-none" />
 
       {/* Content */}
-      <div className="container relative z-10 mx-auto px-4 py-16 md:py-20">
+      <div className="container relative z-10 mx-auto px-4 py-20">
         <motion.div 
-          className="max-w-4xl mx-auto text-center space-y-6 md:space-y-8"
-          variants={containerVariants}
-          initial="hidden"
-          animate="visible"
+          className="max-w-5xl mx-auto text-center space-y-8"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.6 }}
         >
-          <motion.h1 
-            className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-bold leading-tight"
-            variants={itemVariants}
+          {/* Badge */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
           >
-            <span className="text-gradient-primary inline-block">Реклама и Сайты,</span>
+            <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/30 text-primary text-sm font-semibold">
+              <Zap className="h-4 w-4" />
+              Работаем с 2014 года • 500+ млн ₽ рекламных бюджетов
+            </span>
+          </motion.div>
+
+          {/* Main Heading */}
+          <motion.h1 
+            className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-black leading-[0.95] tracking-tight"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.3 }}
+          >
+            <span className="text-accent-foreground">Превращаем</span>
             <br />
-            <span className="text-foreground">которые приносят прибыль</span>
+            <span className="text-gradient-primary">рекламу в прибыль</span>
           </motion.h1>
 
+          {/* Subheading */}
           <motion.p 
-            className="text-base sm:text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto"
-            variants={itemVariants}
+            className="text-lg sm:text-xl md:text-2xl text-accent-foreground/70 max-w-3xl mx-auto leading-relaxed"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.4 }}
           >
-            Работаем с 2014 года. Привлекаем клиентов через Яндекс.Директ, ВКонтакте, Telegram и другие каналы.
+            Создаём сайты и запускаем рекламу, которая окупается. 
+            <span className="text-primary font-semibold"> Яндекс.Директ</span>, 
+            <span className="text-primary font-semibold"> ВКонтакте</span>, 
+            <span className="text-primary font-semibold"> Telegram</span> — 
+            комплексный маркетинг под ключ.
           </motion.p>
 
+          {/* CTA Buttons */}
           <motion.div 
-            className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center pt-4"
-            variants={itemVariants}
+            className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-4"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.5 }}
           >
-            <Button
-              asChild
-              size="lg"
-              className="w-full sm:w-auto gradient-primary hover:scale-105 transition-base shadow-cta group text-sm sm:text-base"
-            >
-              <Link to="/contacts">
-                Получить расчет
-                <ArrowRight className="ml-2 h-4 w-4 sm:h-5 sm:w-5 group-hover:translate-x-1 transition-transform" />
-              </Link>
-            </Button>
-            <Button
-              asChild
-              variant="outline"
-              size="lg"
-              className="w-full sm:w-auto border-primary/20 hover:bg-primary/10 transition-base text-sm sm:text-base"
-            >
-              <Link to="/cases">Смотреть кейсы</Link>
-            </Button>
+            <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+              <Button
+                asChild
+                size="lg"
+                className="w-full sm:w-auto gradient-primary shadow-cta hover:shadow-glow text-lg h-14 px-8 font-bold group"
+              >
+                <Link to="/contacts">
+                  Получить аудит бесплатно
+                  <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+                </Link>
+              </Button>
+            </motion.div>
+            <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+              <Button
+                asChild
+                variant="outline"
+                size="lg"
+                className="w-full sm:w-auto border-accent-foreground/20 text-accent-foreground hover:bg-accent-foreground/10 text-lg h-14 px-8 font-semibold"
+              >
+                <Link to="/cases">Смотреть кейсы</Link>
+              </Button>
+            </motion.div>
           </motion.div>
         </motion.div>
 
         {/* Stats */}
         <motion.div 
-          className="mt-12 md:mt-20 grid grid-cols-1 sm:grid-cols-3 gap-4 md:gap-8 max-w-4xl mx-auto"
-          initial={{ opacity: 0, y: 50 }}
+          className="mt-20 grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-4xl mx-auto"
+          initial={{ opacity: 0, y: 60 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.8, duration: 0.6 }}
+          transition={{ delay: 0.8, duration: 0.8 }}
         >
           {[
-            { icon: TrendingUp, value: "500+ млн ₽", label: "освоено на рекламе", delay: 0 },
-            { icon: Users, value: "100+ проектов", label: "успешно запущено", delay: 0.1 },
-            { icon: Target, value: "10+ лет", label: "на рынке", delay: 0.2 },
+            { icon: TrendingUp, value: "−40%", label: "стоимость лида ниже рынка", color: "text-primary" },
+            { icon: Shield, value: "70%", label: "клиентов с нами 3+ года", color: "text-primary" },
+            { icon: Zap, value: "3 дня", label: "до запуска рекламы", color: "text-primary" },
           ].map((stat, index) => (
             <motion.div
               key={index}
-              className="flex items-center justify-center gap-3 p-3 md:p-4 rounded-xl bg-card/50 backdrop-blur-sm border border-border/50 shadow-card hover:shadow-card-hover hover:scale-105 transition-all duration-300"
-              initial={{ opacity: 0, y: 20 }}
+              className="group flex items-center gap-4 p-6 rounded-2xl glass border border-accent-foreground/10 hover:border-primary/30 transition-all duration-500"
+              initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 1 + stat.delay, duration: 0.5 }}
+              transition={{ delay: 1 + index * 0.15, duration: 0.5 }}
+              whileHover={{ y: -5 }}
             >
-              <stat.icon className="h-6 w-6 md:h-8 md:w-8 text-primary flex-shrink-0" />
+              <div className="flex h-14 w-14 items-center justify-center rounded-xl gradient-primary shadow-cta group-hover:shadow-glow transition-all duration-300">
+                <stat.icon className="h-7 w-7 text-primary-foreground" />
+              </div>
               <div className="text-left">
-                <div className="text-lg md:text-2xl font-bold text-foreground">{stat.value}</div>
-                <div className="text-xs md:text-sm text-muted-foreground">{stat.label}</div>
+                <div className={`text-3xl font-black ${stat.color}`}>{stat.value}</div>
+                <div className="text-sm text-accent-foreground/60">{stat.label}</div>
               </div>
             </motion.div>
           ))}
         </motion.div>
       </div>
+
+      {/* Bottom Gradient */}
+      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-background to-transparent" />
     </section>
   );
 };

@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Menu, X, Target } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { motion, AnimatePresence } from "framer-motion";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -17,14 +18,21 @@ const Header = () => {
   ];
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <header className="sticky top-0 z-50 w-full border-b border-border/50 bg-background/95 backdrop-blur-xl supports-[backdrop-filter]:bg-background/80">
       <div className="container mx-auto px-4">
-        <nav className="flex h-16 items-center justify-between">
-          <Link to="/" className="flex items-center space-x-2">
-            <div className="flex h-10 w-10 items-center justify-center rounded-lg gradient-primary">
-              <Target className="h-6 w-6 text-white" />
+        <nav className="flex h-20 items-center justify-between">
+          <Link to="/" className="flex items-center space-x-3 group">
+            <motion.div 
+              className="flex h-12 w-12 items-center justify-center rounded-xl gradient-primary shadow-cta"
+              whileHover={{ scale: 1.05, rotate: 5 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <span className="text-xl font-black text-primary-foreground">РИС</span>
+            </motion.div>
+            <div className="hidden sm:block">
+              <span className="text-xl font-black text-foreground group-hover:text-primary transition-colors">РИС</span>
+              <p className="text-[10px] text-muted-foreground leading-tight">Реклама и Сайты</p>
             </div>
-            <span className="text-xl font-bold text-primary">G-TARGET</span>
           </Link>
 
           {/* Desktop Navigation */}
@@ -34,23 +42,29 @@ const Header = () => {
                 key={item.name}
                 to={item.href}
                 className={cn(
-                  "px-4 py-2 rounded-md text-sm font-medium transition-base",
+                  "px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-300 relative overflow-hidden",
                   location.pathname === item.href
-                    ? "bg-primary text-primary-foreground"
-                    : "text-foreground hover:bg-secondary"
+                    ? "bg-primary text-primary-foreground shadow-cta"
+                    : "text-foreground hover:text-primary"
                 )}
               >
                 {item.name}
               </Link>
             ))}
-            <Button variant="cta" size="lg" className="ml-4" asChild>
-              <Link to="/contacts">Получить аудит</Link>
-            </Button>
+            <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+              <Button 
+                size="lg" 
+                className="ml-4 gradient-primary shadow-cta font-bold hover:shadow-glow transition-all duration-300" 
+                asChild
+              >
+                <Link to="/contacts">Бесплатный аудит</Link>
+              </Button>
+            </motion.div>
           </div>
 
           {/* Mobile Menu Button */}
           <button
-            className="md:hidden"
+            className="md:hidden p-2 rounded-lg hover:bg-secondary transition-colors"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
             aria-label="Toggle menu"
           >
@@ -63,32 +77,52 @@ const Header = () => {
         </nav>
 
         {/* Mobile Menu */}
-        {isMenuOpen && (
-          <div className="md:hidden py-4 border-t">
-            <div className="flex flex-col space-y-2">
-              {navigation.map((item) => (
-                <Link
-                  key={item.name}
-                  to={item.href}
-                  onClick={() => setIsMenuOpen(false)}
-                  className={cn(
-                    "px-4 py-2 rounded-md text-sm font-medium transition-base",
-                    location.pathname === item.href
-                      ? "bg-primary text-primary-foreground"
-                      : "text-foreground hover:bg-secondary"
-                  )}
+        <AnimatePresence>
+          {isMenuOpen && (
+            <motion.div 
+              className="md:hidden py-4 border-t border-border/50"
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: "auto" }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.3 }}
+            >
+              <div className="flex flex-col space-y-2">
+                {navigation.map((item, index) => (
+                  <motion.div
+                    key={item.name}
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: index * 0.1 }}
+                  >
+                    <Link
+                      to={item.href}
+                      onClick={() => setIsMenuOpen(false)}
+                      className={cn(
+                        "block px-4 py-3 rounded-lg text-sm font-semibold transition-all",
+                        location.pathname === item.href
+                          ? "bg-primary text-primary-foreground"
+                          : "text-foreground hover:bg-secondary"
+                      )}
+                    >
+                      {item.name}
+                    </Link>
+                  </motion.div>
+                ))}
+                <motion.div
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: navigation.length * 0.1 }}
                 >
-                  {item.name}
-                </Link>
-              ))}
-              <Button variant="cta" className="w-full" asChild>
-                <Link to="/contacts" onClick={() => setIsMenuOpen(false)}>
-                  Получить аудит
-                </Link>
-              </Button>
-            </div>
-          </div>
-        )}
+                  <Button className="w-full gradient-primary shadow-cta font-bold" asChild>
+                    <Link to="/contacts" onClick={() => setIsMenuOpen(false)}>
+                      Бесплатный аудит
+                    </Link>
+                  </Button>
+                </motion.div>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </header>
   );
