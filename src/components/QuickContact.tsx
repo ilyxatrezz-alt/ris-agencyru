@@ -1,4 +1,4 @@
-import { Phone, Zap } from "lucide-react";
+import { Phone, Zap, Loader2 } from "lucide-react";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import {
@@ -11,23 +11,46 @@ import {
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { motion } from "framer-motion";
+import { supabase } from "@/integrations/supabase/client";
 
 const QuickContact = () => {
   const { toast } = useToast();
+  const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
     niche: "",
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Form submitted:", formData);
-    toast({
-      title: "Заявка принята!",
-      description: "Перезвоним в течение 15 минут",
-    });
-    setFormData({ name: "", phone: "", niche: "" });
+    setIsLoading(true);
+
+    try {
+      const { error } = await supabase.functions.invoke("send-telegram", {
+        body: {
+          formType: "quick",
+          ...formData,
+        },
+      });
+
+      if (error) throw error;
+
+      toast({
+        title: "Заявка принята!",
+        description: "Перезвоним в течение 15 минут",
+      });
+      setFormData({ name: "", phone: "", niche: "" });
+    } catch (error) {
+      console.error("Error sending form:", error);
+      toast({
+        title: "Ошибка отправки",
+        description: "Попробуйте позвонить нам напрямую",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -94,6 +117,7 @@ const QuickContact = () => {
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                   required
+                  disabled={isLoading}
                   className="h-12"
                 />
                 <Input
@@ -102,11 +126,13 @@ const QuickContact = () => {
                   value={formData.phone}
                   onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                   required
+                  disabled={isLoading}
                   className="h-12"
                 />
                 <Select
                   value={formData.niche}
                   onValueChange={(value) => setFormData({ ...formData, niche: value })}
+                  disabled={isLoading}
                 >
                   <SelectTrigger className="h-12">
                     <SelectValue placeholder="Выберите нишу" />
@@ -123,9 +149,17 @@ const QuickContact = () => {
                 </Select>
                 <Button 
                   type="submit" 
+                  disabled={isLoading}
                   className="w-full h-12 gradient-primary shadow-cta hover:shadow-glow font-bold"
                 >
-                  Перезвоните мне
+                  {isLoading ? (
+                    <>
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      Отправка...
+                    </>
+                  ) : (
+                    "Перезвоните мне"
+                  )}
                 </Button>
               </form>
             </motion.div>
