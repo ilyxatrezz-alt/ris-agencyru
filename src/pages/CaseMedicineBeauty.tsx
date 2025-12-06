@@ -205,6 +205,23 @@ const CaseMedicineBeauty = () => {
                   ))}
                 </div>
               </div>
+
+              {/* Project Anti-Aging USA */}
+              <div>
+                <h3 className="text-2xl font-bold mb-6 text-center">
+                  Пример нашей работы: <span className="text-gradient-primary">Project Anti-Aging — США</span>
+                </h3>
+                <motion.div
+                  className="rounded-2xl overflow-hidden border border-border/50 shadow-card hover:shadow-red-glow transition-all duration-500"
+                  whileHover={{ scale: 1.01 }}
+                >
+                  <img 
+                    src="/images/case-paa-usa.png" 
+                    alt="Интернет-магазин пептидов PAA USA" 
+                    className="w-full h-auto"
+                  />
+                </motion.div>
+              </div>
             </motion.div>
           </div>
         </section>

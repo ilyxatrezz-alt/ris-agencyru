@@ -186,6 +186,35 @@ const CaseHoreca = () => {
                 </div>
               </div>
 
+              {/* Сушитория и Dragon Tail */}
+              <div>
+                <h3 className="text-2xl font-bold mb-6 text-center">
+                  Ещё примеры: <span className="text-gradient-primary">Рестораны и доставка</span>
+                </h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <motion.div
+                    className="rounded-xl overflow-hidden border border-border/50 shadow-card hover:shadow-red-glow transition-all duration-500"
+                    whileHover={{ scale: 1.02 }}
+                  >
+                    <img src="/images/case-sushitoriya.png" alt="Сушитория Донецк" className="w-full h-auto" />
+                    <div className="p-4 bg-card">
+                      <h4 className="font-bold">Сушитория — Доставка суши</h4>
+                      <p className="text-sm text-muted-foreground">Интернет-магазин японской кухни в Донецке</p>
+                    </div>
+                  </motion.div>
+                  <motion.div
+                    className="rounded-xl overflow-hidden border border-border/50 shadow-card hover:shadow-red-glow transition-all duration-500"
+                    whileHover={{ scale: 1.02 }}
+                  >
+                    <img src="/images/case-dragon-tail.png" alt="Dragon Tail Польша" className="w-full h-auto" />
+                    <div className="p-4 bg-card">
+                      <h4 className="font-bold">Dragon Tail — Сеть ресторанов</h4>
+                      <p className="text-sm text-muted-foreground">Рестораны в Кракове и Катовице, Польша</p>
+                    </div>
+                  </motion.div>
+                </div>
+              </div>
+
               {/* ДонПион */}
               <div>
                 <h3 className="text-2xl font-bold mb-6 text-center">
