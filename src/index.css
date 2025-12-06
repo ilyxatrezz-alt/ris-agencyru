@@ -15,7 +15,7 @@
     --popover: 0 0% 100%;
     --popover-foreground: 0 0% 8%;
 
-    --primary: 0 85% 45%;
+    --primary: 9 96% 53%;
     --primary-foreground: 0 0% 100%;
 
     --secondary: 0 0% 96%;
@@ -32,28 +32,28 @@
 
     --border: 0 0% 90%;
     --input: 0 0% 90%;
-    --ring: 0 85% 45%;
+    --ring: 9 96% 53%;
 
     --radius: 0.75rem;
 
     /* РИС Brand Colors */
-    --brand-red: 0 85% 45%;
-    --brand-red-light: 0 80% 55%;
-    --brand-red-dark: 0 90% 35%;
+    --brand-red: 9 96% 53%;
+    --brand-red-light: 9 90% 60%;
+    --brand-red-dark: 9 96% 43%;
     --brand-black: 0 0% 8%;
     --brand-gray: 0 0% 45%;
     
     /* Gradients */
-    --gradient-primary: linear-gradient(135deg, hsl(0 85% 45%) 0%, hsl(0 80% 55%) 100%);
+    --gradient-primary: linear-gradient(135deg, hsl(9 96% 53%) 0%, hsl(9 90% 60%) 100%);
     --gradient-accent: linear-gradient(135deg, hsl(0 0% 8%) 0%, hsl(0 0% 20%) 100%);
     --gradient-hero: linear-gradient(180deg, hsl(0 0% 4%) 0%, hsl(0 0% 8%) 100%);
-    --gradient-red-glow: radial-gradient(ellipse at center, hsl(0 85% 45% / 0.15) 0%, transparent 70%);
+    --gradient-red-glow: radial-gradient(ellipse at center, hsl(9 96% 53% / 0.15) 0%, transparent 70%);
     
     /* Shadows */
     --shadow-card: 0 4px 20px -2px hsl(0 0% 0% / 0.08);
-    --shadow-card-hover: 0 12px 40px -8px hsl(0 85% 45% / 0.2);
-    --shadow-cta: 0 4px 25px -4px hsl(0 85% 45% / 0.5);
-    --shadow-glow: 0 0 60px hsl(0 85% 45% / 0.3);
+    --shadow-card-hover: 0 12px 40px -8px hsl(9 96% 53% / 0.2);
+    --shadow-cta: 0 4px 25px -4px hsl(9 96% 53% / 0.5);
+    --shadow-glow: 0 0 60px hsl(9 96% 53% / 0.3);
     
     /* Transitions */
     --transition-base: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -71,7 +71,7 @@
     --popover: 0 0% 8%;
     --popover-foreground: 0 0% 98%;
 
-    --primary: 0 85% 50%;
+    --primary: 9 96% 53%;
     --primary-foreground: 0 0% 100%;
 
     --secondary: 0 0% 12%;
@@ -80,7 +80,7 @@
     --muted: 0 0% 15%;
     --muted-foreground: 0 0% 65%;
 
-    --accent: 0 85% 50%;
+    --accent: 9 96% 53%;
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 62% 50%;
@@ -88,11 +88,11 @@
 
     --border: 0 0% 15%;
     --input: 0 0% 15%;
-    --ring: 0 85% 50%;
+    --ring: 9 96% 53%;
 
     --shadow-card: 0 4px 20px -2px hsl(0 0% 0% / 0.4);
-    --shadow-card-hover: 0 12px 40px -8px hsl(0 85% 50% / 0.3);
-    --shadow-cta: 0 4px 30px -4px hsl(0 85% 50% / 0.6);
+    --shadow-card-hover: 0 12px 40px -8px hsl(9 96% 53% / 0.3);
+    --shadow-cta: 0 4px 30px -4px hsl(9 96% 53% / 0.6);
   }
 }
 
