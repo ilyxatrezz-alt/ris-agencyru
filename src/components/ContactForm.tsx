@@ -4,11 +4,13 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
-import { Mail, Phone, User, ArrowRight, Gift } from "lucide-react";
+import { Mail, Phone, User, ArrowRight, Gift, Loader2 } from "lucide-react";
 import { motion } from "framer-motion";
+import { supabase } from "@/integrations/supabase/client";
 
 const ContactForm = () => {
   const { toast } = useToast();
+  const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
@@ -16,13 +18,35 @@ const ContactForm = () => {
     message: "",
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    toast({
-      title: "Заявка отправлена!",
-      description: "Мы свяжемся с вами в течение 2 часов.",
-    });
-    setFormData({ name: "", phone: "", email: "", message: "" });
+    setIsLoading(true);
+
+    try {
+      const { error } = await supabase.functions.invoke("send-telegram", {
+        body: {
+          formType: "contact",
+          ...formData,
+        },
+      });
+
+      if (error) throw error;
+
+      toast({
+        title: "Заявка отправлена!",
+        description: "Мы свяжемся с вами в течение 2 часов.",
+      });
+      setFormData({ name: "", phone: "", email: "", message: "" });
+    } catch (error) {
+      console.error("Error sending form:", error);
+      toast({
+        title: "Ошибка отправки",
+        description: "Попробуйте позвонить нам напрямую",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -81,6 +105,7 @@ const ContactForm = () => {
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                   required
+                  disabled={isLoading}
                   className="h-12 border-border/50 focus:border-primary"
                 />
               </div>
@@ -97,6 +122,7 @@ const ContactForm = () => {
                   value={formData.phone}
                   onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                   required
+                  disabled={isLoading}
                   className="h-12 border-border/50 focus:border-primary"
                 />
               </div>
@@ -114,6 +140,7 @@ const ContactForm = () => {
                 value={formData.email}
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                 required
+                disabled={isLoading}
                 className="h-12 border-border/50 focus:border-primary"
               />
             </div>
@@ -128,6 +155,7 @@ const ContactForm = () => {
                 value={formData.message}
                 onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                 rows={4}
+                disabled={isLoading}
                 className="border-border/50 focus:border-primary resize-none"
               />
             </div>
@@ -136,10 +164,20 @@ const ContactForm = () => {
               <Button 
                 type="submit" 
                 size="lg" 
+                disabled={isLoading}
                 className="w-full h-14 gradient-primary shadow-cta hover:shadow-glow text-lg font-bold group"
               >
-                Получить бесплатный аудит
-                <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+                {isLoading ? (
+                  <>
+                    <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+                    Отправка...
+                  </>
+                ) : (
+                  <>
+                    Получить бесплатный аудит
+                    <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+                  </>
+                )}
               </Button>
             </motion.div>
 
