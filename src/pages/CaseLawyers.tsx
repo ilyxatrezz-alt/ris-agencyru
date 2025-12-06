@@ -147,24 +147,47 @@ const CaseLawyers = () => {
           </div>
         </section>
 
-        {/* Website Screenshot */}
+        {/* Website Screenshots */}
         <section className="py-12">
           <div className="container mx-auto px-4">
             <motion.div
-              className="max-w-5xl mx-auto"
+              className="max-w-6xl mx-auto space-y-12"
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
             >
-              <h3 className="text-2xl font-bold mb-6 text-center">
-                Пример нашей работы: <span className="text-gradient-primary">Юридическая компания «ЭГИДА»</span>
-              </h3>
-              <div className="rounded-2xl overflow-hidden border border-border/50 shadow-card hover:shadow-red-glow transition-all duration-500">
-                <img 
-                  src="/images/case-egida-lawyers.png" 
-                  alt="Сайт юридической компании ЭГИДА" 
-                  className="w-full h-auto"
-                />
+              {/* ЭГИДА */}
+              <div>
+                <h3 className="text-2xl font-bold mb-6 text-center">
+                  Пример нашей работы: <span className="text-gradient-primary">Юридическая компания «ЭГИДА»</span>
+                </h3>
+                <motion.div
+                  className="rounded-2xl overflow-hidden border border-border/50 shadow-card hover:shadow-red-glow transition-all duration-500"
+                  whileHover={{ scale: 1.01 }}
+                >
+                  <img 
+                    src="/images/case-egida-lawyers.png" 
+                    alt="Сайт юридической компании ЭГИДА" 
+                    className="w-full h-auto"
+                  />
+                </motion.div>
+              </div>
+
+              {/* Симонов Адвокат */}
+              <div>
+                <h3 className="text-2xl font-bold mb-6 text-center">
+                  Пример нашей работы: <span className="text-gradient-primary">Адвокат Симонов А.М.</span>
+                </h3>
+                <motion.div
+                  className="rounded-2xl overflow-hidden border border-border/50 shadow-card hover:shadow-red-glow transition-all duration-500"
+                  whileHover={{ scale: 1.01 }}
+                >
+                  <img 
+                    src="/images/case-simonov-lawyer.png" 
+                    alt="Сайт адвоката Симонова" 
+                    className="w-full h-auto"
+                  />
+                </motion.div>
               </div>
             </motion.div>
           </div>
