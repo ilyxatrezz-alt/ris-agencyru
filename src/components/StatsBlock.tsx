@@ -64,14 +64,16 @@ const StatsBlock = () => {
       
       <div className="container mx-auto px-4 relative z-20">
         <motion.div 
-          className="relative rounded-3xl bg-gradient-to-br from-card/80 via-card/60 to-card/40 backdrop-blur-xl border border-border/30 p-8 md:p-12 overflow-hidden"
+          className="relative rounded-3xl bg-gradient-to-br from-zinc-900 via-zinc-900/95 to-zinc-800 backdrop-blur-xl border border-white/10 p-8 md:p-12 overflow-hidden shadow-2xl"
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
           {/* Background glow */}
-          <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-primary/3 rounded-3xl" />
+          <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-primary/5 rounded-3xl" />
+          <div className="absolute -top-20 -right-20 w-60 h-60 bg-primary/20 rounded-full blur-3xl" />
+          <div className="absolute -bottom-20 -left-20 w-40 h-40 bg-primary/10 rounded-full blur-3xl" />
           
           {/* Badge */}
           <motion.div 
@@ -103,12 +105,12 @@ const StatsBlock = () => {
                     whileHover={{ scale: 1.1, rotate: 5 }}
                     transition={{ type: "spring", stiffness: 300 }}
                   >
-                    <div className="w-14 h-14 rounded-2xl bg-primary/10 border border-primary/20 flex items-center justify-center">
+                    <div className="w-14 h-14 rounded-2xl bg-primary/20 border border-primary/30 flex items-center justify-center shadow-lg shadow-primary/20">
                       <Icon className="h-6 w-6 text-primary" />
                     </div>
                   </motion.div>
                   
-                  <div className="text-3xl md:text-4xl font-black text-primary mb-2">
+                  <div className="text-3xl md:text-4xl font-black text-white mb-2">
                     {stat.numValue ? (
                       <AnimatedCounter 
                         value={stat.numValue} 
@@ -120,7 +122,7 @@ const StatsBlock = () => {
                     )}
                   </div>
                   
-                  <div className="text-sm text-muted-foreground">{stat.label}</div>
+                  <div className="text-sm text-zinc-400">{stat.label}</div>
                 </motion.div>
               );
             })}
@@ -128,7 +130,7 @@ const StatsBlock = () => {
 
           {/* Bottom CTA text */}
           <motion.p 
-            className="text-center text-muted-foreground mt-8 pt-6 border-t border-border/30"
+            className="text-center text-zinc-500 mt-8 pt-6 border-t border-white/10"
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
