@@ -147,6 +147,29 @@ const CaseLawyers = () => {
           </div>
         </section>
 
+        {/* Website Screenshot */}
+        <section className="py-12">
+          <div className="container mx-auto px-4">
+            <motion.div
+              className="max-w-5xl mx-auto"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+            >
+              <h3 className="text-2xl font-bold mb-6 text-center">
+                Пример нашей работы: <span className="text-gradient-primary">Юридическая компания «ЭГИДА»</span>
+              </h3>
+              <div className="rounded-2xl overflow-hidden border border-border/50 shadow-card hover:shadow-red-glow transition-all duration-500">
+                <img 
+                  src="/images/case-egida-lawyers.png" 
+                  alt="Сайт юридической компании ЭГИДА" 
+                  className="w-full h-auto"
+                />
+              </div>
+            </motion.div>
+          </div>
+        </section>
+
         {/* Cases */}
         <section className="py-16 md:py-24">
           <div className="container mx-auto px-4">

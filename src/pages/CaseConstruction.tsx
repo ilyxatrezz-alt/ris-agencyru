@@ -151,6 +151,46 @@ const CaseConstruction = () => {
           </div>
         </section>
 
+        {/* Website Screenshots */}
+        <section className="py-12">
+          <div className="container mx-auto px-4">
+            <motion.div
+              className="max-w-6xl mx-auto"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+            >
+              <h3 className="text-2xl font-bold mb-8 text-center">
+                Пример нашей работы: <span className="text-gradient-primary">Компания по пожарной безопасности</span>
+              </h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {[
+                  { src: "/images/case-fire-safety-1.png", alt: "Главная страница сайта пожарной безопасности" },
+                  { src: "/images/case-fire-safety-2.png", alt: "Страница услуг" },
+                  { src: "/images/case-fire-safety-3.png", alt: "Процесс работы" },
+                  { src: "/images/case-fire-safety-4.png", alt: "Портфолио проектов" },
+                ].map((img, index) => (
+                  <motion.div
+                    key={index}
+                    className="rounded-xl overflow-hidden border border-border/50 shadow-card hover:shadow-red-glow transition-all duration-500"
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: index * 0.1 }}
+                    whileHover={{ scale: 1.02 }}
+                  >
+                    <img 
+                      src={img.src} 
+                      alt={img.alt} 
+                      className="w-full h-auto"
+                    />
+                  </motion.div>
+                ))}
+              </div>
+            </motion.div>
+          </div>
+        </section>
+
         {/* Cases */}
         <section className="py-16 md:py-24">
           <div className="container mx-auto px-4 space-y-12 md:space-y-16">
