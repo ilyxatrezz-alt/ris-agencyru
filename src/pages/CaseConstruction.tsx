@@ -155,37 +155,91 @@ const CaseConstruction = () => {
         <section className="py-12">
           <div className="container mx-auto px-4">
             <motion.div
-              className="max-w-6xl mx-auto"
+              className="max-w-6xl mx-auto space-y-16"
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
             >
-              <h3 className="text-2xl font-bold mb-8 text-center">
-                Пример нашей работы: <span className="text-gradient-primary">Компания по пожарной безопасности</span>
-              </h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {[
-                  { src: "/images/case-fire-safety-1.png", alt: "Главная страница сайта пожарной безопасности" },
-                  { src: "/images/case-fire-safety-2.png", alt: "Страница услуг" },
-                  { src: "/images/case-fire-safety-3.png", alt: "Процесс работы" },
-                  { src: "/images/case-fire-safety-4.png", alt: "Портфолио проектов" },
-                ].map((img, index) => (
+              {/* ЭонКонкрит */}
+              <div>
+                <h3 className="text-2xl font-bold mb-6 text-center">
+                  Пример нашей работы: <span className="text-gradient-primary">ЭонКонкрит — Дома из ЖБ-панелей</span>
+                </h3>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                  {[
+                    { src: "/images/case-eonconcrete-1.png", alt: "Главная страница ЭонКонкрит" },
+                    { src: "/images/case-eonconcrete-2.png", alt: "Проекты домов" },
+                    { src: "/images/case-eonconcrete-3.png", alt: "Процесс строительства" },
+                  ].map((img, index) => (
+                    <motion.div
+                      key={index}
+                      className="rounded-xl overflow-hidden border border-border/50 shadow-card hover:shadow-red-glow transition-all duration-500"
+                      initial={{ opacity: 0, scale: 0.95 }}
+                      whileInView={{ opacity: 1, scale: 1 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: index * 0.1 }}
+                      whileHover={{ scale: 1.02 }}
+                    >
+                      <img src={img.src} alt={img.alt} className="w-full h-auto" />
+                    </motion.div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Пожарная безопасность */}
+              <div>
+                <h3 className="text-2xl font-bold mb-6 text-center">
+                  Пример нашей работы: <span className="text-gradient-primary">Компания по пожарной безопасности</span>
+                </h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {[
+                    { src: "/images/case-fire-safety-1.png", alt: "Главная страница" },
+                    { src: "/images/case-fire-safety-2.png", alt: "Страница услуг" },
+                    { src: "/images/case-fire-safety-3.png", alt: "Процесс работы" },
+                    { src: "/images/case-fire-safety-4.png", alt: "Портфолио" },
+                  ].map((img, index) => (
+                    <motion.div
+                      key={index}
+                      className="rounded-xl overflow-hidden border border-border/50 shadow-card hover:shadow-red-glow transition-all duration-500"
+                      initial={{ opacity: 0, scale: 0.95 }}
+                      whileInView={{ opacity: 1, scale: 1 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: index * 0.1 }}
+                      whileHover={{ scale: 1.02 }}
+                    >
+                      <img src={img.src} alt={img.alt} className="w-full h-auto" />
+                    </motion.div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Никатэн и Погода в Доме */}
+              <div>
+                <h3 className="text-2xl font-bold mb-6 text-center">
+                  Ещё примеры: <span className="text-gradient-primary">Интернет-магазины</span>
+                </h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <motion.div
-                    key={index}
                     className="rounded-xl overflow-hidden border border-border/50 shadow-card hover:shadow-red-glow transition-all duration-500"
-                    initial={{ opacity: 0, scale: 0.95 }}
-                    whileInView={{ opacity: 1, scale: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: index * 0.1 }}
                     whileHover={{ scale: 1.02 }}
                   >
-                    <img 
-                      src={img.src} 
-                      alt={img.alt} 
-                      className="w-full h-auto"
-                    />
+                    <img src="/images/case-nikaten.png" alt="Интернет-магазин НИКАТЭН" className="w-full h-auto" />
+                    <div className="p-4 bg-card">
+                      <h4 className="font-bold">НИКАТЭН — Керамические панели отопления</h4>
+                      <p className="text-sm text-muted-foreground">Официальный дилер в ДНР</p>
+                    </div>
                   </motion.div>
-                ))}
+                  <motion.div
+                    className="rounded-xl overflow-hidden border border-border/50 shadow-card hover:shadow-red-glow transition-all duration-500"
+                    whileHover={{ scale: 1.02 }}
+                  >
+                    <img src="/images/case-pogoda-v-dome.png" alt="Интернет-магазин Погода в Доме" className="w-full h-auto" />
+                    <div className="p-4 bg-card">
+                      <h4 className="font-bold">Погода в Доме — Сантехника</h4>
+                      <p className="text-sm text-muted-foreground">Интернет-магазин сантехники</p>
+                    </div>
+                  </motion.div>
+                </div>
               </div>
             </motion.div>
           </div>
