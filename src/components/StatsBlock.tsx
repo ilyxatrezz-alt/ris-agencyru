@@ -1,8 +1,8 @@
-import { Target, TrendingUp, Users, Award, Calendar, ShieldCheck, ArrowUpRight } from "lucide-react";
+import { TrendingUp, Users, Award, Zap, ArrowUpRight } from "lucide-react";
 import { motion, useInView } from "framer-motion";
 import { useRef, useState, useEffect } from "react";
 
-const AnimatedCounter = ({ value, suffix = "" }: { value: number; suffix?: string }) => {
+const AnimatedCounter = ({ value, suffix = "", prefix = "" }: { value: number; suffix?: string; prefix?: string }) => {
   const [count, setCount] = useState(0);
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true });
@@ -26,162 +26,121 @@ const AnimatedCounter = ({ value, suffix = "" }: { value: number; suffix?: strin
     }
   }, [isInView, value]);
 
-  return <span ref={ref}>{count}{suffix}</span>;
+  return <span ref={ref}>{prefix}{count}{suffix}</span>;
 };
 
 const StatsBlock = () => {
   const stats = [
     {
-      icon: Calendar,
-      value: "10+",
-      numValue: 10,
-      suffix: "+",
-      label: "лет безупречной работы",
-      description: "На рынке digital-маркетинга",
-      color: "from-red-500 to-orange-500",
-    },
-    {
       icon: TrendingUp,
-      value: "500 млн+",
-      numValue: 500,
-      suffix: " млн+",
-      label: "рекламных бюджетов",
-      description: "Освоено с максимальной отдачей",
-      color: "from-primary to-red-400",
-    },
-    {
-      icon: ShieldCheck,
-      value: "−40%",
       numValue: 40,
       suffix: "%",
       prefix: "−",
-      label: "стоимость лида",
-      description: "Ниже среднерыночной",
-      color: "from-red-600 to-red-400",
-    },
-    {
-      icon: Users,
-      value: "70%",
-      numValue: 70,
-      suffix: "%",
-      label: "постоянных клиентов",
-      description: "Работают с нами 3+ года",
-      color: "from-red-500 to-pink-500",
+      label: "Стоимость лида ниже рынка",
     },
     {
       icon: Award,
-      value: "200+",
       numValue: 200,
       suffix: "+",
-      label: "успешных проектов",
-      description: "В разных нишах бизнеса",
-      color: "from-orange-500 to-red-500",
+      label: "Успешных проектов",
     },
     {
-      icon: Target,
-      value: "24/7",
-      numValue: null,
-      label: "поддержка",
-      description: "Всегда на связи с клиентами",
-      color: "from-red-400 to-red-600",
+      icon: Users,
+      numValue: 70,
+      suffix: "%",
+      label: "Клиентов с нами 3+ года",
+    },
+    {
+      icon: Zap,
+      value: "3 дня",
+      label: "До запуска рекламы",
     },
   ];
 
   return (
-    <section className="py-28 bg-gradient-to-b from-secondary/30 via-secondary/50 to-background relative overflow-hidden">
-      {/* Background Elements */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,hsl(var(--primary)/0.08),transparent_60%)]" />
-      <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
+    <section className="relative py-0">
+      {/* Top transition gradient */}
+      <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-background to-transparent z-10" />
       
-      {/* Decorative Elements */}
-      <motion.div 
-        className="absolute top-20 right-20 w-32 h-32 rounded-full border border-primary/10"
-        animate={{ rotate: 360 }}
-        transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
-      />
-      <motion.div 
-        className="absolute bottom-20 left-20 w-48 h-48 rounded-full border border-primary/5"
-        animate={{ rotate: -360 }}
-        transition={{ duration: 40, repeat: Infinity, ease: "linear" }}
-      />
-      
-      <div className="container mx-auto px-4 relative z-10">
+      <div className="container mx-auto px-4 relative z-20">
         <motion.div 
-          className="text-center max-w-4xl mx-auto mb-20"
-          initial={{ opacity: 0, y: 30 }}
+          className="relative rounded-3xl bg-gradient-to-br from-card/80 via-card/60 to-card/40 backdrop-blur-xl border border-border/30 p-8 md:p-12 overflow-hidden"
+          initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          <motion.span 
-            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-primary/10 text-primary text-sm font-bold mb-6"
-            initial={{ opacity: 0, scale: 0.9 }}
-            whileInView={{ opacity: 1, scale: 1 }}
+          {/* Background glow */}
+          <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-primary/3 rounded-3xl" />
+          
+          {/* Badge */}
+          <motion.div 
+            className="absolute -top-4 right-8 md:right-12"
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
+            transition={{ delay: 0.3 }}
           >
-            <ArrowUpRight className="h-4 w-4" />
-            Почему выбирают РИС
-          </motion.span>
-          <h2 className="text-4xl md:text-6xl font-black mb-6">
-            Цифры, которые
-            <br />
-            <span className="text-gradient-primary">говорят за нас</span>
-          </h2>
-          <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">
-            Мы не просто настраиваем рекламу — мы погружаемся в ваш бизнес и работаем на результат
-          </p>
-        </motion.div>
+            <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary text-primary-foreground text-sm font-bold shadow-lg">
+              Топ-1 агентство
+            </span>
+          </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {stats.map((stat, index) => {
-            const Icon = stat.icon;
-            return (
-              <motion.div
-                key={index}
-                className="group relative"
-                initial={{ opacity: 0, y: 50 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-              >
-                {/* Glow Effect on Hover */}
-                <div className="absolute -inset-0.5 bg-gradient-to-r from-primary/50 to-red-400/50 rounded-3xl opacity-0 group-hover:opacity-100 blur-lg transition-opacity duration-500" />
-                
-                <motion.div 
-                  className="relative p-8 rounded-3xl bg-card border border-border/50 hover:border-primary/30 transition-all duration-500 overflow-hidden h-full"
-                  whileHover={{ y: -8 }}
+          <div className="relative z-10 grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
+            {stats.map((stat, index) => {
+              const Icon = stat.icon;
+              return (
+                <motion.div
+                  key={index}
+                  className="text-center"
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.4, delay: index * 0.1 }}
                 >
-                  {/* Corner Accent */}
-                  <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-bl from-primary/10 to-transparent rounded-bl-full" />
+                  <motion.div 
+                    className="flex justify-center mb-4"
+                    whileHover={{ scale: 1.1, rotate: 5 }}
+                    transition={{ type: "spring", stiffness: 300 }}
+                  >
+                    <div className="w-14 h-14 rounded-2xl bg-primary/10 border border-primary/20 flex items-center justify-center">
+                      <Icon className="h-6 w-6 text-primary" />
+                    </div>
+                  </motion.div>
                   
-                  <div className="flex flex-col items-center text-center space-y-5 relative z-10">
-                    <motion.div 
-                      className={`flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br ${stat.color} shadow-lg group-hover:shadow-glow transition-all duration-300`}
-                      whileHover={{ rotate: 10, scale: 1.1 }}
-                    >
-                      <Icon className="h-8 w-8 text-white" />
-                    </motion.div>
-                    
-                    <div className="text-5xl md:text-6xl font-black text-primary tracking-tight">
-                      {stat.prefix && stat.prefix}
-                      {stat.numValue !== null ? (
-                        <AnimatedCounter value={stat.numValue} suffix={stat.suffix || ""} />
-                      ) : (
-                        stat.value
-                      )}
-                    </div>
-                    
-                    <div>
-                      <div className="font-bold text-lg text-foreground mb-1">{stat.label}</div>
-                      <div className="text-sm text-muted-foreground">{stat.description}</div>
-                    </div>
+                  <div className="text-3xl md:text-4xl font-black text-primary mb-2">
+                    {stat.numValue ? (
+                      <AnimatedCounter 
+                        value={stat.numValue} 
+                        suffix={stat.suffix || ""} 
+                        prefix={stat.prefix || ""}
+                      />
+                    ) : (
+                      stat.value
+                    )}
                   </div>
+                  
+                  <div className="text-sm text-muted-foreground">{stat.label}</div>
                 </motion.div>
-              </motion.div>
-            );
-          })}
-        </div>
+              );
+            })}
+          </div>
+
+          {/* Bottom CTA text */}
+          <motion.p 
+            className="text-center text-muted-foreground mt-8 pt-6 border-t border-border/30"
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.5 }}
+          >
+            Бесплатный аудит покажет точки роста
+          </motion.p>
+        </motion.div>
       </div>
+      
+      {/* Bottom transition gradient */}
+      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-background to-transparent z-10" />
     </section>
   );
 };
