@@ -150,6 +150,65 @@ const CaseMedicineBeauty = () => {
           </div>
         </section>
 
+        {/* Website Screenshots */}
+        <section className="py-12">
+          <div className="container mx-auto px-4">
+            <motion.div
+              className="max-w-6xl mx-auto space-y-12"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+            >
+              {/* Пластический хирург */}
+              <div>
+                <h3 className="text-2xl font-bold mb-6 text-center">
+                  Пример нашей работы: <span className="text-gradient-primary">Пластический хирург Рахимов А.Я.</span>
+                </h3>
+                <motion.div
+                  className="rounded-2xl overflow-hidden border border-border/50 shadow-card hover:shadow-red-glow transition-all duration-500"
+                  whileHover={{ scale: 1.01 }}
+                >
+                  <img 
+                    src="/images/case-rahimov-surgeon.png" 
+                    alt="Сайт пластического хирурга Рахимова" 
+                    className="w-full h-auto"
+                  />
+                </motion.div>
+              </div>
+
+              {/* Студия красоты */}
+              <div>
+                <h3 className="text-2xl font-bold mb-6 text-center">
+                  Пример нашей работы: <span className="text-gradient-primary">Majorhair — Студия наращивания волос</span>
+                </h3>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                  {[
+                    { src: "/images/case-majorhair-1.png", alt: "Главная страница Majorhair" },
+                    { src: "/images/case-majorhair-2.png", alt: "Каталог услуг" },
+                    { src: "/images/case-majorhair-3.png", alt: "Профессиональные услуги" },
+                  ].map((img, index) => (
+                    <motion.div
+                      key={index}
+                      className="rounded-xl overflow-hidden border border-border/50 shadow-card hover:shadow-red-glow transition-all duration-500"
+                      initial={{ opacity: 0, scale: 0.95 }}
+                      whileInView={{ opacity: 1, scale: 1 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: index * 0.1 }}
+                      whileHover={{ scale: 1.02 }}
+                    >
+                      <img 
+                        src={img.src} 
+                        alt={img.alt} 
+                        className="w-full h-auto"
+                      />
+                    </motion.div>
+                  ))}
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        </section>
+
         {/* Cases */}
         <section className="py-16 md:py-24">
           <div className="container mx-auto px-4 space-y-12 md:space-y-16">

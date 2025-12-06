@@ -150,41 +150,57 @@ const CaseHoreca = () => {
           </div>
         </section>
 
-        {/* Website Screenshots - REELS Донецк */}
+        {/* Website Screenshots */}
         <section className="py-12">
           <div className="container mx-auto px-4">
             <motion.div
-              className="max-w-6xl mx-auto"
+              className="max-w-6xl mx-auto space-y-12"
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
             >
-              <h3 className="text-2xl font-bold mb-8 text-center">
-                Пример нашей работы: <span className="text-gradient-primary">REELS Донецк — Видео-продакшен</span>
-              </h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {[
-                  { src: "/images/case-reels-1.png", alt: "Главная страница REELS Донецк" },
-                  { src: "/images/case-reels-2.png", alt: "Сравнение с SMM" },
-                  { src: "/images/case-reels-3.png", alt: "Портфолио видео-работ" },
-                  { src: "/images/case-reels-4.png", alt: "Команда и процесс работы" },
-                ].map((img, index) => (
-                  <motion.div
-                    key={index}
-                    className="rounded-xl overflow-hidden border border-border/50 shadow-card hover:shadow-red-glow transition-all duration-500"
-                    initial={{ opacity: 0, scale: 0.95 }}
-                    whileInView={{ opacity: 1, scale: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: index * 0.1 }}
-                    whileHover={{ scale: 1.02 }}
-                  >
-                    <img 
-                      src={img.src} 
-                      alt={img.alt} 
-                      className="w-full h-auto"
-                    />
-                  </motion.div>
-                ))}
+              {/* REELS Донецк */}
+              <div>
+                <h3 className="text-2xl font-bold mb-6 text-center">
+                  Пример нашей работы: <span className="text-gradient-primary">REELS Донецк — Видео-продакшен</span>
+                </h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {[
+                    { src: "/images/case-reels-1.png", alt: "Главная страница REELS Донецк" },
+                    { src: "/images/case-reels-2.png", alt: "Сравнение с SMM" },
+                    { src: "/images/case-reels-3.png", alt: "Портфолио видео-работ" },
+                    { src: "/images/case-reels-4.png", alt: "Команда и процесс работы" },
+                  ].map((img, index) => (
+                    <motion.div
+                      key={index}
+                      className="rounded-xl overflow-hidden border border-border/50 shadow-card hover:shadow-red-glow transition-all duration-500"
+                      initial={{ opacity: 0, scale: 0.95 }}
+                      whileInView={{ opacity: 1, scale: 1 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: index * 0.1 }}
+                      whileHover={{ scale: 1.02 }}
+                    >
+                      <img src={img.src} alt={img.alt} className="w-full h-auto" />
+                    </motion.div>
+                  ))}
+                </div>
+              </div>
+
+              {/* ДонПион */}
+              <div>
+                <h3 className="text-2xl font-bold mb-6 text-center">
+                  Пример нашей работы: <span className="text-gradient-primary">ДонПион — Цветочный магазин</span>
+                </h3>
+                <motion.div
+                  className="rounded-2xl overflow-hidden border border-border/50 shadow-card hover:shadow-red-glow transition-all duration-500"
+                  whileHover={{ scale: 1.01 }}
+                >
+                  <img 
+                    src="/images/case-donpion.png" 
+                    alt="Интернет-магазин цветов ДонПион" 
+                    className="w-full h-auto"
+                  />
+                </motion.div>
               </div>
             </motion.div>
           </div>
