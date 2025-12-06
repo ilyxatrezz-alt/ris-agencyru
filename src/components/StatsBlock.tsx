@@ -77,13 +77,14 @@ const StatsBlock = () => {
           
           {/* Badge */}
           <motion.div 
-            className="absolute -top-4 right-8 md:right-12"
-            initial={{ opacity: 0, y: 10 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            className="absolute top-4 right-4 md:top-6 md:right-8"
+            initial={{ opacity: 0, scale: 0.8 }}
+            whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
-            transition={{ delay: 0.3 }}
+            transition={{ delay: 0.3, type: "spring", stiffness: 200 }}
           >
-            <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary text-primary-foreground text-sm font-bold shadow-lg">
+            <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-primary text-primary-foreground text-xs font-bold shadow-lg shadow-primary/30">
+              <Award className="h-3.5 w-3.5" />
               Топ-1 агентство
             </span>
           </motion.div>
