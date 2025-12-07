@@ -9,10 +9,16 @@ import PriceCalculator from "@/components/PriceCalculator";
 import CasesSlider from "@/components/CasesSlider";
 import ReviewsBlock from "@/components/ReviewsBlock";
 import Footer from "@/components/Footer";
+import CursorFollower from "@/components/CursorFollower";
+import ScrollProgress from "@/components/ScrollProgress";
+import FloatingElements from "@/components/FloatingElements";
 
 const Index = () => {
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen relative">
+      <CursorFollower />
+      <ScrollProgress />
+      <FloatingElements />
       <Header />
       <main>
         <Hero />

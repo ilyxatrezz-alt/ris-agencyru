@@ -1,7 +1,12 @@
 import { FileText, Search, Lightbulb, Rocket, Settings, FileCheck, ArrowRight } from "lucide-react";
-import { motion } from "framer-motion";
+import { motion, useInView } from "framer-motion";
+import { useRef } from "react";
+import TiltCard from "./TiltCard";
 
 const ProcessBlock = () => {
+  const containerRef = useRef(null);
+  const isInView = useInView(containerRef, { once: true, margin: "-100px" });
+
   const steps = [
     {
       icon: FileText,
@@ -48,14 +53,51 @@ const ProcessBlock = () => {
   ];
 
   return (
-    <section className="py-24 bg-accent text-accent-foreground relative overflow-hidden noise">
+    <section ref={containerRef} className="py-24 bg-accent text-accent-foreground relative overflow-hidden noise">
       {/* Background Elements */}
       <div className="absolute inset-0 gradient-hero" />
+      
+      {/* Animated orbs */}
       <motion.div
         className="absolute top-0 right-0 w-[600px] h-[600px] rounded-full gradient-red-glow opacity-30"
-        animate={{ scale: [1, 1.1, 1], opacity: [0.2, 0.3, 0.2] }}
+        animate={{ scale: [1, 1.2, 1], opacity: [0.2, 0.4, 0.2] }}
+        transition={{ duration: 8, repeat: Infinity }}
+      />
+      <motion.div
+        className="absolute bottom-0 left-0 w-[400px] h-[400px] rounded-full gradient-red-glow opacity-20"
+        animate={{ scale: [1.1, 0.9, 1.1], x: [-20, 20, -20] }}
         transition={{ duration: 10, repeat: Infinity }}
       />
+
+      {/* Animated connecting lines */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <svg className="absolute inset-0 w-full h-full opacity-10">
+          <motion.line
+            x1="10%"
+            y1="30%"
+            x2="90%"
+            y2="30%"
+            stroke="hsl(9, 96%, 53%)"
+            strokeWidth="1"
+            strokeDasharray="10 5"
+            initial={{ pathLength: 0 }}
+            animate={isInView ? { pathLength: 1 } : {}}
+            transition={{ duration: 3, delay: 0.5 }}
+          />
+          <motion.line
+            x1="10%"
+            y1="70%"
+            x2="90%"
+            y2="70%"
+            stroke="hsl(9, 96%, 53%)"
+            strokeWidth="1"
+            strokeDasharray="10 5"
+            initial={{ pathLength: 0 }}
+            animate={isInView ? { pathLength: 1 } : {}}
+            transition={{ duration: 3, delay: 1 }}
+          />
+        </svg>
+      </div>
 
       <div className="container mx-auto px-4 relative z-10">
         <motion.div 
@@ -65,9 +107,18 @@ const ProcessBlock = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          <span className="inline-block px-4 py-2 rounded-full bg-primary/20 text-primary text-sm font-semibold mb-4">
+          <motion.span 
+            className="inline-block px-4 py-2 rounded-full bg-primary/20 text-primary text-sm font-semibold mb-4"
+            animate={{ 
+              boxShadow: [
+                "0 0 0 0 hsl(9 96% 53% / 0.4)",
+                "0 0 0 15px hsl(9 96% 53% / 0)",
+              ]
+            }}
+            transition={{ duration: 2, repeat: Infinity }}
+          >
             Как мы работаем
-          </span>
+          </motion.span>
           <h2 className="text-3xl md:text-5xl font-black mb-6">
             От заявки до <span className="text-gradient-primary">стабильного потока клиентов</span>
           </h2>
@@ -80,52 +131,71 @@ const ProcessBlock = () => {
           {steps.map((step, index) => {
             const Icon = step.icon;
             return (
-              <motion.div
-                key={index}
-                className="group relative p-8 rounded-2xl glass border border-accent-foreground/10 hover:border-primary/30 transition-all duration-500 overflow-hidden"
-                initial={{ opacity: 0, y: 50 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                whileHover={{ y: -5 }}
-              >
-                {/* Large Number */}
-                <div className="absolute -top-4 -right-4 text-8xl font-black text-primary/10 group-hover:text-primary/20 transition-colors duration-500">
-                  {step.number}
-                </div>
-
-                {/* Hover Gradient */}
-                <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-
-                <div className="relative space-y-4">
+              <TiltCard key={index}>
+                <motion.div
+                  className="group relative p-8 rounded-2xl glass border border-accent-foreground/10 hover:border-primary/30 transition-all duration-500 overflow-hidden h-full"
+                  initial={{ opacity: 0, y: 50 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                >
+                  {/* Large Number with animation */}
                   <motion.div 
-                    className="flex h-14 w-14 items-center justify-center rounded-xl gradient-primary shadow-cta group-hover:shadow-glow transition-all duration-300"
-                    whileHover={{ rotate: 10 }}
+                    className="absolute -top-4 -right-4 text-8xl font-black text-primary/10 group-hover:text-primary/25 transition-colors duration-500"
+                    animate={{ 
+                      y: [0, -5, 0],
+                      scale: [1, 1.02, 1],
+                    }}
+                    transition={{ duration: 4, repeat: Infinity, delay: index * 0.2 }}
                   >
-                    <Icon className="h-7 w-7 text-primary-foreground" />
+                    {step.number}
                   </motion.div>
-                  
-                  <div className="flex items-center justify-between">
-                    <h3 className="text-xl font-bold text-accent-foreground group-hover:text-primary transition-colors">
-                      {step.title}
-                    </h3>
-                    <span className="text-xs font-semibold px-3 py-1 rounded-full bg-primary/20 text-primary">
-                      {step.duration}
-                    </span>
-                  </div>
-                  
-                  <p className="text-sm text-accent-foreground/70 leading-relaxed">
-                    {step.description}
-                  </p>
-                </div>
 
-                {/* Connection Arrow */}
-                {index < steps.length - 1 && index !== 2 && (
-                  <div className="hidden lg:block absolute top-1/2 -right-3 transform -translate-y-1/2 z-20">
-                    <ArrowRight className="h-6 w-6 text-primary/30" />
+                  {/* Hover Gradient with animation */}
+                  <motion.div 
+                    className="absolute inset-0 bg-gradient-to-br from-primary/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                    initial={false}
+                    whileHover={{ scale: 1.05 }}
+                  />
+
+                  <div className="relative space-y-4" style={{ transform: "translateZ(50px)" }}>
+                    <motion.div 
+                      className="flex h-14 w-14 items-center justify-center rounded-xl gradient-primary shadow-cta group-hover:shadow-glow transition-all duration-300"
+                      whileHover={{ rotate: 360, scale: 1.1 }}
+                      transition={{ duration: 0.6 }}
+                    >
+                      <Icon className="h-7 w-7 text-primary-foreground" />
+                    </motion.div>
+                    
+                    <div className="flex items-center justify-between">
+                      <h3 className="text-xl font-bold text-accent-foreground group-hover:text-primary transition-colors glow-text">
+                        {step.title}
+                      </h3>
+                      <motion.span 
+                        className="text-xs font-semibold px-3 py-1 rounded-full bg-primary/20 text-primary"
+                        whileHover={{ scale: 1.1 }}
+                      >
+                        {step.duration}
+                      </motion.span>
+                    </div>
+                    
+                    <p className="text-sm text-accent-foreground/70 leading-relaxed">
+                      {step.description}
+                    </p>
                   </div>
-                )}
-              </motion.div>
+
+                  {/* Connection Arrow */}
+                  {index < steps.length - 1 && index !== 2 && (
+                    <motion.div 
+                      className="hidden lg:block absolute top-1/2 -right-3 transform -translate-y-1/2 z-20"
+                      animate={{ x: [0, 5, 0] }}
+                      transition={{ duration: 1.5, repeat: Infinity }}
+                    >
+                      <ArrowRight className="h-6 w-6 text-primary/50" />
+                    </motion.div>
+                  )}
+                </motion.div>
+              </TiltCard>
             );
           })}
         </div>
