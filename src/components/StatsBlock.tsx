@@ -75,9 +75,9 @@ const StatsBlock = () => {
           <div className="absolute -top-20 -right-20 w-60 h-60 bg-primary/20 rounded-full blur-3xl" />
           <div className="absolute -bottom-20 -left-20 w-40 h-40 bg-primary/10 rounded-full blur-3xl" />
           
-          {/* Badge */}
+          {/* Badge - centered on mobile, top-right on desktop */}
           <motion.div 
-            className="absolute top-4 right-4 md:top-6 md:right-8"
+            className="flex justify-center mb-6 md:mb-0 md:absolute md:top-6 md:right-8"
             initial={{ opacity: 0, scale: 0.8 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
@@ -89,7 +89,7 @@ const StatsBlock = () => {
             </span>
           </motion.div>
 
-          <div className="relative z-10 grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
+          <div className="relative z-10 grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8 pt-0 md:pt-4">
             {stats.map((stat, index) => {
               const Icon = stat.icon;
               return (
