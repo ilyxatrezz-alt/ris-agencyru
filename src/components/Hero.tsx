@@ -1,11 +1,29 @@
 import { ArrowRight, Zap, Shield, TrendingUp, Play, Star, CheckCircle } from "lucide-react";
 import { Button } from "./ui/button";
 import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { useRef } from "react";
+import GlitchText from "./GlitchText";
+import TextReveal from "./TextReveal";
+import MagneticButton from "./MagneticButton";
+import MorphingShape from "./MorphingShape";
 
 const Hero = () => {
+  const containerRef = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start start", "end start"],
+  });
+  
+  const heroY = useTransform(scrollYProgress, [0, 1], [0, 200]);
+  const heroOpacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
+  const heroScale = useTransform(scrollYProgress, [0, 0.5], [1, 0.9]);
+
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-zinc-950">
+    <section ref={containerRef} className="relative min-h-screen flex items-center justify-center overflow-hidden bg-zinc-950">
+      {/* Morphing background shape */}
+      <MorphingShape />
+      
       {/* Deep Black Background with noise texture */}
       <div className="absolute inset-0 bg-gradient-to-br from-zinc-950 via-zinc-900 to-zinc-950" />
       
@@ -52,27 +70,29 @@ const Hero = () => {
         }}
       />
 
-      {/* Floating Particles - brighter */}
-      {[...Array(30)].map((_, i) => (
+      {/* Floating Particles - brighter with 3D effect */}
+      {[...Array(40)].map((_, i) => (
         <motion.div
           key={i}
           className="absolute rounded-full"
           style={{
-            width: `${Math.random() * 3 + 1}px`,
-            height: `${Math.random() * 3 + 1}px`,
+            width: `${Math.random() * 4 + 2}px`,
+            height: `${Math.random() * 4 + 2}px`,
             left: `${Math.random() * 100}%`,
             top: `${Math.random() * 100}%`,
-            background: i % 3 === 0 ? 'hsl(9 96% 53% / 0.6)' : 'rgba(255,255,255,0.3)',
+            background: i % 3 === 0 ? 'hsl(9 96% 53% / 0.8)' : 'rgba(255,255,255,0.4)',
+            boxShadow: i % 3 === 0 ? '0 0 10px hsl(9 96% 53% / 0.5)' : 'none',
           }}
           animate={{
-            y: [0, -40, 0],
-            opacity: [0.2, 0.9, 0.2],
-            scale: [1, 1.5, 1],
+            y: [0, -60, 0],
+            x: [0, Math.random() * 20 - 10, 0],
+            opacity: [0.2, 1, 0.2],
+            scale: [1, 1.8, 1],
           }}
           transition={{
-            duration: 3 + Math.random() * 3,
+            duration: 4 + Math.random() * 4,
             repeat: Infinity,
-            delay: Math.random() * 3,
+            delay: Math.random() * 4,
           }}
         />
       ))}
@@ -87,20 +107,23 @@ const Hero = () => {
       }} />
 
       {/* Diagonal accent lines */}
-      <div className="absolute inset-0 overflow-hidden opacity-[0.03]">
-        {[...Array(8)].map((_, i) => (
+      <div className="absolute inset-0 overflow-hidden opacity-[0.05]">
+        {[...Array(10)].map((_, i) => (
           <motion.div
             key={i}
-            className="absolute w-[2px] h-[300%] bg-gradient-to-b from-transparent via-primary/40 to-transparent -rotate-45"
-            style={{ left: `${i * 15}%`, top: '-100%' }}
-            animate={{ y: [0, 100, 0] }}
-            transition={{ duration: 20 + i * 2, repeat: Infinity, ease: "linear" }}
+            className="absolute w-[2px] h-[400%] bg-gradient-to-b from-transparent via-primary/60 to-transparent -rotate-45"
+            style={{ left: `${i * 12}%`, top: '-150%' }}
+            animate={{ y: [0, 150, 0] }}
+            transition={{ duration: 15 + i * 2, repeat: Infinity, ease: "linear" }}
           />
         ))}
       </div>
 
-      {/* Content */}
-      <div className="container relative z-10 mx-auto px-4 py-24">
+      {/* Content with parallax */}
+      <motion.div 
+        className="container relative z-10 mx-auto px-4 py-24"
+        style={{ y: heroY, opacity: heroOpacity, scale: heroScale }}
+      >
         <div className="max-w-6xl mx-auto">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             {/* Left Column - Text */}
@@ -110,39 +133,52 @@ const Hero = () => {
               animate={{ opacity: 1 }}
               transition={{ duration: 0.6 }}
             >
-              {/* Badge */}
+              {/* Badge with pulse effect */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.2 }}
                 className="inline-block"
               >
-                <span className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-gradient-to-r from-primary/20 to-primary/5 border border-primary/30 text-primary text-sm font-bold backdrop-blur-sm">
+                <motion.span 
+                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-gradient-to-r from-primary/20 to-primary/5 border border-primary/30 text-primary text-sm font-bold backdrop-blur-sm"
+                  animate={{ 
+                    boxShadow: [
+                      "0 0 0 0 hsl(9 96% 53% / 0.4)",
+                      "0 0 0 10px hsl(9 96% 53% / 0)",
+                    ]
+                  }}
+                  transition={{ duration: 2, repeat: Infinity }}
+                >
                   <Star className="h-4 w-4 fill-primary" />
                   С 2014 года • 500+ млн ₽ рекламных бюджетов
-                </span>
+                </motion.span>
               </motion.div>
 
-              {/* Main Heading */}
+              {/* Main Heading with glitch effect */}
               <motion.div
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.3 }}
               >
                 <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black leading-[0.95] tracking-tight">
-                  <span className="text-white block mb-2">Превращаем</span>
+                  <span className="text-white block mb-2">
+                    <TextReveal delay={0.5}>Превращаем</TextReveal>
+                  </span>
                   <span className="relative inline-block">
-                    <span className="text-gradient-primary">рекламу</span>
+                    <GlitchText text="рекламу" className="text-gradient-primary" />
                     <motion.span 
                       className="absolute -bottom-2 left-0 h-1 bg-primary rounded-full"
                       initial={{ width: 0 }}
                       animate={{ width: "100%" }}
-                      transition={{ duration: 0.8, delay: 1 }}
+                      transition={{ duration: 0.8, delay: 1.2 }}
                     />
                   </span>
                   <br />
                   <span className="text-white">в </span>
-                  <span className="text-gradient-primary">прибыль</span>
+                  <span className="text-gradient-primary">
+                    <GlitchText text="прибыль" className="text-gradient-primary" />
+                  </span>
                 </h1>
               </motion.div>
 
@@ -294,7 +330,7 @@ const Hero = () => {
             </motion.div>
           </div>
         </div>
-      </div>
+      </motion.div>
 
       {/* Scroll Indicator */}
       <motion.div 
