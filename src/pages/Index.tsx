@@ -12,6 +12,8 @@ import Footer from "@/components/Footer";
 import CursorFollower from "@/components/CursorFollower";
 import ScrollProgress from "@/components/ScrollProgress";
 import FloatingElements from "@/components/FloatingElements";
+import MouseSpotlight from "@/components/MouseSpotlight";
+import RippleEffect from "@/components/RippleEffect";
 
 const Index = () => {
   return (
@@ -19,6 +21,8 @@ const Index = () => {
       <CursorFollower />
       <ScrollProgress />
       <FloatingElements />
+      <MouseSpotlight />
+      <RippleEffect />
       <Header />
       <main>
         <Hero />
