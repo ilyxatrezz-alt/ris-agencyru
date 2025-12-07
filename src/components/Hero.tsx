@@ -166,7 +166,7 @@ const Hero = () => {
                     <TextReveal delay={0.5}>Превращаем</TextReveal>
                   </span>
                   <span className="relative inline-block">
-                    <GlitchText text="рекламу" className="text-gradient-primary" />
+                    <GlitchText text="рекламу" className="text-primary" />
                     <motion.span 
                       className="absolute -bottom-2 left-0 h-1 bg-primary rounded-full"
                       initial={{ width: 0 }}
@@ -176,9 +176,7 @@ const Hero = () => {
                   </span>
                   <br />
                   <span className="text-white">в </span>
-                  <span className="text-gradient-primary">
-                    <GlitchText text="прибыль" className="text-gradient-primary" />
-                  </span>
+                  <GlitchText text="прибыль" className="text-primary" />
                 </h1>
               </motion.div>
 
