@@ -281,9 +281,9 @@ const Hero = () => {
                 Топ-1 агентство
               </motion.div>
 
-              {/* Floating Elements */}
+              {/* Floating Elements - hidden on mobile */}
               <motion.div
-                className="absolute -bottom-6 -left-6 w-20 h-20 rounded-2xl bg-zinc-800/80 border border-zinc-700/50 backdrop-blur-sm flex items-center justify-center shadow-xl"
+                className="hidden lg:flex absolute -bottom-6 -left-6 w-20 h-20 rounded-2xl bg-zinc-800/80 border border-zinc-700/50 backdrop-blur-sm items-center justify-center shadow-xl"
                 initial={{ opacity: 0, scale: 0 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ delay: 1.6, type: "spring", stiffness: 200 }}
