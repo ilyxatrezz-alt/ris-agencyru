@@ -5,8 +5,10 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
+import { AuthProvider } from "./hooks/useAuth";
 import ScrollToTop from "./components/ScrollToTop";
 import Preloader from "./components/Preloader";
+import ProtectedRoute from "./components/ProtectedRoute";
 import Index from "./pages/Index";
 import CityIndex from "./pages/CityIndex";
 import Services from "./pages/Services";
@@ -17,6 +19,7 @@ import CaseHoreca from "./pages/CaseHoreca";
 import CaseLawyers from "./pages/CaseLawyers";
 import About from "./pages/About";
 import Contacts from "./pages/Contacts";
+import Auth from "./pages/Auth";
 import Admin from "./pages/Admin";
 import NotFound from "./pages/NotFound";
 
@@ -28,33 +31,43 @@ const App = () => {
   return (
     <HelmetProvider>
       <QueryClientProvider client={queryClient}>
-        <TooltipProvider>
-          {showPreloader && <Preloader onComplete={() => setShowPreloader(false)} />}
-          <Toaster />
-          <Sonner />
-          <BrowserRouter>
-            <ScrollToTop />
-            <Routes>
-              <Route path="/" element={<Index />} />
-              {/* City-specific routes */}
-              <Route path="/rostov-na-donu" element={<CityIndex />} />
-              <Route path="/moscow" element={<CityIndex />} />
-              <Route path="/krasnodar" element={<CityIndex />} />
-              <Route path="/donetsk" element={<CityIndex />} />
-              <Route path="/services" element={<Services />} />
-              <Route path="/cases" element={<Cases />} />
-              <Route path="/cases/medicine-beauty" element={<CaseMedicineBeauty />} />
-              <Route path="/cases/construction" element={<CaseConstruction />} />
-              <Route path="/cases/horeca" element={<CaseHoreca />} />
-              <Route path="/cases/lawyers" element={<CaseLawyers />} />
-              <Route path="/about" element={<About />} />
-              <Route path="/contacts" element={<Contacts />} />
-              <Route path="/admin" element={<Admin />} />
-              {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-          </BrowserRouter>
-        </TooltipProvider>
+        <AuthProvider>
+          <TooltipProvider>
+            {showPreloader && <Preloader onComplete={() => setShowPreloader(false)} />}
+            <Toaster />
+            <Sonner />
+            <BrowserRouter>
+              <ScrollToTop />
+              <Routes>
+                <Route path="/" element={<Index />} />
+                {/* City-specific routes */}
+                <Route path="/rostov-na-donu" element={<CityIndex />} />
+                <Route path="/moscow" element={<CityIndex />} />
+                <Route path="/krasnodar" element={<CityIndex />} />
+                <Route path="/donetsk" element={<CityIndex />} />
+                <Route path="/services" element={<Services />} />
+                <Route path="/cases" element={<Cases />} />
+                <Route path="/cases/medicine-beauty" element={<CaseMedicineBeauty />} />
+                <Route path="/cases/construction" element={<CaseConstruction />} />
+                <Route path="/cases/horeca" element={<CaseHoreca />} />
+                <Route path="/cases/lawyers" element={<CaseLawyers />} />
+                <Route path="/about" element={<About />} />
+                <Route path="/contacts" element={<Contacts />} />
+                <Route path="/auth" element={<Auth />} />
+                <Route
+                  path="/admin"
+                  element={
+                    <ProtectedRoute>
+                      <Admin />
+                    </ProtectedRoute>
+                  }
+                />
+                {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </BrowserRouter>
+          </TooltipProvider>
+        </AuthProvider>
       </QueryClientProvider>
     </HelmetProvider>
   );
