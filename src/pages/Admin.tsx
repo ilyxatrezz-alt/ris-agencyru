@@ -16,12 +16,14 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
-import { Pencil, Trash2, Plus, X, Globe, Settings, FileText, Phone, Building } from "lucide-react";
+import { useAuth } from "@/hooks/useAuth";
+import { Pencil, Trash2, Plus, X, Globe, Settings, FileText, Phone, Building, LogOut } from "lucide-react";
 import { siteConfig } from "@/config/siteConfig";
 import { motion } from "framer-motion";
 
 const Admin = () => {
   const { toast } = useToast();
+  const { user, signOut } = useAuth();
   const queryClient = useQueryClient();
   const [isEditing, setIsEditing] = useState<string | null>(null);
   const [showForm, setShowForm] = useState(false);
@@ -135,16 +137,26 @@ const Admin = () => {
         <div className="container mx-auto px-4">
           <div className="max-w-6xl mx-auto space-y-8">
             <motion.div 
-              className="text-center space-y-4"
+              className="flex flex-col md:flex-row items-center justify-between gap-4"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
             >
-              <h1 className="text-3xl md:text-5xl font-black">
-                Панель <span className="text-gradient-primary">управления</span>
-              </h1>
-              <p className="text-muted-foreground max-w-xl mx-auto">
-                Управляйте контентом сайта в одном месте
-              </p>
+              <div className="text-center md:text-left">
+                <h1 className="text-3xl md:text-5xl font-black">
+                  Панель <span className="text-gradient-primary">управления</span>
+                </h1>
+                <p className="text-muted-foreground mt-2">
+                  {user?.email}
+                </p>
+              </div>
+              <Button
+                variant="outline"
+                onClick={() => signOut()}
+                className="gap-2"
+              >
+                <LogOut className="h-4 w-4" />
+                Выйти
+              </Button>
             </motion.div>
 
             <Tabs defaultValue="websites" className="space-y-8">
