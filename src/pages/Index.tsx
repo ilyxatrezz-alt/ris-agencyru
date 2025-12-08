@@ -9,7 +9,7 @@ import PriceCalculator from "@/components/PriceCalculator";
 import CasesSlider from "@/components/CasesSlider";
 import ReviewsBlock from "@/components/ReviewsBlock";
 import Footer from "@/components/Footer";
-import CursorFollower from "@/components/CursorFollower";
+
 import ScrollProgress from "@/components/ScrollProgress";
 import FloatingElements from "@/components/FloatingElements";
 import MouseSpotlight from "@/components/MouseSpotlight";
@@ -18,7 +18,7 @@ import RippleEffect from "@/components/RippleEffect";
 const Index = () => {
   return (
     <div className="min-h-screen relative">
-      <CursorFollower />
+      
       <ScrollProgress />
       <FloatingElements />
       <MouseSpotlight />
