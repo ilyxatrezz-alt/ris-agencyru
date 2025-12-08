@@ -17,8 +17,23 @@ import {
 } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/hooks/useAuth";
-import { Pencil, Trash2, Plus, X, Globe, Settings, FileText, Phone, Building, LogOut } from "lucide-react";
-import { siteConfig } from "@/config/siteConfig";
+import SettingsEditor from "@/components/admin/SettingsEditor";
+import { 
+  Pencil, 
+  Trash2, 
+  Plus, 
+  X, 
+  Globe, 
+  Phone, 
+  Building, 
+  FileText, 
+  LogOut,
+  LayoutDashboard,
+  BarChart3,
+  Briefcase,
+  MessageSquare,
+  Home
+} from "lucide-react";
 import { motion } from "framer-motion";
 
 const Admin = () => {
@@ -133,21 +148,27 @@ const Admin = () => {
   return (
     <div className="min-h-screen bg-background">
       <Header />
-      <main className="py-12 md:py-20">
+      <main className="py-8 md:py-12">
         <div className="container mx-auto px-4">
           <div className="max-w-6xl mx-auto space-y-8">
+            {/* Header */}
             <motion.div 
-              className="flex flex-col md:flex-row items-center justify-between gap-4"
+              className="flex flex-col md:flex-row items-center justify-between gap-4 p-6 bg-card rounded-2xl shadow-card border border-border/50"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
             >
-              <div className="text-center md:text-left">
-                <h1 className="text-3xl md:text-5xl font-black">
-                  Панель <span className="text-gradient-primary">управления</span>
-                </h1>
-                <p className="text-muted-foreground mt-2">
-                  {user?.email}
-                </p>
+              <div className="flex items-center gap-4">
+                <div className="h-14 w-14 rounded-xl gradient-primary flex items-center justify-center shadow-cta">
+                  <LayoutDashboard className="h-7 w-7 text-primary-foreground" />
+                </div>
+                <div>
+                  <h1 className="text-2xl md:text-3xl font-black">
+                    Панель управления
+                  </h1>
+                  <p className="text-sm text-muted-foreground">
+                    {user?.email}
+                  </p>
+                </div>
               </div>
               <Button
                 variant="outline"
@@ -159,30 +180,102 @@ const Admin = () => {
               </Button>
             </motion.div>
 
-            <Tabs defaultValue="websites" className="space-y-8">
-              <TabsList className="grid w-full grid-cols-2 lg:grid-cols-4 h-auto p-1 bg-muted/50">
-                <TabsTrigger value="websites" className="flex items-center gap-2 py-3">
-                  <Globe className="h-4 w-4" />
-                  <span className="hidden sm:inline">Сайты</span>
+            {/* Main Tabs */}
+            <Tabs defaultValue="hero" className="space-y-6">
+              <TabsList className="w-full flex flex-wrap h-auto gap-1 p-1 bg-muted/50">
+                <TabsTrigger value="hero" className="flex-1 min-w-[100px] gap-2 py-3">
+                  <Home className="h-4 w-4" />
+                  <span className="hidden sm:inline">Главная</span>
                 </TabsTrigger>
-                <TabsTrigger value="contacts" className="flex items-center gap-2 py-3">
+                <TabsTrigger value="contacts" className="flex-1 min-w-[100px] gap-2 py-3">
                   <Phone className="h-4 w-4" />
                   <span className="hidden sm:inline">Контакты</span>
                 </TabsTrigger>
-                <TabsTrigger value="company" className="flex items-center gap-2 py-3">
+                <TabsTrigger value="company" className="flex-1 min-w-[100px] gap-2 py-3">
                   <Building className="h-4 w-4" />
                   <span className="hidden sm:inline">Компания</span>
                 </TabsTrigger>
-                <TabsTrigger value="content" className="flex items-center gap-2 py-3">
+                <TabsTrigger value="stats" className="flex-1 min-w-[100px] gap-2 py-3">
+                  <BarChart3 className="h-4 w-4" />
+                  <span className="hidden sm:inline">Статистика</span>
+                </TabsTrigger>
+                <TabsTrigger value="pages" className="flex-1 min-w-[100px] gap-2 py-3">
                   <FileText className="h-4 w-4" />
-                  <span className="hidden sm:inline">Контент</span>
+                  <span className="hidden sm:inline">Страницы</span>
+                </TabsTrigger>
+                <TabsTrigger value="websites" className="flex-1 min-w-[100px] gap-2 py-3">
+                  <Globe className="h-4 w-4" />
+                  <span className="hidden sm:inline">Сайты</span>
                 </TabsTrigger>
               </TabsList>
+
+              {/* Hero Section Editor */}
+              <TabsContent value="hero">
+                <SettingsEditor
+                  category="hero"
+                  title="Главная страница (Hero)"
+                  description="Редактируйте заголовки и тексты на главной странице"
+                />
+              </TabsContent>
+
+              {/* Contacts Editor */}
+              <TabsContent value="contacts">
+                <SettingsEditor
+                  category="contacts"
+                  title="Контактные данные"
+                  description="Телефон, email, Telegram и режим работы"
+                />
+              </TabsContent>
+
+              {/* Company Editor */}
+              <TabsContent value="company" className="space-y-6">
+                <SettingsEditor
+                  category="company"
+                  title="Данные компании"
+                  description="Название, описание и слоган"
+                />
+                <SettingsEditor
+                  category="legal"
+                  title="Юридические данные"
+                  description="ИП, ИНН, ОГРНИП"
+                />
+              </TabsContent>
+
+              {/* Stats Editor */}
+              <TabsContent value="stats">
+                <SettingsEditor
+                  category="stats"
+                  title="Статистика"
+                  description="Цифры, отображаемые на сайте"
+                />
+              </TabsContent>
+
+              {/* Pages Editor */}
+              <TabsContent value="pages" className="space-y-6">
+                <SettingsEditor
+                  category="about"
+                  title="Страница «О нас»"
+                  description="Заголовки и тексты страницы О нас"
+                />
+                <SettingsEditor
+                  category="services"
+                  title="Страница «Услуги»"
+                  description="Заголовки и тексты страницы Услуги"
+                />
+                <SettingsEditor
+                  category="contacts_page"
+                  title="Страница «Контакты»"
+                  description="Заголовки и тексты страницы Контакты"
+                />
+              </TabsContent>
 
               {/* Websites Tab */}
               <TabsContent value="websites" className="space-y-6">
                 <div className="flex items-center justify-between">
-                  <h2 className="text-2xl font-bold">Управление сайтами</h2>
+                  <div>
+                    <h2 className="text-xl md:text-2xl font-bold">Управление сайтами</h2>
+                    <p className="text-sm text-muted-foreground">Портфолио и кейсы</p>
+                  </div>
                   <Button
                     variant="cta"
                     onClick={() => {
@@ -190,7 +283,7 @@ const Admin = () => {
                       setShowForm(true);
                     }}
                   >
-                    <Plus className="mr-2 h-4 w-4" /> Добавить сайт
+                    <Plus className="mr-2 h-4 w-4" /> Добавить
                   </Button>
                 </div>
 
@@ -397,140 +490,6 @@ const Admin = () => {
                     </div>
                   )}
                 </div>
-              </TabsContent>
-
-              {/* Contacts Tab */}
-              <TabsContent value="contacts" className="space-y-6">
-                <motion.div 
-                  className="bg-card p-8 rounded-2xl shadow-card border border-border/50"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                >
-                  <h2 className="text-2xl font-bold mb-6">Контактные данные</h2>
-                  <div className="grid md:grid-cols-2 gap-6">
-                    <div className="space-y-4">
-                      <div>
-                        <Label className="text-muted-foreground text-sm">Телефон</Label>
-                        <p className="text-lg font-semibold">{siteConfig.phone}</p>
-                      </div>
-                      <div>
-                        <Label className="text-muted-foreground text-sm">Email</Label>
-                        <p className="text-lg font-semibold">{siteConfig.email}</p>
-                      </div>
-                      <div>
-                        <Label className="text-muted-foreground text-sm">Telegram</Label>
-                        <p className="text-lg font-semibold">{siteConfig.telegram}</p>
-                      </div>
-                    </div>
-                    <div className="space-y-4">
-                      <div>
-                        <Label className="text-muted-foreground text-sm">Режим работы</Label>
-                        <p className="font-semibold">{siteConfig.workingHours.weekdays}</p>
-                        <p className="text-muted-foreground">{siteConfig.workingHours.weekend}</p>
-                      </div>
-                      <div>
-                        <Label className="text-muted-foreground text-sm">Локация</Label>
-                        <p className="font-semibold">{siteConfig.location}</p>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="mt-6 p-4 bg-primary/5 rounded-xl border border-primary/20">
-                    <p className="text-sm text-muted-foreground">
-                      <Settings className="h-4 w-4 inline mr-2" />
-                      Для изменения контактных данных отредактируйте файл <code className="bg-muted px-2 py-0.5 rounded text-xs">src/config/siteConfig.ts</code>
-                    </p>
-                  </div>
-                </motion.div>
-              </TabsContent>
-
-              {/* Company Tab */}
-              <TabsContent value="company" className="space-y-6">
-                <motion.div 
-                  className="bg-card p-8 rounded-2xl shadow-card border border-border/50"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                >
-                  <h2 className="text-2xl font-bold mb-6">Данные компании</h2>
-                  <div className="grid md:grid-cols-2 gap-8">
-                    <div className="space-y-6">
-                      <div className="p-4 bg-muted/50 rounded-xl">
-                        <Label className="text-muted-foreground text-sm">Название компании</Label>
-                        <p className="text-xl font-bold mt-1">{siteConfig.company.fullName}</p>
-                      </div>
-                      <div className="p-4 bg-muted/50 rounded-xl">
-                        <Label className="text-muted-foreground text-sm">Описание</Label>
-                        <p className="mt-1">{siteConfig.company.description}</p>
-                      </div>
-                      <div className="p-4 bg-muted/50 rounded-xl">
-                        <Label className="text-muted-foreground text-sm">Год основания</Label>
-                        <p className="text-lg font-semibold mt-1">{siteConfig.company.yearFounded}</p>
-                      </div>
-                    </div>
-                    <div className="space-y-6">
-                      <div className="p-4 bg-gradient-to-br from-primary/10 to-primary/5 rounded-xl border border-primary/20">
-                        <h3 className="font-bold mb-4 flex items-center gap-2">
-                          <Building className="h-5 w-5 text-primary" />
-                          Юридические данные
-                        </h3>
-                        <div className="space-y-3">
-                          <div>
-                            <Label className="text-muted-foreground text-xs">Наименование</Label>
-                            <p className="font-semibold">{siteConfig.legal.name}</p>
-                          </div>
-                          <div>
-                            <Label className="text-muted-foreground text-xs">ИНН</Label>
-                            <p className="font-mono">{siteConfig.legal.inn}</p>
-                          </div>
-                          <div>
-                            <Label className="text-muted-foreground text-xs">ОГРНИП</Label>
-                            <p className="font-mono">{siteConfig.legal.ogrnip}</p>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="mt-6 p-4 bg-primary/5 rounded-xl border border-primary/20">
-                    <p className="text-sm text-muted-foreground">
-                      <Settings className="h-4 w-4 inline mr-2" />
-                      Для изменения данных компании отредактируйте файл <code className="bg-muted px-2 py-0.5 rounded text-xs">src/config/siteConfig.ts</code>
-                    </p>
-                  </div>
-                </motion.div>
-              </TabsContent>
-
-              {/* Content Tab */}
-              <TabsContent value="content" className="space-y-6">
-                <motion.div 
-                  className="bg-card p-8 rounded-2xl shadow-card border border-border/50"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                >
-                  <h2 className="text-2xl font-bold mb-6">Статистика на сайте</h2>
-                  <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                    <div className="p-4 bg-gradient-to-br from-primary/10 to-transparent rounded-xl border border-primary/20 text-center">
-                      <p className="text-2xl font-black text-primary">{siteConfig.stats.adBudget}</p>
-                      <p className="text-sm text-muted-foreground mt-1">Рекламных бюджетов</p>
-                    </div>
-                    <div className="p-4 bg-gradient-to-br from-primary/10 to-transparent rounded-xl border border-primary/20 text-center">
-                      <p className="text-2xl font-black text-primary">{siteConfig.stats.projects}</p>
-                      <p className="text-sm text-muted-foreground mt-1">Успешных проектов</p>
-                    </div>
-                    <div className="p-4 bg-gradient-to-br from-primary/10 to-transparent rounded-xl border border-primary/20 text-center">
-                      <p className="text-2xl font-black text-primary">{siteConfig.stats.clientsLoyalty}</p>
-                      <p className="text-sm text-muted-foreground mt-1">Клиентов 3+ года</p>
-                    </div>
-                    <div className="p-4 bg-gradient-to-br from-primary/10 to-transparent rounded-xl border border-primary/20 text-center">
-                      <p className="text-2xl font-black text-primary">{siteConfig.stats.launchTime}</p>
-                      <p className="text-sm text-muted-foreground mt-1">До запуска рекламы</p>
-                    </div>
-                  </div>
-                  <div className="mt-6 p-4 bg-primary/5 rounded-xl border border-primary/20">
-                    <p className="text-sm text-muted-foreground">
-                      <Settings className="h-4 w-4 inline mr-2" />
-                      Для изменения статистики отредактируйте файл <code className="bg-muted px-2 py-0.5 rounded text-xs">src/config/siteConfig.ts</code>
-                    </p>
-                  </div>
-                </motion.div>
               </TabsContent>
             </Tabs>
           </div>
