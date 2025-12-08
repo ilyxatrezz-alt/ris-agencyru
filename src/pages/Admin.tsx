@@ -32,8 +32,10 @@ import {
   BarChart3,
   Briefcase,
   MessageSquare,
-  Home
+  Home,
+  FolderOpen
 } from "lucide-react";
+import CasesEditor from "@/components/admin/CasesEditor";
 import { motion } from "framer-motion";
 
 const Admin = () => {
@@ -203,6 +205,10 @@ const Admin = () => {
                   <FileText className="h-4 w-4" />
                   <span className="hidden sm:inline">Страницы</span>
                 </TabsTrigger>
+                <TabsTrigger value="cases" className="flex-1 min-w-[100px] gap-2 py-3">
+                  <FolderOpen className="h-4 w-4" />
+                  <span className="hidden sm:inline">Кейсы</span>
+                </TabsTrigger>
                 <TabsTrigger value="websites" className="flex-1 min-w-[100px] gap-2 py-3">
                   <Globe className="h-4 w-4" />
                   <span className="hidden sm:inline">Сайты</span>
@@ -267,6 +273,11 @@ const Admin = () => {
                   title="Страница «Контакты»"
                   description="Заголовки и тексты страницы Контакты"
                 />
+              </TabsContent>
+
+              {/* Cases Tab */}
+              <TabsContent value="cases">
+                <CasesEditor />
               </TabsContent>
 
               {/* Websites Tab */}

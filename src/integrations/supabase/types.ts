@@ -14,6 +14,163 @@ export type Database = {
   }
   public: {
     Tables: {
+      case_categories: {
+        Row: {
+          created_at: string
+          description: string
+          hero_description: string | null
+          hero_title: string | null
+          id: string
+          image_url: string | null
+          is_active: boolean | null
+          order_index: number | null
+          slug: string
+          stats_cpl: string | null
+          stats_leads: string | null
+          stats_roi: string | null
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          description: string
+          hero_description?: string | null
+          hero_title?: string | null
+          id?: string
+          image_url?: string | null
+          is_active?: boolean | null
+          order_index?: number | null
+          slug: string
+          stats_cpl?: string | null
+          stats_leads?: string | null
+          stats_roi?: string | null
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          description?: string
+          hero_description?: string | null
+          hero_title?: string | null
+          id?: string
+          image_url?: string | null
+          is_active?: boolean | null
+          order_index?: number | null
+          slug?: string
+          stats_cpl?: string | null
+          stats_leads?: string | null
+          stats_roi?: string | null
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      case_items: {
+        Row: {
+          category_id: string
+          created_at: string
+          id: string
+          is_active: boolean | null
+          order_index: number | null
+          platform: string
+          problem: string
+          result_budget: string
+          result_cpl: string
+          result_leads: string
+          result_period: string
+          result_roi: string
+          solution: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          category_id: string
+          created_at?: string
+          id?: string
+          is_active?: boolean | null
+          order_index?: number | null
+          platform: string
+          problem: string
+          result_budget: string
+          result_cpl: string
+          result_leads: string
+          result_period: string
+          result_roi: string
+          solution: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          category_id?: string
+          created_at?: string
+          id?: string
+          is_active?: boolean | null
+          order_index?: number | null
+          platform?: string
+          problem?: string
+          result_budget?: string
+          result_cpl?: string
+          result_leads?: string
+          result_period?: string
+          result_roi?: string
+          solution?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "case_items_category_id_fkey"
+            columns: ["category_id"]
+            isOneToOne: false
+            referencedRelation: "case_categories"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      case_screenshots: {
+        Row: {
+          category_id: string
+          created_at: string
+          id: string
+          image_url: string
+          is_active: boolean | null
+          order_index: number | null
+          subtitle: string | null
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          category_id: string
+          created_at?: string
+          id?: string
+          image_url: string
+          is_active?: boolean | null
+          order_index?: number | null
+          subtitle?: string | null
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          category_id?: string
+          created_at?: string
+          id?: string
+          image_url?: string
+          is_active?: boolean | null
+          order_index?: number | null
+          subtitle?: string | null
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "case_screenshots_category_id_fkey"
+            columns: ["category_id"]
+            isOneToOne: false
+            referencedRelation: "case_categories"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       site_settings: {
         Row: {
           category: string
