@@ -1,9 +1,25 @@
 import { Link } from "react-router-dom";
 import { Mail, Phone, MapPin, Send } from "lucide-react";
 import { motion } from "framer-motion";
-import { siteConfig } from "@/config/siteConfig";
+import { useSiteSettingsMap, getSetting } from "@/hooks/useSiteSettings";
 
 const Footer = () => {
+  const { settings, isLoading } = useSiteSettingsMap();
+
+  // Fallback values while loading
+  const phone = getSetting(settings, "phone", "+7 (949) 882-33-51");
+  const phoneRaw = getSetting(settings, "phone_raw", "+79498823351");
+  const email = getSetting(settings, "email", "info@ris-agency.ru");
+  const telegramUrl = getSetting(settings, "telegram_url", "https://t.me/ris_agency");
+  const location = getSetting(settings, "location", "Работаем по всей России");
+  const companyName = getSetting(settings, "company_name", "РИС");
+  const companyFullName = getSetting(settings, "company_full_name", "РИС — Реклама и Сайты");
+  const companyTagline = getSetting(settings, "company_tagline", "Реклама и Сайты");
+  const companyDescription = getSetting(settings, "company_description", "Превращаем рекламные бюджеты в прибыль. Работаем с 2014 года. Гарантия результата или возврат денег.");
+  const legalName = getSetting(settings, "legal_name", "ИП Кузьмин А.А.");
+  const legalInn = getSetting(settings, "legal_inn", "165811695515");
+  const legalOgrnip = getSetting(settings, "legal_ogrnip", "314169024600232");
+
   return (
     <footer className="bg-accent text-accent-foreground border-t border-border/10 noise">
       <div className="container mx-auto px-4 py-16">
@@ -15,19 +31,19 @@ const Footer = () => {
                 className="flex h-12 w-12 items-center justify-center rounded-xl gradient-primary shadow-cta"
                 whileHover={{ scale: 1.05, rotate: 5 }}
               >
-                <span className="text-xl font-black text-primary-foreground">{siteConfig.company.name}</span>
+                <span className="text-xl font-black text-primary-foreground">{companyName}</span>
               </motion.div>
               <div>
-                <span className="text-xl font-black">{siteConfig.company.name}</span>
-                <p className="text-xs text-accent-foreground/60">{siteConfig.company.tagline}</p>
+                <span className="text-xl font-black">{companyName}</span>
+                <p className="text-xs text-accent-foreground/60">{companyTagline}</p>
               </div>
             </Link>
             <p className="text-sm text-accent-foreground/70 leading-relaxed">
-              {siteConfig.company.description}
+              {companyDescription}
             </p>
             <div className="flex items-center gap-4">
               <a 
-                href={siteConfig.telegramUrl}
+                href={telegramUrl}
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="flex h-10 w-10 items-center justify-center rounded-lg bg-accent-foreground/10 hover:bg-primary hover:text-primary-foreground transition-all duration-300"
@@ -76,31 +92,31 @@ const Footer = () => {
             <ul className="space-y-4">
               <li>
                 <a 
-                  href={`tel:${siteConfig.phoneRaw}`}
+                  href={`tel:${phoneRaw}`}
                   className="flex items-center gap-3 text-sm text-accent-foreground/70 hover:text-primary transition-colors group"
                 >
                   <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 group-hover:bg-primary group-hover:text-primary-foreground transition-all">
                     <Phone className="h-4 w-4" />
                   </div>
-                  <span className="font-semibold">{siteConfig.phone}</span>
+                  <span className="font-semibold">{phone}</span>
                 </a>
               </li>
               <li>
                 <a 
-                  href={`mailto:${siteConfig.email}`}
+                  href={`mailto:${email}`}
                   className="flex items-center gap-3 text-sm text-accent-foreground/70 hover:text-primary transition-colors group"
                 >
                   <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 group-hover:bg-primary group-hover:text-primary-foreground transition-all">
                     <Mail className="h-4 w-4" />
                   </div>
-                  <span>{siteConfig.email}</span>
+                  <span>{email}</span>
                 </a>
               </li>
               <li className="flex items-center gap-3 text-sm text-accent-foreground/70">
                 <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10">
                   <MapPin className="h-4 w-4" />
                 </div>
-                <span>{siteConfig.location}</span>
+                <span>{location}</span>
               </li>
             </ul>
           </div>
@@ -108,10 +124,10 @@ const Footer = () => {
 
         <div className="mt-16 pt-8 border-t border-accent-foreground/10 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-sm text-accent-foreground/50">
-            © {new Date().getFullYear()} {siteConfig.company.fullName}. Все права защищены.
+            © {new Date().getFullYear()} {companyFullName}. Все права защищены.
           </p>
           <p className="text-xs text-accent-foreground/40">
-            {siteConfig.legal.name} • ИНН {siteConfig.legal.inn} • ОГРНИП {siteConfig.legal.ogrnip}
+            {legalName} • ИНН {legalInn} • ОГРНИП {legalOgrnip}
           </p>
         </div>
       </div>

@@ -12,16 +12,20 @@ import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { motion } from "framer-motion";
 import { supabase } from "@/integrations/supabase/client";
-import { siteConfig } from "@/config/siteConfig";
+import { useSiteSettingsMap, getSetting } from "@/hooks/useSiteSettings";
 
 const QuickContact = () => {
   const { toast } = useToast();
+  const { settings } = useSiteSettingsMap();
   const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
     niche: "",
   });
+  
+  const phoneDisplay = getSetting(settings, "phone", "+7 (949) 882-33-51");
+  const phoneRaw = getSetting(settings, "phone_raw", "+79498823351");
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -89,14 +93,14 @@ const QuickContact = () => {
                   size="lg"
                   className="w-full md:w-auto gradient-primary shadow-cta hover:shadow-glow text-lg h-14 px-8 font-bold group"
                 >
-                  <a href={`tel:${siteConfig.phoneRaw}`} className="flex items-center justify-center gap-3">
+                  <a href={`tel:${phoneRaw}`} className="flex items-center justify-center gap-3">
                     <motion.div
                       animate={{ rotate: [0, 15, -15, 0] }}
                       transition={{ duration: 1.5, repeat: Infinity }}
                     >
                       <Phone className="h-5 w-5" />
                     </motion.div>
-                    {siteConfig.phone}
+                    {phoneDisplay}
                   </a>
                 </Button>
               </motion.div>

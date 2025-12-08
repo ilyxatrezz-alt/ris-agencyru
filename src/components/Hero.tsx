@@ -7,10 +7,11 @@ import GlitchText from "./GlitchText";
 import TextReveal from "./TextReveal";
 import MagneticButton from "./MagneticButton";
 import MorphingShape from "./MorphingShape";
-import { siteConfig } from "@/config/siteConfig";
+import { useSiteSettingsMap, getSetting } from "@/hooks/useSiteSettings";
 
 const Hero = () => {
   const containerRef = useRef(null);
+  const { settings } = useSiteSettingsMap();
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start start", "end start"],
@@ -19,6 +20,15 @@ const Hero = () => {
   const heroY = useTransform(scrollYProgress, [0, 1], [0, 200]);
   const heroOpacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
   const heroScale = useTransform(scrollYProgress, [0, 0.5], [1, 0.9]);
+
+  // Get settings with fallbacks
+  const heroBadge = getSetting(settings, "hero_badge", "С 2014 года • 500+ млн ₽ рекламных бюджетов");
+  const heroSubtitle = getSetting(settings, "hero_subtitle", "Создаём сайты и запускаем рекламу, которая окупается. Комплексный digital-маркетинг с гарантией результата.");
+  const heroCtaPrimary = getSetting(settings, "hero_cta_primary", "Получить аудит бесплатно");
+  const heroCtaSecondary = getSetting(settings, "hero_cta_secondary", "Смотреть кейсы");
+  const statsProjects = getSetting(settings, "stats_projects", "200+");
+  const statsLoyalty = getSetting(settings, "stats_clients_loyalty", "70%");
+  const statsLaunchTime = getSetting(settings, "stats_launch_time", "3 дня");
 
   return (
     <section ref={containerRef} className="relative min-h-screen flex items-center justify-center overflow-hidden bg-zinc-950">
@@ -152,7 +162,7 @@ const Hero = () => {
                   transition={{ duration: 2, repeat: Infinity }}
                 >
                   <Star className="h-4 w-4 fill-primary" />
-                  С {siteConfig.company.yearFounded} года • {siteConfig.stats.adBudget} рекламных бюджетов
+                  {heroBadge}
                 </motion.span>
               </motion.div>
 
@@ -188,7 +198,7 @@ const Hero = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.4 }}
               >
-                Создаём сайты и запускаем рекламу, которая окупается. Комплексный digital-маркетинг с гарантией результата.
+                {heroSubtitle}
               </motion.p>
 
               {/* Trust Points */}
@@ -221,7 +231,7 @@ const Hero = () => {
                   >
                     <Link to="/contacts">
                       <span className="relative z-10 flex items-center">
-                        Получить аудит бесплатно
+                        {heroCtaPrimary}
                         <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
                       </span>
                       <motion.span 
@@ -242,7 +252,7 @@ const Hero = () => {
                   >
                     <Link to="/cases" className="flex items-center gap-2">
                       <Play className="h-4 w-4" />
-                      Смотреть кейсы
+                      {heroCtaSecondary}
                     </Link>
                   </Button>
                 </motion.div>
@@ -269,9 +279,9 @@ const Hero = () => {
                   <div className="grid grid-cols-2 gap-4">
                     {[
                       { value: "−40%", label: "Стоимость лида ниже рынка", icon: TrendingUp },
-                      { value: siteConfig.stats.projects, label: "Успешных проектов", icon: Zap },
-                      { value: siteConfig.stats.clientsLoyalty, label: "Клиентов с нами 3+ года", icon: Shield },
-                      { value: siteConfig.stats.launchTime, label: "До запуска рекламы", icon: Star },
+                      { value: statsProjects, label: "Успешных проектов", icon: Zap },
+                      { value: statsLoyalty, label: "Клиентов с нами 3+ года", icon: Shield },
+                      { value: statsLaunchTime, label: "До запуска рекламы", icon: Star },
                     ].map((stat, index) => (
                       <motion.div
                         key={index}

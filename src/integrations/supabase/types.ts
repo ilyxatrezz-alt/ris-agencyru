@@ -14,6 +14,42 @@ export type Database = {
   }
   public: {
     Tables: {
+      site_settings: {
+        Row: {
+          category: string
+          created_at: string
+          description: string | null
+          id: string
+          key: string
+          label: string
+          type: string
+          updated_at: string
+          value: string | null
+        }
+        Insert: {
+          category?: string
+          created_at?: string
+          description?: string | null
+          id?: string
+          key: string
+          label: string
+          type?: string
+          updated_at?: string
+          value?: string | null
+        }
+        Update: {
+          category?: string
+          created_at?: string
+          description?: string | null
+          id?: string
+          key?: string
+          label?: string
+          type?: string
+          updated_at?: string
+          value?: string | null
+        }
+        Relationships: []
+      }
       websites: {
         Row: {
           category: string
