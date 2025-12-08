@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { Mail, Phone, MapPin, Send } from "lucide-react";
 import { motion } from "framer-motion";
+import { siteConfig } from "@/config/siteConfig";
 
 const Footer = () => {
   return (
@@ -14,20 +15,19 @@ const Footer = () => {
                 className="flex h-12 w-12 items-center justify-center rounded-xl gradient-primary shadow-cta"
                 whileHover={{ scale: 1.05, rotate: 5 }}
               >
-                <span className="text-xl font-black text-primary-foreground">РИС</span>
+                <span className="text-xl font-black text-primary-foreground">{siteConfig.company.name}</span>
               </motion.div>
               <div>
-                <span className="text-xl font-black">РИС</span>
-                <p className="text-xs text-accent-foreground/60">Реклама и Сайты</p>
+                <span className="text-xl font-black">{siteConfig.company.name}</span>
+                <p className="text-xs text-accent-foreground/60">{siteConfig.company.tagline}</p>
               </div>
             </Link>
             <p className="text-sm text-accent-foreground/70 leading-relaxed">
-              Превращаем рекламные бюджеты в прибыль. Работаем с 2014 года. 
-              Гарантия результата или возврат денег.
+              {siteConfig.company.description}
             </p>
             <div className="flex items-center gap-4">
               <a 
-                href="https://t.me/ris_agency" 
+                href={siteConfig.telegramUrl}
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="flex h-10 w-10 items-center justify-center rounded-lg bg-accent-foreground/10 hover:bg-primary hover:text-primary-foreground transition-all duration-300"
@@ -76,31 +76,31 @@ const Footer = () => {
             <ul className="space-y-4">
               <li>
                 <a 
-                  href="tel:+79493388689" 
+                  href={`tel:${siteConfig.phoneRaw}`}
                   className="flex items-center gap-3 text-sm text-accent-foreground/70 hover:text-primary transition-colors group"
                 >
                   <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 group-hover:bg-primary group-hover:text-primary-foreground transition-all">
                     <Phone className="h-4 w-4" />
                   </div>
-                  <span className="font-semibold">+7 (949) 338-86-89</span>
+                  <span className="font-semibold">{siteConfig.phone}</span>
                 </a>
               </li>
               <li>
                 <a 
-                  href="mailto:info@ris-agency.ru" 
+                  href={`mailto:${siteConfig.email}`}
                   className="flex items-center gap-3 text-sm text-accent-foreground/70 hover:text-primary transition-colors group"
                 >
                   <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 group-hover:bg-primary group-hover:text-primary-foreground transition-all">
                     <Mail className="h-4 w-4" />
                   </div>
-                  <span>info@ris-agency.ru</span>
+                  <span>{siteConfig.email}</span>
                 </a>
               </li>
               <li className="flex items-center gap-3 text-sm text-accent-foreground/70">
                 <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10">
                   <MapPin className="h-4 w-4" />
                 </div>
-                <span>Работаем по всей России</span>
+                <span>{siteConfig.location}</span>
               </li>
             </ul>
           </div>
@@ -108,10 +108,10 @@ const Footer = () => {
 
         <div className="mt-16 pt-8 border-t border-accent-foreground/10 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-sm text-accent-foreground/50">
-            © {new Date().getFullYear()} РИС — Реклама и Сайты. Все права защищены.
+            © {new Date().getFullYear()} {siteConfig.company.fullName}. Все права защищены.
           </p>
           <p className="text-xs text-accent-foreground/40">
-            ИП Иванов И.И. • ИНН 000000000000 • ОГРНИП 000000000000000
+            {siteConfig.legal.name} • ИНН {siteConfig.legal.inn} • ОГРНИП {siteConfig.legal.ogrnip}
           </p>
         </div>
       </div>

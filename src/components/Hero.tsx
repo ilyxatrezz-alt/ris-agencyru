@@ -7,6 +7,7 @@ import GlitchText from "./GlitchText";
 import TextReveal from "./TextReveal";
 import MagneticButton from "./MagneticButton";
 import MorphingShape from "./MorphingShape";
+import { siteConfig } from "@/config/siteConfig";
 
 const Hero = () => {
   const containerRef = useRef(null);
@@ -151,7 +152,7 @@ const Hero = () => {
                   transition={{ duration: 2, repeat: Infinity }}
                 >
                   <Star className="h-4 w-4 fill-primary" />
-                  С 2014 года • 500+ млн ₽ рекламных бюджетов
+                  С {siteConfig.company.yearFounded} года • {siteConfig.stats.adBudget} рекламных бюджетов
                 </motion.span>
               </motion.div>
 
@@ -268,9 +269,9 @@ const Hero = () => {
                   <div className="grid grid-cols-2 gap-4">
                     {[
                       { value: "−40%", label: "Стоимость лида ниже рынка", icon: TrendingUp },
-                      { value: "200+", label: "Успешных проектов", icon: Zap },
-                      { value: "70%", label: "Клиентов с нами 3+ года", icon: Shield },
-                      { value: "3 дня", label: "До запуска рекламы", icon: Star },
+                      { value: siteConfig.stats.projects, label: "Успешных проектов", icon: Zap },
+                      { value: siteConfig.stats.clientsLoyalty, label: "Клиентов с нами 3+ года", icon: Shield },
+                      { value: siteConfig.stats.launchTime, label: "До запуска рекламы", icon: Star },
                     ].map((stat, index) => (
                       <motion.div
                         key={index}

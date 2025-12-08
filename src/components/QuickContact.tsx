@@ -12,6 +12,7 @@ import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { motion } from "framer-motion";
 import { supabase } from "@/integrations/supabase/client";
+import { siteConfig } from "@/config/siteConfig";
 
 const QuickContact = () => {
   const { toast } = useToast();
@@ -88,14 +89,14 @@ const QuickContact = () => {
                   size="lg"
                   className="w-full md:w-auto gradient-primary shadow-cta hover:shadow-glow text-lg h-14 px-8 font-bold group"
                 >
-                  <a href="tel:+79493388689" className="flex items-center justify-center gap-3">
+                  <a href={`tel:${siteConfig.phoneRaw}`} className="flex items-center justify-center gap-3">
                     <motion.div
                       animate={{ rotate: [0, 15, -15, 0] }}
                       transition={{ duration: 1.5, repeat: Infinity }}
                     >
                       <Phone className="h-5 w-5" />
                     </motion.div>
-                    +7 (949) 338-86-89
+                    {siteConfig.phone}
                   </a>
                 </Button>
               </motion.div>
