@@ -3,35 +3,36 @@ import Footer from "@/components/Footer";
 import ContactForm from "@/components/ContactForm";
 import { Mail, Phone, MapPin, Clock, Send, MessageCircle, CheckCircle } from "lucide-react";
 import { motion } from "framer-motion";
+import { siteConfig } from "@/config/siteConfig";
 
 const Contacts = () => {
   const contactInfo = [
     {
       icon: Phone,
       title: "Телефон",
-      value: "+7 (949) 338-86-89",
-      description: "Звоните с 9:00 до 21:00",
-      href: "tel:+79493388689",
+      value: siteConfig.phone,
+      description: `Звоните ${siteConfig.workingHours.callTime}`,
+      href: `tel:${siteConfig.phoneRaw}`,
     },
     {
       icon: Send,
       title: "Telegram",
-      value: "@ris_agency",
+      value: siteConfig.telegram,
       description: "Отвечаем за 15 минут",
-      href: "https://t.me/ris_agency",
+      href: siteConfig.telegramUrl,
     },
     {
       icon: Mail,
       title: "Email",
-      value: "info@ris-agency.ru",
+      value: siteConfig.email,
       description: "Для коммерческих предложений",
-      href: "mailto:info@ris-agency.ru",
+      href: `mailto:${siteConfig.email}`,
     },
     {
       icon: Clock,
       title: "Режим работы",
-      value: "Пн-Пт: 9:00 - 21:00",
-      description: "Сб-Вс: по договорённости",
+      value: siteConfig.workingHours.weekdays,
+      description: siteConfig.workingHours.weekend,
     },
   ];
 
