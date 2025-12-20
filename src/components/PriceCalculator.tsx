@@ -14,6 +14,7 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Check, Gift, TrendingUp } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useSiteSettingsMap, getSetting } from "@/hooks/useSiteSettings";
 
 interface Service {
   id: string;
@@ -25,6 +26,25 @@ interface Service {
 }
 
 const PriceCalculator = () => {
+  const { settings } = useSiteSettingsMap();
+
+  const title = getSetting(settings, "home_price_calculator_title", "Калькулятор Стоимости");
+  const subtitle = getSetting(
+    settings,
+    "home_price_calculator_subtitle",
+    "Рассчитайте стоимость продвижения за 1 минуту"
+  );
+  const leftTitle = getSetting(settings, "home_price_calculator_left_title", "Выберите услуги");
+  const nicheLabel = getSetting(settings, "home_price_calculator_niche_label", "Ниша бизнеса");
+  const rightTitle = getSetting(settings, "home_price_calculator_right_title", "Расчет стоимости");
+  const rightSubtitle = getSetting(settings, "home_price_calculator_right_subtitle", "Прозрачное ценообразование");
+  const discountText = getSetting(settings, "home_price_calculator_discount", "Скидка 10% за комплекс");
+  const bonusText = getSetting(settings, "home_price_calculator_bonus", "Telegram в подарок!");
+  const ctaText = getSetting(settings, "home_price_calculator_cta", "Получить предложение");
+  const roiTitle = getSetting(settings, "home_price_calculator_roi_title", "Средний ROI клиентов");
+  const roiValue = getSetting(settings, "home_price_calculator_roi_value", "+180%");
+  const roiSubtitle = getSetting(settings, "home_price_calculator_roi_subtitle", "За первые 3 месяца");
+
   const [selectedServices, setSelectedServices] = useState<string[]>([]);
   const [niche, setNiche] = useState("");
   const [adBudget, setAdBudget] = useState([50000]);
@@ -81,9 +101,7 @@ const PriceCalculator = () => {
       setupCost += service.setupPrice;
 
       if (service.monthlyPercent || service.monthlyFixed) {
-        const percentCost = service.monthlyPercent
-          ? (adBudget[0] * service.monthlyPercent) / 100
-          : 0;
+        const percentCost = service.monthlyPercent ? (adBudget[0] * service.monthlyPercent) / 100 : 0;
         const fixedCost = service.monthlyFixed || 0;
         monthlyCost += Math.max(percentCost, fixedCost);
       }
@@ -105,11 +123,7 @@ const PriceCalculator = () => {
   };
 
   const toggleService = (serviceId: string) => {
-    setSelectedServices((prev) =>
-      prev.includes(serviceId)
-        ? prev.filter((id) => id !== serviceId)
-        : [...prev, serviceId]
-    );
+    setSelectedServices((prev) => (prev.includes(serviceId) ? prev.filter((id) => id !== serviceId) : [...prev, serviceId]));
   };
 
   const costs = calculateTotal();
@@ -121,10 +135,11 @@ const PriceCalculator = () => {
           {/* Header */}
           <div className="text-center space-y-2 sm:space-y-3 md:space-y-4">
             <h2 className="text-xl sm:text-2xl md:text-4xl lg:text-5xl font-bold">
-              Калькулятор <span className="text-gradient-primary">Стоимости</span>
+              {title.split(" ")[0]}{" "}
+              <span className="text-gradient-primary">{title.split(" ").slice(1).join(" ")}</span>
             </h2>
             <p className="text-xs sm:text-sm md:text-lg lg:text-xl text-muted-foreground max-w-2xl mx-auto">
-              Рассчитайте стоимость продвижения за 1 минуту
+              {subtitle}
             </p>
           </div>
 
@@ -134,18 +149,12 @@ const PriceCalculator = () => {
               <Card className="p-3 sm:p-4 md:p-6 space-y-3 sm:space-y-4 md:space-y-6">
                 <div>
                   <h3 className="text-base sm:text-lg md:text-xl font-bold mb-2 sm:mb-3 md:mb-4">
-                    Выберите услуги
+                    {leftTitle}
                   </h3>
                   <div className="space-y-2 sm:space-y-3">
                     {services.map((service) => {
-                      const isDisabled =
-                        service.id === "telegram" &&
-                        telegramIsBonus &&
-                        !hasTelegram;
-                      const showBonus =
-                        service.id === "telegram" &&
-                        telegramIsBonus &&
-                        hasTelegram;
+                      const isDisabled = service.id === "telegram" && telegramIsBonus && !hasTelegram;
+                      const showBonus = service.id === "telegram" && telegramIsBonus && hasTelegram;
 
                       return (
                         <div
@@ -199,7 +208,7 @@ const PriceCalculator = () => {
 
                 <div>
                   <Label htmlFor="niche" className="text-xs sm:text-sm md:text-base font-semibold">
-                    Ниша бизнеса
+                    {nicheLabel}
                   </Label>
                   <Select value={niche} onValueChange={setNiche}>
                     <SelectTrigger id="niche" className="mt-1.5 sm:mt-2 text-xs sm:text-sm">
@@ -261,11 +270,9 @@ const PriceCalculator = () => {
               <Card className="p-3 sm:p-4 md:p-6 lg:p-8 space-y-3 sm:space-y-4 md:space-y-6 bg-card shadow-card-hover lg:sticky lg:top-4">
                 <div>
                   <h3 className="text-base sm:text-lg md:text-xl lg:text-2xl font-bold mb-1 sm:mb-2">
-                    Расчет стоимости
+                    {rightTitle}
                   </h3>
-                  <p className="text-[10px] sm:text-xs md:text-sm text-muted-foreground">
-                    Прозрачное ценообразование
-                  </p>
+                  <p className="text-[10px] sm:text-xs md:text-sm text-muted-foreground">{rightSubtitle}</p>
                 </div>
 
                 <div className="space-y-2 sm:space-y-3 md:space-y-4 py-2 sm:py-3 md:py-4 border-y">
@@ -290,13 +297,13 @@ const PriceCalculator = () => {
                   {costs.discount && (
                     <div className="flex items-center gap-1.5 sm:gap-2 text-accent text-[10px] sm:text-xs md:text-sm font-medium">
                       <Check className="h-3 w-3 sm:h-4 sm:w-4 flex-shrink-0" />
-                      <span>Скидка 10% за комплекс</span>
+                      <span>{discountText}</span>
                     </div>
                   )}
                   {telegramIsBonus && hasTelegram && (
                     <div className="flex items-center gap-1.5 sm:gap-2 text-accent text-[10px] sm:text-xs md:text-sm font-medium">
                       <Gift className="h-3 w-3 sm:h-4 sm:w-4 flex-shrink-0" />
-                      <span>Telegram в подарок!</span>
+                      <span>{bonusText}</span>
                     </div>
                   )}
                 </div>
@@ -325,7 +332,7 @@ const PriceCalculator = () => {
                     asChild
                     disabled={selectedServices.length === 0}
                   >
-                    <Link to="/contacts">Получить предложение</Link>
+                    <Link to="/contacts">{ctaText}</Link>
                   </Button>
                 </div>
 
@@ -349,12 +356,10 @@ const PriceCalculator = () => {
                     <TrendingUp className="h-4 w-4 sm:h-5 sm:w-5 md:h-6 md:w-6 text-primary flex-shrink-0 mt-0.5" />
                     <div className="space-y-0.5 min-w-0">
                       <p className="text-[10px] sm:text-xs md:text-sm lg:text-base font-semibold text-primary">
-                        Средний ROI клиентов
+                        {roiTitle}
                       </p>
-                      <p className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold">+180%</p>
-                      <p className="text-[10px] sm:text-xs md:text-sm text-muted-foreground">
-                        За первые 3 месяца
-                      </p>
+                      <p className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold">{roiValue}</p>
+                      <p className="text-[10px] sm:text-xs md:text-sm text-muted-foreground">{roiSubtitle}</p>
                     </div>
                   </div>
                 </div>

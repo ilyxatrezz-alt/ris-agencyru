@@ -1,7 +1,24 @@
 import { Check, X, Users, TrendingUp, BarChart, Clock, Shield, Headphones } from "lucide-react";
 import { motion } from "framer-motion";
+import { useSiteSettingsMap, getSetting } from "@/hooks/useSiteSettings";
 
 const ComparisonBlock = () => {
+  const { settings } = useSiteSettingsMap();
+
+  const badge = getSetting(settings, "home_comparison_badge", "Сравнение подходов");
+  const title = getSetting(settings, "home_comparison_title", "Агентство РИС vs Фрилансер");
+  const subtitle = getSetting(
+    settings,
+    "home_comparison_subtitle",
+    "Сравните и сделайте правильный выбор для вашего бизнеса"
+  );
+  const ctaTitle = getSetting(settings, "home_comparison_cta_title", "Не рискуйте своим бюджетом");
+  const ctaSubtitle = getSetting(
+    settings,
+    "home_comparison_cta_subtitle",
+    "Выбирайте профессиональную команду с гарантией результата"
+  );
+
   const comparisons = [
     {
       title: "Команда профессионалов",
@@ -45,9 +62,9 @@ const ComparisonBlock = () => {
     <section className="py-24 relative overflow-hidden">
       {/* Background */}
       <div className="absolute inset-0 bg-[linear-gradient(to_right,hsl(var(--border)/0.3)_1px,transparent_1px),linear-gradient(to_bottom,hsl(var(--border)/0.3)_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none" />
-      
+
       <div className="container mx-auto px-4 relative z-10">
-        <motion.div 
+        <motion.div
           className="text-center max-w-3xl mx-auto mb-16"
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -55,21 +72,20 @@ const ComparisonBlock = () => {
           transition={{ duration: 0.6 }}
         >
           <span className="inline-block px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-semibold mb-4">
-            Сравнение подходов
+            {badge}
           </span>
           <h2 className="text-3xl md:text-5xl font-black mb-6">
-            Агентство РИС <span className="text-gradient-primary">vs</span> Фрилансер
+            {title.split(" vs ")[0]} <span className="text-gradient-primary">vs</span>{" "}
+            {title.split(" vs ")[1] || "Фрилансер"}
           </h2>
-          <p className="text-lg text-muted-foreground">
-            Сравните и сделайте правильный выбор для вашего бизнеса
-          </p>
+          <p className="text-lg text-muted-foreground">{subtitle}</p>
         </motion.div>
 
         <div className="space-y-6">
           {comparisons.map((item, index) => {
             const Icon = item.icon;
             const isEven = index % 2 === 0;
-            
+
             return (
               <motion.div
                 key={index}
@@ -77,17 +93,17 @@ const ComparisonBlock = () => {
                 initial={{ opacity: 0, x: isEven ? -50 : 50 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
-                transition={{ 
-                  duration: 0.6, 
+                transition={{
+                  duration: 0.6,
                   delay: index * 0.08,
                   type: "spring",
-                  stiffness: 100
+                  stiffness: 100,
                 }}
               >
                 {/* Agency Card - Green */}
-                <motion.div 
+                <motion.div
                   className="relative flex items-start gap-4 p-6 rounded-2xl bg-gradient-to-br from-emerald-500/10 via-emerald-500/5 to-green-500/10 border-2 border-emerald-500/30 overflow-hidden group cursor-pointer"
-                  whileHover={{ 
+                  whileHover={{
                     scale: 1.02,
                     borderColor: "rgb(16, 185, 129)",
                   }}
@@ -95,31 +111,26 @@ const ComparisonBlock = () => {
                   transition={{ type: "spring", stiffness: 400, damping: 17 }}
                 >
                   {/* Animated glow on hover */}
-                  <motion.div 
-                    className="absolute inset-0 bg-gradient-to-r from-emerald-500/0 via-emerald-500/20 to-emerald-500/0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000"
-                  />
-                  
+                  <motion.div className="absolute inset-0 bg-gradient-to-r from-emerald-500/0 via-emerald-500/20 to-emerald-500/0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
+
                   {/* Floating particles */}
                   <motion.div
                     className="absolute top-2 right-2 w-2 h-2 rounded-full bg-emerald-400/50"
-                    animate={{ 
+                    animate={{
                       y: [0, -10, 0],
                       opacity: [0.3, 0.7, 0.3],
-                      scale: [1, 1.2, 1]
+                      scale: [1, 1.2, 1],
                     }}
                     transition={{ duration: 2, repeat: Infinity, delay: index * 0.2 }}
                   />
                   <motion.div
                     className="absolute bottom-4 right-8 w-1.5 h-1.5 rounded-full bg-green-400/40"
-                    animate={{ 
-                      y: [0, -8, 0],
-                      opacity: [0.2, 0.6, 0.2]
-                    }}
+                    animate={{ y: [0, -8, 0], opacity: [0.2, 0.6, 0.2] }}
                     transition={{ duration: 2.5, repeat: Infinity, delay: index * 0.3 }}
                   />
-                  
+
                   {/* Check icon with pulse */}
-                  <motion.div 
+                  <motion.div
                     className="relative flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-emerald-500 to-green-600 shadow-lg shadow-emerald-500/30 flex-shrink-0"
                     whileHover={{ rotate: [0, -10, 10, 0] }}
                     transition={{ duration: 0.5 }}
@@ -131,7 +142,7 @@ const ComparisonBlock = () => {
                     />
                     <Check className="h-6 w-6 text-white relative z-10" />
                   </motion.div>
-                  
+
                   <div className="flex-1 relative z-10">
                     <div className="flex items-center gap-2 mb-2">
                       <Icon className="h-5 w-5 text-emerald-500" />
@@ -142,9 +153,9 @@ const ComparisonBlock = () => {
                 </motion.div>
 
                 {/* Freelancer Card - Red */}
-                <motion.div 
+                <motion.div
                   className="relative flex items-start gap-4 p-6 rounded-2xl bg-gradient-to-br from-red-500/10 via-red-500/5 to-rose-500/10 border-2 border-red-500/30 overflow-hidden group cursor-pointer"
-                  whileHover={{ 
+                  whileHover={{
                     scale: 1.02,
                     borderColor: "rgb(239, 68, 68)",
                   }}
@@ -152,26 +163,19 @@ const ComparisonBlock = () => {
                   transition={{ type: "spring", stiffness: 400, damping: 17 }}
                 >
                   {/* Animated warning stripes */}
-                  <motion.div 
-                    className="absolute inset-0 bg-gradient-to-r from-red-500/0 via-red-500/10 to-red-500/0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000"
-                  />
-                  
+                  <motion.div className="absolute inset-0 bg-gradient-to-r from-red-500/0 via-red-500/10 to-red-500/0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
+
                   {/* Warning flicker */}
                   <motion.div
                     className="absolute top-2 right-2 w-2 h-2 rounded-full bg-red-400/50"
-                    animate={{ 
-                      opacity: [0.3, 0.8, 0.3],
-                      scale: [1, 1.3, 1]
-                    }}
+                    animate={{ opacity: [0.3, 0.8, 0.3], scale: [1, 1.3, 1] }}
                     transition={{ duration: 1.5, repeat: Infinity, delay: index * 0.15 }}
                   />
-                  
+
                   {/* X icon with shake */}
-                  <motion.div 
+                  <motion.div
                     className="relative flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-red-500 to-rose-600 shadow-lg shadow-red-500/30 flex-shrink-0"
-                    whileHover={{ 
-                      x: [0, -3, 3, -3, 3, 0],
-                    }}
+                    whileHover={{ x: [0, -3, 3, -3, 3, 0] }}
                     transition={{ duration: 0.4 }}
                   >
                     <motion.div
@@ -181,7 +185,7 @@ const ComparisonBlock = () => {
                     />
                     <X className="h-6 w-6 text-white relative z-10" />
                   </motion.div>
-                  
+
                   <div className="flex-1 relative z-10">
                     <div className="flex items-center gap-2 mb-2">
                       <Icon className="h-5 w-5 text-red-500" />
@@ -196,23 +200,21 @@ const ComparisonBlock = () => {
         </div>
 
         {/* CTA with animated gradient */}
-        <motion.div 
+        <motion.div
           className="mt-16 text-center"
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.5 }}
         >
-          <motion.p 
+          <motion.p
             className="text-xl font-bold text-foreground mb-2"
             animate={{ scale: [1, 1.02, 1] }}
             transition={{ duration: 3, repeat: Infinity }}
           >
-            Не рискуйте своим бюджетом
+            {ctaTitle}
           </motion.p>
-          <p className="text-muted-foreground">
-            Выбирайте профессиональную команду с гарантией результата
-          </p>
+          <p className="text-muted-foreground">{ctaSubtitle}</p>
         </motion.div>
       </div>
     </section>

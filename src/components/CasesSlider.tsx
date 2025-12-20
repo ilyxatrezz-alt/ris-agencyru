@@ -5,11 +5,28 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import useEmblaCarousel from "embla-carousel-react";
 import { ChevronLeft, ChevronRight, ArrowRight, TrendingUp } from "lucide-react";
+import { useSiteSettingsMap, getSetting } from "@/hooks/useSiteSettings";
 import caseDentistry from "@/assets/case-dentistry.jpg";
 import caseConstruction from "@/assets/case-construction.jpg";
 import caseRestaurant from "@/assets/case-restaurant.jpg";
 
 const CasesSlider = () => {
+  const { settings } = useSiteSettingsMap();
+
+  const title = getSetting(settings, "home_cases_slider_title", "Кейсы Успеха");
+  const subtitle = getSetting(
+    settings,
+    "home_cases_slider_subtitle",
+    "Реальные результаты наших клиентов в разных нишах"
+  );
+  const allCasesCta = getSetting(settings, "home_cases_slider_all_button", "Все кейсы");
+  const bottomText = getSetting(
+    settings,
+    "home_cases_slider_bottom_text",
+    "Более 100+ успешных проектов в различных нишах"
+  );
+  const bottomCta = getSetting(settings, "home_cases_slider_bottom_cta", "Получить такой же результат");
+
   const [emblaRef, emblaApi] = useEmblaCarousel({
     loop: true,
     align: "start",
@@ -78,15 +95,14 @@ const CasesSlider = () => {
           <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
             <div className="space-y-2">
               <h2 className="text-3xl md:text-5xl font-bold">
-                Кейсы <span className="text-gradient-primary">Успеха</span>
+                {title.split(" ")[0]}{" "}
+                <span className="text-gradient-primary">{title.split(" ").slice(1).join(" ")}</span>
               </h2>
-              <p className="text-lg text-muted-foreground">
-                Реальные результаты наших клиентов в разных нишах
-              </p>
+              <p className="text-lg text-muted-foreground">{subtitle}</p>
             </div>
             <Button variant="outline" size="lg" asChild className="self-start md:self-auto">
               <Link to="/cases">
-                Все кейсы <ArrowRight className="ml-2 h-4 w-4" />
+                {allCasesCta} <ArrowRight className="ml-2 h-4 w-4" />
               </Link>
             </Button>
           </div>
@@ -106,8 +122,9 @@ const CasesSlider = () => {
                         <div className="aspect-[16/10] overflow-hidden relative">
                           <img
                             src={caseItem.image}
-                            alt={caseItem.title}
+                            alt={`Кейс: ${caseItem.title}`}
                             className="w-full h-full object-cover group-hover:scale-105 transition-base"
+                            loading="lazy"
                           />
                           <div className="absolute top-4 left-4">
                             <Badge className="bg-background/90 text-foreground backdrop-blur-sm">
@@ -122,37 +139,25 @@ const CasesSlider = () => {
                             <h3 className="text-xl font-bold group-hover:text-primary transition-base">
                               {caseItem.title}
                             </h3>
-                            <p className="text-sm text-muted-foreground">
-                              {caseItem.description}
-                            </p>
+                            <p className="text-sm text-muted-foreground">{caseItem.description}</p>
                           </div>
 
                           {/* Stats */}
                           <div className="grid grid-cols-3 gap-3 pt-4 border-t">
                             <div>
-                              <div className="text-base font-bold text-primary">
-                                {caseItem.stats.leads}
-                              </div>
-                              <div className="text-xs text-muted-foreground">
-                                Лидов
-                              </div>
+                              <div className="text-base font-bold text-primary">{caseItem.stats.leads}</div>
+                              <div className="text-xs text-muted-foreground">Лидов</div>
                             </div>
                             <div>
-                              <div className="text-base font-bold text-primary">
-                                {caseItem.stats.cpl}
-                              </div>
-                              <div className="text-xs text-muted-foreground">
-                                CPL
-                              </div>
+                              <div className="text-base font-bold text-primary">{caseItem.stats.cpl}</div>
+                              <div className="text-xs text-muted-foreground">CPL</div>
                             </div>
                             <div>
                               <div className="text-base font-bold text-accent flex items-center gap-1">
                                 <TrendingUp className="h-3 w-3" />
                                 {caseItem.stats.roi}
                               </div>
-                              <div className="text-xs text-muted-foreground">
-                                ROI
-                              </div>
+                              <div className="text-xs text-muted-foreground">ROI</div>
                             </div>
                           </div>
                         </div>
@@ -186,13 +191,9 @@ const CasesSlider = () => {
 
           {/* CTA */}
           <div className="text-center pt-4">
-            <p className="text-sm text-muted-foreground mb-4">
-              Более 100+ успешных проектов в различных нишах
-            </p>
+            <p className="text-sm text-muted-foreground mb-4">{bottomText}</p>
             <Button variant="cta" size="lg" asChild>
-              <Link to="/contacts">
-                Получить такой же результат
-              </Link>
+              <Link to="/contacts">{bottomCta}</Link>
             </Button>
           </div>
         </div>

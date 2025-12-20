@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -23,7 +24,7 @@ export const useSiteSettings = () => {
         .from("site_settings")
         .select("*")
         .order("category", { ascending: true });
-      
+
       if (error) throw error;
       return data as SiteSetting[];
     },
@@ -33,22 +34,24 @@ export const useSiteSettings = () => {
 
 export const useSiteSettingsMap = () => {
   const { data, isLoading, error } = useSiteSettings();
-  
+
   const settingsMap: SettingsMap = {};
   if (data) {
     data.forEach((setting) => {
       settingsMap[setting.key] = setting.value || "";
     });
   }
-  
+
   return { settings: settingsMap, isLoading, error };
 };
 
 export const useSettingsByCategory = (category: string) => {
   const { data, isLoading } = useSiteSettings();
-  
-  const filtered = data?.filter((s) => s.category === category) || [];
-  
+
+  const filtered = useMemo(() => {
+    return data?.filter((s) => s.category === category) || [];
+  }, [data, category]);
+
   return { settings: filtered, isLoading };
 };
 

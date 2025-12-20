@@ -215,12 +215,52 @@ const Admin = () => {
                 </TabsTrigger>
               </TabsList>
 
-              {/* Hero Section Editor */}
-              <TabsContent value="hero">
+              {/* Главная */}
+              <TabsContent value="hero" className="space-y-6">
                 <SettingsEditor
                   category="hero"
                   title="Главная страница (Hero)"
                   description="Редактируйте заголовки и тексты на главной странице"
+                />
+                <SettingsEditor
+                  category="home_quick_contact"
+                  title="Главная — Быстрая связь"
+                  description="Заголовки и тексты блока «Быстрая связь»"
+                />
+                <SettingsEditor
+                  category="home_stats_block"
+                  title="Главная — Статистика"
+                  description="Тексты и значения блока со статистикой"
+                />
+                <SettingsEditor
+                  category="home_cases_slider"
+                  title="Главная — Слайдер кейсов"
+                  description="Заголовки и CTA слайдера кейсов (карточки — следующим шагом)"
+                />
+                <SettingsEditor
+                  category="home_price_calculator"
+                  title="Главная — Калькулятор"
+                  description="Заголовки и тексты калькулятора (настройки услуг — следующим шагом)"
+                />
+                <SettingsEditor
+                  category="home_comparison"
+                  title="Главная — Сравнение"
+                  description="Заголовки и CTA блока сравнения"
+                />
+                <SettingsEditor
+                  category="home_process"
+                  title="Главная — Процесс"
+                  description="Заголовки и подзаголовок блока процесса (этапы — следующим шагом)"
+                />
+                <SettingsEditor
+                  category="home_reviews"
+                  title="Главная — Отзывы"
+                  description="Заголовки и сводные цифры (список отзывов — следующим шагом)"
+                />
+                <SettingsEditor
+                  category="home_contact_form"
+                  title="Главная — Форма заявки"
+                  description="Заголовки, тексты и подписи формы"
                 />
               </TabsContent>
 

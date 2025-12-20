@@ -23,9 +23,19 @@ const QuickContact = () => {
     phone: "",
     niche: "",
   });
-  
+
   const phoneDisplay = getSetting(settings, "phone", "+7 (949) 882-33-51");
   const phoneRaw = getSetting(settings, "phone_raw", "+79498823351");
+
+  const badgeText = getSetting(settings, "home_quick_contact_badge", "Быстрая связь");
+  const title = getSetting(settings, "home_quick_contact_title", "Позвоните прямо сейчас");
+  const subtitle = getSetting(
+    settings,
+    "home_quick_contact_subtitle",
+    "Или оставьте заявку — перезвоним за 15 минут"
+  );
+  const formTitle = getSetting(settings, "home_quick_contact_form_title", "Быстрая заявка");
+  const submitText = getSetting(settings, "home_quick_contact_submit", "Перезвоните мне");
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -71,7 +81,7 @@ const QuickContact = () => {
         <div className="max-w-5xl mx-auto">
           <div className="grid md:grid-cols-2 gap-8 items-center">
             {/* Call Button Section */}
-            <motion.div 
+            <motion.div
               className="text-center md:text-left space-y-4"
               initial={{ opacity: 0, x: -30 }}
               whileInView={{ opacity: 1, x: 0 }}
@@ -79,14 +89,10 @@ const QuickContact = () => {
             >
               <div className="flex items-center justify-center md:justify-start gap-2 text-primary">
                 <Zap className="h-5 w-5" />
-                <span className="text-sm font-semibold">Быстрая связь</span>
+                <span className="text-sm font-semibold">{badgeText}</span>
               </div>
-              <h3 className="text-2xl md:text-3xl font-black">
-                Позвоните прямо сейчас
-              </h3>
-              <p className="text-muted-foreground">
-                Или оставьте заявку — перезвоним за 15 минут
-              </p>
+              <h3 className="text-2xl md:text-3xl font-black">{title}</h3>
+              <p className="text-muted-foreground">{subtitle}</p>
               <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
                 <Button
                   asChild
@@ -107,15 +113,13 @@ const QuickContact = () => {
             </motion.div>
 
             {/* Quick Form */}
-            <motion.div 
+            <motion.div
               className="p-6 rounded-2xl bg-card shadow-card border border-border/50"
               initial={{ opacity: 0, x: 30 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
             >
-              <h4 className="text-lg font-bold mb-4 text-center">
-                Быстрая заявка
-              </h4>
+              <h4 className="text-lg font-bold mb-4 text-center">{formTitle}</h4>
               <form onSubmit={handleSubmit} className="space-y-4">
                 <Input
                   placeholder="Ваше имя"
@@ -152,8 +156,8 @@ const QuickContact = () => {
                     <SelectItem value="other">Другое</SelectItem>
                   </SelectContent>
                 </Select>
-                <Button 
-                  type="submit" 
+                <Button
+                  type="submit"
                   disabled={isLoading}
                   className="w-full h-12 gradient-primary shadow-cta hover:shadow-glow font-bold"
                 >
@@ -163,7 +167,7 @@ const QuickContact = () => {
                       Отправка...
                     </>
                   ) : (
-                    "Перезвоните мне"
+                    submitText
                   )}
                 </Button>
               </form>

@@ -18,13 +18,13 @@ const Contacts = () => {
   const weekend = getSetting(settings, "working_hours_weekend", "Сб-Вс: по договорённости");
   const callTime = getSetting(settings, "working_hours_call_time", "с 9:00 до 21:00");
 
-  const heroTitleAccent = getSetting(settings, "contacts_page_title_accent", "Свяжитесь");
-  const heroTitleRest = getSetting(settings, "contacts_page_title_rest", "с нами");
+  const heroTitle = getSetting(settings, "contacts_title", "Свяжитесь с нами");
   const heroSubtitle = getSetting(
     settings,
-    "contacts_page_subtitle",
+    "contacts_description",
     "Готовы обсудить ваш проект? Ответим за 15 минут и предложим решение, которое принесёт результат."
   );
+
 
   const contactInfo = [
     {
@@ -105,7 +105,7 @@ const Contacts = () => {
               animate={{ opacity: 1, y: 0 }}
             >
               <h1 className="text-4xl md:text-6xl lg:text-7xl font-black">
-                <span className="text-gradient-primary">{heroTitleAccent}</span> {heroTitleRest}
+                <span className="text-gradient-primary">{heroTitle}</span>
               </h1>
               <p className="text-lg md:text-xl text-accent-foreground/70 max-w-2xl mx-auto">
                 {heroSubtitle}
