@@ -1,45 +1,39 @@
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ContactForm from "@/components/ContactForm";
+import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, TrendingUp, Zap, Target, Award } from "lucide-react";
+import { ArrowRight, TrendingUp, Zap, Target, Award, Loader2 } from "lucide-react";
 import { motion } from "framer-motion";
+import { useCaseCategories } from "@/hooks/useCases";
 import caseDentistry from "@/assets/case-dentistry.jpg";
 import caseConstruction from "@/assets/case-construction.jpg";
 import caseRestaurant from "@/assets/case-restaurant.jpg";
 
 const Cases = () => {
-  const caseCategories = [
-    {
-      slug: "medicine-beauty",
-      title: "Медицина & Beauty",
-      description: "Взрывной рост записей для клиник, стоматологий и косметологов",
-      image: caseDentistry,
-      stats: { leads: "3 600+", cpl: "от 42₽", roi: "+240%" },
-    },
-    {
-      slug: "construction",
-      title: "Строительство",
-      description: "Поток качественных заявок для застройщиков и ремонтных компаний",
-      image: caseConstruction,
-      stats: { leads: "700+", cpl: "от 1 300₽", roi: "+280%" },
-    },
-    {
-      slug: "horeca",
-      title: "Рестораны & HoReCa",
-      description: "Лавина заказов и гостей для ресторанов и доставок",
-      image: caseRestaurant,
-      stats: { leads: "4 500+", cpl: "от 51₽", roi: "+320%" },
-    },
-    {
-      slug: "lawyers",
-      title: "Юридические услуги",
-      description: "Платёжеспособные клиенты для юристов и адвокатов",
-      image: caseDentistry,
-      stats: { leads: "580+", cpl: "от 250₽", roi: "+220%" },
-    },
-  ];
+  const { data: categories = [], isLoading } = useCaseCategories();
+
+  const fallbackImages: Record<string, string> = {
+    "medicine-beauty": caseDentistry,
+    construction: caseConstruction,
+    horeca: caseRestaurant,
+    lawyers: caseDentistry,
+  };
+
+  const caseCategories = categories
+    .filter((c) => c.is_active !== false)
+    .map((c) => ({
+      slug: c.slug,
+      title: c.title,
+      description: c.description,
+      image: c.image_url || fallbackImages[c.slug] || caseDentistry,
+      stats: {
+        leads: c.stats_leads || "—",
+        cpl: c.stats_cpl || "—",
+        roi: c.stats_roi || "—",
+      },
+    }));
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -60,8 +54,18 @@ const Cases = () => {
     },
   };
 
+  const seoTitle = "Кейсы — РИС";
+  const seoDescription = "Кейсы агентства РИС: результаты рекламных кампаний и сайтов в цифрах. CPL, лиды и ROI по нишам.";
+  const canonical = `${window.location.origin}/cases`;
+
   return (
     <div className="min-h-screen bg-background">
+      <Helmet>
+        <title>{seoTitle}</title>
+        <meta name="description" content={seoDescription} />
+        <link rel="canonical" href={canonical} />
+      </Helmet>
+
       <Header />
       <main>
         {/* Hero Section */}
@@ -86,7 +90,7 @@ const Cases = () => {
           />
 
           <div className="container mx-auto px-4 relative z-10">
-            <motion.div 
+            <motion.div
               className="max-w-4xl mx-auto text-center space-y-8"
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
@@ -114,59 +118,67 @@ const Cases = () => {
         {/* Cases Grid */}
         <section className="py-20 md:py-28">
           <div className="container mx-auto px-4">
-            <motion.div 
-              className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8"
-              variants={containerVariants}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-            >
-              {caseCategories.map((category) => (
-                <motion.div key={category.slug} variants={itemVariants}>
-                  <Link to={`/cases/${category.slug}`} className="group block">
-                    <div className="relative overflow-hidden rounded-2xl shadow-card hover:shadow-red-glow transition-all duration-500 border border-border/50 hover:border-primary/50 bg-card">
-                      <div className="aspect-[4/3] overflow-hidden relative">
-                        <img
-                          src={category.image}
-                          alt={category.title}
-                          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/20 to-transparent" />
-                      </div>
-                      <div className="p-5 md:p-6 space-y-4">
-                        <h3 className="text-xl md:text-2xl font-bold group-hover:text-primary transition-colors duration-300">
-                          {category.title}
-                        </h3>
-                        <p className="text-sm text-muted-foreground line-clamp-2">{category.description}</p>
-
-                        <div className="grid grid-cols-3 gap-3 pt-4 border-t border-border/50">
-                          <div>
-                            <div className="text-lg font-bold text-primary">{category.stats.leads}</div>
-                            <div className="text-xs text-muted-foreground">Лиды</div>
-                          </div>
-                          <div>
-                            <div className="text-lg font-bold text-primary">{category.stats.cpl}</div>
-                            <div className="text-xs text-muted-foreground">CPL</div>
-                          </div>
-                          <div>
-                            <div className="text-lg font-bold text-accent">{category.stats.roi}</div>
-                            <div className="text-xs text-muted-foreground">ROI</div>
-                          </div>
+            {isLoading ? (
+              <div className="flex items-center justify-center py-16">
+                <Loader2 className="h-6 w-6 animate-spin text-primary" />
+              </div>
+            ) : (
+              <motion.div
+                className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8"
+                variants={containerVariants}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true }}
+              >
+                {caseCategories.map((category) => (
+                  <motion.div key={category.slug} variants={itemVariants}>
+                    <Link to={`/cases/${category.slug}`} className="group block">
+                      <div className="relative overflow-hidden rounded-2xl shadow-card hover:shadow-red-glow transition-all duration-500 border border-border/50 hover:border-primary/50 bg-card">
+                        <div className="aspect-[4/3] overflow-hidden relative">
+                          <img
+                            src={category.image}
+                            alt={`Кейс: ${category.title}`}
+                            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                            loading="lazy"
+                          />
+                          <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/20 to-transparent" />
                         </div>
+                        <div className="p-5 md:p-6 space-y-4">
+                          <h2 className="text-xl md:text-2xl font-bold group-hover:text-primary transition-colors duration-300">
+                            {category.title}
+                          </h2>
+                          <p className="text-sm text-muted-foreground line-clamp-2">{category.description}</p>
 
-                        <Button 
-                          variant="ghost" 
-                          size="sm" 
-                          className="w-full bg-primary/10 hover:bg-primary hover:text-primary-foreground transition-all duration-300"
-                        >
-                          Смотреть кейсы <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
-                        </Button>
+                          <div className="grid grid-cols-3 gap-3 pt-4 border-t border-border/50">
+                            <div>
+                              <div className="text-lg font-bold text-primary">{category.stats.leads}</div>
+                              <div className="text-xs text-muted-foreground">Лиды</div>
+                            </div>
+                            <div>
+                              <div className="text-lg font-bold text-primary">{category.stats.cpl}</div>
+                              <div className="text-xs text-muted-foreground">CPL</div>
+                            </div>
+                            <div>
+                              <div className="text-lg font-bold text-accent">{category.stats.roi}</div>
+                              <div className="text-xs text-muted-foreground">ROI</div>
+                            </div>
+                          </div>
+
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            className="w-full bg-primary/10 hover:bg-primary hover:text-primary-foreground transition-all duration-300"
+                          >
+                            Смотреть кейсы{" "}
+                            <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                          </Button>
+                        </div>
                       </div>
-                    </div>
-                  </Link>
-                </motion.div>
-              ))}
-            </motion.div>
+                    </Link>
+                  </motion.div>
+                ))}
+              </motion.div>
+            )}
           </div>
         </section>
 
@@ -180,9 +192,9 @@ const Cases = () => {
               backgroundSize: "40px 40px",
             }}
           />
-          
+
           <div className="container mx-auto px-4 relative z-10">
-            <motion.div 
+            <motion.div
               className="grid md:grid-cols-4 gap-8 text-center text-white"
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -195,7 +207,7 @@ const Cases = () => {
                 { icon: Target, value: "+210%", label: "Средний ROI" },
                 { icon: Award, value: "97%", label: "Клиентов возвращаются" },
               ].map((stat, index) => (
-                <motion.div 
+                <motion.div
                   key={index}
                   className="space-y-4"
                   initial={{ opacity: 0, y: 20 }}
@@ -203,10 +215,7 @@ const Cases = () => {
                   viewport={{ once: true }}
                   transition={{ delay: index * 0.1 }}
                 >
-                  <motion.div
-                    whileHover={{ scale: 1.1, rotate: 5 }}
-                    transition={{ type: "spring", stiffness: 300 }}
-                  >
+                  <motion.div whileHover={{ scale: 1.1, rotate: 5 }} transition={{ type: "spring", stiffness: 300 }}>
                     <stat.icon className="h-12 w-12 mx-auto" />
                   </motion.div>
                   <div className="text-4xl md:text-5xl font-bold">{stat.value}</div>

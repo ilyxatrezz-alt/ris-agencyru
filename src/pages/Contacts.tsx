@@ -1,38 +1,58 @@
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ContactForm from "@/components/ContactForm";
-import { Mail, Phone, MapPin, Clock, Send, MessageCircle, CheckCircle } from "lucide-react";
+import { Helmet } from "react-helmet-async";
+import { Mail, Phone, Clock, Send, CheckCircle } from "lucide-react";
 import { motion } from "framer-motion";
-import { siteConfig } from "@/config/siteConfig";
+import { useSiteSettingsMap, getSetting } from "@/hooks/useSiteSettings";
 
 const Contacts = () => {
+  const { settings } = useSiteSettingsMap();
+
+  const phone = getSetting(settings, "phone", "+7 (949) 882-33-51");
+  const phoneRaw = getSetting(settings, "phone_raw", "+79498823351");
+  const email = getSetting(settings, "email", "info@ris-agency.ru");
+  const telegram = getSetting(settings, "telegram", "@ris_agency");
+  const telegramUrl = getSetting(settings, "telegram_url", "https://t.me/ris_agency");
+  const weekdays = getSetting(settings, "working_hours_weekdays", "Пн-Пт: 9:00 - 21:00");
+  const weekend = getSetting(settings, "working_hours_weekend", "Сб-Вс: по договорённости");
+  const callTime = getSetting(settings, "working_hours_call_time", "с 9:00 до 21:00");
+
+  const heroTitleAccent = getSetting(settings, "contacts_page_title_accent", "Свяжитесь");
+  const heroTitleRest = getSetting(settings, "contacts_page_title_rest", "с нами");
+  const heroSubtitle = getSetting(
+    settings,
+    "contacts_page_subtitle",
+    "Готовы обсудить ваш проект? Ответим за 15 минут и предложим решение, которое принесёт результат."
+  );
+
   const contactInfo = [
     {
       icon: Phone,
       title: "Телефон",
-      value: siteConfig.phone,
-      description: `Звоните ${siteConfig.workingHours.callTime}`,
-      href: `tel:${siteConfig.phoneRaw}`,
+      value: phone,
+      description: `Звоните ${callTime}`,
+      href: `tel:${phoneRaw}`,
     },
     {
       icon: Send,
       title: "Telegram",
-      value: siteConfig.telegram,
+      value: telegram,
       description: "Отвечаем за 15 минут",
-      href: siteConfig.telegramUrl,
+      href: telegramUrl,
     },
     {
       icon: Mail,
       title: "Email",
-      value: siteConfig.email,
+      value: email,
       description: "Для коммерческих предложений",
-      href: `mailto:${siteConfig.email}`,
+      href: `mailto:${email}`,
     },
     {
       icon: Clock,
       title: "Режим работы",
-      value: siteConfig.workingHours.weekdays,
-      description: siteConfig.workingHours.weekend,
+      value: weekdays,
+      description: weekend,
     },
   ];
 
@@ -55,8 +75,18 @@ const Contacts = () => {
     },
   ];
 
+  const seoTitle = "Контакты — РИС";
+  const seoDescription = "Контакты агентства РИС: телефон, Telegram, email и режим работы. Свяжитесь с нами и получите бесплатную консультацию.";
+  const canonical = `${window.location.origin}/contacts`;
+
   return (
     <div className="min-h-screen">
+      <Helmet>
+        <title>{seoTitle}</title>
+        <meta name="description" content={seoDescription} />
+        <link rel="canonical" href={canonical} />
+      </Helmet>
+
       <Header />
       <main>
         {/* Hero */}
@@ -67,19 +97,18 @@ const Contacts = () => {
             animate={{ scale: [1, 1.15, 1] }}
             transition={{ duration: 8, repeat: Infinity }}
           />
-          
+
           <div className="container mx-auto px-4 relative z-10">
-            <motion.div 
+            <motion.div
               className="max-w-4xl mx-auto text-center space-y-6"
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
             >
               <h1 className="text-4xl md:text-6xl lg:text-7xl font-black">
-                <span className="text-gradient-primary">Свяжитесь</span> с нами
+                <span className="text-gradient-primary">{heroTitleAccent}</span> {heroTitleRest}
               </h1>
               <p className="text-lg md:text-xl text-accent-foreground/70 max-w-2xl mx-auto">
-                Готовы обсудить ваш проект? Ответим за 15 минут и предложим решение, 
-                которое принесёт результат.
+                {heroSubtitle}
               </p>
             </motion.div>
           </div>
@@ -92,8 +121,10 @@ const Contacts = () => {
               {contactInfo.map((info, index) => {
                 const Icon = info.icon;
                 const Wrapper = info.href ? "a" : "div";
-                const wrapperProps = info.href ? { href: info.href, target: info.href.startsWith("http") ? "_blank" : undefined } : {};
-                
+                const wrapperProps = info.href
+                  ? { href: info.href, target: info.href.startsWith("http") ? "_blank" : undefined }
+                  : {};
+
                 return (
                   <motion.div
                     key={index}
@@ -119,7 +150,7 @@ const Contacts = () => {
             </div>
 
             {/* Why Contact Us */}
-            <motion.div 
+            <motion.div
               className="max-w-4xl mx-auto"
               initial={{ opacity: 0, y: 50 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -131,7 +162,7 @@ const Contacts = () => {
                 </h2>
                 <div className="grid md:grid-cols-2 gap-6">
                   {benefits.map((benefit, index) => (
-                    <motion.div 
+                    <motion.div
                       key={index}
                       className="flex items-start gap-4"
                       initial={{ opacity: 0, x: index % 2 === 0 ? -20 : 20 }}
@@ -144,9 +175,7 @@ const Contacts = () => {
                       </div>
                       <div>
                         <h3 className="font-bold mb-1">{benefit.title}</h3>
-                        <p className="text-sm text-muted-foreground leading-relaxed">
-                          {benefit.description}
-                        </p>
+                        <p className="text-sm text-muted-foreground leading-relaxed">{benefit.description}</p>
                       </div>
                     </motion.div>
                   ))}
