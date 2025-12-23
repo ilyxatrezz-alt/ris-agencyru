@@ -7,6 +7,10 @@ export interface CasesSliderItem {
   category: string;
   image_url: string;
   link: string;
+  description: string | null;
+  stats_leads: string | null;
+  stats_cpl: string | null;
+  stats_roi: string | null;
   order_index: number;
   is_active: boolean;
   created_at: string;

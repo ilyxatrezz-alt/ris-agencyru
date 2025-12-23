@@ -19,8 +19,12 @@ const CasesSliderEditor = () => {
   const [formData, setFormData] = useState({
     title: "",
     category: "",
+    description: "",
     image_url: "",
     link: "",
+    stats_leads: "",
+    stats_cpl: "",
+    stats_roi: "",
     order_index: 0,
     is_active: true,
   });
@@ -29,8 +33,12 @@ const CasesSliderEditor = () => {
     setFormData({
       title: "",
       category: "",
+      description: "",
       image_url: "",
       link: "",
+      stats_leads: "",
+      stats_cpl: "",
+      stats_roi: "",
       order_index: items?.length || 0,
       is_active: true,
     });
@@ -42,8 +50,12 @@ const CasesSliderEditor = () => {
     setFormData({
       title: item.title,
       category: item.category,
+      description: item.description || "",
       image_url: item.image_url,
       link: item.link,
+      stats_leads: item.stats_leads || "",
+      stats_cpl: item.stats_cpl || "",
+      stats_roi: item.stats_roi || "",
       order_index: item.order_index,
       is_active: item.is_active,
     });
@@ -167,6 +179,40 @@ const CasesSliderEditor = () => {
                   onChange={(e) => setFormData({ ...formData, link: e.target.value })}
                   placeholder="/cases/medicine-beauty"
                   required
+                />
+              </div>
+            </div>
+            <div>
+              <Label>Описание</Label>
+              <Input
+                value={formData.description}
+                onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                placeholder="Рост записей на 150%"
+              />
+            </div>
+            <div className="grid md:grid-cols-3 gap-4">
+              <div>
+                <Label>Лидов</Label>
+                <Input
+                  value={formData.stats_leads}
+                  onChange={(e) => setFormData({ ...formData, stats_leads: e.target.value })}
+                  placeholder="72"
+                />
+              </div>
+              <div>
+                <Label>CPL</Label>
+                <Input
+                  value={formData.stats_cpl}
+                  onChange={(e) => setFormData({ ...formData, stats_cpl: e.target.value })}
+                  placeholder="2 500 ₽"
+                />
+              </div>
+              <div>
+                <Label>ROI</Label>
+                <Input
+                  value={formData.stats_roi}
+                  onChange={(e) => setFormData({ ...formData, stats_roi: e.target.value })}
+                  placeholder="+150%"
                 />
               </div>
             </div>

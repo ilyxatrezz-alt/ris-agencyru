@@ -175,33 +175,45 @@ export type Database = {
         Row: {
           category: string
           created_at: string
+          description: string | null
           id: string
           image_url: string
           is_active: boolean | null
           link: string
           order_index: number | null
+          stats_cpl: string | null
+          stats_leads: string | null
+          stats_roi: string | null
           title: string
           updated_at: string
         }
         Insert: {
           category: string
           created_at?: string
+          description?: string | null
           id?: string
           image_url: string
           is_active?: boolean | null
           link: string
           order_index?: number | null
+          stats_cpl?: string | null
+          stats_leads?: string | null
+          stats_roi?: string | null
           title: string
           updated_at?: string
         }
         Update: {
           category?: string
           created_at?: string
+          description?: string | null
           id?: string
           image_url?: string
           is_active?: boolean | null
           link?: string
           order_index?: number | null
+          stats_cpl?: string | null
+          stats_leads?: string | null
+          stats_roi?: string | null
           title?: string
           updated_at?: string
         }
