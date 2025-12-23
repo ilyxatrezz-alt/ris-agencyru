@@ -37,12 +37,12 @@ const CasesSlider = () => {
   const cases = casesData?.map((item) => ({
     category: item.category,
     title: item.title,
-    description: "",
+    description: item.description || "",
     image: item.image_url,
     stats: {
-      leads: "—",
-      cpl: "—",
-      roi: "—",
+      leads: item.stats_leads || "—",
+      cpl: item.stats_cpl || "—",
+      roi: item.stats_roi || "—",
     },
     link: item.link,
   })) || [];
