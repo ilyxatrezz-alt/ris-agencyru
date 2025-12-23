@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -6,12 +5,11 @@ import { Badge } from "@/components/ui/badge";
 import useEmblaCarousel from "embla-carousel-react";
 import { ChevronLeft, ChevronRight, ArrowRight, TrendingUp } from "lucide-react";
 import { useSiteSettingsMap, getSetting } from "@/hooks/useSiteSettings";
-import caseDentistry from "@/assets/case-dentistry.jpg";
-import caseConstruction from "@/assets/case-construction.jpg";
-import caseRestaurant from "@/assets/case-restaurant.jpg";
+import { useCasesSliderItems } from "@/hooks/useCasesSliderItems";
 
 const CasesSlider = () => {
   const { settings } = useSiteSettingsMap();
+  const { data: casesData } = useCasesSliderItems();
 
   const title = getSetting(settings, "home_cases_slider_title", "Кейсы Успеха");
   const subtitle = getSetting(
@@ -36,56 +34,18 @@ const CasesSlider = () => {
   const scrollPrev = () => emblaApi?.scrollPrev();
   const scrollNext = () => emblaApi?.scrollNext();
 
-  const cases = [
-    {
-      category: "Медицина & Beauty",
-      title: "Стоматология 'Дента Смайл'",
-      description: "Рост записей на имплантацию на 150%",
-      image: caseDentistry,
-      stats: {
-        leads: "72",
-        cpl: "2 500 ₽",
-        roi: "+150%",
-      },
-      link: "/cases/medicine-beauty",
+  const cases = casesData?.map((item) => ({
+    category: item.category,
+    title: item.title,
+    description: "",
+    image: item.image_url,
+    stats: {
+      leads: "—",
+      cpl: "—",
+      roi: "—",
     },
-    {
-      category: "Строительство",
-      title: "Строительная компания",
-      description: "Рост заявок на строительство домов на 180%",
-      image: caseConstruction,
-      stats: {
-        leads: "89",
-        cpl: "3 595 ₽",
-        roi: "+180%",
-      },
-      link: "/cases/construction",
-    },
-    {
-      category: "HoReCa",
-      title: "Сеть ресторанов",
-      description: "Рост заказов доставки еды на 220%",
-      image: caseRestaurant,
-      stats: {
-        leads: "1 520",
-        cpl: "56 ₽",
-        roi: "+220%",
-      },
-      link: "/cases/horeca",
-    },
-    {
-      category: "Юридические услуги",
-      title: "Юридическая консультация",
-      description: "Рост заявок по семейному праву на 180%",
-      image: caseDentistry,
-      stats: {
-        leads: "110",
-        cpl: "770 ₽",
-        roi: "+180%",
-      },
-      link: "/cases/lawyers",
-    },
-  ];
+    link: item.link,
+  })) || [];
 
   return (
     <section className="py-16 md:py-24 bg-gradient-to-br from-primary/5 to-accent/5">
