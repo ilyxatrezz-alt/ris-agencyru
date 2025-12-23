@@ -2,9 +2,11 @@ import { Star, ThumbsUp, MapPin } from "lucide-react";
 import { Button } from "./ui/button";
 import { motion } from "framer-motion";
 import { useSiteSettingsMap, getSetting } from "@/hooks/useSiteSettings";
+import { useReviews } from "@/hooks/useReviews";
 
 const ReviewsBlock = () => {
   const { settings } = useSiteSettingsMap();
+  const { data: reviewsData } = useReviews();
 
   const title = getSetting(settings, "home_reviews_title", "Отзывы наших клиентов");
   const subtitle = getSetting(settings, "home_reviews_subtitle", "Реальные истории успеха от владельцев бизнеса");
@@ -18,56 +20,19 @@ const ReviewsBlock = () => {
   const recommendValue = getSetting(settings, "home_reviews_recommend_value", "100%");
   const recommendLabel = getSetting(settings, "home_reviews_recommend_label", "Рекомендуют");
 
-  const reviews = [
-    {
-      name: "Елена Васильева",
-      initials: "ЕВ",
-      date: "15 ноября 2024",
-      location: "Москва",
-      text: "Заказали сайт и рекламу для стоматологии. РИС сделали невозможное — за 2 месяца 127 записей на услуги! Стоимость привлечения пациента всего 1 800₽. Команда работает как швейцарские часы: еженедельные отчёты, прозрачная аналитика, мгновенная реакция на запросы. Окупили вложения уже в первый месяц!",
-      helpful: 24,
-    },
-    {
-      name: "Игорь Кузнецов",
-      initials: "ИК",
-      date: "3 ноября 2024",
-      location: "Санкт-Петербург",
-      text: "Искали подрядчика полгода — все обещали золотые горы. РИС просто сделали: сайт за 2 недели, реклама заработала на 3-й день. За квартал снизили стоимость заявки с 4 200₽ до 1 900₽. Выручка выросла на 340%. Теперь планируем открывать филиал — ребята уже готовят запуск рекламы под новую локацию.",
-      helpful: 18,
-    },
-    {
-      name: "Наталья Романова",
-      initials: "НР",
-      date: "28 октября 2024",
-      location: "Краснодар",
-      text: "Ресторанный бизнес — сложная ниша. РИС разобрались за неделю и выстроили систему привлечения гостей. Средний чек с рекламы — 4 100₽, стоимость привлечения — 140₽. ROI 290%! Главное — качество аудитории: люди приходят, возвращаются, рекомендуют. За 8 месяцев база постоянных клиентов выросла втрое.",
-      helpful: 31,
-    },
-    {
-      name: "Артём Белов",
-      initials: "АБ",
-      date: "15 октября 2024",
-      location: "Екатеринбург",
-      text: "Строительство домов — это долгий цикл сделки и высокая конкуренция. РИС выстроили воронку, которая реально работает. За 5 месяцев — 89 целевых заявок, 14 подписанных договоров на общую сумму 47 млн рублей. Конверсия 15,7% — это фантастика для нашей ниши. Масштабируем бюджет в 3 раза.",
-      helpful: 15,
-    },
-    {
-      name: "Виктория Орлова",
-      initials: "ВО",
-      date: "2 октября 2024",
-      location: "Казань",
-      text: "Косметологический кабинет полностью загружен благодаря РИС. 156 новых клиентов за 3 месяца, средний чек 12 400₽. Вложения в рекламу окупились в 8 раз! Отдельная благодарность за помощь с позиционированием — помогли выделиться среди конкурентов. Теперь очередь расписана на месяц вперёд.",
-      helpful: 27,
-    },
-    {
-      name: "Максим Титов",
-      initials: "МТ",
-      date: "18 сентября 2024",
-      location: "Новосибирск",
-      text: "Работаем с РИС больше года. Начинали с бюджета 60 тысяч, сейчас инвестируем 450 тысяч ежемесячно — потому что это выгодно. Стоимость лида снизилась на 58%, конверсия в продажу выросла на 40%. Системный подход, постоянная оптимизация, честная коммуникация. Лучшее вложение в маркетинг.",
-      helpful: 22,
-    },
-  ];
+  const getInitials = (name: string) => {
+    return name.split(" ").map(n => n[0]).join("").slice(0, 2).toUpperCase();
+  };
+
+  const reviews = reviewsData?.map((review) => ({
+    name: review.author,
+    initials: getInitials(review.author),
+    date: new Date(review.created_at).toLocaleDateString("ru-RU", { day: "numeric", month: "long", year: "numeric" }),
+    location: review.position,
+    text: review.text,
+    helpful: 0,
+    rating: review.rating,
+  })) || [];
 
   return (
     <section className="py-20 bg-secondary/30 relative overflow-hidden">
@@ -174,6 +139,11 @@ const ReviewsBlock = () => {
 
         {/* Reviews Grid */}
         <div className="grid md:grid-cols-2 gap-6 max-w-6xl mx-auto">
+          {reviews.length === 0 && (
+            <div className="col-span-2 text-center py-12 text-muted-foreground">
+              Отзывы скоро появятся
+            </div>
+          )}
           {reviews.map((review, index) => (
             <motion.div
               key={index}

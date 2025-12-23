@@ -171,6 +171,111 @@ export type Database = {
           },
         ]
       }
+      cases_slider_items: {
+        Row: {
+          category: string
+          created_at: string
+          id: string
+          image_url: string
+          is_active: boolean | null
+          link: string
+          order_index: number | null
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          category: string
+          created_at?: string
+          id?: string
+          image_url: string
+          is_active?: boolean | null
+          link: string
+          order_index?: number | null
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          category?: string
+          created_at?: string
+          id?: string
+          image_url?: string
+          is_active?: boolean | null
+          link?: string
+          order_index?: number | null
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      process_steps: {
+        Row: {
+          created_at: string
+          description: string
+          id: string
+          is_active: boolean | null
+          order_index: number | null
+          step_number: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          description: string
+          id?: string
+          is_active?: boolean | null
+          order_index?: number | null
+          step_number: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          description?: string
+          id?: string
+          is_active?: boolean | null
+          order_index?: number | null
+          step_number?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      reviews: {
+        Row: {
+          author: string
+          created_at: string
+          id: string
+          is_active: boolean | null
+          order_index: number | null
+          position: string
+          rating: number | null
+          text: string
+          updated_at: string
+        }
+        Insert: {
+          author: string
+          created_at?: string
+          id?: string
+          is_active?: boolean | null
+          order_index?: number | null
+          position: string
+          rating?: number | null
+          text: string
+          updated_at?: string
+        }
+        Update: {
+          author?: string
+          created_at?: string
+          id?: string
+          is_active?: boolean | null
+          order_index?: number | null
+          position?: string
+          rating?: number | null
+          text?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       site_settings: {
         Row: {
           category: string

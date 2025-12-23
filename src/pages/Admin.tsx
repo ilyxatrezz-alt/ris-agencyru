@@ -36,6 +36,9 @@ import {
   FolderOpen
 } from "lucide-react";
 import CasesEditor from "@/components/admin/CasesEditor";
+import ProcessStepsEditor from "@/components/admin/ProcessStepsEditor";
+import CasesSliderEditor from "@/components/admin/CasesSliderEditor";
+import ReviewsEditor from "@/components/admin/ReviewsEditor";
 import { motion } from "framer-motion";
 
 const Admin = () => {
@@ -250,13 +253,16 @@ const Admin = () => {
                 <SettingsEditor
                   category="home_process"
                   title="Главная — Процесс"
-                  description="Заголовки и подзаголовок блока процесса (этапы — следующим шагом)"
+                  description="Заголовки и подзаголовок блока процесса"
                 />
+                <ProcessStepsEditor />
                 <SettingsEditor
                   category="home_reviews"
                   title="Главная — Отзывы"
-                  description="Заголовки и сводные цифры (список отзывов — следующим шагом)"
+                  description="Заголовки и сводные цифры"
                 />
+                <ReviewsEditor />
+                <CasesSliderEditor />
                 <SettingsEditor
                   category="home_contact_form"
                   title="Главная — Форма заявки"

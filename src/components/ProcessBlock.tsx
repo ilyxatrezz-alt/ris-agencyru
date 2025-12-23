@@ -3,9 +3,20 @@ import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import TiltCard from "./TiltCard";
 import { useSiteSettingsMap, getSetting } from "@/hooks/useSiteSettings";
+import { useProcessSteps } from "@/hooks/useProcessSteps";
+
+const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
+  FileText,
+  Search,
+  Lightbulb,
+  Rocket,
+  Settings,
+  FileCheck,
+};
 
 const ProcessBlock = () => {
   const { settings } = useSiteSettingsMap();
+  const { data: stepsData } = useProcessSteps();
 
   const containerRef = useRef(null);
   const isInView = useInView(containerRef, { once: true, margin: "-100px" });
@@ -23,50 +34,15 @@ const ProcessBlock = () => {
     "Прозрачный процесс в 6 этапов. Вы всегда знаете, что происходит с вашим проектом."
   );
 
-  const steps = [
-    {
-      icon: FileText,
-      title: "Брифинг",
-      description: "Глубокое интервью о вашем бизнесе, целях, конкурентах. Понимаем задачу на 100%.",
-      duration: "1 день",
-      number: "01",
-    },
-    {
-      icon: Search,
-      title: "Аудит",
-      description: "Анализируем рынок, конкурентов, текущую рекламу. Находим точки роста.",
-      duration: "2-3 дня",
-      number: "02",
-    },
-    {
-      icon: Lightbulb,
-      title: "Стратегия",
-      description: "Разрабатываем медиаплан с прогнозом бюджета, лидов и ROI.",
-      duration: "2 дня",
-      number: "03",
-    },
-    {
-      icon: Rocket,
-      title: "Запуск",
-      description: "Создаём сайт, настраиваем рекламу, подключаем аналитику. Поехали!",
-      duration: "3-7 дней",
-      number: "04",
-    },
-    {
-      icon: Settings,
-      title: "Оптимизация",
-      description: "Ежедневный контроль, A/B-тесты, снижение CPL. Выжимаем максимум.",
-      duration: "Постоянно",
-      number: "05",
-    },
-    {
-      icon: FileCheck,
-      title: "Отчётность",
-      description: "Прозрачные отчёты каждую неделю. Видите каждый потраченный рубль.",
-      duration: "Еженедельно",
-      number: "06",
-    },
-  ];
+  const defaultIcons = [FileText, Search, Lightbulb, Rocket, Settings, FileCheck];
+  
+  const steps = stepsData?.map((step, index) => ({
+    icon: defaultIcons[index % defaultIcons.length],
+    title: step.title,
+    description: step.description,
+    duration: "",
+    number: step.step_number,
+  })) || [];
 
   return (
     <section ref={containerRef} className="py-24 bg-accent text-accent-foreground relative overflow-hidden noise">
