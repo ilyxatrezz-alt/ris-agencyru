@@ -34,18 +34,20 @@ const CasesSlider = () => {
   const scrollPrev = () => emblaApi?.scrollPrev();
   const scrollNext = () => emblaApi?.scrollNext();
 
-  const cases = casesData?.map((item) => ({
-    category: item.category,
-    title: item.title,
-    description: item.description || "",
-    image: item.image_url,
-    stats: {
-      leads: item.stats_leads || "—",
-      cpl: item.stats_cpl || "—",
-      roi: item.stats_roi || "—",
-    },
-    link: item.link,
-  })) || [];
+  const cases =
+    casesData?.map((item) => ({
+      category: item.category,
+      title: item.title,
+      description: item.description || "",
+      image: item.image_url,
+      imageVersion: item.updated_at,
+      stats: {
+        leads: item.stats_leads || "—",
+        cpl: item.stats_cpl || "—",
+        roi: item.stats_roi || "—",
+      },
+      link: item.link,
+    })) || [];
 
   return (
     <section className="py-16 md:py-24 bg-gradient-to-br from-primary/5 to-accent/5">
@@ -81,10 +83,13 @@ const CasesSlider = () => {
                         {/* Image */}
                         <div className="aspect-[16/10] overflow-hidden relative">
                           <img
-                            src={caseItem.image}
+                            src={`${caseItem.image}${caseItem.imageVersion ? `?v=${encodeURIComponent(caseItem.imageVersion)}` : ""}`}
                             alt={`Кейс: ${caseItem.title}`}
                             className="w-full h-full object-cover group-hover:scale-105 transition-base"
                             loading="lazy"
+                            onError={(e) => {
+                              e.currentTarget.src = "/placeholder.svg";
+                            }}
                           />
                           <div className="absolute top-4 left-4">
                             <Badge className="bg-background/90 text-foreground backdrop-blur-sm">
@@ -99,7 +104,9 @@ const CasesSlider = () => {
                             <h3 className="text-xl font-bold group-hover:text-primary transition-base">
                               {caseItem.title}
                             </h3>
-                            <p className="text-sm text-muted-foreground">{caseItem.description}</p>
+                            {caseItem.description && (
+                              <p className="text-sm text-muted-foreground">{caseItem.description}</p>
+                            )}
                           </div>
 
                           {/* Stats */}
