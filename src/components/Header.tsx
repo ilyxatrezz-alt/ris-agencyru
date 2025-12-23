@@ -4,10 +4,18 @@ import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { motion, AnimatePresence } from "framer-motion";
+import { useSiteSettingsMap, getSetting } from "@/hooks/useSiteSettings";
+import GarlandLights from "./GarlandLights";
+import HolidayBanner from "./HolidayBanner";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const location = useLocation();
+  const { settings } = useSiteSettingsMap();
+  
+  const garlandEnabled = getSetting(settings, "effects_garland_enabled", "true") === "true";
+  const bannerEnabled = getSetting(settings, "effects_banner_enabled", "true") === "true";
+  const bannerText = getSetting(settings, "effects_banner_text", "С Новым 2025 годом! 🎄 Желаем успехов и процветания вашему бизнесу!");
 
   const navigation = [
     { name: "Главная", href: "/" },
@@ -18,7 +26,10 @@ const Header = () => {
   ];
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-border/50 bg-background/95 backdrop-blur-xl supports-[backdrop-filter]:bg-background/80">
+    <>
+      {bannerEnabled && <HolidayBanner text={bannerText} />}
+      <header className="sticky top-0 z-50 w-full border-b border-border/50 bg-background/95 backdrop-blur-xl supports-[backdrop-filter]:bg-background/80 relative">
+        {garlandEnabled && <GarlandLights />}
       <div className="container mx-auto px-4">
         <nav className="flex h-20 items-center justify-between">
           <Link to="/" className="flex items-center space-x-3 group">
@@ -125,6 +136,7 @@ const Header = () => {
         </AnimatePresence>
       </div>
     </header>
+    </>
   );
 };
 
