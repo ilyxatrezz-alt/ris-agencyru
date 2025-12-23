@@ -15,7 +15,7 @@ const Header = () => {
   
   const garlandEnabled = getSetting(settings, "effects_garland_enabled", "true") === "true";
   const bannerEnabled = getSetting(settings, "effects_banner_enabled", "true") === "true";
-  const bannerText = getSetting(settings, "effects_banner_text", "С Новым 2025 годом! 🎄 Желаем успехов и процветания вашему бизнесу!");
+  const bannerText = getSetting(settings, "effects_banner_text", "С Новым 2026 годом! 🎄 Желаем успехов и процветания вашему бизнесу!");
 
   const navigation = [
     { name: "Главная", href: "/" },
@@ -28,7 +28,7 @@ const Header = () => {
   return (
     <>
       {bannerEnabled && <HolidayBanner text={bannerText} />}
-      <header className="sticky top-0 z-50 w-full border-b border-border/50 bg-background/95 backdrop-blur-xl supports-[backdrop-filter]:bg-background/80 relative">
+      <header className="sticky top-0 z-50 w-full border-b border-border/50 bg-background/95 backdrop-blur-xl supports-[backdrop-filter]:bg-background/80 relative overflow-visible pb-4">
         {garlandEnabled && <GarlandLights />}
       <div className="container mx-auto px-4">
         <nav className="flex h-20 items-center justify-between">
