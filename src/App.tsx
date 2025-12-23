@@ -9,6 +9,8 @@ import { AuthProvider } from "./hooks/useAuth";
 import ScrollToTop from "./components/ScrollToTop";
 import Preloader from "./components/Preloader";
 import ProtectedRoute from "./components/ProtectedRoute";
+import SnowEffect from "./components/SnowEffect";
+import { useSiteSettingsMap, getSetting } from "./hooks/useSiteSettings";
 import Index from "./pages/Index";
 import CityIndex from "./pages/CityIndex";
 import Services from "./pages/Services";
@@ -25,19 +27,19 @@ import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
 
-const App = () => {
+const AppContent = () => {
   const [showPreloader, setShowPreloader] = useState(true);
+  const { settings } = useSiteSettingsMap();
+  const snowEnabled = getSetting(settings, "effects_snow_enabled", "true") === "true";
 
   return (
-    <HelmetProvider>
-      <QueryClientProvider client={queryClient}>
-        <AuthProvider>
-          <TooltipProvider>
-            {showPreloader && <Preloader onComplete={() => setShowPreloader(false)} />}
-            <Toaster />
-            <Sonner />
-            <BrowserRouter>
-              <ScrollToTop />
+    <>
+      {snowEnabled && <SnowEffect />}
+      {showPreloader && <Preloader onComplete={() => setShowPreloader(false)} />}
+      <Toaster />
+      <Sonner />
+      <BrowserRouter>
+        <ScrollToTop />
               <Routes>
                 <Route path="/" element={<Index />} />
                 {/* City-specific routes */}
@@ -66,6 +68,17 @@ const App = () => {
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </BrowserRouter>
+          </>
+        );
+      };
+
+const App = () => {
+  return (
+    <HelmetProvider>
+      <QueryClientProvider client={queryClient}>
+        <AuthProvider>
+          <TooltipProvider>
+            <AppContent />
           </TooltipProvider>
         </AuthProvider>
       </QueryClientProvider>

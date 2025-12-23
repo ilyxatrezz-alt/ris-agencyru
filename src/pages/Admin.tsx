@@ -221,6 +221,11 @@ const Admin = () => {
               {/* Главная */}
               <TabsContent value="hero" className="space-y-6">
                 <SettingsEditor
+                  category="effects"
+                  title="Визуальные эффекты"
+                  description="Новогодние эффекты и украшения сайта"
+                />
+                <SettingsEditor
                   category="hero"
                   title="Главная страница (Hero)"
                   description="Редактируйте заголовки и тексты на главной странице"
