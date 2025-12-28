@@ -2,6 +2,31 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Local system fonts for Russia - no external dependencies, instant loading */
+@font-face {
+  font-family: 'RIS Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Segoe UI'), local('Roboto'), local('Helvetica Neue'), local('Arial'), local('sans-serif');
+}
+
+@font-face {
+  font-family: 'RIS Sans';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: local('Segoe UI Bold'), local('Roboto Bold'), local('Helvetica Neue Bold'), local('Arial Bold');
+}
+
+@font-face {
+  font-family: 'RIS Sans';
+  font-style: normal;
+  font-weight: 900;
+  font-display: swap;
+  src: local('Segoe UI Black'), local('Roboto Black'), local('Helvetica Neue Bold'), local('Arial Black');
+}
+
 /* РИС Design System - Black & Red Professional Theme */
 
 @layer base {
@@ -103,12 +128,13 @@
 
   body {
     @apply bg-background text-foreground;
-    font-family: 'Onest', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-family: 'RIS Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
     overflow-x: hidden;
     width: 100%;
     max-width: 100vw;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeSpeed;
   }
   
   #root {
@@ -117,7 +143,7 @@
   }
 
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Onest', sans-serif;
+    font-family: 'RIS Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     font-weight: 900;
     line-height: 1.05;
     letter-spacing: -0.03em;

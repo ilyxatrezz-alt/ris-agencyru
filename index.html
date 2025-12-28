@@ -1,40 +1,73 @@
 <!doctype html>
-<html lang="en">
+<html lang="ru">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    
+    <!-- DNS Prefetch for faster connections -->
+    <link rel="dns-prefetch" href="https://wstyybzxaumbmeqwmcic.supabase.co" />
+    
+    <!-- Preload critical resources -->
+    <link rel="preload" as="style" href="/src/index.css" />
+    
     <title>РИС — Реклама и Сайты с Гарантией Результата | Digital-агентство с 2014 года</title>
     <meta name="description" content="Запускаем контекстную (Яндекс) и таргетированную (ВК) рекламу, создаем конверсионные сайты. 10+ лет опыта, средний CPL на 40% ниже конкурентов. Работаем по всей России.">
-    <meta name="author" content="G-TARGET" />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-
+    <meta name="author" content="РИС" />
+    <meta name="robots" content="index, follow" />
     
+    <!-- Performance hints -->
+    <meta http-equiv="x-dns-prefetch-control" content="on" />
     
+    <!-- Open Graph -->
     <meta property="og:type" content="website" />
+    <meta property="og:locale" content="ru_RU" />
+    <meta property="og:site_name" content="РИС — Реклама и Сайты" />
+    <meta property="og:title" content="РИС — Реклама и Сайты с Гарантией Результата | Digital-агентство с 2014 года">
+    <meta property="og:description" content="Запускаем контекстную (Яндекс) и таргетированную (ВК) рекламу, создаем конверсионные сайты. 10+ лет опыта, средний CPL на 40% ниже конкурентов. Работаем по всей России.">
     <meta property="og:image" content="https://storage.googleapis.com/gpt-engineer-file-uploads/bo1HMQqbbbT6nYw0VXcXNCHVW852/social-images/social-1764950634378-Снимок экрана 2025-12-05 122604.png">
 
+    <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:site" content="@GTARGET" />
+    <meta name="twitter:site" content="@agency_ris" />
+    <meta name="twitter:title" content="РИС — Реклама и Сайты с Гарантией Результата | Digital-агентство с 2014 года">
+    <meta name="twitter:description" content="Запускаем контекстную (Яндекс) и таргетированную (ВК) рекламу, создаем конверсионные сайты. 10+ лет опыта, средний CPL на 40% ниже конкурентов. Работаем по всей России.">
     <meta name="twitter:image" content="https://storage.googleapis.com/gpt-engineer-file-uploads/bo1HMQqbbbT6nYw0VXcXNCHVW852/social-images/social-1764950634378-Снимок экрана 2025-12-05 122604.png">
     
-  
-  
-  
-  <link rel="icon" type="image/x-icon" href="https://storage.googleapis.com/gpt-engineer-file-uploads/bo1HMQqbbbT6nYw0VXcXNCHVW852/uploads/1764950631123-Снимок экрана 2025-12-05 122604.png">
-  
-  
-  
-  
-  <meta property="og:title" content="РИС — Реклама и Сайты с Гарантией Результата | Digital-агентство с 2014 года">
-  <meta name="twitter:title" content="РИС — Реклама и Сайты с Гарантией Результата | Digital-агентство с 2014 года">
-  <meta property="og:description" content="Запускаем контекстную (Яндекс) и таргетированную (ВК) рекламу, создаем конверсионные сайты. 10+ лет опыта, средний CPL на 40% ниже конкурентов. Работаем по всей России.">
-  <meta name="twitter:description" content="Запускаем контекстную (Яндекс) и таргетированную (ВК) рекламу, создаем конверсионные сайты. 10+ лет опыта, средний CPL на 40% ниже конкурентов. Работаем по всей России.">
-</head>
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="https://storage.googleapis.com/gpt-engineer-file-uploads/bo1HMQqbbbT6nYw0VXcXNCHVW852/uploads/1764950631123-Снимок экрана 2025-12-05 122604.png">
+    
+    <!-- Geo tags for Russia -->
+    <meta name="geo.region" content="RU" />
+    <meta name="geo.placename" content="Россия" />
+    
+    <!-- Critical CSS for instant first paint -->
+    <style>
+      /* Critical CSS - минимальные стили для первой отрисовки */
+      *{margin:0;padding:0;box-sizing:border-box}
+      html{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;-webkit-font-smoothing:antialiased}
+      body{background:#0a0a0a;color:#fafafa;min-height:100vh}
+      #root{min-height:100vh}
+      /* Preloader critical styles */
+      .preloader-fallback{position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;background:#09090b}
+      .preloader-fallback span{font-size:3rem;font-weight:900;color:#fff}
+    </style>
+  </head>
 
   <body>
-    <div id="root"></div>
+    <div id="root">
+      <!-- Fallback preloader for slow connections -->
+      <div class="preloader-fallback" id="fallback-preloader">
+        <span>РИС</span>
+      </div>
+    </div>
+    <script>
+      // Remove fallback preloader once React loads
+      window.addEventListener('DOMContentLoaded', function() {
+        var fp = document.getElementById('fallback-preloader');
+        if (fp) setTimeout(function() { fp.style.display = 'none'; }, 100);
+      });
+    </script>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
