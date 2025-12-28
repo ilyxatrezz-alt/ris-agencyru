@@ -10,22 +10,20 @@ const Preloader = ({ onComplete }: PreloaderProps) => {
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {
-    // Faster loading for better UX
     const progressInterval = setInterval(() => {
       setProgress(prev => {
         if (prev >= 100) {
           clearInterval(progressInterval);
           return 100;
         }
-        return prev + 5; // Faster progress
+        return prev + 2;
       });
-    }, 20);
+    }, 40);
 
-    // Reduced preloader time for faster perceived loading
     const timer = setTimeout(() => {
       setIsVisible(false);
       onComplete?.();
-    }, 1200); // Reduced from 2200ms to 1200ms
+    }, 2500);
 
     return () => {
       clearTimeout(timer);
