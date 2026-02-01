@@ -17,9 +17,9 @@ const Hero = () => {
     offset: ["start start", "end start"],
   });
   
-  const heroY = useTransform(scrollYProgress, [0, 1], [0, 200]);
-  const heroOpacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
-  const heroScale = useTransform(scrollYProgress, [0, 0.5], [1, 0.9]);
+  const heroY = useTransform(scrollYProgress, [0, 1], [0, 150]);
+  const heroOpacity = useTransform(scrollYProgress, [0, 0.7, 1], [1, 1, 0]);
+  const heroScale = useTransform(scrollYProgress, [0, 0.8, 1], [1, 1, 0.95]);
 
   // Get settings with fallbacks
   const heroBadge = getSetting(settings, "hero_badge", "С 2014 года • 500+ млн ₽ рекламных бюджетов");
