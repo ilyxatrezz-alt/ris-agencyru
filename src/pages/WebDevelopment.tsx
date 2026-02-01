@@ -231,6 +231,54 @@ const WebDevelopment = () => {
         "/images/case-rave-4.png",
       ],
     },
+    {
+      id: "sushitoria",
+      title: "Сушитория",
+      subtitle: "Старейшая доставка роллов в Донецке",
+      url: "https://sushitoria-dnr.ru/",
+      category: "HoReCa / Доставка",
+      description: "Создали интернет-магазин для одной из первых служб доставки японской кухни в республике. Полный функционал заказа, корзина, личный кабинет с историей заказов.",
+      images: [
+        "/images/case-sushi-1.png",
+        "/images/case-sushi-2.png",
+        "/images/case-sushi-3.png",
+      ],
+    },
+    {
+      id: "paa",
+      title: "PAA Shop",
+      subtitle: "Project Anti-Aging — магазин пептидов для США",
+      url: "https://paashop.online/",
+      category: "E-commerce / USA",
+      description: "Разработали технологичный интернет-магазин для американского рынка. Премиальный дизайн, интеграция с платёжными системами США, мультивалютность.",
+      images: [
+        "/images/case-paa-1.png",
+        "/images/case-paa-2.png",
+      ],
+    },
+    {
+      id: "randm",
+      title: "R&M Beauty Style",
+      subtitle: "Сеть салонов красоты в Техасе, США",
+      url: "https://randmbeautystyle.com/",
+      category: "Красота / USA",
+      description: "Создали сайт для сети салонов в Plano и Waco, штат Техас. Калькулятор услуг, онлайн-запись, интеграция с рекламными кампаниями.",
+      images: [
+        "/images/case-randm-1.png",
+        "/images/case-randm-2.png",
+      ],
+    },
+    {
+      id: "ffc",
+      title: "Future Fitness Club",
+      subtitle: "EMS-тренажёры нового поколения",
+      url: "#",
+      category: "Фитнес / Спорт",
+      description: "Разработали рейтинговый сайт для компании EMS-тренажёров. Каталог продукции, сравнение моделей, интеграция с системой заказов.",
+      images: [
+        "/images/case-ffc-1.png",
+      ],
+    },
   ];
 
   const [selectedCase, setSelectedCase] = useState<typeof portfolioCases[0] | null>(null);
