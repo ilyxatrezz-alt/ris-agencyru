@@ -24,6 +24,7 @@ import Contacts from "./pages/Contacts";
 import Auth from "./pages/Auth";
 import Admin from "./pages/Admin";
 import NotFound from "./pages/NotFound";
+import WebDevelopment from "./pages/WebDevelopment";
 
 const queryClient = new QueryClient();
 
@@ -53,6 +54,7 @@ const AppContent = () => {
                 <Route path="/cases/construction" element={<CaseConstruction />} />
                 <Route path="/cases/horeca" element={<CaseHoreca />} />
                 <Route path="/cases/lawyers" element={<CaseLawyers />} />
+                <Route path="/web-development" element={<WebDevelopment />} />
                 <Route path="/about" element={<About />} />
                 <Route path="/contacts" element={<Contacts />} />
                 <Route path="/auth" element={<Auth />} />
