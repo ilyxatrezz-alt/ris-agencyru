@@ -430,7 +430,7 @@ const WebDevelopment = () => {
               </p>
             </div>
 
-            <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+            <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto pt-8">
               {packages.map((pkg, index) => (
                 <motion.div
                   key={index}
@@ -441,13 +441,13 @@ const WebDevelopment = () => {
                   className={`relative ${pkg.popular ? "md:-mt-4 md:mb-4" : ""}`}
                 >
                   {pkg.popular && (
-                    <div className="absolute -top-4 left-1/2 -translate-x-1/2 z-10">
+                    <div className="absolute -top-3 left-1/2 -translate-x-1/2 z-20 whitespace-nowrap">
                       <span className="px-4 py-1.5 bg-primary text-primary-foreground text-sm font-bold rounded-full shadow-cta">
                         Популярный выбор
                       </span>
                     </div>
                   )}
-                  <Card className={`h-full border-2 ${pkg.popular ? "border-primary shadow-xl" : "border-border/50"} overflow-hidden`}>
+                  <Card className={`h-full border-2 ${pkg.popular ? "border-primary shadow-xl" : "border-border/50"}`}>
                     <div className={`h-2 bg-gradient-to-r ${pkg.gradient}`} />
                     <CardContent className="p-8 space-y-6">
                       <div>
