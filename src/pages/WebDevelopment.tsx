@@ -1,5 +1,5 @@
-import { motion, useScroll, useTransform } from "framer-motion";
-import { useRef } from "react";
+import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
+import { useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import Header from "@/components/Header";
@@ -22,7 +22,11 @@ import {
   Sparkles,
   Star,
   MessageSquare,
-  Phone
+  Phone,
+  ExternalLink,
+  ChevronLeft,
+  ChevronRight,
+  X
 } from "lucide-react";
 import ParallaxSection from "@/components/ParallaxSection";
 import { siteConfig } from "@/config/siteConfig";
@@ -184,6 +188,79 @@ const WebDevelopment = () => {
       rating: 5,
     },
   ];
+
+  // Portfolio cases
+  const portfolioCases = [
+    {
+      id: "bioline",
+      title: "Био-Лайн",
+      subtitle: "Крупнейшая медицинская лаборатория ДНР и ЛНР",
+      url: "https://bioline-med.ru/",
+      category: "Медицина",
+      description: "Разработали современный сайт для медицинского центра с функционалом записи на анализы, онлайн-просмотром результатов и интеграцией с лабораторной системой.",
+      images: [
+        "/images/case-bioline-1.png",
+        "/images/case-bioline-2.png",
+        "/images/case-bioline-3.png",
+      ],
+    },
+    {
+      id: "prokat",
+      title: "Аренда Техники",
+      subtitle: "Крупнейший арендатор строительной техники в Донецке",
+      url: "https://prokat-donetsk.ru/",
+      category: "Аренда / Стройка",
+      description: "Создали каталог с 500+ позициями техники, фильтрами, корзиной и системой онлайн-заказа. Удобный интерфейс для аренды и продажи оборудования.",
+      images: [
+        "/images/case-prokat-1.png",
+        "/images/case-prokat-2.png",
+        "/images/case-prokat-3.png",
+      ],
+    },
+    {
+      id: "rave",
+      title: "Rave Delivery",
+      subtitle: "Сеть ресторанов Rave Burger и AsiaBar в Донецке",
+      url: "https://ravedelivery.ru/",
+      category: "HoReCa / Доставка",
+      description: "Разработали сайт доставки еды с красивым меню, корзиной, онлайн-оплатой и интеграцией с кухней. Современный дизайн в стиле бренда.",
+      images: [
+        "/images/case-rave-1.png",
+        "/images/case-rave-2.png",
+        "/images/case-rave-3.png",
+        "/images/case-rave-4.png",
+      ],
+    },
+  ];
+
+  const [selectedCase, setSelectedCase] = useState<typeof portfolioCases[0] | null>(null);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+  const openLightbox = (caseItem: typeof portfolioCases[0], imageIndex: number = 0) => {
+    setSelectedCase(caseItem);
+    setCurrentImageIndex(imageIndex);
+  };
+
+  const closeLightbox = () => {
+    setSelectedCase(null);
+    setCurrentImageIndex(0);
+  };
+
+  const nextImage = () => {
+    if (selectedCase) {
+      setCurrentImageIndex((prev) => 
+        prev === selectedCase.images.length - 1 ? 0 : prev + 1
+      );
+    }
+  };
+
+  const prevImage = () => {
+    if (selectedCase) {
+      setCurrentImageIndex((prev) => 
+        prev === 0 ? selectedCase.images.length - 1 : prev - 1
+      );
+    }
+  };
 
   return (
     <>
@@ -575,6 +652,216 @@ const WebDevelopment = () => {
             </div>
           </div>
         </section>
+
+        {/* Portfolio Cases Section */}
+        <section className="py-24 relative overflow-hidden">
+          <div className="container mx-auto px-4">
+            <div className="text-center max-w-3xl mx-auto mb-16">
+              <span className="text-primary font-semibold text-sm uppercase tracking-wider">
+                Наши работы
+              </span>
+              <h2 className="text-3xl md:text-5xl font-black mt-4 mb-6">
+                Сайты, которые мы{" "}
+                <span className="text-gradient-primary">создали</span>
+              </h2>
+              <p className="text-lg text-muted-foreground">
+                Реальные проекты для бизнеса в разных нишах. Нажмите на карточку, чтобы посмотреть подробнее.
+              </p>
+            </div>
+
+            <div className="grid md:grid-cols-3 gap-8 max-w-7xl mx-auto">
+              {portfolioCases.map((caseItem, index) => (
+                <motion.div
+                  key={caseItem.id}
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: index * 0.15 }}
+                  className="group cursor-pointer"
+                  onClick={() => openLightbox(caseItem)}
+                >
+                  <Card className="h-full border-border/50 hover:border-primary/50 transition-all duration-300 hover:shadow-xl overflow-hidden">
+                    {/* Image gallery preview */}
+                    <div className="relative aspect-[3/4] overflow-hidden bg-muted">
+                      <img
+                        src={caseItem.images[0]}
+                        alt={caseItem.title}
+                        className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500"
+                      />
+                      {/* Overlay with image count */}
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                      <div className="absolute bottom-4 left-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <div className="flex gap-2">
+                          {caseItem.images.slice(0, 4).map((img, i) => (
+                            <div key={i} className="w-12 h-12 rounded-lg overflow-hidden border-2 border-white/50">
+                              <img src={img} alt="" className="w-full h-full object-cover object-top" />
+                            </div>
+                          ))}
+                          {caseItem.images.length > 4 && (
+                            <div className="w-12 h-12 rounded-lg bg-black/50 border-2 border-white/50 flex items-center justify-center text-white text-sm font-bold">
+                              +{caseItem.images.length - 4}
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                      {/* Category badge */}
+                      <div className="absolute top-4 left-4">
+                        <span className="px-3 py-1.5 bg-primary text-primary-foreground text-xs font-bold rounded-full">
+                          {caseItem.category}
+                        </span>
+                      </div>
+                    </div>
+                    
+                    <CardContent className="p-6 space-y-3">
+                      <div className="flex items-start justify-between gap-2">
+                        <div>
+                          <h3 className="text-xl font-bold group-hover:text-primary transition-colors">
+                            {caseItem.title}
+                          </h3>
+                          <p className="text-sm text-muted-foreground mt-1">
+                            {caseItem.subtitle}
+                          </p>
+                        </div>
+                        <ExternalLink className="w-5 h-5 text-muted-foreground group-hover:text-primary transition-colors flex-shrink-0 mt-1" />
+                      </div>
+                      <p className="text-sm text-muted-foreground line-clamp-2">
+                        {caseItem.description}
+                      </p>
+                      <a 
+                        href={caseItem.url} 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        onClick={(e) => e.stopPropagation()}
+                        className="inline-flex items-center gap-1 text-primary font-semibold text-sm hover:underline"
+                      >
+                        Посмотреть сайт
+                        <ArrowRight className="w-4 h-4" />
+                      </a>
+                    </CardContent>
+                  </Card>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Lightbox Modal */}
+        <AnimatePresence>
+          {selectedCase && (
+            <motion.div
+              className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-sm p-4"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={closeLightbox}
+            >
+              <motion.div
+                className="relative w-full max-w-5xl bg-card rounded-2xl overflow-hidden shadow-2xl"
+                initial={{ scale: 0.9, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                exit={{ scale: 0.9, opacity: 0 }}
+                onClick={(e) => e.stopPropagation()}
+              >
+                {/* Close button */}
+                <button
+                  onClick={closeLightbox}
+                  className="absolute top-4 right-4 z-10 w-10 h-10 rounded-full bg-background/80 hover:bg-background flex items-center justify-center transition-colors"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+
+                <div className="grid md:grid-cols-2 gap-0">
+                  {/* Image gallery */}
+                  <div className="relative aspect-[3/4] md:aspect-auto md:h-[600px] bg-muted">
+                    <img
+                      src={selectedCase.images[currentImageIndex]}
+                      alt={selectedCase.title}
+                      className="w-full h-full object-cover object-top"
+                    />
+                    
+                    {/* Navigation arrows */}
+                    {selectedCase.images.length > 1 && (
+                      <>
+                        <button
+                          onClick={(e) => { e.stopPropagation(); prevImage(); }}
+                          className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-background/80 hover:bg-background flex items-center justify-center transition-colors"
+                        >
+                          <ChevronLeft className="w-5 h-5" />
+                        </button>
+                        <button
+                          onClick={(e) => { e.stopPropagation(); nextImage(); }}
+                          className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-background/80 hover:bg-background flex items-center justify-center transition-colors"
+                        >
+                          <ChevronRight className="w-5 h-5" />
+                        </button>
+                      </>
+                    )}
+                    
+                    {/* Image dots */}
+                    <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
+                      {selectedCase.images.map((_, i) => (
+                        <button
+                          key={i}
+                          onClick={(e) => { e.stopPropagation(); setCurrentImageIndex(i); }}
+                          className={`w-2.5 h-2.5 rounded-full transition-colors ${
+                            i === currentImageIndex ? "bg-primary" : "bg-white/50 hover:bg-white/80"
+                          }`}
+                        />
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Info panel */}
+                  <div className="p-8 space-y-6 flex flex-col">
+                    <div>
+                      <span className="px-3 py-1 bg-primary/10 text-primary text-sm font-semibold rounded-full">
+                        {selectedCase.category}
+                      </span>
+                    </div>
+                    
+                    <div>
+                      <h3 className="text-3xl font-black">{selectedCase.title}</h3>
+                      <p className="text-lg text-muted-foreground mt-2">{selectedCase.subtitle}</p>
+                    </div>
+                    
+                    <p className="text-muted-foreground flex-1">
+                      {selectedCase.description}
+                    </p>
+
+                    {/* Thumbnail gallery */}
+                    <div className="grid grid-cols-4 gap-2">
+                      {selectedCase.images.map((img, i) => (
+                        <button
+                          key={i}
+                          onClick={() => setCurrentImageIndex(i)}
+                          className={`aspect-square rounded-lg overflow-hidden border-2 transition-colors ${
+                            i === currentImageIndex ? "border-primary" : "border-transparent hover:border-primary/50"
+                          }`}
+                        >
+                          <img src={img} alt="" className="w-full h-full object-cover object-top" />
+                        </button>
+                      ))}
+                    </div>
+
+                    <div className="flex gap-4 pt-4">
+                      <Button size="lg" className="gradient-primary flex-1" asChild>
+                        <a href={selectedCase.url} target="_blank" rel="noopener noreferrer">
+                          <ExternalLink className="mr-2 w-4 h-4" />
+                          Открыть сайт
+                        </a>
+                      </Button>
+                      <Button size="lg" variant="outline" asChild>
+                        <Link to="/contacts">
+                          Заказать такой же
+                        </Link>
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            </motion.div>
+          )}
+        </AnimatePresence>
 
         {/* CTA Section */}
         <section className="py-24 relative overflow-hidden">
