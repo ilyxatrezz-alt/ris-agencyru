@@ -29,6 +29,7 @@ import {
   X
 } from "lucide-react";
 import ParallaxSection from "@/components/ParallaxSection";
+import QuickCTA from "@/components/QuickCTA";
 import { siteConfig } from "@/config/siteConfig";
 
 const WebDevelopment = () => {
@@ -488,6 +489,9 @@ const WebDevelopment = () => {
                 </motion.div>
               ))}
             </div>
+
+            {/* Quick CTA */}
+            <QuickCTA variant="compact" text="Хотите узнать больше?" />
           </div>
         </section>
 
@@ -534,6 +538,9 @@ const WebDevelopment = () => {
                 </motion.div>
               ))}
             </div>
+
+            {/* Quick CTA */}
+            <QuickCTA variant="gradient" text="Нужен сайт с такими возможностями?" />
           </div>
         </section>
 
@@ -603,6 +610,11 @@ const WebDevelopment = () => {
                 </motion.div>
               ))}
             </div>
+
+            {/* Quick CTA */}
+            <div className="text-center pt-12">
+              <QuickCTA text="Не нашли подходящий тариф?" />
+            </div>
           </div>
         </section>
 
@@ -654,6 +666,9 @@ const WebDevelopment = () => {
                 </motion.div>
               ))}
             </div>
+
+            {/* Quick CTA */}
+            <QuickCTA variant="gradient" text="Готовы начать проект?" />
           </div>
         </section>
 
@@ -698,6 +713,9 @@ const WebDevelopment = () => {
                 </motion.div>
               ))}
             </div>
+
+            {/* Quick CTA */}
+            <QuickCTA variant="compact" text="Хотите такой же результат?" />
           </div>
         </section>
 
@@ -790,6 +808,9 @@ const WebDevelopment = () => {
                 </motion.div>
               ))}
             </div>
+
+            {/* Quick CTA */}
+            <QuickCTA variant="gradient" text="Хотите такой же сайт?" />
           </div>
         </section>
 
