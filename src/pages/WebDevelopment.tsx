@@ -818,116 +818,130 @@ const WebDevelopment = () => {
         <AnimatePresence>
           {selectedCase && (
             <motion.div
-              className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-sm p-4"
+              className="fixed inset-0 z-50 bg-black/95 backdrop-blur-sm overflow-y-auto"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={closeLightbox}
             >
-              <motion.div
-                className="relative w-full max-w-5xl bg-card rounded-2xl overflow-hidden shadow-2xl"
-                initial={{ scale: 0.9, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                exit={{ scale: 0.9, opacity: 0 }}
-                onClick={(e) => e.stopPropagation()}
+              {/* Close button - fixed position */}
+              <button
+                onClick={closeLightbox}
+                className="fixed top-4 right-4 z-50 w-12 h-12 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors border border-white/20"
               >
-                {/* Close button */}
-                <button
-                  onClick={closeLightbox}
-                  className="absolute top-4 right-4 z-10 w-10 h-10 rounded-full bg-background/80 hover:bg-background flex items-center justify-center transition-colors"
-                >
-                  <X className="w-5 h-5" />
-                </button>
+                <X className="w-6 h-6 text-white" />
+              </button>
 
-                <div className="grid md:grid-cols-2 gap-0">
-                  {/* Image gallery */}
-                  <div className="relative aspect-[3/4] md:aspect-auto md:h-[600px] bg-muted">
-                    <img
+              <div className="min-h-screen flex flex-col md:flex-row" onClick={(e) => e.stopPropagation()}>
+                {/* Image section - takes full width on mobile */}
+                <div className="relative w-full md:w-1/2 lg:w-3/5 bg-black flex flex-col">
+                  {/* Main image container */}
+                  <div className="relative flex-1 min-h-[50vh] md:min-h-screen flex items-center justify-center p-4">
+                    <motion.img
+                      key={currentImageIndex}
                       src={selectedCase.images[currentImageIndex]}
                       alt={selectedCase.title}
-                      className="w-full h-full object-cover object-top"
+                      className="max-w-full max-h-[60vh] md:max-h-[80vh] object-contain rounded-lg"
+                      initial={{ opacity: 0, scale: 0.95 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ duration: 0.2 }}
                     />
                     
-                    {/* Navigation arrows */}
+                    {/* Navigation arrows - larger touch targets */}
                     {selectedCase.images.length > 1 && (
                       <>
                         <button
                           onClick={(e) => { e.stopPropagation(); prevImage(); }}
-                          className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-background/80 hover:bg-background flex items-center justify-center transition-colors"
+                          className="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 w-12 h-12 md:w-14 md:h-14 rounded-full bg-white/10 hover:bg-white/20 active:bg-white/30 flex items-center justify-center transition-colors border border-white/20"
                         >
-                          <ChevronLeft className="w-5 h-5" />
+                          <ChevronLeft className="w-6 h-6 md:w-7 md:h-7 text-white" />
                         </button>
                         <button
                           onClick={(e) => { e.stopPropagation(); nextImage(); }}
-                          className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-background/80 hover:bg-background flex items-center justify-center transition-colors"
+                          className="absolute right-2 md:right-4 top-1/2 -translate-y-1/2 w-12 h-12 md:w-14 md:h-14 rounded-full bg-white/10 hover:bg-white/20 active:bg-white/30 flex items-center justify-center transition-colors border border-white/20"
                         >
-                          <ChevronRight className="w-5 h-5" />
+                          <ChevronRight className="w-6 h-6 md:w-7 md:h-7 text-white" />
                         </button>
                       </>
                     )}
-                    
-                    {/* Image dots */}
-                    <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
-                      {selectedCase.images.map((_, i) => (
-                        <button
-                          key={i}
-                          onClick={(e) => { e.stopPropagation(); setCurrentImageIndex(i); }}
-                          className={`w-2.5 h-2.5 rounded-full transition-colors ${
-                            i === currentImageIndex ? "bg-primary" : "bg-white/50 hover:bg-white/80"
-                          }`}
-                        />
-                      ))}
-                    </div>
                   </div>
-
-                  {/* Info panel */}
-                  <div className="p-8 space-y-6 flex flex-col">
-                    <div>
-                      <span className="px-3 py-1 bg-primary/10 text-primary text-sm font-semibold rounded-full">
-                        {selectedCase.category}
-                      </span>
-                    </div>
-                    
-                    <div>
-                      <h3 className="text-3xl font-black">{selectedCase.title}</h3>
-                      <p className="text-lg text-muted-foreground mt-2">{selectedCase.subtitle}</p>
-                    </div>
-                    
-                    <p className="text-muted-foreground flex-1">
-                      {selectedCase.description}
-                    </p>
-
-                    {/* Thumbnail gallery */}
-                    <div className="grid grid-cols-4 gap-2">
+                  
+                  {/* Thumbnail strip - horizontal scrollable on mobile */}
+                  <div className="p-4 bg-black/50">
+                    <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide">
                       {selectedCase.images.map((img, i) => (
                         <button
                           key={i}
-                          onClick={() => setCurrentImageIndex(i)}
-                          className={`aspect-square rounded-lg overflow-hidden border-2 transition-colors ${
-                            i === currentImageIndex ? "border-primary" : "border-transparent hover:border-primary/50"
+                          onClick={(e) => { e.stopPropagation(); setCurrentImageIndex(i); }}
+                          className={`flex-shrink-0 w-16 h-16 md:w-20 md:h-20 rounded-lg overflow-hidden border-2 transition-all ${
+                            i === currentImageIndex 
+                              ? "border-primary ring-2 ring-primary/50" 
+                              : "border-white/20 hover:border-white/50"
                           }`}
                         >
                           <img src={img} alt="" className="w-full h-full object-cover object-top" />
                         </button>
                       ))}
                     </div>
+                    
+                    {/* Image counter */}
+                    <div className="text-center mt-2 text-white/60 text-sm">
+                      {currentImageIndex + 1} / {selectedCase.images.length}
+                    </div>
+                  </div>
+                </div>
 
-                    <div className="flex gap-4 pt-4">
-                      <Button size="lg" className="gradient-primary flex-1" asChild>
-                        <a href={selectedCase.url} target="_blank" rel="noopener noreferrer">
-                          <ExternalLink className="mr-2 w-4 h-4" />
-                          Открыть сайт
+                {/* Info panel */}
+                <div className="w-full md:w-1/2 lg:w-2/5 bg-card p-6 md:p-8 space-y-6 md:overflow-y-auto md:max-h-screen">
+                  <div>
+                    <span className="px-3 py-1.5 bg-primary/10 text-primary text-sm font-semibold rounded-full">
+                      {selectedCase.category}
+                    </span>
+                  </div>
+                  
+                  <div>
+                    <h3 className="text-2xl md:text-3xl font-black">{selectedCase.title}</h3>
+                    <p className="text-base md:text-lg text-muted-foreground mt-2">{selectedCase.subtitle}</p>
+                  </div>
+                  
+                  <p className="text-muted-foreground text-sm md:text-base">
+                    {selectedCase.description}
+                  </p>
+
+                  <div className="flex flex-col sm:flex-row gap-3 pt-4">
+                    <Button size="lg" className="gradient-primary flex-1" asChild>
+                      <a href={selectedCase.url} target="_blank" rel="noopener noreferrer">
+                        <ExternalLink className="mr-2 w-4 h-4" />
+                        Открыть сайт
+                      </a>
+                    </Button>
+                    <Button size="lg" variant="outline" className="flex-1" asChild>
+                      <Link to="/contacts">
+                        Заказать такой же
+                      </Link>
+                    </Button>
+                  </div>
+
+                  {/* Quick contact on mobile */}
+                  <div className="pt-4 border-t">
+                    <p className="text-sm text-muted-foreground mb-3">Обсудить проект:</p>
+                    <div className="flex gap-2">
+                      <Button variant="outline" size="sm" className="flex-1" asChild>
+                        <a href={siteConfig.telegramUrl} target="_blank" rel="noopener noreferrer">
+                          <MessageSquare className="mr-2 w-4 h-4" />
+                          Telegram
                         </a>
                       </Button>
-                      <Button size="lg" variant="outline" asChild>
-                        <Link to="/contacts">
-                          Заказать такой же
-                        </Link>
+                      <Button variant="outline" size="sm" className="flex-1" asChild>
+                        <a href={`tel:${siteConfig.phoneRaw}`}>
+                          <Phone className="mr-2 w-4 h-4" />
+                          Позвонить
+                        </a>
                       </Button>
                     </div>
                   </div>
                 </div>
-              </motion.div>
+              </div>
             </motion.div>
           )}
         </AnimatePresence>
