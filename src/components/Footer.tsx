@@ -81,7 +81,11 @@ const Footer = () => {
             <ul className="space-y-3 text-sm text-accent-foreground/70">
               <li className="hover:text-primary transition-colors cursor-pointer">Контекстная реклама</li>
               <li className="hover:text-primary transition-colors cursor-pointer">Таргетированная реклама</li>
-              <li className="hover:text-primary transition-colors cursor-pointer">Создание сайтов</li>
+              <li>
+                <Link to="/web-development" className="hover:text-primary transition-colors">
+                  Создание сайтов
+                </Link>
+              </li>
               <li className="hover:text-primary transition-colors cursor-pointer">Аналитика и аудит</li>
             </ul>
           </div>
