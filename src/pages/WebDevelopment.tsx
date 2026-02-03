@@ -280,6 +280,30 @@ const WebDevelopment = () => {
         "/images/case-ffc-1.png",
       ],
     },
+    {
+      id: "nikaten",
+      title: "НИКАТЭН ДНР",
+      subtitle: "Официальный дилер керамических панелей НИКАТЭН",
+      url: "https://nikaten-dnr.ru/",
+      category: "Отопление / Продажи",
+      description: "Создали интернет-магазин для дилера керамических панелей отопления. Каталог с фильтрами по мощности, калькулятор расхода электричества, корзина и онлайн-заказ.",
+      images: [
+        "/images/case-nikaten-1.png",
+        "/images/case-nikaten-2.png",
+        "/images/case-nikaten-3.png",
+      ],
+    },
+    {
+      id: "220volt",
+      title: "220 Вольт",
+      subtitle: "Служба срочного вызова электрика в Донецке",
+      url: "https://220volt-dnr.ru/",
+      category: "Услуги / Электрика",
+      description: "Разработали продающий лендинг для службы электриков с быстрым откликом. Формы заявки, калькулятор стоимости работ, срочный вызов 24/7.",
+      images: [
+        "/images/case-nikaten-1.png",
+      ],
+    },
   ];
 
   const [selectedCase, setSelectedCase] = useState<typeof portfolioCases[0] | null>(null);
