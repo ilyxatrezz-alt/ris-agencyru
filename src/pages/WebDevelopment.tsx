@@ -849,12 +849,12 @@ const WebDevelopment = () => {
               exit={{ opacity: 0 }}
               onClick={closeLightbox}
             >
-              {/* Close button - fixed position */}
+              {/* Close button - fixed position with high visibility */}
               <button
-                onClick={closeLightbox}
-                className="fixed top-4 right-4 z-50 w-12 h-12 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors border border-white/20"
+                onClick={(e) => { e.stopPropagation(); closeLightbox(); }}
+                className="fixed top-4 right-4 z-[60] w-14 h-14 rounded-full bg-black/80 hover:bg-black flex items-center justify-center transition-colors border-2 border-white/40 shadow-xl"
               >
-                <X className="w-6 h-6 text-white" />
+                <X className="w-8 h-8 text-white" />
               </button>
 
               <div className="min-h-screen flex flex-col md:flex-row" onClick={(e) => e.stopPropagation()}>
