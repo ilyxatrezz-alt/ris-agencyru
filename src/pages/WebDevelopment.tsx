@@ -301,7 +301,8 @@ const WebDevelopment = () => {
       category: "Услуги / Электрика",
       description: "Разработали продающий лендинг для службы электриков с быстрым откликом. Формы заявки, калькулятор стоимости работ, срочный вызов 24/7.",
       images: [
-        "/images/case-nikaten-1.png",
+        "/images/case-220volt-1.png",
+        "/images/case-220volt-2.png",
       ],
     },
   ];
