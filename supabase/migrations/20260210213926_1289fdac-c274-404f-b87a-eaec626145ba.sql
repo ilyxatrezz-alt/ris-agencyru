@@ -1,0 +1,1 @@
+ALTER TABLE public.crm_payments ADD COLUMN description text;
