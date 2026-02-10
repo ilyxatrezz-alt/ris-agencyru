@@ -1,0 +1,1 @@
+ALTER TABLE public.crm_finances ADD COLUMN payment_date date DEFAULT now();

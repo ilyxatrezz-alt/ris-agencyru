@@ -381,6 +381,7 @@ export type Database = {
           id: string
           ilya_percent: number
           notes: string | null
+          payment_date: string | null
           period: string
           updated_at: string
         }
@@ -393,6 +394,7 @@ export type Database = {
           id?: string
           ilya_percent?: number
           notes?: string | null
+          payment_date?: string | null
           period: string
           updated_at?: string
         }
@@ -405,6 +407,7 @@ export type Database = {
           id?: string
           ilya_percent?: number
           notes?: string | null
+          payment_date?: string | null
           period?: string
           updated_at?: string
         }
