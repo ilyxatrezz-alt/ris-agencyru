@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useCrmStats, useClients, useCreateClient, useDeleteClient, useUpdateClient, useAgencyExpenses, useCreateAgencyExpense, useDeleteAgencyExpense, useAllTasks, useUpdateTask } from "@/hooks/useCrmData";
+import { useCrmStats, useClients, useCreateClient, useDeleteClient, useUpdateClient, useAgencyExpenses, useCreateAgencyExpense, useDeleteAgencyExpense, useAllTasks, useUpdateTask, useTeamMembers } from "@/hooks/useCrmData";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -15,7 +15,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import {
   Users, ListTodo, DollarSign, TrendingUp, Plus, Search, Phone, Mail, MessageCircle, Globe,
   ArrowLeft, Trash2, Edit, Eye, Megaphone, Receipt, Calculator, CheckCircle2, Clock, AlertCircle,
-  CalendarDays, UserPlus, ArrowRight, Star
+  CalendarDays, UserPlus, ArrowRight, Star, ExternalLink
 } from "lucide-react";
 
 const SERVICE_OPTIONS = [
@@ -59,6 +59,7 @@ const CrmDashboard = () => {
   const { data: stats } = useCrmStats();
   const { data: clients, isLoading } = useClients();
   const { data: allTasks } = useAllTasks();
+  const { data: team } = useTeamMembers();
   const updateTask = useUpdateTask();
   const createClient = useCreateClient();
   const deleteClient = useDeleteClient();
@@ -70,6 +71,7 @@ const CrmDashboard = () => {
   const [potentialSearch, setPotentialSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState<string>("all");
   const [taskFilter, setTaskFilter] = useState<string>("active");
+  const [taskAssigneeFilter, setTaskAssigneeFilter] = useState<string>("all");
   const [showAdd, setShowAdd] = useState(false);
   const [showAddPotential, setShowAddPotential] = useState(false);
   const [editClient, setEditClient] = useState<any>(null);
@@ -299,19 +301,44 @@ const CrmDashboard = () => {
                   <CardTitle className="text-lg flex items-center gap-2 text-gray-900">
                     <ListTodo className="w-5 h-5 text-purple-500" /> Все задачи
                   </CardTitle>
-                  <div className="flex gap-1">
-                    {[
-                      { key: "active", label: "В работе" },
-                      { key: "all", label: "Все" },
-                      { key: "done", label: "Готовые" },
-                    ].map(f => (
-                      <Button key={f.key} size="sm" variant={taskFilter === f.key ? "default" : "ghost"}
-                        className={taskFilter === f.key ? "bg-[#fa3714] hover:bg-[#e0300f] text-white h-7 text-xs" : "text-gray-500 h-7 text-xs"}
-                        onClick={() => setTaskFilter(f.key)}>
-                        {f.label}
+                  <div className="flex items-center gap-2">
+                    <div className="flex gap-1">
+                      {[
+                        { key: "active", label: "В работе" },
+                        { key: "all", label: "Все" },
+                        { key: "done", label: "Готовые" },
+                      ].map(f => (
+                        <Button key={f.key} size="sm" variant={taskFilter === f.key ? "default" : "ghost"}
+                          className={taskFilter === f.key ? "bg-[#fa3714] hover:bg-[#e0300f] text-white h-7 text-xs" : "text-gray-500 h-7 text-xs"}
+                          onClick={() => setTaskFilter(f.key)}>
+                          {f.label}
+                        </Button>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+                {/* Assignee filter row */}
+                <div className="flex items-center gap-2 mt-2 flex-wrap">
+                  <span className="text-xs text-gray-400">Ответственный:</span>
+                  <div className="flex gap-1 flex-wrap">
+                    <Button size="sm" variant={taskAssigneeFilter === "all" ? "default" : "ghost"}
+                      className={taskAssigneeFilter === "all" ? "bg-gray-800 hover:bg-gray-700 text-white h-6 text-[11px] px-2" : "text-gray-500 h-6 text-[11px] px-2"}
+                      onClick={() => setTaskAssigneeFilter("all")}>
+                      Все
+                    </Button>
+                    {team?.map(m => (
+                      <Button key={m.id} size="sm" variant={taskAssigneeFilter === m.id ? "default" : "ghost"}
+                        className={taskAssigneeFilter === m.id ? "bg-blue-600 hover:bg-blue-700 text-white h-6 text-[11px] px-2" : "text-gray-500 h-6 text-[11px] px-2"}
+                        onClick={() => setTaskAssigneeFilter(m.id)}>
+                        {m.name}
                       </Button>
                     ))}
                   </div>
+                  <Button size="sm" variant="ghost"
+                    className="text-[#fa3714] hover:text-[#e0300f] h-6 text-[11px] px-2 ml-auto gap-1"
+                    onClick={() => navigate(`/crm/tasks?assignee=${taskAssigneeFilter}&status=${taskFilter}`)}>
+                    <ExternalLink className="w-3 h-3" /> Открыть полностью
+                  </Button>
                 </div>
               </CardHeader>
               <CardContent className="space-y-2">
@@ -320,9 +347,12 @@ const CrmDashboard = () => {
                     if (taskFilter === "active") return t.status === "pending" || t.status === "in_progress";
                     if (taskFilter === "done") return t.status === "done";
                     return true;
+                  })?.filter(t => {
+                    if (taskAssigneeFilter === "all") return true;
+                    return t.assignee_id === taskAssigneeFilter;
                   });
                   if (!tasksFiltered?.length) return <p className="text-gray-400 text-center py-6">Задач нет</p>;
-                  return tasksFiltered.map((t: any) => (
+                  return tasksFiltered.slice(0, 10).map((t: any) => (
                     <div key={t.id} className="flex items-start gap-3 bg-gray-50 rounded-lg px-3 py-3 sm:px-4">
                       <button className="mt-0.5 shrink-0" onClick={async () => {
                         const next = t.status === "done" ? "pending" : t.status === "pending" ? "in_progress" : "done";
@@ -354,6 +384,20 @@ const CrmDashboard = () => {
                       </div>
                     </div>
                   ));
+                })()}
+                {(() => {
+                  const total = allTasks?.filter(t => {
+                    if (taskFilter === "active") return t.status === "pending" || t.status === "in_progress";
+                    if (taskFilter === "done") return t.status === "done";
+                    return true;
+                  })?.filter(t => taskAssigneeFilter === "all" || t.assignee_id === taskAssigneeFilter)?.length ?? 0;
+                  if (total > 10) return (
+                    <Button variant="ghost" className="w-full text-[#fa3714] hover:text-[#e0300f] text-sm"
+                      onClick={() => navigate(`/crm/tasks?assignee=${taskAssigneeFilter}&status=${taskFilter}`)}>
+                      Показать все {total} задач →
+                    </Button>
+                  );
+                  return null;
                 })()}
               </CardContent>
             </Card>
