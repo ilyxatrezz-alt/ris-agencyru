@@ -92,9 +92,12 @@ const CrmClientDetail = () => {
       notes: finForm.notes || undefined,
     });
     // Create first payment if amount provided
-    if (finForm.first_amount && finForm.first_month && finForm.first_day && finData?.id) {
-      const year = new Date().getFullYear();
-      const dateStr = `${year}-${finForm.first_month.padStart(2, "0")}-${finForm.first_day.padStart(2, "0")}`;
+    if (finForm.first_amount && finData?.id) {
+      const now = new Date();
+      const year = now.getFullYear();
+      const month = finForm.first_month || String(now.getMonth() + 1);
+      const day = finForm.first_day || String(now.getDate());
+      const dateStr = `${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")}`;
       await createPayment.mutateAsync({ finance_id: finData.id, amount: Number(finForm.first_amount), payment_date: dateStr });
     }
     setShowFinForm(false);
