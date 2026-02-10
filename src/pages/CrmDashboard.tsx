@@ -37,9 +37,9 @@ const statusLabels: Record<string, string> = {
   completed: "Завершён",
 };
 const statusColors: Record<string, string> = {
-  active: "bg-green-500/20 text-green-400 border-green-500/30",
-  paused: "bg-yellow-500/20 text-yellow-400 border-yellow-500/30",
-  completed: "bg-gray-500/20 text-gray-400 border-gray-500/30",
+  active: "bg-green-100 text-green-700 border-green-300",
+  paused: "bg-yellow-100 text-yellow-700 border-yellow-300",
+  completed: "bg-gray-100 text-gray-600 border-gray-300",
 };
 
 const CrmDashboard = () => {
@@ -112,19 +112,25 @@ const CrmDashboard = () => {
   const formatMoney = (n: number) => new Intl.NumberFormat("ru-RU", { style: "currency", currency: "RUB", maximumFractionDigits: 0 }).format(n);
 
   return (
-    <div className="min-h-screen bg-[#0a0a0f] text-white">
+    <div className="min-h-screen bg-gray-50 text-gray-900">
       {/* Header */}
-      <header className="border-b border-white/10 bg-[#0d0d14]/80 backdrop-blur-xl sticky top-0 z-40">
+      <header className="border-b border-gray-200 bg-white sticky top-0 z-40 shadow-sm">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <div className="flex items-center gap-4">
-            <Button variant="ghost" size="icon" onClick={() => navigate("/admin")} className="text-white/60 hover:text-white">
+            <Button variant="ghost" size="icon" onClick={() => navigate("/admin")} className="text-gray-500 hover:text-gray-900">
               <ArrowLeft className="w-5 h-5" />
             </Button>
-            <h1 className="text-xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
-              CRM — Управление клиентами
-            </h1>
+            {/* РИС Logo */}
+            <div className="flex items-center gap-2">
+              <div className="w-8 h-8 rounded-lg bg-[#fa3714] flex items-center justify-center">
+                <span className="text-white font-black text-sm">Р</span>
+              </div>
+              <h1 className="text-xl font-bold text-gray-900">
+                CRM — Управление клиентами
+              </h1>
+            </div>
           </div>
-          <Button onClick={() => { resetForm(); setEditClient(null); setShowAdd(true); }} className="bg-blue-600 hover:bg-blue-700">
+          <Button onClick={() => { resetForm(); setEditClient(null); setShowAdd(true); }} className="bg-[#fa3714] hover:bg-[#e0300f] text-white">
             <Plus className="w-4 h-4 mr-2" /> Добавить клиента
           </Button>
         </div>
@@ -134,19 +140,19 @@ const CrmDashboard = () => {
         {/* Stats */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {[
-            { icon: Users, label: "Клиенты", value: stats?.totalClients ?? 0, sub: `${stats?.activeClients ?? 0} активных`, color: "from-blue-500 to-cyan-500" },
-            { icon: ListTodo, label: "Задачи", value: stats?.totalTasks ?? 0, sub: `${stats?.pendingTasks ?? 0} в работе`, color: "from-purple-500 to-pink-500" },
-            { icon: DollarSign, label: "Выручка", value: formatMoney(stats?.totalRevenue ?? 0), sub: "всего", color: "from-green-500 to-emerald-500" },
-            { icon: TrendingUp, label: "Средний чек", value: stats?.totalClients ? formatMoney((stats?.totalRevenue ?? 0) / stats.totalClients) : "—", sub: "на клиента", color: "from-orange-500 to-yellow-500" },
+            { icon: Users, label: "Клиенты", value: stats?.totalClients ?? 0, sub: `${stats?.activeClients ?? 0} активных`, color: "bg-blue-500" },
+            { icon: ListTodo, label: "Задачи", value: stats?.totalTasks ?? 0, sub: `${stats?.pendingTasks ?? 0} в работе`, color: "bg-purple-500" },
+            { icon: DollarSign, label: "Выручка", value: formatMoney(stats?.totalRevenue ?? 0), sub: "всего", color: "bg-green-500" },
+            { icon: TrendingUp, label: "Средний чек", value: stats?.totalClients ? formatMoney((stats?.totalRevenue ?? 0) / stats.totalClients) : "—", sub: "на клиента", color: "bg-orange-500" },
           ].map((s, i) => (
-            <Card key={i} className="bg-white/5 border-white/10 hover:bg-white/[0.07] transition-colors">
+            <Card key={i} className="bg-white border-gray-200 hover:shadow-md transition-shadow">
               <CardContent className="p-5">
-                <div className={`w-10 h-10 rounded-lg bg-gradient-to-br ${s.color} flex items-center justify-center mb-3`}>
+                <div className={`w-10 h-10 rounded-lg ${s.color} flex items-center justify-center mb-3`}>
                   <s.icon className="w-5 h-5 text-white" />
                 </div>
-                <p className="text-2xl font-bold text-white">{s.value}</p>
-                <p className="text-sm text-white/40">{s.label}</p>
-                <p className="text-xs text-white/30 mt-1">{s.sub}</p>
+                <p className="text-2xl font-bold text-gray-900">{s.value}</p>
+                <p className="text-sm text-gray-500">{s.label}</p>
+                <p className="text-xs text-gray-400 mt-1">{s.sub}</p>
               </CardContent>
             </Card>
           ))}
@@ -154,55 +160,55 @@ const CrmDashboard = () => {
 
         {/* Earnings per partner */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <Card className="bg-blue-500/10 border-blue-500/20 hover:bg-blue-500/15 transition-colors">
+          <Card className="bg-blue-50 border-blue-200">
             <CardContent className="p-5">
               <div className="flex items-center gap-3 mb-2">
-                <Calculator className="w-5 h-5 text-blue-400" />
-                <p className="text-sm text-blue-300">Александр заработал (всего)</p>
+                <Calculator className="w-5 h-5 text-blue-600" />
+                <p className="text-sm text-blue-700 font-medium">Александр заработал (всего)</p>
               </div>
-              <p className="text-3xl font-bold text-blue-400">{formatMoney(stats?.alexanderTotal ?? 0)}</p>
+              <p className="text-3xl font-bold text-blue-600">{formatMoney(stats?.alexanderTotal ?? 0)}</p>
             </CardContent>
           </Card>
-          <Card className="bg-purple-500/10 border-purple-500/20 hover:bg-purple-500/15 transition-colors">
+          <Card className="bg-purple-50 border-purple-200">
             <CardContent className="p-5">
               <div className="flex items-center gap-3 mb-2">
-                <Calculator className="w-5 h-5 text-purple-400" />
-                <p className="text-sm text-purple-300">Илья заработал (всего)</p>
+                <Calculator className="w-5 h-5 text-purple-600" />
+                <p className="text-sm text-purple-700 font-medium">Илья заработал (всего)</p>
               </div>
-              <p className="text-3xl font-bold text-purple-400">{formatMoney(stats?.ilyaTotal ?? 0)}</p>
+              <p className="text-3xl font-bold text-purple-600">{formatMoney(stats?.ilyaTotal ?? 0)}</p>
             </CardContent>
           </Card>
         </div>
 
         {/* Agency expenses */}
-        <Card className="bg-white/5 border-white/10">
+        <Card className="bg-white border-gray-200">
           <CardHeader className="pb-3">
             <div className="flex items-center justify-between">
-              <CardTitle className="text-lg flex items-center gap-2 text-white">
-                <Receipt className="w-5 h-5 text-orange-400" /> Прочие счета агентства
+              <CardTitle className="text-lg flex items-center gap-2 text-gray-900">
+                <Receipt className="w-5 h-5 text-orange-500" /> Прочие счета агентства
               </CardTitle>
-              <Button size="sm" onClick={() => setShowAgencyExpForm(true)} className="bg-orange-600 hover:bg-orange-700">
+              <Button size="sm" onClick={() => setShowAgencyExpForm(true)} className="bg-[#fa3714] hover:bg-[#e0300f] text-white">
                 <Plus className="w-4 h-4 mr-1" /> Добавить
               </Button>
             </div>
           </CardHeader>
           <CardContent className="space-y-2">
             {!agencyExpenses?.length ? (
-              <p className="text-white/30 text-center py-6">Расходов агентства пока нет</p>
+              <p className="text-gray-400 text-center py-6">Расходов агентства пока нет</p>
             ) : (
               <>
                 {agencyExpenses.map((e) => (
-                  <div key={e.id} className="flex items-center justify-between bg-white/5 rounded-lg px-4 py-3">
+                  <div key={e.id} className="flex items-center justify-between bg-gray-50 rounded-lg px-4 py-3">
                     <div>
-                      <p className="text-sm font-medium text-white">{e.title}</p>
-                      <div className="flex gap-3 text-xs text-white/30 mt-0.5">
+                      <p className="text-sm font-medium text-gray-900">{e.title}</p>
+                      <div className="flex gap-3 text-xs text-gray-400 mt-0.5">
                         {e.period && <span>{e.period}</span>}
                         {e.description && <span>{e.description}</span>}
                       </div>
                     </div>
                     <div className="flex items-center gap-2">
-                      <span className="text-lg font-bold text-orange-400">{formatMoney(Number(e.amount))}</span>
-                      <Button size="icon" variant="ghost" className="h-7 w-7 text-red-400/60 hover:text-red-400" onClick={async () => {
+                      <span className="text-lg font-bold text-orange-600">{formatMoney(Number(e.amount))}</span>
+                      <Button size="icon" variant="ghost" className="h-7 w-7 text-red-400 hover:text-red-600" onClick={async () => {
                         await deleteAgencyExpense.mutateAsync(e.id);
                         toast({ title: "Расход удалён" });
                       }}>
@@ -211,8 +217,8 @@ const CrmDashboard = () => {
                     </div>
                   </div>
                 ))}
-                <div className="flex justify-end pt-2 border-t border-white/10">
-                  <p className="text-sm text-white/60">Итого: <span className="font-bold text-orange-400">{formatMoney(agencyExpenses.reduce((s, e) => s + Number(e.amount), 0))}</span></p>
+                <div className="flex justify-end pt-2 border-t border-gray-200">
+                  <p className="text-sm text-gray-500">Итого: <span className="font-bold text-orange-600">{formatMoney(agencyExpenses.reduce((s, e) => s + Number(e.amount), 0))}</span></p>
                 </div>
               </>
             )}
@@ -222,18 +228,18 @@ const CrmDashboard = () => {
         {/* Filters */}
         <div className="flex flex-col sm:flex-row gap-3">
           <div className="relative flex-1">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/30" />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
             <Input
               placeholder="Поиск по имени, телефону, email..."
               value={search} onChange={(e) => setSearch(e.target.value)}
-              className="pl-10 bg-white/5 border-white/10 text-white placeholder:text-white/30"
+              className="pl-10 bg-white border-gray-300 text-gray-900 placeholder:text-gray-400"
             />
           </div>
           <Select value={statusFilter} onValueChange={setStatusFilter}>
-            <SelectTrigger className="w-[180px] bg-white/5 border-white/10 text-white">
+            <SelectTrigger className="w-[180px] bg-white border-gray-300 text-gray-900">
               <SelectValue placeholder="Статус" />
             </SelectTrigger>
-            <SelectContent className="bg-[#1a1a2e] border-white/10">
+            <SelectContent className="bg-white border-gray-200 shadow-lg z-50">
               <SelectItem value="all">Все статусы</SelectItem>
               <SelectItem value="active">Активные</SelectItem>
               <SelectItem value="paused">На паузе</SelectItem>
@@ -244,24 +250,24 @@ const CrmDashboard = () => {
 
         {/* Client list */}
         {isLoading ? (
-          <div className="text-center py-20 text-white/40">Загрузка...</div>
+          <div className="text-center py-20 text-gray-400">Загрузка...</div>
         ) : !filtered?.length ? (
-          <div className="text-center py-20 text-white/40">Клиентов пока нет</div>
+          <div className="text-center py-20 text-gray-400">Клиентов пока нет</div>
         ) : (
           <div className="grid gap-4">
             {filtered.map((c) => (
-              <Card key={c.id} className="bg-white/5 border-white/10 hover:bg-white/[0.07] transition-all group">
+              <Card key={c.id} className="bg-white border-gray-200 hover:shadow-md transition-all group">
                 <CardContent className="p-5">
                   <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-3 mb-2">
-                        <h3 className="text-lg font-semibold text-white truncate">{c.name}</h3>
+                        <h3 className="text-lg font-semibold text-gray-900 truncate">{c.name}</h3>
                         <Badge variant="outline" className={statusColors[c.status] || ""}>
                           {statusLabels[c.status] || c.status}
                         </Badge>
                       </div>
-                      {c.contact_person && <p className="text-sm text-white/50 mb-2">Контакт: {c.contact_person}</p>}
-                      <div className="flex flex-wrap gap-4 text-sm text-white/40">
+                      {c.contact_person && <p className="text-sm text-gray-500 mb-2">Контакт: {c.contact_person}</p>}
+                      <div className="flex flex-wrap gap-4 text-sm text-gray-500">
                         {c.phone && <span className="flex items-center gap-1"><Phone className="w-3 h-3" />{c.phone}</span>}
                         {c.email && <span className="flex items-center gap-1"><Mail className="w-3 h-3" />{c.email}</span>}
                         {c.telegram && <span className="flex items-center gap-1"><MessageCircle className="w-3 h-3" />{c.telegram}</span>}
@@ -276,7 +282,7 @@ const CrmDashboard = () => {
                         return (
                           <div className="flex flex-wrap gap-2 mt-2">
                             {active.map(s => (
-                              <Badge key={s.key} variant="outline" className="border-blue-500/30 text-blue-300 text-xs">
+                              <Badge key={s.key} variant="outline" className="border-[#fa3714]/30 text-[#fa3714] text-xs">
                                 <Megaphone className="w-3 h-3 mr-1" />{s.label}
                                 {s.key === "website_creation" && svc.website_count ? ` (${svc.website_count} шт.)` : ""}
                               </Badge>
@@ -285,11 +291,11 @@ const CrmDashboard = () => {
                         );
                       })()}
                     </div>
-                    <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                      <Button size="sm" variant="ghost" onClick={() => navigate(`/crm/${c.id}`)} className="text-blue-400 hover:text-blue-300">
+                    <div className="flex items-center gap-2 md:opacity-0 md:group-hover:opacity-100 transition-opacity">
+                      <Button size="sm" variant="ghost" onClick={() => navigate(`/crm/${c.id}`)} className="text-[#fa3714] hover:text-[#e0300f]">
                         <Eye className="w-4 h-4 mr-1" /> Открыть
                       </Button>
-                      <Button size="sm" variant="ghost" onClick={() => openEdit(c)} className="text-white/60 hover:text-white">
+                      <Button size="sm" variant="ghost" onClick={() => openEdit(c)} className="text-gray-500 hover:text-gray-900">
                         <Edit className="w-4 h-4" />
                       </Button>
                       <Button size="sm" variant="ghost" onClick={async () => {
@@ -297,7 +303,7 @@ const CrmDashboard = () => {
                           await deleteClient.mutateAsync(c.id);
                           toast({ title: "Клиент удалён" });
                         }
-                      }} className="text-red-400 hover:text-red-300">
+                      }} className="text-red-400 hover:text-red-600">
                         <Trash2 className="w-4 h-4" />
                       </Button>
                     </div>
@@ -311,26 +317,26 @@ const CrmDashboard = () => {
 
       {/* Add/Edit dialog */}
       <Dialog open={showAdd} onOpenChange={(o) => { if (!o) { setShowAdd(false); setEditClient(null); } }}>
-        <DialogContent className="bg-[#1a1a2e] border-white/10 text-white max-w-lg">
+        <DialogContent className="bg-white border-gray-200 text-gray-900 max-w-lg">
           <DialogHeader>
             <DialogTitle>{editClient ? "Редактировать клиента" : "Новый клиент"}</DialogTitle>
           </DialogHeader>
           <div className="grid gap-4 py-2">
-            <div><Label>Название / Компания *</Label><Input value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} className="bg-white/5 border-white/10 text-white mt-1" /></div>
-            <div><Label>Контактное лицо</Label><Input value={form.contact_person} onChange={(e) => setForm({ ...form, contact_person: e.target.value })} className="bg-white/5 border-white/10 text-white mt-1" /></div>
+            <div><Label>Название / Компания *</Label><Input value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} className="bg-gray-50 border-gray-300 text-gray-900 mt-1" /></div>
+            <div><Label>Контактное лицо</Label><Input value={form.contact_person} onChange={(e) => setForm({ ...form, contact_person: e.target.value })} className="bg-gray-50 border-gray-300 text-gray-900 mt-1" /></div>
             <div className="grid grid-cols-2 gap-3">
-              <div><Label>Телефон</Label><Input value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} className="bg-white/5 border-white/10 text-white mt-1" /></div>
-              <div><Label>Email</Label><Input value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} className="bg-white/5 border-white/10 text-white mt-1" /></div>
+              <div><Label>Телефон</Label><Input value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} className="bg-gray-50 border-gray-300 text-gray-900 mt-1" /></div>
+              <div><Label>Email</Label><Input value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} className="bg-gray-50 border-gray-300 text-gray-900 mt-1" /></div>
             </div>
             <div className="grid grid-cols-2 gap-3">
-              <div><Label>Telegram</Label><Input value={form.telegram} onChange={(e) => setForm({ ...form, telegram: e.target.value })} className="bg-white/5 border-white/10 text-white mt-1" /></div>
-              <div><Label>Сайт</Label><Input value={form.website} onChange={(e) => setForm({ ...form, website: e.target.value })} className="bg-white/5 border-white/10 text-white mt-1" /></div>
+              <div><Label>Telegram</Label><Input value={form.telegram} onChange={(e) => setForm({ ...form, telegram: e.target.value })} className="bg-gray-50 border-gray-300 text-gray-900 mt-1" /></div>
+              <div><Label>Сайт</Label><Input value={form.website} onChange={(e) => setForm({ ...form, website: e.target.value })} className="bg-gray-50 border-gray-300 text-gray-900 mt-1" /></div>
             </div>
             <div>
               <Label>Статус</Label>
               <Select value={form.status} onValueChange={(v) => setForm({ ...form, status: v })}>
-                <SelectTrigger className="bg-white/5 border-white/10 text-white mt-1"><SelectValue /></SelectTrigger>
-                <SelectContent className="bg-[#1a1a2e] border-white/10">
+                <SelectTrigger className="bg-gray-50 border-gray-300 text-gray-900 mt-1"><SelectValue /></SelectTrigger>
+                <SelectContent className="bg-white border-gray-200 shadow-lg z-50">
                   <SelectItem value="active">Активный</SelectItem>
                   <SelectItem value="paused">На паузе</SelectItem>
                   <SelectItem value="completed">Завершён</SelectItem>
@@ -342,13 +348,13 @@ const CrmDashboard = () => {
               <Label className="mb-3 block">Услуги</Label>
               <div className="grid grid-cols-2 gap-3">
                 {SERVICE_OPTIONS.map(s => (
-                  <label key={s.key} className="flex items-center gap-2 cursor-pointer bg-white/5 rounded-lg px-3 py-2.5 border border-white/10 hover:border-white/20 transition-colors">
+                  <label key={s.key} className="flex items-center gap-2 cursor-pointer bg-gray-50 rounded-lg px-3 py-2.5 border border-gray-200 hover:border-[#fa3714]/40 transition-colors">
                     <Checkbox
                       checked={!!form.services[s.key as keyof Services]}
                       onCheckedChange={() => toggleService(s.key)}
-                      className="border-white/30 data-[state=checked]:bg-blue-600 data-[state=checked]:border-blue-600"
+                      className="border-gray-400 data-[state=checked]:bg-[#fa3714] data-[state=checked]:border-[#fa3714]"
                     />
-                    <span className="text-sm text-white/80">{s.label}</span>
+                    <span className="text-sm text-gray-700">{s.label}</span>
                   </label>
                 ))}
               </div>
@@ -359,17 +365,17 @@ const CrmDashboard = () => {
                     type="number" min={1}
                     value={form.services.website_count || ""}
                     onChange={(e) => setForm(prev => ({ ...prev, services: { ...prev.services, website_count: Number(e.target.value) || undefined } }))}
-                    className="bg-white/5 border-white/10 text-white mt-1 w-32"
+                    className="bg-gray-50 border-gray-300 text-gray-900 mt-1 w-32"
                     placeholder="1"
                   />
                 </div>
               )}
             </div>
-            <div><Label>Заметки</Label><Textarea value={form.notes} onChange={(e) => setForm({ ...form, notes: e.target.value })} className="bg-white/5 border-white/10 text-white mt-1" rows={3} /></div>
+            <div><Label>Заметки</Label><Textarea value={form.notes} onChange={(e) => setForm({ ...form, notes: e.target.value })} className="bg-gray-50 border-gray-300 text-gray-900 mt-1" rows={3} /></div>
           </div>
           <DialogFooter>
-            <Button variant="ghost" onClick={() => { setShowAdd(false); setEditClient(null); }} className="text-white/60">Отмена</Button>
-            <Button onClick={handleSave} className="bg-blue-600 hover:bg-blue-700" disabled={createClient.isPending || updateClient.isPending}>
+            <Button variant="ghost" onClick={() => { setShowAdd(false); setEditClient(null); }} className="text-gray-500">Отмена</Button>
+            <Button onClick={handleSave} className="bg-[#fa3714] hover:bg-[#e0300f] text-white" disabled={createClient.isPending || updateClient.isPending}>
               {editClient ? "Сохранить" : "Создать"}
             </Button>
           </DialogFooter>
@@ -378,25 +384,25 @@ const CrmDashboard = () => {
 
       {/* Agency expense dialog */}
       <Dialog open={showAgencyExpForm} onOpenChange={setShowAgencyExpForm}>
-        <DialogContent className="bg-[#1a1a2e] border-white/10 text-white">
+        <DialogContent className="bg-white border-gray-200 text-gray-900">
           <DialogHeader><DialogTitle>Новый расход агентства</DialogTitle></DialogHeader>
           <div className="grid gap-4 py-2">
-            <div><Label>Название *</Label><Input value={agencyExpForm.title} onChange={(e) => setAgencyExpForm({ ...agencyExpForm, title: e.target.value })} className="bg-white/5 border-white/10 text-white mt-1" /></div>
+            <div><Label>Название *</Label><Input value={agencyExpForm.title} onChange={(e) => setAgencyExpForm({ ...agencyExpForm, title: e.target.value })} className="bg-gray-50 border-gray-300 text-gray-900 mt-1" /></div>
             <div className="grid grid-cols-2 gap-3">
-              <div><Label>Сумма (₽) *</Label><Input type="number" value={agencyExpForm.amount} onChange={(e) => setAgencyExpForm({ ...agencyExpForm, amount: e.target.value })} className="bg-white/5 border-white/10 text-white mt-1" /></div>
-              <div><Label>Период</Label><Input placeholder="Февраль 2026" value={agencyExpForm.period} onChange={(e) => setAgencyExpForm({ ...agencyExpForm, period: e.target.value })} className="bg-white/5 border-white/10 text-white mt-1" /></div>
+              <div><Label>Сумма (₽) *</Label><Input type="number" value={agencyExpForm.amount} onChange={(e) => setAgencyExpForm({ ...agencyExpForm, amount: e.target.value })} className="bg-gray-50 border-gray-300 text-gray-900 mt-1" /></div>
+              <div><Label>Период</Label><Input placeholder="Февраль 2026" value={agencyExpForm.period} onChange={(e) => setAgencyExpForm({ ...agencyExpForm, period: e.target.value })} className="bg-gray-50 border-gray-300 text-gray-900 mt-1" /></div>
             </div>
-            <div><Label>Описание</Label><Input value={agencyExpForm.description} onChange={(e) => setAgencyExpForm({ ...agencyExpForm, description: e.target.value })} className="bg-white/5 border-white/10 text-white mt-1" /></div>
+            <div><Label>Описание</Label><Input value={agencyExpForm.description} onChange={(e) => setAgencyExpForm({ ...agencyExpForm, description: e.target.value })} className="bg-gray-50 border-gray-300 text-gray-900 mt-1" /></div>
           </div>
           <DialogFooter>
-            <Button variant="ghost" onClick={() => setShowAgencyExpForm(false)} className="text-white/60">Отмена</Button>
+            <Button variant="ghost" onClick={() => setShowAgencyExpForm(false)} className="text-gray-500">Отмена</Button>
             <Button onClick={async () => {
               if (!agencyExpForm.title || !agencyExpForm.amount) return;
               await createAgencyExpense.mutateAsync({ title: agencyExpForm.title, amount: Number(agencyExpForm.amount), description: agencyExpForm.description || undefined, period: agencyExpForm.period || undefined });
               setShowAgencyExpForm(false);
               setAgencyExpForm({ title: "", amount: "", description: "", period: "" });
               toast({ title: "Расход добавлен" });
-            }} className="bg-orange-600 hover:bg-orange-700">Добавить</Button>
+            }} className="bg-[#fa3714] hover:bg-[#e0300f] text-white">Добавить</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
