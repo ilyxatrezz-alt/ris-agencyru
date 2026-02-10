@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useCrmStats, useClients, useCreateClient, useDeleteClient, useUpdateClient, useAgencyExpenses, useCreateAgencyExpense, useDeleteAgencyExpense } from "@/hooks/useCrmData";
+import { useCrmStats, useClients, useCreateClient, useDeleteClient, useUpdateClient, useAgencyExpenses, useCreateAgencyExpense, useDeleteAgencyExpense, useAllTasks, useUpdateTask } from "@/hooks/useCrmData";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -13,7 +13,7 @@ import { toast } from "@/hooks/use-toast";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
   Users, ListTodo, DollarSign, TrendingUp, Plus, Search, Phone, Mail, MessageCircle, Globe,
-  ArrowLeft, Trash2, Edit, Eye, Monitor, Megaphone, Receipt, Calculator
+  ArrowLeft, Trash2, Edit, Eye, Monitor, Megaphone, Receipt, Calculator, CheckCircle2, Clock, AlertCircle, CalendarDays
 } from "lucide-react";
 
 const SERVICE_OPTIONS = [
@@ -42,10 +42,21 @@ const statusColors: Record<string, string> = {
   completed: "bg-gray-100 text-gray-600 border-gray-300",
 };
 
+const taskStatusIcons: Record<string, any> = {
+  pending: <Clock className="w-4 h-4 text-yellow-500" />,
+  in_progress: <AlertCircle className="w-4 h-4 text-blue-500" />,
+  done: <CheckCircle2 className="w-4 h-4 text-green-500" />,
+};
+const taskStatusLabels: Record<string, string> = { pending: "Ожидает", in_progress: "В работе", done: "Готово" };
+const priorityLabels: Record<string, string> = { low: "Низкий", medium: "Средний", high: "Высокий" };
+const priorityColors: Record<string, string> = { low: "border-gray-300 text-gray-500", medium: "border-yellow-400 text-yellow-600", high: "border-red-400 text-red-600" };
+
 const CrmDashboard = () => {
   const navigate = useNavigate();
   const { data: stats } = useCrmStats();
   const { data: clients, isLoading } = useClients();
+  const { data: allTasks } = useAllTasks();
+  const updateTask = useUpdateTask();
   const createClient = useCreateClient();
   const deleteClient = useDeleteClient();
   const updateClient = useUpdateClient();
@@ -54,6 +65,7 @@ const CrmDashboard = () => {
   const deleteAgencyExpense = useDeleteAgencyExpense();
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState<string>("all");
+  const [taskFilter, setTaskFilter] = useState<string>("active");
   const [showAdd, setShowAdd] = useState(false);
   const [editClient, setEditClient] = useState<any>(null);
   const [showAgencyExpForm, setShowAgencyExpForm] = useState(false);
@@ -115,30 +127,29 @@ const CrmDashboard = () => {
     <div className="min-h-screen bg-gray-50 text-gray-900">
       {/* Header */}
       <header className="border-b border-gray-200 bg-white sticky top-0 z-40 shadow-sm">
-        <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <Button variant="ghost" size="icon" onClick={() => navigate("/admin")} className="text-gray-500 hover:text-gray-900">
+        <div className="container mx-auto px-3 sm:px-4 py-3 sm:py-4 flex items-center justify-between gap-2">
+          <div className="flex items-center gap-2 sm:gap-4 min-w-0">
+            <Button variant="ghost" size="icon" onClick={() => navigate("/admin")} className="text-gray-500 hover:text-gray-900 shrink-0">
               <ArrowLeft className="w-5 h-5" />
             </Button>
-            {/* РИС Logo */}
-            <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-lg bg-[#fa3714] flex items-center justify-center">
-                <span className="text-white font-black text-sm">Р</span>
+            <div className="flex items-center gap-2 min-w-0">
+              <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-[#fa3714] flex items-center justify-center shrink-0">
+                <span className="text-white font-black text-xs sm:text-sm">Р</span>
               </div>
-              <h1 className="text-xl font-bold text-gray-900">
-                CRM — Управление клиентами
+              <h1 className="text-base sm:text-xl font-bold text-gray-900 truncate">
+                CRM
               </h1>
             </div>
           </div>
-          <Button onClick={() => { resetForm(); setEditClient(null); setShowAdd(true); }} className="bg-[#fa3714] hover:bg-[#e0300f] text-white">
-            <Plus className="w-4 h-4 mr-2" /> Добавить клиента
+          <Button onClick={() => { resetForm(); setEditClient(null); setShowAdd(true); }} className="bg-[#fa3714] hover:bg-[#e0300f] text-white shrink-0 text-xs sm:text-sm px-2 sm:px-4">
+            <Plus className="w-4 h-4 sm:mr-2" /> <span className="hidden sm:inline">Добавить клиента</span>
           </Button>
         </div>
       </header>
 
-      <main className="container mx-auto px-4 py-8 space-y-8">
+      <main className="container mx-auto px-3 sm:px-4 py-4 sm:py-8 space-y-6 sm:space-y-8">
         {/* Stats */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-4">
           {[
             { icon: Users, label: "Клиенты", value: stats?.totalClients ?? 0, sub: `${stats?.activeClients ?? 0} активных`, color: "bg-blue-500" },
             { icon: ListTodo, label: "Задачи", value: stats?.totalTasks ?? 0, sub: `${stats?.pendingTasks ?? 0} в работе`, color: "bg-purple-500" },
@@ -146,13 +157,13 @@ const CrmDashboard = () => {
             { icon: TrendingUp, label: "Средний чек", value: stats?.totalClients ? formatMoney((stats?.totalRevenue ?? 0) / stats.totalClients) : "—", sub: "на клиента", color: "bg-orange-500" },
           ].map((s, i) => (
             <Card key={i} className="bg-white border-gray-200 hover:shadow-md transition-shadow">
-              <CardContent className="p-5">
-                <div className={`w-10 h-10 rounded-lg ${s.color} flex items-center justify-center mb-3`}>
-                  <s.icon className="w-5 h-5 text-white" />
+              <CardContent className="p-3 sm:p-5">
+                <div className={`w-8 h-8 sm:w-10 sm:h-10 rounded-lg ${s.color} flex items-center justify-center mb-2 sm:mb-3`}>
+                  <s.icon className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
                 </div>
-                <p className="text-2xl font-bold text-gray-900">{s.value}</p>
-                <p className="text-sm text-gray-500">{s.label}</p>
-                <p className="text-xs text-gray-400 mt-1">{s.sub}</p>
+                <p className="text-lg sm:text-2xl font-bold text-gray-900 truncate">{s.value}</p>
+                <p className="text-xs sm:text-sm text-gray-500">{s.label}</p>
+                <p className="text-xs text-gray-400 mt-0.5 sm:mt-1">{s.sub}</p>
               </CardContent>
             </Card>
           ))}
@@ -225,6 +236,72 @@ const CrmDashboard = () => {
           </CardContent>
         </Card>
 
+        {/* Global tasks pool */}
+        <Card className="bg-white border-gray-200">
+          <CardHeader className="pb-3">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+              <CardTitle className="text-lg flex items-center gap-2 text-gray-900">
+                <ListTodo className="w-5 h-5 text-purple-500" /> Все задачи
+              </CardTitle>
+              <div className="flex gap-1">
+                {[
+                  { key: "active", label: "В работе" },
+                  { key: "all", label: "Все" },
+                  { key: "done", label: "Готовые" },
+                ].map(f => (
+                  <Button key={f.key} size="sm" variant={taskFilter === f.key ? "default" : "ghost"}
+                    className={taskFilter === f.key ? "bg-[#fa3714] hover:bg-[#e0300f] text-white h-7 text-xs" : "text-gray-500 h-7 text-xs"}
+                    onClick={() => setTaskFilter(f.key)}>
+                    {f.label}
+                  </Button>
+                ))}
+              </div>
+            </div>
+          </CardHeader>
+          <CardContent className="space-y-2">
+            {(() => {
+              const filtered = allTasks?.filter(t => {
+                if (taskFilter === "active") return t.status === "pending" || t.status === "in_progress";
+                if (taskFilter === "done") return t.status === "done";
+                return true;
+              });
+              if (!filtered?.length) return <p className="text-gray-400 text-center py-6">Задач нет</p>;
+              return filtered.map((t: any) => (
+                <div key={t.id} className="flex items-start gap-3 bg-gray-50 rounded-lg px-3 py-3 sm:px-4">
+                  <button className="mt-0.5 shrink-0" onClick={async () => {
+                    const next = t.status === "done" ? "pending" : t.status === "pending" ? "in_progress" : "done";
+                    await updateTask.mutateAsync({ id: t.id, client_id: t.client_id, status: next });
+                  }}>
+                    {taskStatusIcons[t.status] || taskStatusIcons.pending}
+                  </button>
+                  <div className="flex-1 min-w-0">
+                    <p className={`text-sm font-medium truncate ${t.status === "done" ? "line-through text-gray-400" : "text-gray-900"}`}>{t.title}</p>
+                    <div className="flex flex-wrap gap-1.5 mt-1">
+                      <Badge variant="outline" className="border-[#fa3714]/30 text-[#fa3714] text-xs cursor-pointer"
+                        onClick={() => navigate(`/crm/${t.client_id}`)}>
+                        {t.crm_clients?.name || "Клиент"}
+                      </Badge>
+                      <Badge variant="outline" className={`text-xs ${priorityColors[t.priority]}`}>
+                        {priorityLabels[t.priority] || t.priority}
+                      </Badge>
+                      {t.crm_team_members?.name && (
+                        <Badge variant="outline" className="border-blue-300 text-blue-600 text-xs">
+                          <Users className="w-3 h-3 mr-1" />{t.crm_team_members.name}
+                        </Badge>
+                      )}
+                      {t.due_date && (
+                        <Badge variant="outline" className="border-gray-300 text-gray-500 text-xs">
+                          <CalendarDays className="w-3 h-3 mr-1" />{new Date(t.due_date).toLocaleDateString("ru")}
+                        </Badge>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              ));
+            })()}
+          </CardContent>
+        </Card>
+
         {/* Filters */}
         <div className="flex flex-col sm:flex-row gap-3">
           <div className="relative flex-1">
@@ -236,7 +313,7 @@ const CrmDashboard = () => {
             />
           </div>
           <Select value={statusFilter} onValueChange={setStatusFilter}>
-            <SelectTrigger className="w-[180px] bg-white border-gray-300 text-gray-900">
+            <SelectTrigger className="w-full sm:w-[180px] bg-white border-gray-300 text-gray-900">
               <SelectValue placeholder="Статус" />
             </SelectTrigger>
             <SelectContent className="bg-white border-gray-200 shadow-lg z-50">

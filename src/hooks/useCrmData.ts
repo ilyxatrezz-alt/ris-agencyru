@@ -93,6 +93,19 @@ export const useDeleteClient = () => {
 };
 
 // ── Tasks ──
+export const useAllTasks = () =>
+  useQuery({
+    queryKey: ["crm-all-tasks"],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("crm_tasks")
+        .select("*, crm_team_members(name), crm_clients(name)")
+        .order("created_at", { ascending: false });
+      if (error) throw error;
+      return data;
+    },
+  });
+
 export const useClientTasks = (clientId: string) =>
   useQuery({
     queryKey: ["crm-tasks", clientId],
@@ -134,7 +147,10 @@ export const useUpdateTask = () => {
       const { error } = await supabase.from("crm_tasks").update(updates).eq("id", id);
       if (error) throw error;
     },
-    onSuccess: (_, vars) => qc.invalidateQueries({ queryKey: ["crm-tasks", vars.client_id] }),
+    onSuccess: (_, vars) => {
+      qc.invalidateQueries({ queryKey: ["crm-tasks", vars.client_id] });
+      qc.invalidateQueries({ queryKey: ["crm-all-tasks"] });
+    },
   });
 };
 
