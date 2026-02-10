@@ -58,7 +58,7 @@ const CrmClientDetail = () => {
   const [showTaskForm, setShowTaskForm] = useState(false);
   const [taskForm, setTaskForm] = useState({ title: "", description: "", assignee_id: "", priority: "medium", due_date: "", status: "pending" });
   const [showFinForm, setShowFinForm] = useState(false);
-  const [finForm, setFinForm] = useState({ period: "", alexander_percent: "50", ilya_percent: "50", cash_out_percent: "", notes: "" });
+  const [finForm, setFinForm] = useState({ period: "", alexander_percent: "50", ilya_percent: "50", cash_out_percent: "", notes: "", first_amount: "", first_month: "", first_day: "" });
   const [editFinId, setEditFinId] = useState<string | null>(null);
   const [editFinForm, setEditFinForm] = useState({ period: "", alexander_percent: "", ilya_percent: "", cash_out_percent: "", notes: "" });
   const [showConForm, setShowConForm] = useState<string | null>(null);
@@ -85,14 +85,20 @@ const CrmClientDetail = () => {
 
   const handleAddFinance = async () => {
     if (!finForm.period) return;
-    await createFinance.mutateAsync({
+    const finData = await createFinance.mutateAsync({
       client_id: id!, period: finForm.period, amount: 0,
       alexander_percent: Number(finForm.alexander_percent), ilya_percent: Number(finForm.ilya_percent),
       cash_out_percent: finForm.cash_out_percent ? Number(finForm.cash_out_percent) : undefined,
       notes: finForm.notes || undefined,
     });
+    // Create first payment if amount provided
+    if (finForm.first_amount && finForm.first_month && finForm.first_day && finData?.id) {
+      const year = new Date().getFullYear();
+      const dateStr = `${year}-${finForm.first_month.padStart(2, "0")}-${finForm.first_day.padStart(2, "0")}`;
+      await createPayment.mutateAsync({ finance_id: finData.id, amount: Number(finForm.first_amount), payment_date: dateStr });
+    }
     setShowFinForm(false);
-    setFinForm({ period: "", alexander_percent: "50", ilya_percent: "50", cash_out_percent: "", notes: "" });
+    setFinForm({ period: "", alexander_percent: "50", ilya_percent: "50", cash_out_percent: "", notes: "", first_amount: "", first_month: "", first_day: "" });
     toast({ title: "Финансовая запись добавлена" });
   };
 
@@ -304,7 +310,13 @@ const CrmClientDetail = () => {
               <p className="text-gray-400 text-center py-10">Записей пока нет</p>
             ) : (
               <div className="space-y-4">
-                {finances.map((f: any) => {
+                {[...finances].sort((a: any, b: any) => {
+                  const aPayments = a.crm_payments || [];
+                  const bPayments = b.crm_payments || [];
+                  const aLatest = aPayments.length ? Math.max(...aPayments.map((p: any) => new Date(p.payment_date).getTime())) : new Date(a.created_at).getTime();
+                  const bLatest = bPayments.length ? Math.max(...bPayments.map((p: any) => new Date(p.payment_date).getTime())) : new Date(b.created_at).getTime();
+                  return bLatest - aLatest;
+                }).map((f: any) => {
                   const isExpanded = expandedFin === f.id;
                   const payments = (f.crm_payments || []).sort((a: any, b: any) => new Date(a.payment_date).getTime() - new Date(b.payment_date).getTime());
                   const totalAmount = payments.reduce((s: number, p: any) => s + Number(p.amount), 0);
@@ -507,6 +519,27 @@ const CrmClientDetail = () => {
               <div><Label>% Ильи</Label><Input type="number" value={finForm.ilya_percent} onChange={(e) => setFinForm({ ...finForm, ilya_percent: e.target.value })} className="bg-gray-50 border-gray-300 text-gray-900 mt-1" /></div>
             </div>
             <div><Label>% обнала (необязательно)</Label><Input type="number" value={finForm.cash_out_percent} onChange={(e) => setFinForm({ ...finForm, cash_out_percent: e.target.value })} className="bg-gray-50 border-gray-300 text-gray-900 mt-1" /></div>
+            <div className="border-t border-gray-200 pt-3">
+              <p className="text-sm font-medium text-gray-700 mb-3">Первый платёж (необязательно)</p>
+              <div className="grid gap-3">
+                <div><Label>Сумма (₽)</Label><Input type="number" value={finForm.first_amount} onChange={(e) => setFinForm({ ...finForm, first_amount: e.target.value })} className="bg-gray-50 border-gray-300 text-gray-900 mt-1" /></div>
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <Label>Месяц</Label>
+                    <Select value={finForm.first_month} onValueChange={(v) => setFinForm({ ...finForm, first_month: v })}>
+                      <SelectTrigger className="bg-gray-50 border-gray-300 text-gray-900 mt-1"><SelectValue placeholder="Месяц" /></SelectTrigger>
+                      <SelectContent className="bg-white border-gray-200 shadow-lg z-50">
+                        {["Январь","Февраль","Март","Апрель","Май","Июнь","Июль","Август","Сентябрь","Октябрь","Ноябрь","Декабрь"].map((m, i) => (
+                          <SelectItem key={i + 1} value={String(i + 1)}>{m}</SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <div><Label>Число</Label><Input type="number" min="1" max="31" value={finForm.first_day} onChange={(e) => setFinForm({ ...finForm, first_day: e.target.value })} className="bg-gray-50 border-gray-300 text-gray-900 mt-1" placeholder="1-31" /></div>
+                </div>
+                <p className="text-xs text-gray-400">Год определяется автоматически ({new Date().getFullYear()})</p>
+              </div>
+            </div>
             <div><Label>Заметки</Label><Textarea value={finForm.notes} onChange={(e) => setFinForm({ ...finForm, notes: e.target.value })} className="bg-gray-50 border-gray-300 text-gray-900 mt-1" rows={2} /></div>
           </div>
           <DialogFooter>
