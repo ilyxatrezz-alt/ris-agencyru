@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useCrmStats, useClients, useCreateClient, useDeleteClient, useUpdateClient } from "@/hooks/useCrmData";
+import { useCrmStats, useClients, useCreateClient, useDeleteClient, useUpdateClient, useAgencyExpenses, useCreateAgencyExpense, useDeleteAgencyExpense } from "@/hooks/useCrmData";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -13,7 +13,7 @@ import { toast } from "@/hooks/use-toast";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
   Users, ListTodo, DollarSign, TrendingUp, Plus, Search, Phone, Mail, MessageCircle, Globe,
-  ArrowLeft, Trash2, Edit, Eye, Monitor, Megaphone
+  ArrowLeft, Trash2, Edit, Eye, Monitor, Megaphone, Receipt, Calculator
 } from "lucide-react";
 
 const SERVICE_OPTIONS = [
@@ -49,10 +49,15 @@ const CrmDashboard = () => {
   const createClient = useCreateClient();
   const deleteClient = useDeleteClient();
   const updateClient = useUpdateClient();
+  const { data: agencyExpenses } = useAgencyExpenses();
+  const createAgencyExpense = useCreateAgencyExpense();
+  const deleteAgencyExpense = useDeleteAgencyExpense();
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState<string>("all");
   const [showAdd, setShowAdd] = useState(false);
   const [editClient, setEditClient] = useState<any>(null);
+  const [showAgencyExpForm, setShowAgencyExpForm] = useState(false);
+  const [agencyExpForm, setAgencyExpForm] = useState({ title: "", amount: "", description: "", period: "" });
   const [form, setForm] = useState({
     name: "", contact_person: "", phone: "", email: "", telegram: "", website: "", notes: "", status: "active",
     services: {} as Services,
@@ -146,6 +151,73 @@ const CrmDashboard = () => {
             </Card>
           ))}
         </div>
+
+        {/* Earnings per partner */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <Card className="bg-blue-500/10 border-blue-500/20 hover:bg-blue-500/15 transition-colors">
+            <CardContent className="p-5">
+              <div className="flex items-center gap-3 mb-2">
+                <Calculator className="w-5 h-5 text-blue-400" />
+                <p className="text-sm text-blue-300">Александр заработал (всего)</p>
+              </div>
+              <p className="text-3xl font-bold text-blue-400">{formatMoney(stats?.alexanderTotal ?? 0)}</p>
+            </CardContent>
+          </Card>
+          <Card className="bg-purple-500/10 border-purple-500/20 hover:bg-purple-500/15 transition-colors">
+            <CardContent className="p-5">
+              <div className="flex items-center gap-3 mb-2">
+                <Calculator className="w-5 h-5 text-purple-400" />
+                <p className="text-sm text-purple-300">Илья заработал (всего)</p>
+              </div>
+              <p className="text-3xl font-bold text-purple-400">{formatMoney(stats?.ilyaTotal ?? 0)}</p>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Agency expenses */}
+        <Card className="bg-white/5 border-white/10">
+          <CardHeader className="pb-3">
+            <div className="flex items-center justify-between">
+              <CardTitle className="text-lg flex items-center gap-2 text-white">
+                <Receipt className="w-5 h-5 text-orange-400" /> Прочие счета агентства
+              </CardTitle>
+              <Button size="sm" onClick={() => setShowAgencyExpForm(true)} className="bg-orange-600 hover:bg-orange-700">
+                <Plus className="w-4 h-4 mr-1" /> Добавить
+              </Button>
+            </div>
+          </CardHeader>
+          <CardContent className="space-y-2">
+            {!agencyExpenses?.length ? (
+              <p className="text-white/30 text-center py-6">Расходов агентства пока нет</p>
+            ) : (
+              <>
+                {agencyExpenses.map((e) => (
+                  <div key={e.id} className="flex items-center justify-between bg-white/5 rounded-lg px-4 py-3">
+                    <div>
+                      <p className="text-sm font-medium text-white">{e.title}</p>
+                      <div className="flex gap-3 text-xs text-white/30 mt-0.5">
+                        {e.period && <span>{e.period}</span>}
+                        {e.description && <span>{e.description}</span>}
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <span className="text-lg font-bold text-orange-400">{formatMoney(Number(e.amount))}</span>
+                      <Button size="icon" variant="ghost" className="h-7 w-7 text-red-400/60 hover:text-red-400" onClick={async () => {
+                        await deleteAgencyExpense.mutateAsync(e.id);
+                        toast({ title: "Расход удалён" });
+                      }}>
+                        <Trash2 className="w-3.5 h-3.5" />
+                      </Button>
+                    </div>
+                  </div>
+                ))}
+                <div className="flex justify-end pt-2 border-t border-white/10">
+                  <p className="text-sm text-white/60">Итого: <span className="font-bold text-orange-400">{formatMoney(agencyExpenses.reduce((s, e) => s + Number(e.amount), 0))}</span></p>
+                </div>
+              </>
+            )}
+          </CardContent>
+        </Card>
 
         {/* Filters */}
         <div className="flex flex-col sm:flex-row gap-3">
@@ -300,6 +372,31 @@ const CrmDashboard = () => {
             <Button onClick={handleSave} className="bg-blue-600 hover:bg-blue-700" disabled={createClient.isPending || updateClient.isPending}>
               {editClient ? "Сохранить" : "Создать"}
             </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Agency expense dialog */}
+      <Dialog open={showAgencyExpForm} onOpenChange={setShowAgencyExpForm}>
+        <DialogContent className="bg-[#1a1a2e] border-white/10 text-white">
+          <DialogHeader><DialogTitle>Новый расход агентства</DialogTitle></DialogHeader>
+          <div className="grid gap-4 py-2">
+            <div><Label>Название *</Label><Input value={agencyExpForm.title} onChange={(e) => setAgencyExpForm({ ...agencyExpForm, title: e.target.value })} className="bg-white/5 border-white/10 text-white mt-1" /></div>
+            <div className="grid grid-cols-2 gap-3">
+              <div><Label>Сумма (₽) *</Label><Input type="number" value={agencyExpForm.amount} onChange={(e) => setAgencyExpForm({ ...agencyExpForm, amount: e.target.value })} className="bg-white/5 border-white/10 text-white mt-1" /></div>
+              <div><Label>Период</Label><Input placeholder="Февраль 2026" value={agencyExpForm.period} onChange={(e) => setAgencyExpForm({ ...agencyExpForm, period: e.target.value })} className="bg-white/5 border-white/10 text-white mt-1" /></div>
+            </div>
+            <div><Label>Описание</Label><Input value={agencyExpForm.description} onChange={(e) => setAgencyExpForm({ ...agencyExpForm, description: e.target.value })} className="bg-white/5 border-white/10 text-white mt-1" /></div>
+          </div>
+          <DialogFooter>
+            <Button variant="ghost" onClick={() => setShowAgencyExpForm(false)} className="text-white/60">Отмена</Button>
+            <Button onClick={async () => {
+              if (!agencyExpForm.title || !agencyExpForm.amount) return;
+              await createAgencyExpense.mutateAsync({ title: agencyExpForm.title, amount: Number(agencyExpForm.amount), description: agencyExpForm.description || undefined, period: agencyExpForm.period || undefined });
+              setShowAgencyExpForm(false);
+              setAgencyExpForm({ title: "", amount: "", description: "", period: "" });
+              toast({ title: "Расход добавлен" });
+            }} className="bg-orange-600 hover:bg-orange-700">Добавить</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>

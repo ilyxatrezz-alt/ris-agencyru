@@ -19,7 +19,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { toast } from "@/hooks/use-toast";
 import {
   ArrowLeft, Plus, Trash2, CheckCircle2, Clock, AlertCircle, DollarSign,
-  Users, CalendarDays, ChevronDown, ChevronUp
+  Users, CalendarDays, ChevronDown, ChevronUp, Calculator
 } from "lucide-react";
 
 const priorityColors: Record<string, string> = {
@@ -70,6 +70,8 @@ const CrmClientDetail = () => {
 
   // Expanded finance cards
   const [expandedFin, setExpandedFin] = useState<string | null>(null);
+  // Accounting summary dialog
+  const [showAccounting, setShowAccounting] = useState(false);
 
   const formatMoney = (n: number) => new Intl.NumberFormat("ru-RU", { style: "currency", currency: "RUB", maximumFractionDigits: 0 }).format(n);
 
@@ -118,34 +120,46 @@ const CrmClientDetail = () => {
   const totalRevenue = finances?.reduce((s, f) => s + Number(f.amount), 0) ?? 0;
   const totalExpenses = expenses?.reduce((s, e) => s + Number(e.amount), 0) ?? 0;
 
+  // Accounting calculations
+  const alexanderTotal = finances?.reduce((s, f) => s + (Number(f.amount) * Number(f.alexander_percent)) / 100, 0) ?? 0;
+  const ilyaTotal = finances?.reduce((s, f) => s + (Number(f.amount) * Number(f.ilya_percent)) / 100, 0) ?? 0;
+  const cashOutTotal = finances?.reduce((s, f) => s + (f.cash_out_percent ? (Number(f.amount) * Number(f.cash_out_percent)) / 100 : 0), 0) ?? 0;
+  const contractorsTotal = finances?.reduce((s, f) => s + (f.crm_contractors?.reduce((cs: number, c: any) => cs + Number(c.amount), 0) ?? 0), 0) ?? 0;
+  const netProfit = totalRevenue - totalExpenses - cashOutTotal - contractorsTotal;
+
   return (
     <div className="min-h-screen bg-[#0a0a0f] text-white">
       {/* Header */}
       <header className="border-b border-white/10 bg-[#0d0d14]/80 backdrop-blur-xl sticky top-0 z-40">
-        <div className="container mx-auto px-4 py-4 flex items-center gap-4">
-          <Button variant="ghost" size="icon" onClick={() => navigate("/crm")} className="text-white/60 hover:text-white">
-            <ArrowLeft className="w-5 h-5" />
-          </Button>
-          <div>
-            <h1 className="text-xl font-bold text-white">{client.name}</h1>
-            {client.contact_person && <p className="text-sm text-white/40">{client.contact_person}</p>}
-            {(() => {
-              const svc = (client as any).services as Record<string, any> | undefined;
-              if (!svc) return null;
-              const labels: Record<string, string> = { yandex_direct: "Яндекс Директ", vk_ads: "ВК реклама", telegram_ads: "Телеграм реклама", website_creation: "Создание сайта" };
-              const active = Object.entries(labels).filter(([k]) => svc[k]);
-              if (!active.length) return null;
-              return (
-                <div className="flex flex-wrap gap-1.5 mt-1">
-                  {active.map(([k, label]) => (
-                    <Badge key={k} variant="outline" className="border-blue-500/30 text-blue-300 text-xs">
-                      {label}{k === "website_creation" && svc.website_count ? ` (${svc.website_count})` : ""}
-                    </Badge>
-                  ))}
-                </div>
-              );
-            })()}
+        <div className="container mx-auto px-4 py-4 flex items-center justify-between">
+          <div className="flex items-center gap-4">
+            <Button variant="ghost" size="icon" onClick={() => navigate("/crm")} className="text-white/60 hover:text-white">
+              <ArrowLeft className="w-5 h-5" />
+            </Button>
+            <div>
+              <h1 className="text-xl font-bold text-white">{client.name}</h1>
+              {client.contact_person && <p className="text-sm text-white/40">{client.contact_person}</p>}
+              {(() => {
+                const svc = (client as any).services as Record<string, any> | undefined;
+                if (!svc) return null;
+                const labels: Record<string, string> = { yandex_direct: "Яндекс Директ", vk_ads: "ВК реклама", telegram_ads: "Телеграм реклама", website_creation: "Создание сайта" };
+                const active = Object.entries(labels).filter(([k]) => svc[k]);
+                if (!active.length) return null;
+                return (
+                  <div className="flex flex-wrap gap-1.5 mt-1">
+                    {active.map(([k, label]) => (
+                      <Badge key={k} variant="outline" className="border-blue-500/30 text-blue-300 text-xs">
+                        {label}{k === "website_creation" && svc.website_count ? ` (${svc.website_count})` : ""}
+                      </Badge>
+                    ))}
+                  </div>
+                );
+              })()}
+            </div>
           </div>
+          <Button onClick={() => setShowAccounting(true)} className="bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 gap-2">
+            <Calculator className="w-4 h-4" /> Бух. подсчёт
+          </Button>
         </div>
       </header>
 
@@ -464,6 +478,89 @@ const CrmClientDetail = () => {
           <DialogFooter>
             <Button variant="ghost" onClick={() => setShowExpForm(false)} className="text-white/60">Отмена</Button>
             <Button onClick={handleAddExpense} className="bg-blue-600 hover:bg-blue-700">Добавить</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* ── ACCOUNTING SUMMARY DIALOG ── */}
+      <Dialog open={showAccounting} onOpenChange={setShowAccounting}>
+        <DialogContent className="bg-[#1a1a2e] border-white/10 text-white max-w-lg">
+          <DialogHeader>
+            <DialogTitle className="text-xl">Бухгалтерский подсчёт — {client.name}</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4 py-2">
+            {/* Revenue */}
+            <div className="bg-green-500/10 rounded-xl p-4 border border-green-500/20">
+              <p className="text-sm text-green-300 mb-1">Общая выручка</p>
+              <p className="text-3xl font-bold text-green-400">{formatMoney(totalRevenue)}</p>
+            </div>
+
+            {/* Splits */}
+            <div className="grid grid-cols-2 gap-3">
+              <div className="bg-blue-500/10 rounded-xl p-4 border border-blue-500/20">
+                <p className="text-sm text-blue-300 mb-1">Александр заработал</p>
+                <p className="text-2xl font-bold text-blue-400">{formatMoney(alexanderTotal)}</p>
+                {finances?.map((f: any) => (
+                  <p key={f.id} className="text-xs text-blue-300/60 mt-1">
+                    {f.period}: {formatMoney((Number(f.amount) * Number(f.alexander_percent)) / 100)} ({f.alexander_percent}%)
+                  </p>
+                ))}
+              </div>
+              <div className="bg-purple-500/10 rounded-xl p-4 border border-purple-500/20">
+                <p className="text-sm text-purple-300 mb-1">Илья заработал</p>
+                <p className="text-2xl font-bold text-purple-400">{formatMoney(ilyaTotal)}</p>
+                {finances?.map((f: any) => (
+                  <p key={f.id} className="text-xs text-purple-300/60 mt-1">
+                    {f.period}: {formatMoney((Number(f.amount) * Number(f.ilya_percent)) / 100)} ({f.ilya_percent}%)
+                  </p>
+                ))}
+              </div>
+            </div>
+
+            {/* Deductions */}
+            <div className="space-y-2">
+              {cashOutTotal > 0 && (
+                <div className="flex justify-between items-center bg-orange-500/10 rounded-lg px-4 py-3 border border-orange-500/20">
+                  <span className="text-sm text-orange-300">Обнал</span>
+                  <span className="font-bold text-orange-400">{formatMoney(cashOutTotal)}</span>
+                </div>
+              )}
+              {contractorsTotal > 0 && (
+                <div className="flex justify-between items-center bg-cyan-500/10 rounded-lg px-4 py-3 border border-cyan-500/20">
+                  <span className="text-sm text-cyan-300">Исполнители</span>
+                  <span className="font-bold text-cyan-400">{formatMoney(contractorsTotal)}</span>
+                </div>
+              )}
+              {totalExpenses > 0 && (
+                <div className="flex justify-between items-center bg-red-500/10 rounded-lg px-4 py-3 border border-red-500/20">
+                  <span className="text-sm text-red-300">Прочие расходы</span>
+                  <span className="font-bold text-red-400">{formatMoney(totalExpenses)}</span>
+                </div>
+              )}
+            </div>
+
+            {/* Net */}
+            <div className="bg-white/5 rounded-xl p-4 border border-white/10">
+              <p className="text-sm text-white/40 mb-1">Чистая прибыль по клиенту</p>
+              <p className={`text-3xl font-bold ${netProfit >= 0 ? "text-green-400" : "text-red-400"}`}>
+                {formatMoney(netProfit)}
+              </p>
+            </div>
+
+            {/* Who owes whom */}
+            {alexanderTotal !== ilyaTotal && (
+              <div className="bg-yellow-500/10 rounded-xl p-4 border border-yellow-500/20">
+                <p className="text-sm text-yellow-300 mb-1">Разница между партнёрами</p>
+                <p className="text-lg font-semibold text-yellow-400">
+                  {alexanderTotal > ilyaTotal
+                    ? `Александр получает на ${formatMoney(alexanderTotal - ilyaTotal)} больше`
+                    : `Илья получает на ${formatMoney(ilyaTotal - alexanderTotal)} больше`}
+                </p>
+              </div>
+            )}
+          </div>
+          <DialogFooter>
+            <Button variant="ghost" onClick={() => setShowAccounting(false)} className="text-white/60">Закрыть</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>

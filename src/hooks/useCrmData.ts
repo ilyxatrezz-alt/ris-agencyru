@@ -282,7 +282,7 @@ export const useCrmStats = () =>
       const [clients, tasks, finances] = await Promise.all([
         supabase.from("crm_clients").select("id, status"),
         supabase.from("crm_tasks").select("id, status"),
-        supabase.from("crm_finances").select("amount"),
+        supabase.from("crm_finances").select("amount, alexander_percent, ilya_percent"),
       ]);
       if (clients.error) throw clients.error;
       if (tasks.error) throw tasks.error;
@@ -291,6 +291,8 @@ export const useCrmStats = () =>
       const totalRevenue = finances.data.reduce((s, f) => s + Number(f.amount), 0);
       const activeClients = clients.data.filter((c) => c.status === "active").length;
       const pendingTasks = tasks.data.filter((t) => t.status === "pending" || t.status === "in_progress").length;
+      const alexanderTotal = finances.data.reduce((s, f) => s + (Number(f.amount) * Number(f.alexander_percent)) / 100, 0);
+      const ilyaTotal = finances.data.reduce((s, f) => s + (Number(f.amount) * Number(f.ilya_percent)) / 100, 0);
 
       return {
         totalClients: clients.data.length,
@@ -298,6 +300,44 @@ export const useCrmStats = () =>
         totalTasks: tasks.data.length,
         pendingTasks,
         totalRevenue,
+        alexanderTotal,
+        ilyaTotal,
       };
     },
   });
+
+// ── Agency Expenses ──
+export const useAgencyExpenses = () =>
+  useQuery({
+    queryKey: ["crm-agency-expenses"],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("crm_agency_expenses")
+        .select("*")
+        .order("created_at", { ascending: false });
+      if (error) throw error;
+      return data;
+    },
+  });
+
+export const useCreateAgencyExpense = () => {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: async (e: { title: string; amount: number; description?: string; period?: string }) => {
+      const { error } = await supabase.from("crm_agency_expenses").insert(e);
+      if (error) throw error;
+    },
+    onSuccess: () => qc.invalidateQueries({ queryKey: ["crm-agency-expenses"] }),
+  });
+};
+
+export const useDeleteAgencyExpense = () => {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: async (id: string) => {
+      const { error } = await supabase.from("crm_agency_expenses").delete().eq("id", id);
+      if (error) throw error;
+    },
+    onSuccess: () => qc.invalidateQueries({ queryKey: ["crm-agency-expenses"] }),
+  });
+};

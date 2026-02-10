@@ -219,6 +219,33 @@ export type Database = {
         }
         Relationships: []
       }
+      crm_agency_expenses: {
+        Row: {
+          amount: number
+          created_at: string
+          description: string | null
+          id: string
+          period: string | null
+          title: string
+        }
+        Insert: {
+          amount?: number
+          created_at?: string
+          description?: string | null
+          id?: string
+          period?: string | null
+          title: string
+        }
+        Update: {
+          amount?: number
+          created_at?: string
+          description?: string | null
+          id?: string
+          period?: string | null
+          title?: string
+        }
+        Relationships: []
+      }
       crm_clients: {
         Row: {
           contact_person: string | null
