@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import {
   useClient, useClientTasks, useCreateTask, useUpdateTask, useDeleteTask,
-  useClientFinances, useCreateFinance, useDeleteFinance,
+  useClientFinances, useCreateFinance, useUpdateFinance, useDeleteFinance,
   useCreateContractor, useDeleteContractor,
   useClientExpenses, useCreateExpense, useDeleteExpense,
   useTeamMembers, useCreatePayment, useDeletePayment,
@@ -19,7 +19,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { toast } from "@/hooks/use-toast";
 import {
   ArrowLeft, Plus, Trash2, CheckCircle2, Clock, AlertCircle, DollarSign,
-  Users, CalendarDays, ChevronDown, ChevronUp, Calculator
+  Users, CalendarDays, ChevronDown, ChevronUp, Calculator, Edit
 } from "lucide-react";
 
 const priorityColors: Record<string, string> = {
@@ -47,6 +47,7 @@ const CrmClientDetail = () => {
   const deleteTask = useDeleteTask();
   const createFinance = useCreateFinance();
   const deleteFinance = useDeleteFinance();
+  const updateFinance = useUpdateFinance();
   const createContractor = useCreateContractor();
   const deleteContractor = useDeleteContractor();
   const createExpense = useCreateExpense();
@@ -58,6 +59,8 @@ const CrmClientDetail = () => {
   const [taskForm, setTaskForm] = useState({ title: "", description: "", assignee_id: "", priority: "medium", due_date: "", status: "pending" });
   const [showFinForm, setShowFinForm] = useState(false);
   const [finForm, setFinForm] = useState({ period: "", alexander_percent: "50", ilya_percent: "50", cash_out_percent: "", notes: "" });
+  const [editFinId, setEditFinId] = useState<string | null>(null);
+  const [editFinForm, setEditFinForm] = useState({ period: "", alexander_percent: "", ilya_percent: "", cash_out_percent: "", notes: "" });
   const [showConForm, setShowConForm] = useState<string | null>(null);
   const [conForm, setConForm] = useState({ name: "", amount: "", description: "" });
   const [showExpForm, setShowExpForm] = useState(false);
@@ -103,6 +106,31 @@ const CrmClientDetail = () => {
     setShowPaymentForm(null);
     setPaymentForm({ amount: "", payment_day: "", payment_month: "" });
     toast({ title: "Платёж добавлен" });
+  };
+
+  const openEditFinance = (f: any) => {
+    setEditFinForm({
+      period: f.period,
+      alexander_percent: String(f.alexander_percent),
+      ilya_percent: String(f.ilya_percent),
+      cash_out_percent: f.cash_out_percent ? String(f.cash_out_percent) : "",
+      notes: f.notes || "",
+    });
+    setEditFinId(f.id);
+  };
+
+  const handleEditFinance = async () => {
+    if (!editFinId || !editFinForm.period) return;
+    await updateFinance.mutateAsync({
+      id: editFinId, client_id: id!,
+      period: editFinForm.period,
+      alexander_percent: Number(editFinForm.alexander_percent),
+      ilya_percent: Number(editFinForm.ilya_percent),
+      cash_out_percent: editFinForm.cash_out_percent ? Number(editFinForm.cash_out_percent) : null,
+      notes: editFinForm.notes || null,
+    });
+    setEditFinId(null);
+    toast({ title: "Запись обновлена" });
   };
 
   const handleAddContractor = async () => {
@@ -372,14 +400,17 @@ const CrmClientDetail = () => {
                               ) : <p className="text-xs text-gray-400">Нет исполнителей</p>}
                             </div>
 
-                            <div className="flex justify-end">
+                            <div className="flex justify-end gap-2">
+                              <Button size="sm" variant="ghost" className="text-blue-500 text-xs" onClick={() => openEditFinance(f)}>
+                                <Edit className="w-3 h-3 mr-1" /> Редактировать
+                              </Button>
                               <Button size="sm" variant="ghost" className="text-red-500 text-xs" onClick={async () => {
                                 if (confirm("Удалить запись?")) {
                                   await deleteFinance.mutateAsync({ id: f.id, client_id: id! });
                                   toast({ title: "Запись удалена" });
                                 }
                               }}>
-                                <Trash2 className="w-3 h-3 mr-1" /> Удалить запись
+                                <Trash2 className="w-3 h-3 mr-1" /> Удалить
                               </Button>
                             </div>
                           </div>
@@ -514,7 +545,26 @@ const CrmClientDetail = () => {
         </DialogContent>
       </Dialog>
 
-      {/* ── CONTRACTOR DIALOG ── */}
+      {/* ── EDIT FINANCE DIALOG ── */}
+      <Dialog open={!!editFinId} onOpenChange={(o) => { if (!o) setEditFinId(null); }}>
+        <DialogContent className="bg-white border-gray-200 text-gray-900 max-w-lg">
+          <DialogHeader><DialogTitle>Редактировать запись</DialogTitle></DialogHeader>
+          <div className="grid gap-4 py-2">
+            <div><Label>Период *</Label><Input value={editFinForm.period} onChange={(e) => setEditFinForm({ ...editFinForm, period: e.target.value })} className="bg-gray-50 border-gray-300 text-gray-900 mt-1" /></div>
+            <div className="grid grid-cols-2 gap-3">
+              <div><Label>% Александра</Label><Input type="number" value={editFinForm.alexander_percent} onChange={(e) => setEditFinForm({ ...editFinForm, alexander_percent: e.target.value })} className="bg-gray-50 border-gray-300 text-gray-900 mt-1" /></div>
+              <div><Label>% Ильи</Label><Input type="number" value={editFinForm.ilya_percent} onChange={(e) => setEditFinForm({ ...editFinForm, ilya_percent: e.target.value })} className="bg-gray-50 border-gray-300 text-gray-900 mt-1" /></div>
+            </div>
+            <div><Label>% обнала</Label><Input type="number" value={editFinForm.cash_out_percent} onChange={(e) => setEditFinForm({ ...editFinForm, cash_out_percent: e.target.value })} className="bg-gray-50 border-gray-300 text-gray-900 mt-1" /></div>
+            <div><Label>Заметки</Label><Textarea value={editFinForm.notes} onChange={(e) => setEditFinForm({ ...editFinForm, notes: e.target.value })} className="bg-gray-50 border-gray-300 text-gray-900 mt-1" rows={2} /></div>
+          </div>
+          <DialogFooter>
+            <Button variant="ghost" onClick={() => setEditFinId(null)} className="text-gray-500">Отмена</Button>
+            <Button onClick={handleEditFinance} className="bg-[#fa3714] hover:bg-[#e0300f] text-white">Сохранить</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
       <Dialog open={!!showConForm} onOpenChange={(o) => { if (!o) setShowConForm(null); }}>
         <DialogContent className="bg-white border-gray-200 text-gray-900">
           <DialogHeader><DialogTitle>Добавить исполнителя</DialogTitle></DialogHeader>
