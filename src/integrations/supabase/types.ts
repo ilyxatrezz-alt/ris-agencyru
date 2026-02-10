@@ -219,6 +219,250 @@ export type Database = {
         }
         Relationships: []
       }
+      crm_clients: {
+        Row: {
+          contact_person: string | null
+          created_at: string
+          email: string | null
+          id: string
+          name: string
+          notes: string | null
+          phone: string | null
+          status: string
+          telegram: string | null
+          updated_at: string
+          website: string | null
+        }
+        Insert: {
+          contact_person?: string | null
+          created_at?: string
+          email?: string | null
+          id?: string
+          name: string
+          notes?: string | null
+          phone?: string | null
+          status?: string
+          telegram?: string | null
+          updated_at?: string
+          website?: string | null
+        }
+        Update: {
+          contact_person?: string | null
+          created_at?: string
+          email?: string | null
+          id?: string
+          name?: string
+          notes?: string | null
+          phone?: string | null
+          status?: string
+          telegram?: string | null
+          updated_at?: string
+          website?: string | null
+        }
+        Relationships: []
+      }
+      crm_contractors: {
+        Row: {
+          amount: number
+          created_at: string
+          description: string | null
+          finance_id: string
+          id: string
+          name: string
+        }
+        Insert: {
+          amount?: number
+          created_at?: string
+          description?: string | null
+          finance_id: string
+          id?: string
+          name: string
+        }
+        Update: {
+          amount?: number
+          created_at?: string
+          description?: string | null
+          finance_id?: string
+          id?: string
+          name?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "crm_contractors_finance_id_fkey"
+            columns: ["finance_id"]
+            isOneToOne: false
+            referencedRelation: "crm_finances"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      crm_expenses: {
+        Row: {
+          amount: number
+          client_id: string
+          created_at: string
+          description: string | null
+          finance_id: string | null
+          id: string
+          title: string
+        }
+        Insert: {
+          amount?: number
+          client_id: string
+          created_at?: string
+          description?: string | null
+          finance_id?: string | null
+          id?: string
+          title: string
+        }
+        Update: {
+          amount?: number
+          client_id?: string
+          created_at?: string
+          description?: string | null
+          finance_id?: string | null
+          id?: string
+          title?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "crm_expenses_client_id_fkey"
+            columns: ["client_id"]
+            isOneToOne: false
+            referencedRelation: "crm_clients"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "crm_expenses_finance_id_fkey"
+            columns: ["finance_id"]
+            isOneToOne: false
+            referencedRelation: "crm_finances"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      crm_finances: {
+        Row: {
+          alexander_percent: number
+          amount: number
+          cash_out_percent: number | null
+          client_id: string
+          created_at: string
+          id: string
+          ilya_percent: number
+          notes: string | null
+          period: string
+          updated_at: string
+        }
+        Insert: {
+          alexander_percent?: number
+          amount?: number
+          cash_out_percent?: number | null
+          client_id: string
+          created_at?: string
+          id?: string
+          ilya_percent?: number
+          notes?: string | null
+          period: string
+          updated_at?: string
+        }
+        Update: {
+          alexander_percent?: number
+          amount?: number
+          cash_out_percent?: number | null
+          client_id?: string
+          created_at?: string
+          id?: string
+          ilya_percent?: number
+          notes?: string | null
+          period?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "crm_finances_client_id_fkey"
+            columns: ["client_id"]
+            isOneToOne: false
+            referencedRelation: "crm_clients"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      crm_tasks: {
+        Row: {
+          assignee_id: string | null
+          client_id: string
+          created_at: string
+          description: string | null
+          due_date: string | null
+          id: string
+          priority: string
+          status: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          assignee_id?: string | null
+          client_id: string
+          created_at?: string
+          description?: string | null
+          due_date?: string | null
+          id?: string
+          priority?: string
+          status?: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          assignee_id?: string | null
+          client_id?: string
+          created_at?: string
+          description?: string | null
+          due_date?: string | null
+          id?: string
+          priority?: string
+          status?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "crm_tasks_assignee_id_fkey"
+            columns: ["assignee_id"]
+            isOneToOne: false
+            referencedRelation: "crm_team_members"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "crm_tasks_client_id_fkey"
+            columns: ["client_id"]
+            isOneToOne: false
+            referencedRelation: "crm_clients"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      crm_team_members: {
+        Row: {
+          created_at: string
+          id: string
+          is_active: boolean | null
+          name: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          is_active?: boolean | null
+          name: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          is_active?: boolean | null
+          name?: string
+        }
+        Relationships: []
+      }
       process_steps: {
         Row: {
           created_at: string
