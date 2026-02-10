@@ -226,8 +226,8 @@ const CrmClientDetail = () => {
             <p className="text-lg sm:text-xl font-bold text-green-600">{formatMoney(totalRevenue)}</p>
           </CardContent></Card>
           <Card className="bg-white border-gray-200"><CardContent className="p-3 sm:p-4">
-            <p className="text-xs text-gray-500 mb-1">Расходы</p>
-            <p className="text-lg sm:text-xl font-bold text-red-500">{formatMoney(totalExpenses)}</p>
+            <p className="text-xs text-gray-500 mb-1">Расходы (всего)</p>
+            <p className="text-lg sm:text-xl font-bold text-red-500">{formatMoney(totalExpenses + contractorsTotal)}</p>
           </CardContent></Card>
           <Card className="bg-white border-gray-200"><CardContent className="p-3 sm:p-4">
             <p className="text-xs text-gray-500 mb-1">Задач</p>
@@ -459,6 +459,35 @@ const CrmClientDetail = () => {
 
           {/* ── EXPENSES ── */}
           <TabsContent value="expenses" className="space-y-4">
+            {/* Contractors from finances */}
+            {(() => {
+              const allContractors = finances?.flatMap((f: any) =>
+                (f.crm_contractors || []).map((c: any) => ({ ...c, financePeriod: f.period }))
+              ) || [];
+              return allContractors.length > 0 && (
+                <div>
+                  <h2 className="text-lg font-semibold text-gray-900 mb-3">Исполнители</h2>
+                  <div className="space-y-3">
+                    {allContractors.map((c: any) => (
+                      <Card key={c.id} className="bg-white border-gray-200">
+                        <CardContent className="p-4 flex justify-between items-center">
+                          <div>
+                            <p className="font-medium text-gray-900">{c.name}</p>
+                            {c.description && <p className="text-sm text-gray-500">{c.description}</p>}
+                            <p className="text-xs text-gray-400 mt-1">По записи: {c.financePeriod}</p>
+                          </div>
+                          <span className="text-lg font-bold text-orange-500">{formatMoney(Number(c.amount))}</span>
+                        </CardContent>
+                      </Card>
+                    ))}
+                    <div className="text-right text-sm font-semibold text-orange-600">
+                      Итого исполнители: {formatMoney(allContractors.reduce((s: number, c: any) => s + Number(c.amount), 0))}
+                    </div>
+                  </div>
+                </div>
+              );
+            })()}
+
             <div className="flex justify-between items-center">
               <h2 className="text-lg font-semibold text-gray-900">Прочие расходы</h2>
               <Button size="sm" onClick={() => setShowExpForm(true)} className="bg-[#fa3714] hover:bg-[#e0300f] text-white">
@@ -466,7 +495,7 @@ const CrmClientDetail = () => {
               </Button>
             </div>
             {!expenses?.length ? (
-              <p className="text-gray-400 text-center py-10">Расходов пока нет</p>
+              <p className="text-gray-400 text-center py-10">Прочих расходов пока нет</p>
             ) : (
               <div className="space-y-3">
                 {expenses.map((e: any) => (
@@ -488,6 +517,16 @@ const CrmClientDetail = () => {
                 ))}
               </div>
             )}
+
+            {/* Total summary */}
+            <Card className="bg-gray-50 border-gray-200">
+              <CardContent className="p-4">
+                <div className="flex justify-between items-center">
+                  <p className="font-semibold text-gray-700">Всего расходов (исполнители + прочие)</p>
+                  <p className="text-xl font-bold text-red-600">{formatMoney(totalExpenses + contractorsTotal)}</p>
+                </div>
+              </CardContent>
+            </Card>
           </TabsContent>
         </Tabs>
       </main>
