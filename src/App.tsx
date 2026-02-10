@@ -27,6 +27,7 @@ import NotFound from "./pages/NotFound";
 import WebDevelopment from "./pages/WebDevelopment";
 import CrmDashboard from "./pages/CrmDashboard";
 import CrmClientDetail from "./pages/CrmClientDetail";
+import CrmTasks from "./pages/CrmTasks";
 
 const queryClient = new QueryClient();
 
@@ -69,6 +70,7 @@ const AppContent = () => {
                   }
                 />
                 <Route path="/crm" element={<ProtectedRoute><CrmDashboard /></ProtectedRoute>} />
+                <Route path="/crm/tasks" element={<ProtectedRoute><CrmTasks /></ProtectedRoute>} />
                 <Route path="/crm/:id" element={<ProtectedRoute><CrmClientDetail /></ProtectedRoute>} />
                 {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                 <Route path="*" element={<NotFound />} />
