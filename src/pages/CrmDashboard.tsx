@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useCrmStats, useClients, useCreateClient, useDeleteClient, useUpdateClient, useAgencyExpenses, useCreateAgencyExpense, useDeleteAgencyExpense, useAllTasks, useUpdateTask, useTeamMembers } from "@/hooks/useCrmData";
+import { useCrmStats, useClients, useCreateClient, useDeleteClient, useUpdateClient, useAgencyExpenses, useCreateAgencyExpense, useDeleteAgencyExpense, useAllTasks, useUpdateTask, useTeamMembers, useAllFinances } from "@/hooks/useCrmData";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -65,6 +65,7 @@ const CrmDashboard = () => {
   const deleteClient = useDeleteClient();
   const updateClient = useUpdateClient();
   const { data: agencyExpenses } = useAgencyExpenses();
+  const { data: allFinances } = useAllFinances();
   const createAgencyExpense = useCreateAgencyExpense();
   const deleteAgencyExpense = useDeleteAgencyExpense();
   const [search, setSearch] = useState("");
@@ -73,6 +74,7 @@ const CrmDashboard = () => {
   const [taskFilter, setTaskFilter] = useState<string>("active");
   const [taskAssigneeFilter, setTaskAssigneeFilter] = useState<string>("all");
   const [showAdd, setShowAdd] = useState(false);
+  const [revenueMonth, setRevenueMonth] = useState<string>("all");
   const [showAddPotential, setShowAddPotential] = useState(false);
   const [editClient, setEditClient] = useState<any>(null);
   const [showAgencyExpForm, setShowAgencyExpForm] = useState(false);
@@ -248,6 +250,77 @@ const CrmDashboard = () => {
                 </CardContent>
               </Card>
             </div>
+
+            {/* Monthly revenue breakdown */}
+            <Card className="bg-white border-gray-200">
+              <CardHeader className="pb-3">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                  <CardTitle className="text-lg flex items-center gap-2 text-gray-900">
+                    <DollarSign className="w-5 h-5 text-green-500" /> Выручка по месяцам
+                  </CardTitle>
+                  <Select value={revenueMonth} onValueChange={setRevenueMonth}>
+                    <SelectTrigger className="w-full sm:w-[200px] bg-gray-50 border-gray-300 text-gray-900 h-8 text-sm">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent className="bg-white border-gray-200 shadow-lg z-50">
+                      <SelectItem value="all">Все месяцы</SelectItem>
+                      {(() => {
+                        const months = new Set<string>();
+                        allFinances?.forEach(f => {
+                          if (f.payment_date) {
+                            const d = new Date(f.payment_date);
+                            months.add(`${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`);
+                          }
+                          if (f.period) months.add(f.period);
+                        });
+                        return Array.from(months).sort().reverse().map(m => (
+                          <SelectItem key={m} value={m}>{m}</SelectItem>
+                        ));
+                      })()}
+                    </SelectContent>
+                  </Select>
+                </div>
+              </CardHeader>
+              <CardContent className="space-y-2">
+                {(() => {
+                  const filtered = allFinances?.filter(f => {
+                    if (revenueMonth === "all") return true;
+                    if (f.payment_date) {
+                      const d = new Date(f.payment_date);
+                      const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`;
+                      if (key === revenueMonth) return true;
+                    }
+                    return f.period === revenueMonth;
+                  }) ?? [];
+                  if (!filtered.length) return <p className="text-gray-400 text-center py-6">Записей нет</p>;
+                  const total = filtered.reduce((s, f) => s + Number(f.amount), 0);
+                  return (
+                    <>
+                      {filtered.map((f: any) => (
+                        <div key={f.id} className="flex items-center justify-between bg-gray-50 rounded-lg px-3 sm:px-4 py-3">
+                          <div className="min-w-0">
+                            <p className="text-sm font-medium text-gray-900 truncate">
+                              {f.crm_clients?.name || "Клиент"}
+                              <span className="text-gray-400 font-normal ml-2">· {f.period}</span>
+                            </p>
+                            {f.payment_date && (
+                              <p className="text-xs text-gray-400 mt-0.5">
+                                <CalendarDays className="w-3 h-3 inline mr-1" />
+                                {new Date(f.payment_date).toLocaleDateString("ru")}
+                              </p>
+                            )}
+                          </div>
+                          <span className="text-base sm:text-lg font-bold text-green-600 shrink-0">{formatMoney(Number(f.amount))}</span>
+                        </div>
+                      ))}
+                      <div className="flex justify-end pt-2 border-t border-gray-200">
+                        <p className="text-sm text-gray-500">Итого: <span className="font-bold text-green-600">{formatMoney(total)}</span></p>
+                      </div>
+                    </>
+                  );
+                })()}
+              </CardContent>
+            </Card>
 
             {/* Agency expenses */}
             <Card className="bg-white border-gray-200">

@@ -55,7 +55,7 @@ const CrmClientDetail = () => {
   const [showTaskForm, setShowTaskForm] = useState(false);
   const [taskForm, setTaskForm] = useState({ title: "", description: "", assignee_id: "", priority: "medium", due_date: "", status: "pending" });
   const [showFinForm, setShowFinForm] = useState(false);
-  const [finForm, setFinForm] = useState({ period: "", amount: "", alexander_percent: "50", ilya_percent: "50", cash_out_percent: "", notes: "" });
+  const [finForm, setFinForm] = useState({ period: "", amount: "", alexander_percent: "50", ilya_percent: "50", cash_out_percent: "", notes: "", payment_date: new Date().toISOString().split("T")[0] });
   const [showConForm, setShowConForm] = useState<string | null>(null);
   const [conForm, setConForm] = useState({ name: "", amount: "", description: "" });
   const [showExpForm, setShowExpForm] = useState(false);
@@ -83,9 +83,10 @@ const CrmClientDetail = () => {
       alexander_percent: Number(finForm.alexander_percent), ilya_percent: Number(finForm.ilya_percent),
       cash_out_percent: finForm.cash_out_percent ? Number(finForm.cash_out_percent) : undefined,
       notes: finForm.notes || undefined,
+      payment_date: finForm.payment_date || undefined,
     });
     setShowFinForm(false);
-    setFinForm({ period: "", amount: "", alexander_percent: "50", ilya_percent: "50", cash_out_percent: "", notes: "" });
+    setFinForm({ period: "", amount: "", alexander_percent: "50", ilya_percent: "50", cash_out_percent: "", notes: "", payment_date: new Date().toISOString().split("T")[0] });
     toast({ title: "Финансовая запись добавлена" });
   };
 
@@ -271,6 +272,9 @@ const CrmClientDetail = () => {
                           <div>
                             <p className="font-semibold text-gray-900">{f.period}</p>
                             <p className="text-2xl font-bold text-green-600 mt-1">{formatMoney(Number(f.amount))}</p>
+                            {f.payment_date && (
+                              <p className="text-xs text-gray-400 mt-0.5">Дата прихода: {new Date(f.payment_date).toLocaleDateString("ru")}</p>
+                            )}
                           </div>
                           {isExpanded ? <ChevronUp className="w-5 h-5 text-gray-400" /> : <ChevronDown className="w-5 h-5 text-gray-400" />}
                         </button>
@@ -430,6 +434,7 @@ const CrmClientDetail = () => {
               <div><Label>% Ильи</Label><Input type="number" value={finForm.ilya_percent} onChange={(e) => setFinForm({ ...finForm, ilya_percent: e.target.value })} className="bg-gray-50 border-gray-300 text-gray-900 mt-1" /></div>
             </div>
             <div><Label>% обнала (необязательно)</Label><Input type="number" value={finForm.cash_out_percent} onChange={(e) => setFinForm({ ...finForm, cash_out_percent: e.target.value })} className="bg-gray-50 border-gray-300 text-gray-900 mt-1" /></div>
+            <div><Label>Дата прихода денег</Label><Input type="date" value={finForm.payment_date} onChange={(e) => setFinForm({ ...finForm, payment_date: e.target.value })} className="bg-gray-50 border-gray-300 text-gray-900 mt-1" /></div>
             <div><Label>Заметки</Label><Textarea value={finForm.notes} onChange={(e) => setFinForm({ ...finForm, notes: e.target.value })} className="bg-gray-50 border-gray-300 text-gray-900 mt-1" rows={2} /></div>
           </div>
           <DialogFooter>

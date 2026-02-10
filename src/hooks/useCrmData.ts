@@ -167,6 +167,19 @@ export const useDeleteTask = () => {
 };
 
 // ── Finances ──
+export const useAllFinances = () =>
+  useQuery({
+    queryKey: ["crm-all-finances"],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("crm_finances")
+        .select("*, crm_clients(name)")
+        .order("payment_date", { ascending: false });
+      if (error) throw error;
+      return data;
+    },
+  });
+
 export const useClientFinances = (clientId: string) =>
   useQuery({
     queryKey: ["crm-finances", clientId],
@@ -193,6 +206,7 @@ export const useCreateFinance = () => {
       ilya_percent: number;
       cash_out_percent?: number;
       notes?: string;
+      payment_date?: string;
     }) => {
       const { data, error } = await supabase.from("crm_finances").insert(finance).select().single();
       if (error) throw error;
