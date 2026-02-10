@@ -222,20 +222,20 @@ const CrmClientDetail = () => {
         {/* Summary cards */}
         <div className="grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-4 mb-6 sm:mb-8">
           <Card className="bg-white border-gray-200"><CardContent className="p-3 sm:p-4">
-            <p className="text-xs text-gray-500 mb-1">Выручка</p>
+            <p className="text-xs text-gray-500 mb-1">Доходы</p>
             <p className="text-lg sm:text-xl font-bold text-green-600">{formatMoney(totalRevenue)}</p>
           </CardContent></Card>
           <Card className="bg-white border-gray-200"><CardContent className="p-3 sm:p-4">
-            <p className="text-xs text-gray-500 mb-1">Расходы (всего)</p>
+            <p className="text-xs text-gray-500 mb-1">Расходы</p>
             <p className="text-lg sm:text-xl font-bold text-red-500">{formatMoney(totalExpenses + contractorsTotal)}</p>
           </CardContent></Card>
           <Card className="bg-white border-gray-200"><CardContent className="p-3 sm:p-4">
-            <p className="text-xs text-gray-500 mb-1">Задач</p>
+            <p className="text-xs text-gray-500 mb-1">Задачи</p>
             <p className="text-lg sm:text-xl font-bold text-blue-600">{tasks?.length ?? 0}</p>
           </CardContent></Card>
           <Card className="bg-white border-gray-200"><CardContent className="p-3 sm:p-4">
             <p className="text-xs text-gray-500 mb-1">Прибыль</p>
-            <p className="text-lg sm:text-xl font-bold text-purple-600">{formatMoney(totalRevenue - totalExpenses)}</p>
+            <p className="text-lg sm:text-xl font-bold text-purple-600">{formatMoney(totalRevenue - totalExpenses - contractorsTotal)}</p>
           </CardContent></Card>
         </div>
 
