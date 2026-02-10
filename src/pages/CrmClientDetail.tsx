@@ -129,6 +129,22 @@ const CrmClientDetail = () => {
           <div>
             <h1 className="text-xl font-bold text-white">{client.name}</h1>
             {client.contact_person && <p className="text-sm text-white/40">{client.contact_person}</p>}
+            {(() => {
+              const svc = (client as any).services as Record<string, any> | undefined;
+              if (!svc) return null;
+              const labels: Record<string, string> = { yandex_direct: "Яндекс Директ", vk_ads: "ВК реклама", telegram_ads: "Телеграм реклама", website_creation: "Создание сайта" };
+              const active = Object.entries(labels).filter(([k]) => svc[k]);
+              if (!active.length) return null;
+              return (
+                <div className="flex flex-wrap gap-1.5 mt-1">
+                  {active.map(([k, label]) => (
+                    <Badge key={k} variant="outline" className="border-blue-500/30 text-blue-300 text-xs">
+                      {label}{k === "website_creation" && svc.website_count ? ` (${svc.website_count})` : ""}
+                    </Badge>
+                  ))}
+                </div>
+              );
+            })()}
           </div>
         </div>
       </header>

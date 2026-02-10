@@ -56,6 +56,7 @@ export const useCreateClient = () => {
       telegram?: string;
       website?: string;
       notes?: string;
+      services?: Record<string, any>;
     }) => {
       const { data, error } = await supabase
         .from("crm_clients")
