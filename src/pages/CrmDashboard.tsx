@@ -10,10 +10,26 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { toast } from "@/hooks/use-toast";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   Users, ListTodo, DollarSign, TrendingUp, Plus, Search, Phone, Mail, MessageCircle, Globe,
-  ArrowLeft, Trash2, Edit, Eye
+  ArrowLeft, Trash2, Edit, Eye, Monitor, Megaphone
 } from "lucide-react";
+
+const SERVICE_OPTIONS = [
+  { key: "yandex_direct", label: "Яндекс Директ" },
+  { key: "vk_ads", label: "ВК реклама" },
+  { key: "telegram_ads", label: "Телеграм реклама" },
+  { key: "website_creation", label: "Создание сайта" },
+] as const;
+
+type Services = {
+  yandex_direct?: boolean;
+  vk_ads?: boolean;
+  telegram_ads?: boolean;
+  website_creation?: boolean;
+  website_count?: number;
+};
 
 const statusLabels: Record<string, string> = {
   active: "Активный",
@@ -38,10 +54,11 @@ const CrmDashboard = () => {
   const [showAdd, setShowAdd] = useState(false);
   const [editClient, setEditClient] = useState<any>(null);
   const [form, setForm] = useState({
-    name: "", contact_person: "", phone: "", email: "", telegram: "", website: "", notes: "", status: "active"
+    name: "", contact_person: "", phone: "", email: "", telegram: "", website: "", notes: "", status: "active",
+    services: {} as Services,
   });
 
-  const resetForm = () => setForm({ name: "", contact_person: "", phone: "", email: "", telegram: "", website: "", notes: "", status: "active" });
+  const resetForm = () => setForm({ name: "", contact_person: "", phone: "", email: "", telegram: "", website: "", notes: "", status: "active", services: {} });
 
   const filtered = clients?.filter((c) => {
     const matchesSearch =
@@ -74,9 +91,17 @@ const CrmDashboard = () => {
     setForm({
       name: c.name, contact_person: c.contact_person || "", phone: c.phone || "",
       email: c.email || "", telegram: c.telegram || "", website: c.website || "",
-      notes: c.notes || "", status: c.status || "active"
+      notes: c.notes || "", status: c.status || "active",
+      services: (c.services as Services) || {},
     });
     setShowAdd(true);
+  };
+
+  const toggleService = (key: string) => {
+    setForm(prev => ({
+      ...prev,
+      services: { ...prev.services, [key]: !prev.services[key as keyof Services] },
+    }));
   };
 
   const formatMoney = (n: number) => new Intl.NumberFormat("ru-RU", { style: "currency", currency: "RUB", maximumFractionDigits: 0 }).format(n);
@@ -170,6 +195,23 @@ const CrmDashboard = () => {
                         {c.telegram && <span className="flex items-center gap-1"><MessageCircle className="w-3 h-3" />{c.telegram}</span>}
                         {c.website && <span className="flex items-center gap-1"><Globe className="w-3 h-3" />{c.website}</span>}
                       </div>
+                      {/* Services badges */}
+                      {(() => {
+                        const svc = (c as any).services as Services | undefined;
+                        if (!svc) return null;
+                        const active = SERVICE_OPTIONS.filter(s => svc[s.key]);
+                        if (!active.length) return null;
+                        return (
+                          <div className="flex flex-wrap gap-2 mt-2">
+                            {active.map(s => (
+                              <Badge key={s.key} variant="outline" className="border-blue-500/30 text-blue-300 text-xs">
+                                <Megaphone className="w-3 h-3 mr-1" />{s.label}
+                                {s.key === "website_creation" && svc.website_count ? ` (${svc.website_count} шт.)` : ""}
+                              </Badge>
+                            ))}
+                          </div>
+                        );
+                      })()}
                     </div>
                     <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
                       <Button size="sm" variant="ghost" onClick={() => navigate(`/crm/${c.id}`)} className="text-blue-400 hover:text-blue-300">
@@ -222,6 +264,34 @@ const CrmDashboard = () => {
                   <SelectItem value="completed">Завершён</SelectItem>
                 </SelectContent>
               </Select>
+            </div>
+            {/* Services */}
+            <div>
+              <Label className="mb-3 block">Услуги</Label>
+              <div className="grid grid-cols-2 gap-3">
+                {SERVICE_OPTIONS.map(s => (
+                  <label key={s.key} className="flex items-center gap-2 cursor-pointer bg-white/5 rounded-lg px-3 py-2.5 border border-white/10 hover:border-white/20 transition-colors">
+                    <Checkbox
+                      checked={!!form.services[s.key as keyof Services]}
+                      onCheckedChange={() => toggleService(s.key)}
+                      className="border-white/30 data-[state=checked]:bg-blue-600 data-[state=checked]:border-blue-600"
+                    />
+                    <span className="text-sm text-white/80">{s.label}</span>
+                  </label>
+                ))}
+              </div>
+              {form.services.website_creation && (
+                <div className="mt-3">
+                  <Label>Количество сайтов</Label>
+                  <Input
+                    type="number" min={1}
+                    value={form.services.website_count || ""}
+                    onChange={(e) => setForm(prev => ({ ...prev, services: { ...prev.services, website_count: Number(e.target.value) || undefined } }))}
+                    className="bg-white/5 border-white/10 text-white mt-1 w-32"
+                    placeholder="1"
+                  />
+                </div>
+              )}
             </div>
             <div><Label>Заметки</Label><Textarea value={form.notes} onChange={(e) => setForm({ ...form, notes: e.target.value })} className="bg-white/5 border-white/10 text-white mt-1" rows={3} /></div>
           </div>

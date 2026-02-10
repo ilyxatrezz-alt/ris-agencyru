@@ -228,6 +228,7 @@ export type Database = {
           name: string
           notes: string | null
           phone: string | null
+          services: Json | null
           status: string
           telegram: string | null
           updated_at: string
@@ -241,6 +242,7 @@ export type Database = {
           name: string
           notes?: string | null
           phone?: string | null
+          services?: Json | null
           status?: string
           telegram?: string | null
           updated_at?: string
@@ -254,6 +256,7 @@ export type Database = {
           name?: string
           notes?: string | null
           phone?: string | null
+          services?: Json | null
           status?: string
           telegram?: string | null
           updated_at?: string
