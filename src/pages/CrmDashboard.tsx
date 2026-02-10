@@ -176,7 +176,7 @@ const CrmDashboard = () => {
       <header className="border-b border-gray-200 bg-white sticky top-0 z-40 shadow-sm">
         <div className="container mx-auto px-3 sm:px-4 py-3 sm:py-4 flex items-center justify-between gap-2">
           <div className="flex items-center gap-2 sm:gap-4 min-w-0">
-            <Button variant="ghost" size="icon" onClick={() => navigate("/admin")} className="text-gray-500 hover:text-gray-900 shrink-0">
+            <Button variant="ghost" size="icon" onClick={() => navigate("/")} className="text-gray-500 hover:text-gray-900 shrink-0">
               <ArrowLeft className="w-5 h-5" />
             </Button>
             <div className="flex items-center gap-2 min-w-0">
