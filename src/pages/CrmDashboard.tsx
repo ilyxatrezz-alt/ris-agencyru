@@ -20,8 +20,8 @@ import {
 
 const SERVICE_OPTIONS = [
   { key: "yandex_direct", label: "Яндекс Директ" },
-  { key: "vk_ads", label: "ВК реклама" },
-  { key: "telegram_ads", label: "Телеграм реклама" },
+  { key: "vk_ads", label: "VK ADS" },
+  { key: "telegram_ads", label: "Telegram ADS" },
   { key: "website_creation", label: "Создание сайта" },
 ] as const;
 
