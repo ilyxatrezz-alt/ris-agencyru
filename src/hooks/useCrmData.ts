@@ -173,8 +173,8 @@ export const useAllFinances = () =>
     queryFn: async () => {
       const { data, error } = await supabase
         .from("crm_finances")
-        .select("*, crm_clients(name)")
-        .order("payment_date", { ascending: false });
+        .select("*, crm_clients(name), crm_payments(*)")
+        .order("created_at", { ascending: false });
       if (error) throw error;
       return data;
     },
@@ -186,7 +186,7 @@ export const useClientFinances = (clientId: string) =>
     queryFn: async () => {
       const { data, error } = await supabase
         .from("crm_finances")
-        .select("*, crm_contractors(*), crm_expenses(*)")
+        .select("*, crm_contractors(*), crm_expenses(*), crm_payments(*)")
         .eq("client_id", clientId)
         .order("created_at", { ascending: false });
       if (error) throw error;
@@ -261,6 +261,29 @@ export const useDeleteContractor = () => {
   });
 };
 
+// ── Payments ──
+export const useCreatePayment = () => {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: async (p: { finance_id: string; amount: number; payment_date: string }) => {
+      const { error } = await supabase.from("crm_payments").insert(p);
+      if (error) throw error;
+    },
+    onSuccess: () => qc.invalidateQueries({ queryKey: ["crm-finances"] }),
+  });
+};
+
+export const useDeletePayment = () => {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: async (id: string) => {
+      const { error } = await supabase.from("crm_payments").delete().eq("id", id);
+      if (error) throw error;
+    },
+    onSuccess: () => qc.invalidateQueries({ queryKey: ["crm-finances"] }),
+  });
+};
+
 // ── Expenses ──
 export const useClientExpenses = (clientId: string) =>
   useQuery({
@@ -310,13 +333,14 @@ export const useCrmStats = () =>
   useQuery({
     queryKey: ["crm-stats"],
     queryFn: async () => {
-      const [clients, tasks, finances, expenses, contractors, agencyExp] = await Promise.all([
+      const [clients, tasks, finances, expenses, contractors, agencyExp, payments] = await Promise.all([
         supabase.from("crm_clients").select("id, status"),
         supabase.from("crm_tasks").select("id, status"),
-        supabase.from("crm_finances").select("amount, alexander_percent, ilya_percent, cash_out_percent, id"),
+        supabase.from("crm_finances").select("alexander_percent, ilya_percent, cash_out_percent, id"),
         supabase.from("crm_expenses").select("amount"),
         supabase.from("crm_contractors").select("amount, finance_id"),
         supabase.from("crm_agency_expenses").select("amount"),
+        supabase.from("crm_payments").select("amount, finance_id"),
       ]);
       if (clients.error) throw clients.error;
       if (tasks.error) throw tasks.error;
@@ -324,32 +348,42 @@ export const useCrmStats = () =>
       if (expenses.error) throw expenses.error;
       if (contractors.error) throw contractors.error;
       if (agencyExp.error) throw agencyExp.error;
+      if (payments.error) throw payments.error;
 
-      const totalRevenue = finances.data.reduce((s, f) => s + Number(f.amount), 0);
+      // Build finance totals from payments
+      const finTotals: Record<string, number> = {};
+      payments.data.forEach((p) => {
+        finTotals[p.finance_id] = (finTotals[p.finance_id] || 0) + Number(p.amount);
+      });
+
+      const totalRevenue = Object.values(finTotals).reduce((s, v) => s + v, 0);
       const totalExpenses = expenses.data.reduce((s, e) => s + Number(e.amount), 0);
       const totalContractors = contractors.data.reduce((s, c) => s + Number(c.amount), 0);
-      const totalCashOut = finances.data.reduce((s, f) => s + (f.cash_out_percent ? (Number(f.amount) * Number(f.cash_out_percent)) / 100 : 0), 0);
+      const totalCashOut = finances.data.reduce((s, f) => {
+        const fTotal = finTotals[f.id] || 0;
+        return s + (f.cash_out_percent ? (fTotal * Number(f.cash_out_percent)) / 100 : 0);
+      }, 0);
       const totalAgencyExp = agencyExp.data.reduce((s, e) => s + Number(e.amount), 0);
       const netProfit = totalRevenue - totalExpenses - totalContractors - totalCashOut - totalAgencyExp;
 
       const activeClients = clients.data.filter((c) => c.status === "active").length;
       const pendingTasks = tasks.data.filter((t) => t.status === "pending" || t.status === "in_progress").length;
 
-      // Calculate partner shares from net profit using weighted average percentages
-      const totalPercent = finances.data.reduce((s, f) => s + Number(f.alexander_percent) + Number(f.ilya_percent), 0);
       let alexanderTotal = 0;
       let ilyaTotal = 0;
-      if (totalPercent > 0 && netProfit > 0) {
+      if (totalRevenue > 0 && netProfit > 0) {
         const alexanderWeightedPercent = finances.data.reduce((s, f) => {
-          const weight = Number(f.amount) / totalRevenue;
-          return s + Number(f.alexander_percent) * weight;
+          const fTotal = finTotals[f.id] || 0;
+          return s + Number(f.alexander_percent) * (fTotal / totalRevenue);
         }, 0);
         const ilyaWeightedPercent = finances.data.reduce((s, f) => {
-          const weight = Number(f.amount) / totalRevenue;
-          return s + Number(f.ilya_percent) * weight;
+          const fTotal = finTotals[f.id] || 0;
+          return s + Number(f.ilya_percent) * (fTotal / totalRevenue);
         }, 0);
-        alexanderTotal = (netProfit * alexanderWeightedPercent) / (alexanderWeightedPercent + ilyaWeightedPercent);
-        ilyaTotal = (netProfit * ilyaWeightedPercent) / (alexanderWeightedPercent + ilyaWeightedPercent);
+        if (alexanderWeightedPercent + ilyaWeightedPercent > 0) {
+          alexanderTotal = (netProfit * alexanderWeightedPercent) / (alexanderWeightedPercent + ilyaWeightedPercent);
+          ilyaTotal = (netProfit * ilyaWeightedPercent) / (alexanderWeightedPercent + ilyaWeightedPercent);
+        }
       }
 
       return {
