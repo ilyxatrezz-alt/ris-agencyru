@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, lazy, Suspense } from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -25,6 +25,8 @@ import Auth from "./pages/Auth";
 import Admin from "./pages/Admin";
 import NotFound from "./pages/NotFound";
 import WebDevelopment from "./pages/WebDevelopment";
+import CrmDashboard from "./pages/CrmDashboard";
+import CrmClientDetail from "./pages/CrmClientDetail";
 
 const queryClient = new QueryClient();
 
@@ -66,6 +68,8 @@ const AppContent = () => {
                     </ProtectedRoute>
                   }
                 />
+                <Route path="/crm" element={<ProtectedRoute><CrmDashboard /></ProtectedRoute>} />
+                <Route path="/crm/:id" element={<ProtectedRoute><CrmClientDetail /></ProtectedRoute>} />
                 {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                 <Route path="*" element={<NotFound />} />
               </Routes>
