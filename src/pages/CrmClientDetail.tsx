@@ -119,18 +119,18 @@ const CrmClientDetail = () => {
     <div className="min-h-screen bg-gray-50 text-gray-900">
       {/* Header */}
       <header className="border-b border-gray-200 bg-white sticky top-0 z-40 shadow-sm">
-        <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <Button variant="ghost" size="icon" onClick={() => navigate("/crm")} className="text-gray-500 hover:text-gray-900">
+        <div className="container mx-auto px-3 sm:px-4 py-3 sm:py-4 flex items-center justify-between gap-2">
+          <div className="flex items-center gap-2 sm:gap-4 min-w-0">
+            <Button variant="ghost" size="icon" onClick={() => navigate("/crm")} className="text-gray-500 hover:text-gray-900 shrink-0">
               <ArrowLeft className="w-5 h-5" />
             </Button>
-            <div className="flex items-center gap-3">
-              <div className="w-8 h-8 rounded-lg bg-[#fa3714] flex items-center justify-center">
-                <span className="text-white font-black text-sm">Р</span>
+            <div className="flex items-center gap-2 sm:gap-3 min-w-0">
+              <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-[#fa3714] flex items-center justify-center shrink-0">
+                <span className="text-white font-black text-xs sm:text-sm">Р</span>
               </div>
-              <div>
-                <h1 className="text-xl font-bold text-gray-900">{client.name}</h1>
-                {client.contact_person && <p className="text-sm text-gray-500">{client.contact_person}</p>}
+              <div className="min-w-0">
+                <h1 className="text-base sm:text-xl font-bold text-gray-900 truncate">{client.name}</h1>
+                {client.contact_person && <p className="text-xs sm:text-sm text-gray-500 truncate">{client.contact_person}</p>}
                 {(() => {
                   const svc = (client as any).services as Record<string, any> | undefined;
                   if (!svc) return null;
@@ -138,9 +138,9 @@ const CrmClientDetail = () => {
                   const active = Object.entries(labels).filter(([k]) => svc[k]);
                   if (!active.length) return null;
                   return (
-                    <div className="flex flex-wrap gap-1.5 mt-1">
+                    <div className="flex flex-wrap gap-1 mt-1">
                       {active.map(([k, label]) => (
-                        <Badge key={k} variant="outline" className="border-[#fa3714]/30 text-[#fa3714] text-xs">
+                        <Badge key={k} variant="outline" className="border-[#fa3714]/30 text-[#fa3714] text-[10px] sm:text-xs">
                           {label}{k === "website_creation" && svc.website_count ? ` (${svc.website_count})` : ""}
                         </Badge>
                       ))}
@@ -150,38 +150,38 @@ const CrmClientDetail = () => {
               </div>
             </div>
           </div>
-          <Button onClick={() => setShowAccounting(true)} className="bg-[#fa3714] hover:bg-[#e0300f] text-white gap-2">
-            <Calculator className="w-4 h-4" /> Бух. подсчёт
+          <Button onClick={() => setShowAccounting(true)} className="bg-[#fa3714] hover:bg-[#e0300f] text-white gap-1 sm:gap-2 shrink-0 text-xs sm:text-sm px-2 sm:px-4">
+            <Calculator className="w-4 h-4" /> <span className="hidden sm:inline">Бух. подсчёт</span>
           </Button>
         </div>
       </header>
 
-      <main className="container mx-auto px-4 py-8">
+      <main className="container mx-auto px-3 sm:px-4 py-4 sm:py-8">
         {/* Summary cards */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-          <Card className="bg-white border-gray-200"><CardContent className="p-4">
+        <div className="grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-4 mb-6 sm:mb-8">
+          <Card className="bg-white border-gray-200"><CardContent className="p-3 sm:p-4">
             <p className="text-xs text-gray-500 mb-1">Выручка</p>
-            <p className="text-xl font-bold text-green-600">{formatMoney(totalRevenue)}</p>
+            <p className="text-lg sm:text-xl font-bold text-green-600">{formatMoney(totalRevenue)}</p>
           </CardContent></Card>
-          <Card className="bg-white border-gray-200"><CardContent className="p-4">
+          <Card className="bg-white border-gray-200"><CardContent className="p-3 sm:p-4">
             <p className="text-xs text-gray-500 mb-1">Расходы</p>
-            <p className="text-xl font-bold text-red-500">{formatMoney(totalExpenses)}</p>
+            <p className="text-lg sm:text-xl font-bold text-red-500">{formatMoney(totalExpenses)}</p>
           </CardContent></Card>
-          <Card className="bg-white border-gray-200"><CardContent className="p-4">
+          <Card className="bg-white border-gray-200"><CardContent className="p-3 sm:p-4">
             <p className="text-xs text-gray-500 mb-1">Задач</p>
-            <p className="text-xl font-bold text-blue-600">{tasks?.length ?? 0}</p>
+            <p className="text-lg sm:text-xl font-bold text-blue-600">{tasks?.length ?? 0}</p>
           </CardContent></Card>
-          <Card className="bg-white border-gray-200"><CardContent className="p-4">
+          <Card className="bg-white border-gray-200"><CardContent className="p-3 sm:p-4">
             <p className="text-xs text-gray-500 mb-1">Прибыль</p>
-            <p className="text-xl font-bold text-purple-600">{formatMoney(totalRevenue - totalExpenses)}</p>
+            <p className="text-lg sm:text-xl font-bold text-purple-600">{formatMoney(totalRevenue - totalExpenses)}</p>
           </CardContent></Card>
         </div>
 
-        <Tabs defaultValue="tasks" className="space-y-6">
-          <TabsList className="bg-gray-100 border border-gray-200">
-            <TabsTrigger value="tasks" className="data-[state=active]:bg-[#fa3714] data-[state=active]:text-white">Задачи</TabsTrigger>
-            <TabsTrigger value="finances" className="data-[state=active]:bg-[#fa3714] data-[state=active]:text-white">Финансы</TabsTrigger>
-            <TabsTrigger value="expenses" className="data-[state=active]:bg-[#fa3714] data-[state=active]:text-white">Расходы</TabsTrigger>
+        <Tabs defaultValue="tasks" className="space-y-4 sm:space-y-6">
+          <TabsList className="bg-gray-100 border border-gray-200 w-full sm:w-auto">
+            <TabsTrigger value="tasks" className="flex-1 sm:flex-none text-xs sm:text-sm data-[state=active]:bg-[#fa3714] data-[state=active]:text-white">Задачи</TabsTrigger>
+            <TabsTrigger value="finances" className="flex-1 sm:flex-none text-xs sm:text-sm data-[state=active]:bg-[#fa3714] data-[state=active]:text-white">Финансы</TabsTrigger>
+            <TabsTrigger value="expenses" className="flex-1 sm:flex-none text-xs sm:text-sm data-[state=active]:bg-[#fa3714] data-[state=active]:text-white">Расходы</TabsTrigger>
           </TabsList>
 
           {/* ── TASKS ── */}
