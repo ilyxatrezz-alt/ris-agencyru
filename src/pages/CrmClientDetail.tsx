@@ -535,7 +535,7 @@ const CrmClientDetail = () => {
         <DialogContent className="bg-white border-gray-200 text-gray-900 max-w-lg">
           <DialogHeader><DialogTitle>Новая финансовая запись</DialogTitle></DialogHeader>
           <div className="grid gap-4 py-2">
-            <div><Label>Период *</Label><Input placeholder="Январь 2026" value={finForm.period} onChange={(e) => setFinForm({ ...finForm, period: e.target.value })} className="bg-gray-50 border-gray-300 text-gray-900 mt-1" /></div>
+            <div><Label>За что *</Label><Input placeholder="Таргет, SMM, Сайт..." value={finForm.period} onChange={(e) => setFinForm({ ...finForm, period: e.target.value })} className="bg-gray-50 border-gray-300 text-gray-900 mt-1" /></div>
             <div className="grid grid-cols-2 gap-3">
               <div><Label>% Александра</Label><Input type="number" value={finForm.alexander_percent} onChange={(e) => setFinForm({ ...finForm, alexander_percent: e.target.value })} className="bg-gray-50 border-gray-300 text-gray-900 mt-1" /></div>
               <div><Label>% Ильи</Label><Input type="number" value={finForm.ilya_percent} onChange={(e) => setFinForm({ ...finForm, ilya_percent: e.target.value })} className="bg-gray-50 border-gray-300 text-gray-900 mt-1" /></div>
@@ -605,7 +605,7 @@ const CrmClientDetail = () => {
         <DialogContent className="bg-white border-gray-200 text-gray-900 max-w-lg">
           <DialogHeader><DialogTitle>Редактировать запись</DialogTitle></DialogHeader>
           <div className="grid gap-4 py-2">
-            <div><Label>Период *</Label><Input value={editFinForm.period} onChange={(e) => setEditFinForm({ ...editFinForm, period: e.target.value })} className="bg-gray-50 border-gray-300 text-gray-900 mt-1" /></div>
+            <div><Label>За что *</Label><Input value={editFinForm.period} onChange={(e) => setEditFinForm({ ...editFinForm, period: e.target.value })} className="bg-gray-50 border-gray-300 text-gray-900 mt-1" /></div>
             <div className="grid grid-cols-2 gap-3">
               <div><Label>% Александра</Label><Input type="number" value={editFinForm.alexander_percent} onChange={(e) => setEditFinForm({ ...editFinForm, alexander_percent: e.target.value })} className="bg-gray-50 border-gray-300 text-gray-900 mt-1" /></div>
               <div><Label>% Ильи</Label><Input type="number" value={editFinForm.ilya_percent} onChange={(e) => setEditFinForm({ ...editFinForm, ilya_percent: e.target.value })} className="bg-gray-50 border-gray-300 text-gray-900 mt-1" /></div>
