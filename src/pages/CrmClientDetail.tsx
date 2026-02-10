@@ -68,7 +68,7 @@ const CrmClientDetail = () => {
   const [expandedFin, setExpandedFin] = useState<string | null>(null);
   const [showAccounting, setShowAccounting] = useState(false);
   const [showPaymentForm, setShowPaymentForm] = useState<string | null>(null);
-  const [paymentForm, setPaymentForm] = useState({ amount: "", payment_day: "", payment_month: "" });
+  const [paymentForm, setPaymentForm] = useState({ amount: "", payment_day: "", payment_month: "", description: "" });
 
   const formatMoney = (n: number) => new Intl.NumberFormat("ru-RU", { style: "currency", currency: "RUB", maximumFractionDigits: 0 }).format(n);
 
@@ -110,10 +110,10 @@ const CrmClientDetail = () => {
     const year = new Date().getFullYear();
     const dateStr = `${year}-${paymentForm.payment_month.padStart(2, "0")}-${paymentForm.payment_day.padStart(2, "0")}`;
     await createPayment.mutateAsync({
-      finance_id: showPaymentForm, amount: Number(paymentForm.amount), payment_date: dateStr,
+      finance_id: showPaymentForm, amount: Number(paymentForm.amount), payment_date: dateStr, description: paymentForm.description || undefined,
     });
     setShowPaymentForm(null);
-    setPaymentForm({ amount: "", payment_day: "", payment_month: "" });
+    setPaymentForm({ amount: "", payment_day: "", payment_month: "", description: "" });
     toast({ title: "Платёж добавлен" });
   };
 
@@ -357,7 +357,7 @@ const CrmClientDetail = () => {
                                   {payments.map((p: any, idx: number) => (
                                     <div key={p.id} className="flex justify-between items-center bg-green-50 rounded-lg px-3 py-2">
                                       <div>
-                                        <p className="text-sm text-gray-900">Платёж №{idx + 1}</p>
+                                        <p className="text-sm text-gray-900">{p.description || `Платёж №${idx + 1}`}</p>
                                         <p className="text-xs text-gray-500">{new Date(p.payment_date).toLocaleDateString("ru")}</p>
                                       </div>
                                       <div className="flex items-center gap-2">
@@ -576,6 +576,7 @@ const CrmClientDetail = () => {
         <DialogContent className="bg-white border-gray-200 text-gray-900">
           <DialogHeader><DialogTitle>Добавить платёж</DialogTitle></DialogHeader>
           <div className="grid gap-4 py-2">
+            <div><Label>Наименование</Label><Input placeholder="Оплата за таргет, аванс..." value={paymentForm.description} onChange={(e) => setPaymentForm({ ...paymentForm, description: e.target.value })} className="bg-gray-50 border-gray-300 text-gray-900 mt-1" /></div>
             <div><Label>Сумма (₽) *</Label><Input type="number" value={paymentForm.amount} onChange={(e) => setPaymentForm({ ...paymentForm, amount: e.target.value })} className="bg-gray-50 border-gray-300 text-gray-900 mt-1" /></div>
             <div className="grid grid-cols-2 gap-3">
               <div>

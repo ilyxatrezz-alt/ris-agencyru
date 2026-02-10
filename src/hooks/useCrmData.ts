@@ -265,7 +265,7 @@ export const useDeleteContractor = () => {
 export const useCreatePayment = () => {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: async (p: { finance_id: string; amount: number; payment_date: string }) => {
+    mutationFn: async (p: { finance_id: string; amount: number; payment_date: string; description?: string }) => {
       const { error } = await supabase.from("crm_payments").insert(p);
       if (error) throw error;
     },
