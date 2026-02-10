@@ -134,7 +134,7 @@ const CrmClientDetail = () => {
                 {(() => {
                   const svc = (client as any).services as Record<string, any> | undefined;
                   if (!svc) return null;
-                  const labels: Record<string, string> = { yandex_direct: "Яндекс Директ", vk_ads: "ВК реклама", telegram_ads: "Телеграм реклама", website_creation: "Создание сайта" };
+                  const labels: Record<string, string> = { yandex_direct: "Яндекс Директ", vk_ads: "VK ADS", telegram_ads: "Telegram ADS", website_creation: "Создание сайта" };
                   const active = Object.entries(labels).filter(([k]) => svc[k]);
                   if (!active.length) return null;
                   return (
