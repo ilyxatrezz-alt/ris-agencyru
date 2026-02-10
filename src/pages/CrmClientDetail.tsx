@@ -58,7 +58,7 @@ const CrmClientDetail = () => {
   const [showTaskForm, setShowTaskForm] = useState(false);
   const [taskForm, setTaskForm] = useState({ title: "", description: "", assignee_id: "", priority: "medium", due_date: "", status: "pending" });
   const [showFinForm, setShowFinForm] = useState(false);
-  const [finForm, setFinForm] = useState({ period: "", alexander_percent: "50", ilya_percent: "50", cash_out_percent: "", notes: "", first_amount: "", first_month: "", first_day: "" });
+  const [finForm, setFinForm] = useState({ period: "", alexander_percent: "50", ilya_percent: "50", cash_out_percent: "", notes: "", first_amount: "", first_month: "", first_day: "", first_description: "" });
   const [editFinId, setEditFinId] = useState<string | null>(null);
   const [editFinForm, setEditFinForm] = useState({ period: "", alexander_percent: "", ilya_percent: "", cash_out_percent: "", notes: "" });
   const [showConForm, setShowConForm] = useState<string | null>(null);
@@ -98,10 +98,10 @@ const CrmClientDetail = () => {
       const month = finForm.first_month || String(now.getMonth() + 1);
       const day = finForm.first_day || String(now.getDate());
       const dateStr = `${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")}`;
-      await createPayment.mutateAsync({ finance_id: finData.id, amount: Number(finForm.first_amount), payment_date: dateStr });
+      await createPayment.mutateAsync({ finance_id: finData.id, amount: Number(finForm.first_amount), payment_date: dateStr, description: finForm.first_description || undefined });
     }
     setShowFinForm(false);
-    setFinForm({ period: "", alexander_percent: "50", ilya_percent: "50", cash_out_percent: "", notes: "", first_amount: "", first_month: "", first_day: "" });
+    setFinForm({ period: "", alexander_percent: "50", ilya_percent: "50", cash_out_percent: "", notes: "", first_amount: "", first_month: "", first_day: "", first_description: "" });
     toast({ title: "Финансовая запись добавлена" });
   };
 
@@ -544,6 +544,7 @@ const CrmClientDetail = () => {
             <div className="border-t border-gray-200 pt-3">
               <p className="text-sm font-medium text-gray-700 mb-3">Первый платёж (необязательно)</p>
               <div className="grid gap-3">
+                <div><Label>Наименование</Label><Input placeholder="Оплата за таргет, аванс..." value={finForm.first_description} onChange={(e) => setFinForm({ ...finForm, first_description: e.target.value })} className="bg-gray-50 border-gray-300 text-gray-900 mt-1" /></div>
                 <div><Label>Сумма (₽)</Label><Input type="number" value={finForm.first_amount} onChange={(e) => setFinForm({ ...finForm, first_amount: e.target.value })} className="bg-gray-50 border-gray-300 text-gray-900 mt-1" /></div>
                 <div className="grid grid-cols-2 gap-3">
                   <div>
