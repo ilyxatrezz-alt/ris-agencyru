@@ -296,20 +296,47 @@ export const useCrmStats = () =>
   useQuery({
     queryKey: ["crm-stats"],
     queryFn: async () => {
-      const [clients, tasks, finances] = await Promise.all([
+      const [clients, tasks, finances, expenses, contractors, agencyExp] = await Promise.all([
         supabase.from("crm_clients").select("id, status"),
         supabase.from("crm_tasks").select("id, status"),
-        supabase.from("crm_finances").select("amount, alexander_percent, ilya_percent"),
+        supabase.from("crm_finances").select("amount, alexander_percent, ilya_percent, cash_out_percent, id"),
+        supabase.from("crm_expenses").select("amount"),
+        supabase.from("crm_contractors").select("amount, finance_id"),
+        supabase.from("crm_agency_expenses").select("amount"),
       ]);
       if (clients.error) throw clients.error;
       if (tasks.error) throw tasks.error;
       if (finances.error) throw finances.error;
+      if (expenses.error) throw expenses.error;
+      if (contractors.error) throw contractors.error;
+      if (agencyExp.error) throw agencyExp.error;
 
       const totalRevenue = finances.data.reduce((s, f) => s + Number(f.amount), 0);
+      const totalExpenses = expenses.data.reduce((s, e) => s + Number(e.amount), 0);
+      const totalContractors = contractors.data.reduce((s, c) => s + Number(c.amount), 0);
+      const totalCashOut = finances.data.reduce((s, f) => s + (f.cash_out_percent ? (Number(f.amount) * Number(f.cash_out_percent)) / 100 : 0), 0);
+      const totalAgencyExp = agencyExp.data.reduce((s, e) => s + Number(e.amount), 0);
+      const netProfit = totalRevenue - totalExpenses - totalContractors - totalCashOut - totalAgencyExp;
+
       const activeClients = clients.data.filter((c) => c.status === "active").length;
       const pendingTasks = tasks.data.filter((t) => t.status === "pending" || t.status === "in_progress").length;
-      const alexanderTotal = finances.data.reduce((s, f) => s + (Number(f.amount) * Number(f.alexander_percent)) / 100, 0);
-      const ilyaTotal = finances.data.reduce((s, f) => s + (Number(f.amount) * Number(f.ilya_percent)) / 100, 0);
+
+      // Calculate partner shares from net profit using weighted average percentages
+      const totalPercent = finances.data.reduce((s, f) => s + Number(f.alexander_percent) + Number(f.ilya_percent), 0);
+      let alexanderTotal = 0;
+      let ilyaTotal = 0;
+      if (totalPercent > 0 && netProfit > 0) {
+        const alexanderWeightedPercent = finances.data.reduce((s, f) => {
+          const weight = Number(f.amount) / totalRevenue;
+          return s + Number(f.alexander_percent) * weight;
+        }, 0);
+        const ilyaWeightedPercent = finances.data.reduce((s, f) => {
+          const weight = Number(f.amount) / totalRevenue;
+          return s + Number(f.ilya_percent) * weight;
+        }, 0);
+        alexanderTotal = (netProfit * alexanderWeightedPercent) / (alexanderWeightedPercent + ilyaWeightedPercent);
+        ilyaTotal = (netProfit * ilyaWeightedPercent) / (alexanderWeightedPercent + ilyaWeightedPercent);
+      }
 
       return {
         totalClients: clients.data.length,
@@ -319,6 +346,11 @@ export const useCrmStats = () =>
         totalRevenue,
         alexanderTotal,
         ilyaTotal,
+        netProfit,
+        totalExpenses,
+        totalContractors,
+        totalCashOut,
+        totalAgencyExp,
       };
     },
   });

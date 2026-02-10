@@ -109,11 +109,18 @@ const CrmClientDetail = () => {
 
   const totalRevenue = finances?.reduce((s, f) => s + Number(f.amount), 0) ?? 0;
   const totalExpenses = expenses?.reduce((s, e) => s + Number(e.amount), 0) ?? 0;
-  const alexanderTotal = finances?.reduce((s, f) => s + (Number(f.amount) * Number(f.alexander_percent)) / 100, 0) ?? 0;
-  const ilyaTotal = finances?.reduce((s, f) => s + (Number(f.amount) * Number(f.ilya_percent)) / 100, 0) ?? 0;
   const cashOutTotal = finances?.reduce((s, f) => s + (f.cash_out_percent ? (Number(f.amount) * Number(f.cash_out_percent)) / 100 : 0), 0) ?? 0;
   const contractorsTotal = finances?.reduce((s, f) => s + (f.crm_contractors?.reduce((cs: number, c: any) => cs + Number(c.amount), 0) ?? 0), 0) ?? 0;
   const netProfit = totalRevenue - totalExpenses - cashOutTotal - contractorsTotal;
+
+  // Partner shares from net profit using weighted percentages
+  const alexanderTotal = (() => {
+    if (!finances?.length || netProfit <= 0) return 0;
+    const alexWeighted = finances.reduce((s, f) => s + Number(f.alexander_percent) * (Number(f.amount) / totalRevenue), 0);
+    const ilyaWeighted = finances.reduce((s, f) => s + Number(f.ilya_percent) * (Number(f.amount) / totalRevenue), 0);
+    return (netProfit * alexWeighted) / (alexWeighted + ilyaWeighted);
+  })();
+  const ilyaTotal = netProfit > 0 ? netProfit - alexanderTotal : 0;
 
   return (
     <div className="min-h-screen bg-gray-50 text-gray-900">
