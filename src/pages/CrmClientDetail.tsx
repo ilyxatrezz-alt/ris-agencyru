@@ -320,9 +320,12 @@ const CrmClientDetail = () => {
                   const isExpanded = expandedFin === f.id;
                   const payments = (f.crm_payments || []).sort((a: any, b: any) => new Date(a.payment_date).getTime() - new Date(b.payment_date).getTime());
                   const totalAmount = payments.reduce((s: number, p: any) => s + Number(p.amount), 0);
-                  const alexAmount = (totalAmount * Number(f.alexander_percent)) / 100;
-                  const ilyaAmount = (totalAmount * Number(f.ilya_percent)) / 100;
+                  const contractorsAmount = (f.crm_contractors || []).reduce((cs: number, c: any) => cs + Number(c.amount), 0);
                   const cashOutAmount = f.cash_out_percent ? (totalAmount * Number(f.cash_out_percent)) / 100 : 0;
+                  const expensesAmount = (f.crm_expenses || []).reduce((es: number, e: any) => es + Number(e.amount), 0);
+                  const netAmount = totalAmount - cashOutAmount - contractorsAmount - expensesAmount;
+                  const alexAmount = netAmount > 0 ? (netAmount * Number(f.alexander_percent)) / (Number(f.alexander_percent) + Number(f.ilya_percent)) : 0;
+                  const ilyaAmount = netAmount > 0 ? netAmount - alexAmount : 0;
 
                   return (
                     <Card key={f.id} className="bg-white border-gray-200 overflow-hidden">
@@ -367,6 +370,28 @@ const CrmClientDetail = () => {
                             </div>
 
                             <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                              {f.cash_out_percent > 0 && (
+                                <div className="bg-orange-50 rounded-lg p-3">
+                                  <p className="text-xs text-orange-600">Обнал ({f.cash_out_percent}%)</p>
+                                  <p className="text-lg font-bold text-orange-700">−{formatMoney(cashOutAmount)}</p>
+                                </div>
+                              )}
+                              {contractorsAmount > 0 && (
+                                <div className="bg-cyan-50 rounded-lg p-3">
+                                  <p className="text-xs text-cyan-600">Исполнители</p>
+                                  <p className="text-lg font-bold text-cyan-700">−{formatMoney(contractorsAmount)}</p>
+                                </div>
+                              )}
+                              {expensesAmount > 0 && (
+                                <div className="bg-red-50 rounded-lg p-3">
+                                  <p className="text-xs text-red-600">Расходы</p>
+                                  <p className="text-lg font-bold text-red-700">−{formatMoney(expensesAmount)}</p>
+                                </div>
+                              )}
+                              <div className="bg-green-50 rounded-lg p-3">
+                                <p className="text-xs text-green-600">Чистая прибыль</p>
+                                <p className="text-lg font-bold text-green-700">{formatMoney(netAmount)}</p>
+                              </div>
                               <div className="bg-blue-50 rounded-lg p-3">
                                 <p className="text-xs text-blue-600">Александр ({f.alexander_percent}%)</p>
                                 <p className="text-lg font-bold text-blue-700">{formatMoney(alexAmount)}</p>
@@ -375,12 +400,6 @@ const CrmClientDetail = () => {
                                 <p className="text-xs text-purple-600">Илья ({f.ilya_percent}%)</p>
                                 <p className="text-lg font-bold text-purple-700">{formatMoney(ilyaAmount)}</p>
                               </div>
-                              {f.cash_out_percent && (
-                                <div className="bg-orange-50 rounded-lg p-3">
-                                  <p className="text-xs text-orange-600">Обнал ({f.cash_out_percent}%)</p>
-                                  <p className="text-lg font-bold text-orange-700">{formatMoney(cashOutAmount)}</p>
-                                </div>
-                              )}
                             </div>
 
                             {f.notes && <p className="text-sm text-gray-500">{f.notes}</p>}
