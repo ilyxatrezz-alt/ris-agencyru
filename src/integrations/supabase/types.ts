@@ -421,6 +421,38 @@ export type Database = {
           },
         ]
       }
+      crm_payments: {
+        Row: {
+          amount: number
+          created_at: string
+          finance_id: string
+          id: string
+          payment_date: string
+        }
+        Insert: {
+          amount?: number
+          created_at?: string
+          finance_id: string
+          id?: string
+          payment_date?: string
+        }
+        Update: {
+          amount?: number
+          created_at?: string
+          finance_id?: string
+          id?: string
+          payment_date?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "crm_payments_finance_id_fkey"
+            columns: ["finance_id"]
+            isOneToOne: false
+            referencedRelation: "crm_finances"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       crm_tasks: {
         Row: {
           assignee_id: string | null

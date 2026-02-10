@@ -265,12 +265,15 @@ const CrmDashboard = () => {
                     <SelectContent className="bg-white border-gray-200 shadow-lg z-50">
                       <SelectItem value="all">Все месяцы</SelectItem>
                       {(() => {
+                        // Collect all unique months from payments
                         const months = new Set<string>();
-                        allFinances?.forEach(f => {
-                          if (f.payment_date) {
-                            const d = new Date(f.payment_date);
-                            months.add(`${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`);
-                          }
+                        allFinances?.forEach((f: any) => {
+                          (f.crm_payments || []).forEach((p: any) => {
+                            if (p.payment_date) {
+                              const d = new Date(p.payment_date);
+                              months.add(`${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`);
+                            }
+                          });
                           if (f.period) months.add(f.period);
                         });
                         return Array.from(months).sort().reverse().map(m => (
@@ -283,34 +286,46 @@ const CrmDashboard = () => {
               </CardHeader>
               <CardContent className="space-y-2">
                 {(() => {
-                  const filtered = allFinances?.filter(f => {
+                  // Flatten all payments with their finance/client info
+                  const allPayments: { id: string; amount: number; payment_date: string; clientName: string; period: string }[] = [];
+                  allFinances?.forEach((f: any) => {
+                    (f.crm_payments || []).forEach((p: any) => {
+                      allPayments.push({
+                        id: p.id,
+                        amount: Number(p.amount),
+                        payment_date: p.payment_date,
+                        clientName: f.crm_clients?.name || "Клиент",
+                        period: f.period,
+                      });
+                    });
+                  });
+                  // Sort by date descending
+                  allPayments.sort((a, b) => new Date(b.payment_date).getTime() - new Date(a.payment_date).getTime());
+
+                  const filtered = allPayments.filter(p => {
                     if (revenueMonth === "all") return true;
-                    if (f.payment_date) {
-                      const d = new Date(f.payment_date);
-                      const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`;
-                      if (key === revenueMonth) return true;
-                    }
-                    return f.period === revenueMonth;
-                  }) ?? [];
+                    const d = new Date(p.payment_date);
+                    const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`;
+                    return key === revenueMonth;
+                  });
+
                   if (!filtered.length) return <p className="text-gray-400 text-center py-6">Записей нет</p>;
-                  const total = filtered.reduce((s, f) => s + Number(f.amount), 0);
+                  const total = filtered.reduce((s, p) => s + p.amount, 0);
                   return (
                     <>
-                      {filtered.map((f: any) => (
-                        <div key={f.id} className="flex items-center justify-between bg-gray-50 rounded-lg px-3 sm:px-4 py-3">
+                      {filtered.map((p) => (
+                        <div key={p.id} className="flex items-center justify-between bg-gray-50 rounded-lg px-3 sm:px-4 py-3">
                           <div className="min-w-0">
                             <p className="text-sm font-medium text-gray-900 truncate">
-                              {f.crm_clients?.name || "Клиент"}
-                              <span className="text-gray-400 font-normal ml-2">· {f.period}</span>
+                              {p.clientName}
+                              <span className="text-gray-400 font-normal ml-2">· {p.period}</span>
                             </p>
-                            {f.payment_date && (
-                              <p className="text-xs text-gray-400 mt-0.5">
-                                <CalendarDays className="w-3 h-3 inline mr-1" />
-                                {new Date(f.payment_date).toLocaleDateString("ru")}
-                              </p>
-                            )}
+                            <p className="text-xs text-gray-400 mt-0.5">
+                              <CalendarDays className="w-3 h-3 inline mr-1" />
+                              {new Date(p.payment_date).toLocaleDateString("ru")}
+                            </p>
                           </div>
-                          <span className="text-base sm:text-lg font-bold text-green-600 shrink-0">{formatMoney(Number(f.amount))}</span>
+                          <span className="text-base sm:text-lg font-bold text-green-600 shrink-0">{formatMoney(p.amount)}</span>
                         </div>
                       ))}
                       <div className="flex justify-end pt-2 border-t border-gray-200">

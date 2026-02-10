@@ -5,7 +5,7 @@ import {
   useClientFinances, useCreateFinance, useDeleteFinance,
   useCreateContractor, useDeleteContractor,
   useClientExpenses, useCreateExpense, useDeleteExpense,
-  useTeamMembers,
+  useTeamMembers, useCreatePayment, useDeletePayment,
 } from "@/hooks/useCrmData";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -51,17 +51,21 @@ const CrmClientDetail = () => {
   const deleteContractor = useDeleteContractor();
   const createExpense = useCreateExpense();
   const deleteExpense = useDeleteExpense();
+  const createPayment = useCreatePayment();
+  const deletePayment = useDeletePayment();
 
   const [showTaskForm, setShowTaskForm] = useState(false);
   const [taskForm, setTaskForm] = useState({ title: "", description: "", assignee_id: "", priority: "medium", due_date: "", status: "pending" });
   const [showFinForm, setShowFinForm] = useState(false);
-  const [finForm, setFinForm] = useState({ period: "", amount: "", alexander_percent: "50", ilya_percent: "50", cash_out_percent: "", notes: "", payment_date: new Date().toISOString().split("T")[0] });
+  const [finForm, setFinForm] = useState({ period: "", alexander_percent: "50", ilya_percent: "50", cash_out_percent: "", notes: "" });
   const [showConForm, setShowConForm] = useState<string | null>(null);
   const [conForm, setConForm] = useState({ name: "", amount: "", description: "" });
   const [showExpForm, setShowExpForm] = useState(false);
   const [expForm, setExpForm] = useState({ title: "", amount: "", description: "" });
   const [expandedFin, setExpandedFin] = useState<string | null>(null);
   const [showAccounting, setShowAccounting] = useState(false);
+  const [showPaymentForm, setShowPaymentForm] = useState<string | null>(null);
+  const [paymentForm, setPaymentForm] = useState({ amount: "", payment_day: "", payment_month: "" });
 
   const formatMoney = (n: number) => new Intl.NumberFormat("ru-RU", { style: "currency", currency: "RUB", maximumFractionDigits: 0 }).format(n);
 
@@ -77,17 +81,28 @@ const CrmClientDetail = () => {
   };
 
   const handleAddFinance = async () => {
-    if (!finForm.period || !finForm.amount) return;
+    if (!finForm.period) return;
     await createFinance.mutateAsync({
-      client_id: id!, period: finForm.period, amount: Number(finForm.amount),
+      client_id: id!, period: finForm.period, amount: 0,
       alexander_percent: Number(finForm.alexander_percent), ilya_percent: Number(finForm.ilya_percent),
       cash_out_percent: finForm.cash_out_percent ? Number(finForm.cash_out_percent) : undefined,
       notes: finForm.notes || undefined,
-      payment_date: finForm.payment_date || undefined,
     });
     setShowFinForm(false);
-    setFinForm({ period: "", amount: "", alexander_percent: "50", ilya_percent: "50", cash_out_percent: "", notes: "", payment_date: new Date().toISOString().split("T")[0] });
+    setFinForm({ period: "", alexander_percent: "50", ilya_percent: "50", cash_out_percent: "", notes: "" });
     toast({ title: "Финансовая запись добавлена" });
+  };
+
+  const handleAddPayment = async () => {
+    if (!paymentForm.amount || !paymentForm.payment_day || !paymentForm.payment_month || !showPaymentForm) return;
+    const year = new Date().getFullYear();
+    const dateStr = `${year}-${paymentForm.payment_month.padStart(2, "0")}-${paymentForm.payment_day.padStart(2, "0")}`;
+    await createPayment.mutateAsync({
+      finance_id: showPaymentForm, amount: Number(paymentForm.amount), payment_date: dateStr,
+    });
+    setShowPaymentForm(null);
+    setPaymentForm({ amount: "", payment_day: "", payment_month: "" });
+    toast({ title: "Платёж добавлен" });
   };
 
   const handleAddContractor = async () => {
@@ -108,17 +123,19 @@ const CrmClientDetail = () => {
     toast({ title: "Расход добавлен" });
   };
 
-  const totalRevenue = finances?.reduce((s, f) => s + Number(f.amount), 0) ?? 0;
+  const getFinTotal = (f: any) => ((f as any).crm_payments || []).reduce((ps: number, p: any) => ps + Number(p.amount), 0);
+  const totalRevenue = finances?.reduce((s, f) => s + getFinTotal(f), 0) ?? 0;
   const totalExpenses = expenses?.reduce((s, e) => s + Number(e.amount), 0) ?? 0;
-  const cashOutTotal = finances?.reduce((s, f) => s + (f.cash_out_percent ? (Number(f.amount) * Number(f.cash_out_percent)) / 100 : 0), 0) ?? 0;
-  const contractorsTotal = finances?.reduce((s, f) => s + (f.crm_contractors?.reduce((cs: number, c: any) => cs + Number(c.amount), 0) ?? 0), 0) ?? 0;
+  const cashOutTotal = finances?.reduce((s, f) => s + (f.cash_out_percent ? (getFinTotal(f) * Number(f.cash_out_percent)) / 100 : 0), 0) ?? 0;
+  const contractorsTotal = finances?.reduce((s, f: any) => s + (f.crm_contractors?.reduce((cs: number, c: any) => cs + Number(c.amount), 0) ?? 0), 0) ?? 0;
   const netProfit = totalRevenue - totalExpenses - cashOutTotal - contractorsTotal;
 
   // Partner shares from net profit using weighted percentages
   const alexanderTotal = (() => {
-    if (!finances?.length || netProfit <= 0) return 0;
-    const alexWeighted = finances.reduce((s, f) => s + Number(f.alexander_percent) * (Number(f.amount) / totalRevenue), 0);
-    const ilyaWeighted = finances.reduce((s, f) => s + Number(f.ilya_percent) * (Number(f.amount) / totalRevenue), 0);
+    if (!finances?.length || netProfit <= 0 || totalRevenue <= 0) return 0;
+    const alexWeighted = finances.reduce((s, f) => s + Number(f.alexander_percent) * (getFinTotal(f) / totalRevenue), 0);
+    const ilyaWeighted = finances.reduce((s, f) => s + Number(f.ilya_percent) * (getFinTotal(f) / totalRevenue), 0);
+    if (alexWeighted + ilyaWeighted === 0) return 0;
     return (netProfit * alexWeighted) / (alexWeighted + ilyaWeighted);
   })();
   const ilyaTotal = netProfit > 0 ? netProfit - alexanderTotal : 0;
@@ -261,9 +278,11 @@ const CrmClientDetail = () => {
               <div className="space-y-4">
                 {finances.map((f: any) => {
                   const isExpanded = expandedFin === f.id;
-                  const alexAmount = (Number(f.amount) * Number(f.alexander_percent)) / 100;
-                  const ilyaAmount = (Number(f.amount) * Number(f.ilya_percent)) / 100;
-                  const cashOutAmount = f.cash_out_percent ? (Number(f.amount) * Number(f.cash_out_percent)) / 100 : 0;
+                  const payments = (f.crm_payments || []).sort((a: any, b: any) => new Date(a.payment_date).getTime() - new Date(b.payment_date).getTime());
+                  const totalAmount = payments.reduce((s: number, p: any) => s + Number(p.amount), 0);
+                  const alexAmount = (totalAmount * Number(f.alexander_percent)) / 100;
+                  const ilyaAmount = (totalAmount * Number(f.ilya_percent)) / 100;
+                  const cashOutAmount = f.cash_out_percent ? (totalAmount * Number(f.cash_out_percent)) / 100 : 0;
 
                   return (
                     <Card key={f.id} className="bg-white border-gray-200 overflow-hidden">
@@ -271,16 +290,42 @@ const CrmClientDetail = () => {
                         <button className="w-full p-5 flex items-center justify-between text-left" onClick={() => setExpandedFin(isExpanded ? null : f.id)}>
                           <div>
                             <p className="font-semibold text-gray-900">{f.period}</p>
-                            <p className="text-2xl font-bold text-green-600 mt-1">{formatMoney(Number(f.amount))}</p>
-                            {f.payment_date && (
-                              <p className="text-xs text-gray-400 mt-0.5">Дата прихода: {new Date(f.payment_date).toLocaleDateString("ru")}</p>
-                            )}
+                            <p className="text-2xl font-bold text-green-600 mt-1">{formatMoney(totalAmount)}</p>
+                            <p className="text-xs text-gray-400 mt-0.5">{payments.length} платеж(ей)</p>
                           </div>
                           {isExpanded ? <ChevronUp className="w-5 h-5 text-gray-400" /> : <ChevronDown className="w-5 h-5 text-gray-400" />}
                         </button>
 
                         {isExpanded && (
                           <div className="px-5 pb-5 space-y-4 border-t border-gray-100 pt-4">
+                            {/* Payments list */}
+                            <div>
+                              <div className="flex justify-between items-center mb-2">
+                                <p className="text-sm font-medium text-gray-600">Платежи</p>
+                                <Button size="sm" variant="ghost" onClick={() => setShowPaymentForm(f.id)} className="text-[#fa3714] h-7 text-xs">
+                                  <Plus className="w-3 h-3 mr-1" /> Добавить платёж
+                                </Button>
+                              </div>
+                              {payments.length ? (
+                                <div className="space-y-2">
+                                  {payments.map((p: any, idx: number) => (
+                                    <div key={p.id} className="flex justify-between items-center bg-green-50 rounded-lg px-3 py-2">
+                                      <div>
+                                        <p className="text-sm text-gray-900">Платёж №{idx + 1}</p>
+                                        <p className="text-xs text-gray-500">{new Date(p.payment_date).toLocaleDateString("ru")}</p>
+                                      </div>
+                                      <div className="flex items-center gap-2">
+                                        <span className="text-sm font-bold text-green-600">{formatMoney(Number(p.amount))}</span>
+                                        <Button size="icon" variant="ghost" className="h-6 w-6 text-red-400" onClick={() => deletePayment.mutateAsync(p.id)}>
+                                          <Trash2 className="w-3 h-3" />
+                                        </Button>
+                                      </div>
+                                    </div>
+                                  ))}
+                                </div>
+                              ) : <p className="text-xs text-gray-400">Нет платежей</p>}
+                            </div>
+
                             <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                               <div className="bg-blue-50 rounded-lg p-3">
                                 <p className="text-xs text-blue-600">Александр ({f.alexander_percent}%)</p>
@@ -425,21 +470,46 @@ const CrmClientDetail = () => {
         <DialogContent className="bg-white border-gray-200 text-gray-900 max-w-lg">
           <DialogHeader><DialogTitle>Новая финансовая запись</DialogTitle></DialogHeader>
           <div className="grid gap-4 py-2">
-            <div className="grid grid-cols-2 gap-3">
-              <div><Label>Период *</Label><Input placeholder="Январь 2026" value={finForm.period} onChange={(e) => setFinForm({ ...finForm, period: e.target.value })} className="bg-gray-50 border-gray-300 text-gray-900 mt-1" /></div>
-              <div><Label>Сумма (₽) *</Label><Input type="number" value={finForm.amount} onChange={(e) => setFinForm({ ...finForm, amount: e.target.value })} className="bg-gray-50 border-gray-300 text-gray-900 mt-1" /></div>
-            </div>
+            <div><Label>Период *</Label><Input placeholder="Январь 2026" value={finForm.period} onChange={(e) => setFinForm({ ...finForm, period: e.target.value })} className="bg-gray-50 border-gray-300 text-gray-900 mt-1" /></div>
             <div className="grid grid-cols-2 gap-3">
               <div><Label>% Александра</Label><Input type="number" value={finForm.alexander_percent} onChange={(e) => setFinForm({ ...finForm, alexander_percent: e.target.value })} className="bg-gray-50 border-gray-300 text-gray-900 mt-1" /></div>
               <div><Label>% Ильи</Label><Input type="number" value={finForm.ilya_percent} onChange={(e) => setFinForm({ ...finForm, ilya_percent: e.target.value })} className="bg-gray-50 border-gray-300 text-gray-900 mt-1" /></div>
             </div>
             <div><Label>% обнала (необязательно)</Label><Input type="number" value={finForm.cash_out_percent} onChange={(e) => setFinForm({ ...finForm, cash_out_percent: e.target.value })} className="bg-gray-50 border-gray-300 text-gray-900 mt-1" /></div>
-            <div><Label>Дата прихода денег</Label><Input type="date" value={finForm.payment_date} onChange={(e) => setFinForm({ ...finForm, payment_date: e.target.value })} className="bg-gray-50 border-gray-300 text-gray-900 mt-1" /></div>
             <div><Label>Заметки</Label><Textarea value={finForm.notes} onChange={(e) => setFinForm({ ...finForm, notes: e.target.value })} className="bg-gray-50 border-gray-300 text-gray-900 mt-1" rows={2} /></div>
           </div>
           <DialogFooter>
             <Button variant="ghost" onClick={() => setShowFinForm(false)} className="text-gray-500">Отмена</Button>
             <Button onClick={handleAddFinance} className="bg-[#fa3714] hover:bg-[#e0300f] text-white">Создать</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* ── PAYMENT DIALOG ── */}
+      <Dialog open={!!showPaymentForm} onOpenChange={(o) => { if (!o) setShowPaymentForm(null); }}>
+        <DialogContent className="bg-white border-gray-200 text-gray-900">
+          <DialogHeader><DialogTitle>Добавить платёж</DialogTitle></DialogHeader>
+          <div className="grid gap-4 py-2">
+            <div><Label>Сумма (₽) *</Label><Input type="number" value={paymentForm.amount} onChange={(e) => setPaymentForm({ ...paymentForm, amount: e.target.value })} className="bg-gray-50 border-gray-300 text-gray-900 mt-1" /></div>
+            <div className="grid grid-cols-2 gap-3">
+              <div>
+                <Label>Месяц *</Label>
+                <Select value={paymentForm.payment_month} onValueChange={(v) => setPaymentForm({ ...paymentForm, payment_month: v })}>
+                  <SelectTrigger className="bg-gray-50 border-gray-300 text-gray-900 mt-1"><SelectValue placeholder="Месяц" /></SelectTrigger>
+                  <SelectContent className="bg-white border-gray-200 shadow-lg z-50">
+                    {["Январь","Февраль","Март","Апрель","Май","Июнь","Июль","Август","Сентябрь","Октябрь","Ноябрь","Декабрь"].map((m, i) => (
+                      <SelectItem key={i + 1} value={String(i + 1)}>{m}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+              <div><Label>Число *</Label><Input type="number" min="1" max="31" value={paymentForm.payment_day} onChange={(e) => setPaymentForm({ ...paymentForm, payment_day: e.target.value })} className="bg-gray-50 border-gray-300 text-gray-900 mt-1" placeholder="1-31" /></div>
+            </div>
+            <p className="text-xs text-gray-400">Год определяется автоматически ({new Date().getFullYear()})</p>
+          </div>
+          <DialogFooter>
+            <Button variant="ghost" onClick={() => setShowPaymentForm(null)} className="text-gray-500">Отмена</Button>
+            <Button onClick={handleAddPayment} className="bg-[#fa3714] hover:bg-[#e0300f] text-white">Добавить</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
@@ -494,7 +564,7 @@ const CrmClientDetail = () => {
                 <p className="text-2xl font-bold text-blue-600">{formatMoney(alexanderTotal)}</p>
                 {finances?.map((f: any) => (
                   <p key={f.id} className="text-xs text-blue-500 mt-1">
-                    {f.period}: {formatMoney((Number(f.amount) * Number(f.alexander_percent)) / 100)} ({f.alexander_percent}%)
+                    {f.period}: {formatMoney((getFinTotal(f) * Number(f.alexander_percent)) / 100)} ({f.alexander_percent}%)
                   </p>
                 ))}
               </div>
@@ -503,7 +573,7 @@ const CrmClientDetail = () => {
                 <p className="text-2xl font-bold text-purple-600">{formatMoney(ilyaTotal)}</p>
                 {finances?.map((f: any) => (
                   <p key={f.id} className="text-xs text-purple-500 mt-1">
-                    {f.period}: {formatMoney((Number(f.amount) * Number(f.ilya_percent)) / 100)} ({f.ilya_percent}%)
+                    {f.period}: {formatMoney((getFinTotal(f) * Number(f.ilya_percent)) / 100)} ({f.ilya_percent}%)
                   </p>
                 ))}
               </div>
