@@ -23,6 +23,8 @@ const SERVICE_OPTIONS = [
   { key: "vk_ads", label: "VK ADS" },
   { key: "telegram_ads", label: "Telegram ADS" },
   { key: "website_creation", label: "Создание сайта" },
+  { key: "analytics", label: "Аналитика" },
+  { key: "smm", label: "SMM" },
 ] as const;
 
 type Services = {
@@ -31,6 +33,8 @@ type Services = {
   telegram_ads?: boolean;
   website_creation?: boolean;
   website_count?: number;
+  analytics?: boolean;
+  smm?: boolean;
 };
 
 const statusLabels: Record<string, string> = {
@@ -71,6 +75,7 @@ const CrmDashboard = () => {
   const [search, setSearch] = useState("");
   const [potentialSearch, setPotentialSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState<string>("all");
+  const [sortOrder, setSortOrder] = useState<string>("date");
   const [taskFilter, setTaskFilter] = useState<string>("active");
   const [taskAssigneeFilter, setTaskAssigneeFilter] = useState<string>("all");
   const [showAdd, setShowAdd] = useState(false);
@@ -100,6 +105,9 @@ const CrmDashboard = () => {
       c.email?.toLowerCase().includes(search.toLowerCase());
     const matchesStatus = statusFilter === "all" || c.status === statusFilter;
     return matchesSearch && matchesStatus;
+  }).sort((a, b) => {
+    if (sortOrder === "alpha") return a.name.localeCompare(b.name, "ru");
+    return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
   });
 
   const filteredPotential = potentialClients.filter((c) =>
@@ -498,7 +506,7 @@ const CrmDashboard = () => {
                   className="pl-10 bg-white border-gray-300 text-gray-900 placeholder:text-gray-400" />
               </div>
               <Select value={statusFilter} onValueChange={setStatusFilter}>
-                <SelectTrigger className="w-full sm:w-[180px] bg-white border-gray-300 text-gray-900">
+                <SelectTrigger className="w-full sm:w-[140px] bg-white border-gray-300 text-gray-900">
                   <SelectValue placeholder="Статус" />
                 </SelectTrigger>
                 <SelectContent className="bg-white border-gray-200 shadow-lg z-50">
@@ -506,6 +514,15 @@ const CrmDashboard = () => {
                   <SelectItem value="active">Активные</SelectItem>
                   <SelectItem value="paused">На паузе</SelectItem>
                   <SelectItem value="completed">Завершённые</SelectItem>
+                </SelectContent>
+              </Select>
+              <Select value={sortOrder} onValueChange={setSortOrder}>
+                <SelectTrigger className="w-full sm:w-[160px] bg-white border-gray-300 text-gray-900">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent className="bg-white border-gray-200 shadow-lg z-50">
+                  <SelectItem value="date">По дате</SelectItem>
+                  <SelectItem value="alpha">По алфавиту</SelectItem>
                 </SelectContent>
               </Select>
               <Button onClick={() => { resetForm(); setEditClient(null); setShowAdd(true); }} className="bg-[#fa3714] hover:bg-[#e0300f] text-white shrink-0">
@@ -531,7 +548,13 @@ const CrmDashboard = () => {
                               {statusLabels[c.status] || c.status}
                             </Badge>
                           </div>
-                          {c.contact_person && <p className="text-sm text-gray-500 mb-2">Контакт: {c.contact_person}</p>}
+                          {c.contact_person && (
+                            <div className="text-sm text-gray-500 mb-2">
+                              {c.contact_person.split("\n").filter(Boolean).map((p, i) => (
+                                <span key={i}>{i > 0 && " · "}{p}</span>
+                              ))}
+                            </div>
+                          )}
                           <div className="flex flex-wrap gap-3 sm:gap-4 text-sm text-gray-500">
                             {c.phone && <span className="flex items-center gap-1"><Phone className="w-3 h-3" />{c.phone}</span>}
                             {c.email && <span className="flex items-center gap-1"><Mail className="w-3 h-3" />{c.email}</span>}
@@ -670,7 +693,26 @@ const CrmDashboard = () => {
           </DialogHeader>
           <div className="grid gap-4 py-2">
             <div><Label>Название / Компания *</Label><Input value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} className="bg-gray-50 border-gray-300 text-gray-900 mt-1" /></div>
-            <div><Label>Контактное лицо</Label><Input value={form.contact_person} onChange={(e) => setForm({ ...form, contact_person: e.target.value })} className="bg-gray-50 border-gray-300 text-gray-900 mt-1" /></div>
+            <div>
+              <Label>Контактные лица</Label>
+              {(form.contact_person || "").split("\n").filter(Boolean).map((person, idx) => (
+                <div key={idx} className="flex items-center gap-2 mt-1">
+                  <Input value={person} onChange={(e) => {
+                    const lines = (form.contact_person || "").split("\n").filter(Boolean);
+                    lines[idx] = e.target.value;
+                    setForm({ ...form, contact_person: lines.join("\n") });
+                  }} className="bg-gray-50 border-gray-300 text-gray-900" placeholder="Имя, должность..." />
+                  <Button type="button" size="icon" variant="ghost" className="h-8 w-8 text-red-400 shrink-0" onClick={() => {
+                    const lines = (form.contact_person || "").split("\n").filter(Boolean);
+                    lines.splice(idx, 1);
+                    setForm({ ...form, contact_person: lines.join("\n") });
+                  }}><Trash2 className="w-3 h-3" /></Button>
+                </div>
+              ))}
+              <Button type="button" size="sm" variant="ghost" className="text-[#fa3714] mt-1 h-7 text-xs" onClick={() => {
+                setForm({ ...form, contact_person: (form.contact_person || "") + "\n" });
+              }}><Plus className="w-3 h-3 mr-1" /> Добавить контакт</Button>
+            </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div><Label>Телефон</Label><Input value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} className="bg-gray-50 border-gray-300 text-gray-900 mt-1" /></div>
               <div><Label>Email</Label><Input value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} className="bg-gray-50 border-gray-300 text-gray-900 mt-1" /></div>
