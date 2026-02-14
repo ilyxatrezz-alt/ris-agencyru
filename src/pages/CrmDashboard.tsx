@@ -695,22 +695,28 @@ const CrmDashboard = () => {
             <div><Label>Название / Компания *</Label><Input value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} className="bg-gray-50 border-gray-300 text-gray-900 mt-1" /></div>
             <div>
               <Label>Контактные лица</Label>
-              {(form.contact_person || "").split("\n").filter(Boolean).map((person, idx) => (
-                <div key={idx} className="flex items-center gap-2 mt-1">
-                  <Input value={person} onChange={(e) => {
-                    const lines = (form.contact_person || "").split("\n").filter(Boolean);
-                    lines[idx] = e.target.value;
-                    setForm({ ...form, contact_person: lines.join("\n") });
-                  }} className="bg-gray-50 border-gray-300 text-gray-900" placeholder="Имя, должность..." />
-                  <Button type="button" size="icon" variant="ghost" className="h-8 w-8 text-red-400 shrink-0" onClick={() => {
-                    const lines = (form.contact_person || "").split("\n").filter(Boolean);
-                    lines.splice(idx, 1);
-                    setForm({ ...form, contact_person: lines.join("\n") });
-                  }}><Trash2 className="w-3 h-3" /></Button>
-                </div>
-              ))}
+              {(() => {
+                const contacts = (form.contact_person || "").split("\n");
+                // Show fields only if there's content or user explicitly added
+                const visibleContacts = contacts.length === 1 && contacts[0] === "" ? [] : contacts;
+                return visibleContacts.map((person, idx) => (
+                  <div key={idx} className="flex items-center gap-2 mt-1">
+                    <Input value={person} onChange={(e) => {
+                      const lines = [...visibleContacts];
+                      lines[idx] = e.target.value;
+                      setForm({ ...form, contact_person: lines.join("\n") });
+                    }} className="bg-gray-50 border-gray-300 text-gray-900" placeholder="Имя, должность..." />
+                    <Button type="button" size="icon" variant="ghost" className="h-8 w-8 text-red-400 shrink-0" onClick={() => {
+                      const lines = [...visibleContacts];
+                      lines.splice(idx, 1);
+                      setForm({ ...form, contact_person: lines.join("\n") });
+                    }}><Trash2 className="w-3 h-3" /></Button>
+                  </div>
+                ));
+              })()}
               <Button type="button" size="sm" variant="ghost" className="text-[#fa3714] mt-1 h-7 text-xs" onClick={() => {
-                setForm({ ...form, contact_person: (form.contact_person || "") + "\n" });
+                const existing = (form.contact_person || "").split("\n").filter(Boolean);
+                setForm({ ...form, contact_person: [...existing, ""].join("\n") });
               }}><Plus className="w-3 h-3 mr-1" /> Добавить контакт</Button>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
