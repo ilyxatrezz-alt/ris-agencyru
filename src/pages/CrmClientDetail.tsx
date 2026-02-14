@@ -192,11 +192,15 @@ const CrmClientDetail = () => {
               </div>
               <div className="min-w-0">
                 <h1 className="text-base sm:text-xl font-bold text-gray-900 truncate">{client.name}</h1>
-                {client.contact_person && <p className="text-xs sm:text-sm text-gray-500 truncate">{client.contact_person}</p>}
+                {client.contact_person && (
+                  <p className="text-xs sm:text-sm text-gray-500 truncate">
+                    {client.contact_person.split("\n").filter(Boolean).join(" · ")}
+                  </p>
+                )}
                 {(() => {
                   const svc = (client as any).services as Record<string, any> | undefined;
                   if (!svc) return null;
-                  const labels: Record<string, string> = { yandex_direct: "Яндекс Директ", vk_ads: "VK ADS", telegram_ads: "Telegram ADS", website_creation: "Создание сайта" };
+                  const labels: Record<string, string> = { yandex_direct: "Яндекс Директ", vk_ads: "VK ADS", telegram_ads: "Telegram ADS", website_creation: "Создание сайта", analytics: "Аналитика", smm: "SMM" };
                   const active = Object.entries(labels).filter(([k]) => svc[k]);
                   if (!active.length) return null;
                   return (
@@ -574,7 +578,7 @@ const CrmClientDetail = () => {
         <DialogContent className="bg-white border-gray-200 text-gray-900 max-w-lg">
           <DialogHeader><DialogTitle>Новая финансовая запись</DialogTitle></DialogHeader>
           <div className="grid gap-4 py-2">
-            <div><Label>За что *</Label><Input placeholder="Таргет, SMM, Сайт..." value={finForm.period} onChange={(e) => setFinForm({ ...finForm, period: e.target.value })} className="bg-gray-50 border-gray-300 text-gray-900 mt-1" /></div>
+            <div><Label>Месяц *</Label><Input placeholder="Февраль 2026, Март 2026..." value={finForm.period} onChange={(e) => setFinForm({ ...finForm, period: e.target.value })} className="bg-gray-50 border-gray-300 text-gray-900 mt-1" /></div>
             <div className="grid grid-cols-2 gap-3">
               <div><Label>% Александра</Label><Input type="number" value={finForm.alexander_percent} onChange={(e) => setFinForm({ ...finForm, alexander_percent: e.target.value })} className="bg-gray-50 border-gray-300 text-gray-900 mt-1" /></div>
               <div><Label>% Ильи</Label><Input type="number" value={finForm.ilya_percent} onChange={(e) => setFinForm({ ...finForm, ilya_percent: e.target.value })} className="bg-gray-50 border-gray-300 text-gray-900 mt-1" /></div>
@@ -646,7 +650,7 @@ const CrmClientDetail = () => {
         <DialogContent className="bg-white border-gray-200 text-gray-900 max-w-lg">
           <DialogHeader><DialogTitle>Редактировать запись</DialogTitle></DialogHeader>
           <div className="grid gap-4 py-2">
-            <div><Label>За что *</Label><Input value={editFinForm.period} onChange={(e) => setEditFinForm({ ...editFinForm, period: e.target.value })} className="bg-gray-50 border-gray-300 text-gray-900 mt-1" /></div>
+            <div><Label>Месяц *</Label><Input value={editFinForm.period} onChange={(e) => setEditFinForm({ ...editFinForm, period: e.target.value })} className="bg-gray-50 border-gray-300 text-gray-900 mt-1" /></div>
             <div className="grid grid-cols-2 gap-3">
               <div><Label>% Александра</Label><Input type="number" value={editFinForm.alexander_percent} onChange={(e) => setEditFinForm({ ...editFinForm, alexander_percent: e.target.value })} className="bg-gray-50 border-gray-300 text-gray-900 mt-1" /></div>
               <div><Label>% Ильи</Label><Input type="number" value={editFinForm.ilya_percent} onChange={(e) => setEditFinForm({ ...editFinForm, ilya_percent: e.target.value })} className="bg-gray-50 border-gray-300 text-gray-900 mt-1" /></div>
