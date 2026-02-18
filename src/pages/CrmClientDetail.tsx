@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useIsSuperAdmin } from "@/hooks/useUserRole";
 import { useParams, useNavigate } from "react-router-dom";
 import {
   useClient, useClientTasks, useCreateTask, useUpdateTask, useDeleteTask,
@@ -41,6 +42,7 @@ const CrmClientDetail = () => {
   const { data: finances } = useClientFinances(id!);
   const { data: expenses } = useClientExpenses(id!);
   const { data: team } = useTeamMembers();
+  const { isSuperAdmin } = useIsSuperAdmin();
 
   const createTask = useCreateTask();
   const updateTask = useUpdateTask();
@@ -216,38 +218,49 @@ const CrmClientDetail = () => {
               </div>
             </div>
           </div>
-          <Button onClick={() => setShowAccounting(true)} className="bg-[#fa3714] hover:bg-[#e0300f] text-white gap-1 sm:gap-2 shrink-0 text-xs sm:text-sm px-2 sm:px-4">
-            <Calculator className="w-4 h-4" /> <span className="hidden sm:inline">Бух. подсчёт</span>
-          </Button>
+          {isSuperAdmin && (
+            <Button onClick={() => setShowAccounting(true)} className="bg-[#fa3714] hover:bg-[#e0300f] text-white gap-1 sm:gap-2 shrink-0 text-xs sm:text-sm px-2 sm:px-4">
+              <Calculator className="w-4 h-4" /> <span className="hidden sm:inline">Бух. подсчёт</span>
+            </Button>
+          )}
         </div>
       </header>
 
       <main className="container mx-auto px-3 sm:px-4 py-4 sm:py-8">
         {/* Summary cards */}
-        <div className="grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-4 mb-6 sm:mb-8">
-          <Card className="bg-white border-gray-200"><CardContent className="p-3 sm:p-4">
-            <p className="text-xs text-gray-500 mb-1">Доходы</p>
-            <p className="text-lg sm:text-xl font-bold text-green-600">{formatMoney(totalRevenue)}</p>
-          </CardContent></Card>
-          <Card className="bg-white border-gray-200"><CardContent className="p-3 sm:p-4">
-            <p className="text-xs text-gray-500 mb-1">Расходы</p>
-            <p className="text-lg sm:text-xl font-bold text-red-500">{formatMoney(totalExpenses + contractorsTotal)}</p>
-          </CardContent></Card>
-          <Card className="bg-white border-gray-200"><CardContent className="p-3 sm:p-4">
-            <p className="text-xs text-gray-500 mb-1">Задачи</p>
-            <p className="text-lg sm:text-xl font-bold text-blue-600">{tasks?.length ?? 0}</p>
-          </CardContent></Card>
-          <Card className="bg-white border-gray-200"><CardContent className="p-3 sm:p-4">
-            <p className="text-xs text-gray-500 mb-1">Прибыль</p>
-            <p className="text-lg sm:text-xl font-bold text-purple-600">{formatMoney(totalRevenue - totalExpenses - contractorsTotal)}</p>
-          </CardContent></Card>
-        </div>
+        {isSuperAdmin ? (
+          <div className="grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-4 mb-6 sm:mb-8">
+            <Card className="bg-white border-gray-200"><CardContent className="p-3 sm:p-4">
+              <p className="text-xs text-gray-500 mb-1">Доходы</p>
+              <p className="text-lg sm:text-xl font-bold text-green-600">{formatMoney(totalRevenue)}</p>
+            </CardContent></Card>
+            <Card className="bg-white border-gray-200"><CardContent className="p-3 sm:p-4">
+              <p className="text-xs text-gray-500 mb-1">Расходы</p>
+              <p className="text-lg sm:text-xl font-bold text-red-500">{formatMoney(totalExpenses + contractorsTotal)}</p>
+            </CardContent></Card>
+            <Card className="bg-white border-gray-200"><CardContent className="p-3 sm:p-4">
+              <p className="text-xs text-gray-500 mb-1">Задачи</p>
+              <p className="text-lg sm:text-xl font-bold text-blue-600">{tasks?.length ?? 0}</p>
+            </CardContent></Card>
+            <Card className="bg-white border-gray-200"><CardContent className="p-3 sm:p-4">
+              <p className="text-xs text-gray-500 mb-1">Прибыль</p>
+              <p className="text-lg sm:text-xl font-bold text-purple-600">{formatMoney(totalRevenue - totalExpenses - contractorsTotal)}</p>
+            </CardContent></Card>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 gap-3 mb-6 sm:mb-8">
+            <Card className="bg-white border-gray-200"><CardContent className="p-3 sm:p-4">
+              <p className="text-xs text-gray-500 mb-1">Задачи</p>
+              <p className="text-lg sm:text-xl font-bold text-blue-600">{tasks?.length ?? 0}</p>
+            </CardContent></Card>
+          </div>
+        )}
 
         <Tabs defaultValue="tasks" className="space-y-4 sm:space-y-6">
           <TabsList className="bg-gray-100 border border-gray-200 w-full sm:w-auto">
             <TabsTrigger value="tasks" className="flex-1 sm:flex-none text-xs sm:text-sm data-[state=active]:bg-[#fa3714] data-[state=active]:text-white">Задачи</TabsTrigger>
-            <TabsTrigger value="finances" className="flex-1 sm:flex-none text-xs sm:text-sm data-[state=active]:bg-[#fa3714] data-[state=active]:text-white">Финансы</TabsTrigger>
-            <TabsTrigger value="expenses" className="flex-1 sm:flex-none text-xs sm:text-sm data-[state=active]:bg-[#fa3714] data-[state=active]:text-white">Расходы</TabsTrigger>
+            {isSuperAdmin && <TabsTrigger value="finances" className="flex-1 sm:flex-none text-xs sm:text-sm data-[state=active]:bg-[#fa3714] data-[state=active]:text-white">Финансы</TabsTrigger>}
+            {isSuperAdmin && <TabsTrigger value="expenses" className="flex-1 sm:flex-none text-xs sm:text-sm data-[state=active]:bg-[#fa3714] data-[state=active]:text-white">Расходы</TabsTrigger>}
           </TabsList>
 
           {/* ── TASKS ── */}

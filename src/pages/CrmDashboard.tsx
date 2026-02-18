@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCrmStats, useClients, useCreateClient, useDeleteClient, useUpdateClient, useAgencyExpenses, useCreateAgencyExpense, useDeleteAgencyExpense, useAllTasks, useUpdateTask, useTeamMembers, useAllFinances } from "@/hooks/useCrmData";
+import { useIsSuperAdmin, useMyClientAccess, useSubAdmins, useCreateSubAdmin, useRemoveSubAdmin, useToggleClientAccess } from "@/hooks/useUserRole";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -15,7 +16,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import {
   Users, ListTodo, DollarSign, TrendingUp, Plus, Search, Phone, Mail, MessageCircle, Globe,
   ArrowLeft, Trash2, Edit, Eye, Megaphone, Receipt, Calculator, CheckCircle2, Clock, AlertCircle,
-  CalendarDays, UserPlus, ArrowRight, Star, ExternalLink
+  CalendarDays, UserPlus, ArrowRight, Star, ExternalLink, Shield, ShieldCheck
 } from "lucide-react";
 
 const SERVICE_OPTIONS = [
@@ -72,6 +73,15 @@ const CrmDashboard = () => {
   const { data: allFinances } = useAllFinances();
   const createAgencyExpense = useCreateAgencyExpense();
   const deleteAgencyExpense = useDeleteAgencyExpense();
+
+  // Role-based access
+  const { isSuperAdmin, isSubAdmin } = useIsSuperAdmin();
+  const { data: myClientAccess } = useMyClientAccess();
+  const { data: subAdmins } = useSubAdmins();
+  const createSubAdmin = useCreateSubAdmin();
+  const removeSubAdmin = useRemoveSubAdmin();
+  const toggleClientAccess = useToggleClientAccess();
+
   const [search, setSearch] = useState("");
   const [potentialSearch, setPotentialSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState<string>("all");
@@ -84,6 +94,9 @@ const CrmDashboard = () => {
   const [editClient, setEditClient] = useState<any>(null);
   const [showAgencyExpForm, setShowAgencyExpForm] = useState(false);
   const [agencyExpForm, setAgencyExpForm] = useState({ title: "", amount: "", description: "", period: "" });
+  const [showSubAdminForm, setShowSubAdminForm] = useState(false);
+  const [subAdminForm, setSubAdminForm] = useState({ email: "", password: "" });
+  const [managingSubAdmin, setManagingSubAdmin] = useState<string | null>(null);
   const [form, setForm] = useState({
     name: "", contact_person: "", phone: "", email: "", telegram: "", website: "", notes: "", status: "active",
     services: {} as Services,
@@ -93,9 +106,12 @@ const CrmDashboard = () => {
   const resetForm = () => setForm({ name: "", contact_person: "", phone: "", email: "", telegram: "", website: "", notes: "", status: "active", services: {} });
   const resetPotentialForm = () => setPotentialForm({ name: "", contact_person: "", phone: "", email: "", telegram: "", notes: "" });
 
-  // Split clients
-  const operationalClients = clients?.filter(c => c.status !== "potential") ?? [];
-  const potentialClients = clients?.filter(c => c.status === "potential") ?? [];
+  // Split clients — sub-admins only see assigned clients
+  const allOperational = clients?.filter(c => c.status !== "potential") ?? [];
+  const operationalClients = isSubAdmin && myClientAccess
+    ? allOperational.filter(c => myClientAccess.includes(c.id))
+    : allOperational;
+  const potentialClients = isSuperAdmin ? (clients?.filter(c => c.status === "potential") ?? []) : [];
 
   const filtered = operationalClients.filter((c) => {
     const matchesSearch =
@@ -203,21 +219,28 @@ const CrmDashboard = () => {
 
       <main className="container mx-auto px-3 sm:px-4 py-4 sm:py-8">
         <Tabs defaultValue="operational" className="space-y-6">
-          <TabsList className="bg-gray-100 border border-gray-200 w-full sm:w-auto grid grid-cols-2 sm:inline-flex">
+          <TabsList className="bg-gray-100 border border-gray-200 w-full sm:w-auto grid grid-cols-2 sm:inline-flex" style={{ gridTemplateColumns: isSuperAdmin ? "1fr 1fr 1fr" : "1fr" }}>
             <TabsTrigger value="operational" className="text-xs sm:text-sm data-[state=active]:bg-[#fa3714] data-[state=active]:text-white gap-1.5">
               <Users className="w-4 h-4" /> <span>Клиенты</span>
               <Badge className="bg-green-100 text-green-700 text-[10px] ml-1">{operationalClients.length}</Badge>
             </TabsTrigger>
-            <TabsTrigger value="potential" className="text-xs sm:text-sm data-[state=active]:bg-amber-500 data-[state=active]:text-white gap-1.5">
-              <Star className="w-4 h-4" /> <span>Потенциальные</span>
-              <Badge className="bg-amber-100 text-amber-700 text-[10px] ml-1">{potentialClients.length}</Badge>
-            </TabsTrigger>
+            {isSuperAdmin && (
+              <TabsTrigger value="potential" className="text-xs sm:text-sm data-[state=active]:bg-amber-500 data-[state=active]:text-white gap-1.5">
+                <Star className="w-4 h-4" /> <span>Потенциальные</span>
+                <Badge className="bg-amber-100 text-amber-700 text-[10px] ml-1">{potentialClients.length}</Badge>
+              </TabsTrigger>
+            )}
+            {isSuperAdmin && (
+              <TabsTrigger value="team" className="text-xs sm:text-sm data-[state=active]:bg-blue-600 data-[state=active]:text-white gap-1.5">
+                <Shield className="w-4 h-4" /> <span>Команда</span>
+              </TabsTrigger>
+            )}
           </TabsList>
 
           {/* ═══════════════ OPERATIONAL CLIENTS TAB ═══════════════ */}
           <TabsContent value="operational" className="space-y-6 sm:space-y-8">
-            {/* Stats */}
-            <div className="grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-4">
+            {/* Stats — super admin only */}
+            {isSuperAdmin && <div className="grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-4">
               {[
                 { icon: Users, label: "Клиенты", value: stats?.totalClients ?? 0, sub: `${stats?.activeClients ?? 0} активных`, color: "bg-blue-500" },
                 { icon: ListTodo, label: "Задачи", value: stats?.totalTasks ?? 0, sub: `${stats?.pendingTasks ?? 0} в работе`, color: "bg-purple-500" },
@@ -235,8 +258,9 @@ const CrmDashboard = () => {
                   </CardContent>
                 </Card>
               ))}
-            </div>
+            </div>}
 
+            {isSuperAdmin && <>
             {/* Earnings per partner */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <Card className="bg-blue-50 border-blue-200">
@@ -389,6 +413,7 @@ const CrmDashboard = () => {
                 )}
               </CardContent>
             </Card>
+            </>}
 
             {/* Global tasks pool */}
             <Card className="bg-white border-gray-200">
@@ -682,6 +707,100 @@ const CrmDashboard = () => {
               </div>
             )}
           </TabsContent>
+
+          {/* ═══════════════ TEAM MANAGEMENT TAB (super_admin only) ═══════════════ */}
+          {isSuperAdmin && (
+            <TabsContent value="team" className="space-y-6">
+              <Card className="bg-blue-50 border-blue-200">
+                <CardContent className="p-4 sm:p-5 flex flex-col sm:flex-row items-start sm:items-center gap-3">
+                  <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center shrink-0">
+                    <ShieldCheck className="w-5 h-5 text-blue-600" />
+                  </div>
+                  <div className="flex-1">
+                    <p className="text-sm font-medium text-blue-800">Управление суб-админами</p>
+                    <p className="text-xs text-blue-600 mt-0.5">Суб-админы видят только задачи по назначенным проектам. Финансы и бюджеты им недоступны.</p>
+                  </div>
+                  <Button onClick={() => { setSubAdminForm({ email: "", password: "" }); setShowSubAdminForm(true); }} className="bg-blue-600 hover:bg-blue-700 text-white shrink-0">
+                    <UserPlus className="w-4 h-4 mr-2" /> Добавить суб-админа
+                  </Button>
+                </CardContent>
+              </Card>
+
+              {!subAdmins?.length ? (
+                <div className="text-center py-16">
+                  <Shield className="w-12 h-12 text-gray-200 mx-auto mb-4" />
+                  <p className="text-gray-400 mb-4">Суб-админов пока нет</p>
+                  <Button onClick={() => { setSubAdminForm({ email: "", password: "" }); setShowSubAdminForm(true); }} className="bg-blue-600 hover:bg-blue-700 text-white">
+                    <UserPlus className="w-4 h-4 mr-2" /> Добавить первого
+                  </Button>
+                </div>
+              ) : (
+                <div className="grid gap-4">
+                  {subAdmins.map((sa) => (
+                    <Card key={sa.user_id} className="bg-white border-gray-200">
+                      <CardContent className="p-4 sm:p-5">
+                        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-3">
+                          <div className="flex items-center gap-3">
+                            <div className="w-9 h-9 rounded-full bg-blue-100 flex items-center justify-center">
+                              <Shield className="w-4 h-4 text-blue-600" />
+                            </div>
+                            <div>
+                              <p className="font-medium text-gray-900">{sa.email}</p>
+                              <p className="text-xs text-gray-400">Доступ к {sa.client_ids.length} клиентам</p>
+                            </div>
+                          </div>
+                          <div className="flex gap-2">
+                            <Button size="sm" variant="outline" onClick={() => setManagingSubAdmin(managingSubAdmin === sa.user_id ? null : sa.user_id)}
+                              className="text-blue-600 border-blue-300 hover:bg-blue-50">
+                              <Edit className="w-3.5 h-3.5 mr-1" /> Настроить доступ
+                            </Button>
+                            <Button size="sm" variant="ghost" className="text-red-400 hover:text-red-600"
+                              onClick={async () => {
+                                if (confirm(`Удалить суб-админа ${sa.email}?`)) {
+                                  try {
+                                    await removeSubAdmin.mutateAsync(sa.user_id);
+                                    toast({ title: "Суб-админ удалён" });
+                                  } catch (e: any) {
+                                    toast({ title: "Ошибка", description: e.message, variant: "destructive" });
+                                  }
+                                }
+                              }}>
+                              <Trash2 className="w-4 h-4" />
+                            </Button>
+                          </div>
+                        </div>
+
+                        {/* Client access management */}
+                        {managingSubAdmin === sa.user_id && (
+                          <div className="border-t border-gray-100 pt-3 mt-2">
+                            <p className="text-sm font-medium text-gray-700 mb-3">Доступ к клиентам:</p>
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                              {allOperational.map((c) => (
+                                <label key={c.id} className="flex items-center gap-2.5 cursor-pointer bg-gray-50 rounded-lg px-3 py-2.5 border border-gray-200 hover:border-blue-300 transition-colors">
+                                  <Checkbox
+                                    checked={sa.client_ids.includes(c.id)}
+                                    onCheckedChange={async (checked) => {
+                                      try {
+                                        await toggleClientAccess.mutateAsync({ userId: sa.user_id, clientId: c.id, grant: !!checked });
+                                      } catch (e: any) {
+                                        toast({ title: "Ошибка", description: e.message, variant: "destructive" });
+                                      }
+                                    }}
+                                    className="border-gray-400 data-[state=checked]:bg-blue-600 data-[state=checked]:border-blue-600"
+                                  />
+                                  <span className="text-sm text-gray-700 truncate">{c.name}</span>
+                                </label>
+                              ))}
+                            </div>
+                          </div>
+                        )}
+                      </CardContent>
+                    </Card>
+                  ))}
+                </div>
+              )}
+            </TabsContent>
+          )}
         </Tabs>
       </main>
 
@@ -822,6 +941,50 @@ const CrmDashboard = () => {
               setAgencyExpForm({ title: "", amount: "", description: "", period: "" });
               toast({ title: "Расход добавлен" });
             }} className="bg-[#fa3714] hover:bg-[#e0300f] text-white">Добавить</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* ═══ Add sub-admin dialog ═══ */}
+      <Dialog open={showSubAdminForm} onOpenChange={setShowSubAdminForm}>
+        <DialogContent className="bg-white border-gray-200 text-gray-900 max-w-md">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <Shield className="w-5 h-5 text-blue-600" />
+              Новый суб-админ
+            </DialogTitle>
+          </DialogHeader>
+          <div className="grid gap-4 py-2">
+            <div>
+              <Label>Email *</Label>
+              <Input type="email" value={subAdminForm.email} onChange={(e) => setSubAdminForm({ ...subAdminForm, email: e.target.value })}
+                className="bg-gray-50 border-gray-300 text-gray-900 mt-1" placeholder="admin@example.com" />
+            </div>
+            <div>
+              <Label>Пароль *</Label>
+              <Input type="password" value={subAdminForm.password} onChange={(e) => setSubAdminForm({ ...subAdminForm, password: e.target.value })}
+                className="bg-gray-50 border-gray-300 text-gray-900 mt-1" placeholder="Минимум 6 символов" />
+            </div>
+            <p className="text-xs text-gray-400">Суб-админ сможет входить по этим данным и видеть только задачи назначенных клиентов. Финансы ему недоступны.</p>
+          </div>
+          <DialogFooter>
+            <Button variant="ghost" onClick={() => setShowSubAdminForm(false)} className="text-gray-500">Отмена</Button>
+            <Button onClick={async () => {
+              if (!subAdminForm.email || !subAdminForm.password) {
+                toast({ title: "Заполните все поля", variant: "destructive" });
+                return;
+              }
+              try {
+                await createSubAdmin.mutateAsync({ email: subAdminForm.email, password: subAdminForm.password });
+                setShowSubAdminForm(false);
+                setSubAdminForm({ email: "", password: "" });
+                toast({ title: "Суб-админ создан! 🎉" });
+              } catch (e: any) {
+                toast({ title: "Ошибка", description: e.message, variant: "destructive" });
+              }
+            }} className="bg-blue-600 hover:bg-blue-700 text-white" disabled={createSubAdmin.isPending}>
+              {createSubAdmin.isPending ? "Создаю..." : "Создать"}
+            </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
