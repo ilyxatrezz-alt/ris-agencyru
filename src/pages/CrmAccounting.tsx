@@ -140,7 +140,19 @@ const CrmAccounting = () => {
         s + (f.cash_out_percent ? (getFinTotal(f) * Number(f.cash_out_percent)) / 100 : 0), 0);
       const exps = data.finances.reduce((s, f: any) =>
         s + ((f.crm_expenses || []).reduce((es: number, e: any) => es + Number(e.amount), 0)), 0);
-      return { id: cid, name: data.name, finances: data.finances, revenue: rev, contractors: con, cashOut: cash, expenses: exps, profit: rev - con - cash - exps };
+      const profit = rev - con - cash - exps;
+      // Partner shares for this client
+      let alexShare = 0;
+      let ilyaShare = 0;
+      if (rev > 0 && profit > 0) {
+        const alexW = data.finances.reduce((s, f) => s + Number(f.alexander_percent) * (getFinTotal(f) / rev), 0);
+        const ilyaW = data.finances.reduce((s, f) => s + Number(f.ilya_percent) * (getFinTotal(f) / rev), 0);
+        if (alexW + ilyaW > 0) {
+          alexShare = (profit * alexW) / (alexW + ilyaW);
+          ilyaShare = (profit * ilyaW) / (alexW + ilyaW);
+        }
+      }
+      return { id: cid, name: data.name, finances: data.finances, revenue: rev, contractors: con, cashOut: cash, expenses: exps, profit, alexShare, ilyaShare };
     })
     .sort((a, b) => b.revenue - a.revenue);
 
@@ -328,6 +340,12 @@ const CrmAccounting = () => {
                     </div>
                     <div className="flex justify-between text-xs font-medium text-gray-700 px-3 py-1 border-t border-gray-200">
                       <span>Прибыль</span><span className={ce.profit >= 0 ? "text-purple-600" : "text-red-500"}>{formatMoney(ce.profit)}</span>
+                    </div>
+                    <div className="flex justify-between text-xs px-3 py-1">
+                      <span className="text-blue-600 font-medium">Александр</span><span className="text-blue-600 font-bold">{formatMoney(ce.alexShare)}</span>
+                    </div>
+                    <div className="flex justify-between text-xs px-3 py-1">
+                      <span className="text-purple-600 font-medium">Илья</span><span className="text-purple-600 font-bold">{formatMoney(ce.ilyaShare)}</span>
                     </div>
                     {/* Per-finance entries */}
                     {ce.finances.map((f: any) => {
