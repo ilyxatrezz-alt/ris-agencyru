@@ -4,6 +4,7 @@ import { useIsSuperAdmin } from "@/hooks/useUserRole";
 import {
   useAllFinances, useAgencyExpenses, useCreateAgencyExpense, useDeleteAgencyExpense,
   useCrmStats, useClients,
+  useSettlements, useCreateSettlement, useUpdateSettlement, useDeleteSettlement,
 } from "@/hooks/useCrmData";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -16,7 +17,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { toast } from "@/hooks/use-toast";
 import {
   ArrowLeft, Plus, Trash2, DollarSign, TrendingUp, Calculator, Receipt,
-  CalendarDays, Users, ChevronDown, ChevronUp,
+  CalendarDays, Users, ChevronDown, ChevronUp, CheckCircle2, Circle, ArrowRightLeft,
 } from "lucide-react";
 
 const CrmAccounting = () => {
@@ -28,12 +29,18 @@ const CrmAccounting = () => {
   const { data: agencyExpenses } = useAgencyExpenses();
   const createAgencyExpense = useCreateAgencyExpense();
   const deleteAgencyExpense = useDeleteAgencyExpense();
+  const { data: settlements } = useSettlements();
+  const createSettlement = useCreateSettlement();
+  const updateSettlement = useUpdateSettlement();
+  const deleteSettlement = useDeleteSettlement();
 
   const [filterMonth, setFilterMonth] = useState<string>("all");
   const [filterClient, setFilterClient] = useState<string>("all");
   const [showAgencyExpForm, setShowAgencyExpForm] = useState(false);
   const [agencyExpForm, setAgencyExpForm] = useState({ title: "", amount: "", description: "", period: "" });
   const [expandedClient, setExpandedClient] = useState<string | null>(null);
+  const [showSettlementForm, setShowSettlementForm] = useState(false);
+  const [settlementForm, setSettlementForm] = useState({ amount: "", description: "", received_by: "alexander", settlement_date: "" });
 
   const formatMoney = (n: number) =>
     new Intl.NumberFormat("ru-RU", { style: "currency", currency: "RUB", maximumFractionDigits: 0 }).format(n);
@@ -448,6 +455,84 @@ const CrmAccounting = () => {
             )}
           </CardContent>
         </Card>
+
+        {/* Взаиморасчёты */}
+        <Card className="bg-white border-gray-200">
+          <CardHeader className="pb-3">
+            <div className="flex items-center justify-between">
+              <CardTitle className="text-lg flex items-center gap-2 text-gray-900">
+                <ArrowRightLeft className="w-5 h-5 text-indigo-500" /> Взаиморасчёты
+              </CardTitle>
+              <Button size="sm" onClick={() => setShowSettlementForm(true)} className="bg-[#fa3714] hover:bg-[#e0300f] text-white">
+                <Plus className="w-4 h-4 mr-1" /> Добавить
+              </Button>
+            </div>
+            <p className="text-xs text-gray-400 mt-1">Пришло на одного — другой подтверждает, что забрал свою долю</p>
+          </CardHeader>
+          <CardContent className="space-y-2">
+            {!settlements?.length ? (
+              <p className="text-gray-400 text-center py-6">Записей нет</p>
+            ) : settlements.map(s => (
+              <div key={s.id} className="bg-gray-50 rounded-lg px-3 sm:px-4 py-3">
+                <div className="flex items-center justify-between mb-2">
+                  <div className="min-w-0">
+                    <p className="text-sm font-medium text-gray-900">
+                      Пришло на <span className={s.received_by === "alexander" ? "text-blue-600 font-bold" : "text-purple-600 font-bold"}>
+                        {s.received_by === "alexander" ? "Александра" : "Илью"}
+                      </span>
+                    </p>
+                    {s.description && <p className="text-xs text-gray-500 mt-0.5">{s.description}</p>}
+                    <p className="text-xs text-gray-400 mt-0.5">
+                      <CalendarDays className="w-3 h-3 inline mr-1" />
+                      {new Date(s.settlement_date).toLocaleDateString("ru")}
+                    </p>
+                  </div>
+                  <div className="flex items-center gap-2 shrink-0">
+                    <span className="text-lg font-bold text-gray-900">{formatMoney(Number(s.amount))}</span>
+                    <Button size="icon" variant="ghost" className="h-7 w-7 text-red-400 hover:text-red-600" onClick={async () => {
+                      await deleteSettlement.mutateAsync(s.id);
+                      toast({ title: "Запись удалена" });
+                    }}>
+                      <Trash2 className="w-3.5 h-3.5" />
+                    </Button>
+                  </div>
+                </div>
+                <div className="flex gap-3 mt-2">
+                  {/* Alexander confirmation */}
+                  <button
+                    className={`flex-1 flex items-center justify-center gap-2 rounded-lg py-2 text-sm font-medium transition-colors ${
+                      s.alexander_confirmed
+                        ? "bg-blue-100 text-blue-700 border border-blue-300"
+                        : "bg-gray-100 text-gray-500 border border-gray-200 hover:bg-blue-50"
+                    }`}
+                    onClick={async () => {
+                      await updateSettlement.mutateAsync({ id: s.id, alexander_confirmed: !s.alexander_confirmed });
+                      toast({ title: s.alexander_confirmed ? "Подтверждение снято" : "Александр подтвердил ✓" });
+                    }}
+                  >
+                    {s.alexander_confirmed ? <CheckCircle2 className="w-4 h-4" /> : <Circle className="w-4 h-4" />}
+                    Александр {s.alexander_confirmed ? "забрал ✓" : "не забрал"}
+                  </button>
+                  {/* Ilya confirmation */}
+                  <button
+                    className={`flex-1 flex items-center justify-center gap-2 rounded-lg py-2 text-sm font-medium transition-colors ${
+                      s.ilya_confirmed
+                        ? "bg-purple-100 text-purple-700 border border-purple-300"
+                        : "bg-gray-100 text-gray-500 border border-gray-200 hover:bg-purple-50"
+                    }`}
+                    onClick={async () => {
+                      await updateSettlement.mutateAsync({ id: s.id, ilya_confirmed: !s.ilya_confirmed });
+                      toast({ title: s.ilya_confirmed ? "Подтверждение снято" : "Илья подтвердил ✓" });
+                    }}
+                  >
+                    {s.ilya_confirmed ? <CheckCircle2 className="w-4 h-4" /> : <Circle className="w-4 h-4" />}
+                    Илья {s.ilya_confirmed ? "забрал ✓" : "не забрал"}
+                  </button>
+                </div>
+              </div>
+            ))}
+          </CardContent>
+        </Card>
       </main>
 
       {/* Agency expense dialog */}
@@ -464,6 +549,46 @@ const CrmAccounting = () => {
           </div>
           <DialogFooter>
             <Button onClick={handleAddAgencyExpense} className="bg-[#fa3714] hover:bg-[#e0300f] text-white w-full">Добавить</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Settlement dialog */}
+      <Dialog open={showSettlementForm} onOpenChange={setShowSettlementForm}>
+        <DialogContent className="bg-white border-gray-200 max-w-md">
+          <DialogHeader>
+            <DialogTitle className="text-gray-900">Новый взаиморасчёт</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-3">
+            <div>
+              <Label className="text-gray-700">Пришло на</Label>
+              <Select value={settlementForm.received_by} onValueChange={v => setSettlementForm(p => ({ ...p, received_by: v }))}>
+                <SelectTrigger className="bg-gray-50 border-gray-300 text-gray-900">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent className="bg-white border-gray-200 shadow-lg z-50">
+                  <SelectItem value="alexander">Александра</SelectItem>
+                  <SelectItem value="ilya">Илью</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            <div><Label className="text-gray-700">Сумма (₽)</Label><Input type="number" value={settlementForm.amount} onChange={e => setSettlementForm(p => ({ ...p, amount: e.target.value }))} className="bg-gray-50 border-gray-300" /></div>
+            <div><Label className="text-gray-700">Дата</Label><Input type="date" value={settlementForm.settlement_date} onChange={e => setSettlementForm(p => ({ ...p, settlement_date: e.target.value }))} className="bg-gray-50 border-gray-300" /></div>
+            <div><Label className="text-gray-700">Описание</Label><Input value={settlementForm.description} onChange={e => setSettlementForm(p => ({ ...p, description: e.target.value }))} className="bg-gray-50 border-gray-300" placeholder="Например: оплата от клиента X" /></div>
+          </div>
+          <DialogFooter>
+            <Button onClick={async () => {
+              if (!settlementForm.amount || !settlementForm.settlement_date) { toast({ title: "Заполните сумму и дату", variant: "destructive" }); return; }
+              await createSettlement.mutateAsync({
+                amount: Number(settlementForm.amount),
+                description: settlementForm.description || undefined,
+                received_by: settlementForm.received_by,
+                settlement_date: settlementForm.settlement_date,
+              });
+              setShowSettlementForm(false);
+              setSettlementForm({ amount: "", description: "", received_by: "alexander", settlement_date: "" });
+              toast({ title: "Взаиморасчёт добавлен" });
+            }} className="bg-[#fa3714] hover:bg-[#e0300f] text-white w-full">Добавить</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
