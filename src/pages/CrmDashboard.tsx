@@ -214,6 +214,11 @@ const CrmDashboard = () => {
               <h1 className="text-base sm:text-xl font-bold text-gray-900 truncate">CRM</h1>
             </div>
           </div>
+          {isSuperAdmin && (
+            <Button onClick={() => navigate("/crm/accounting")} className="bg-[#fa3714] hover:bg-[#e0300f] text-white gap-1 sm:gap-2 shrink-0 text-xs sm:text-sm px-2 sm:px-4">
+              <Calculator className="w-4 h-4" /> <span className="hidden sm:inline">Бухгалтерия</span>
+            </Button>
+          )}
         </div>
       </header>
 
