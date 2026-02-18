@@ -302,7 +302,7 @@ const CrmDashboard = () => {
                     <SelectContent className="bg-white border-gray-200 shadow-lg z-50">
                       <SelectItem value="all">Все месяцы</SelectItem>
                       {(() => {
-                        // Collect all unique months from payments
+                        const MONTH_NAMES = ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"];
                         const months = new Set<string>();
                         allFinances?.forEach((f: any) => {
                           (f.crm_payments || []).forEach((p: any) => {
@@ -311,11 +311,11 @@ const CrmDashboard = () => {
                               months.add(`${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`);
                             }
                           });
-                          if (f.period) months.add(f.period);
                         });
-                        return Array.from(months).sort().reverse().map(m => (
-                          <SelectItem key={m} value={m}>{m}</SelectItem>
-                        ));
+                        return Array.from(months).sort().reverse().map(m => {
+                          const [year, month] = m.split("-");
+                          return <SelectItem key={m} value={m}>{MONTH_NAMES[parseInt(month, 10) - 1]} {year}</SelectItem>;
+                        });
                       })()}
                     </SelectContent>
                   </Select>

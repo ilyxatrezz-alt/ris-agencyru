@@ -54,7 +54,7 @@ const CrmAccounting = () => {
     );
   }
 
-  // Collect all unique months from payments
+  // Collect all unique months from payment dates only (YYYY-MM format)
   const allMonths = new Set<string>();
   allFinances?.forEach((f: any) => {
     (f.crm_payments || []).forEach((p: any) => {
@@ -63,10 +63,17 @@ const CrmAccounting = () => {
         allMonths.add(`${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`);
       }
     });
-    if (f.period) allMonths.add(f.period);
   });
-  agencyExpenses?.forEach(e => { if (e.period) allMonths.add(e.period); });
+  agencyExpenses?.forEach(e => {
+    if (e.period && /^\d{4}-\d{2}$/.test(e.period)) allMonths.add(e.period);
+  });
   const monthsList = Array.from(allMonths).sort().reverse();
+
+  const MONTH_NAMES = ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"];
+  const formatMonth = (m: string) => {
+    const [year, month] = m.split("-");
+    return `${MONTH_NAMES[parseInt(month, 10) - 1]} ${year}`;
+  };
 
   // Build per-client breakdown
   const clientMap: Record<string, { name: string; finances: any[] }> = {};
@@ -197,7 +204,7 @@ const CrmAccounting = () => {
             </SelectTrigger>
             <SelectContent className="bg-white border-gray-200 shadow-lg z-50">
               <SelectItem value="all">Все месяцы</SelectItem>
-              {monthsList.map(m => <SelectItem key={m} value={m}>{m}</SelectItem>)}
+              {monthsList.map(m => <SelectItem key={m} value={m}>{formatMonth(m)}</SelectItem>)}
             </SelectContent>
           </Select>
           <Select value={filterClient} onValueChange={setFilterClient}>
