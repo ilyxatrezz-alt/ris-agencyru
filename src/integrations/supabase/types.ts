@@ -485,6 +485,39 @@ export type Database = {
           },
         ]
       }
+      crm_settlements: {
+        Row: {
+          alexander_confirmed: boolean
+          amount: number
+          created_at: string
+          description: string | null
+          id: string
+          ilya_confirmed: boolean
+          received_by: string
+          settlement_date: string
+        }
+        Insert: {
+          alexander_confirmed?: boolean
+          amount?: number
+          created_at?: string
+          description?: string | null
+          id?: string
+          ilya_confirmed?: boolean
+          received_by: string
+          settlement_date?: string
+        }
+        Update: {
+          alexander_confirmed?: boolean
+          amount?: number
+          created_at?: string
+          description?: string | null
+          id?: string
+          ilya_confirmed?: boolean
+          received_by?: string
+          settlement_date?: string
+        }
+        Relationships: []
+      }
       crm_tasks: {
         Row: {
           assignee_id: string | null

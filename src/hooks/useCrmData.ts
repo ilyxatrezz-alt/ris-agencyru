@@ -438,3 +438,50 @@ export const useDeleteAgencyExpense = () => {
     onSuccess: () => qc.invalidateQueries({ queryKey: ["crm-agency-expenses"] }),
   });
 };
+
+// ── Settlements ──
+export const useSettlements = () =>
+  useQuery({
+    queryKey: ["crm-settlements"],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("crm_settlements")
+        .select("*")
+        .order("settlement_date", { ascending: false });
+      if (error) throw error;
+      return data;
+    },
+  });
+
+export const useCreateSettlement = () => {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: async (s: { amount: number; description?: string; received_by: string; settlement_date: string }) => {
+      const { error } = await supabase.from("crm_settlements").insert(s);
+      if (error) throw error;
+    },
+    onSuccess: () => qc.invalidateQueries({ queryKey: ["crm-settlements"] }),
+  });
+};
+
+export const useUpdateSettlement = () => {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: async ({ id, ...updates }: { id: string; [key: string]: any }) => {
+      const { error } = await supabase.from("crm_settlements").update(updates).eq("id", id);
+      if (error) throw error;
+    },
+    onSuccess: () => qc.invalidateQueries({ queryKey: ["crm-settlements"] }),
+  });
+};
+
+export const useDeleteSettlement = () => {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: async (id: string) => {
+      const { error } = await supabase.from("crm_settlements").delete().eq("id", id);
+      if (error) throw error;
+    },
+    onSuccess: () => qc.invalidateQueries({ queryKey: ["crm-settlements"] }),
+  });
+};
