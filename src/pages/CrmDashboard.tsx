@@ -134,12 +134,13 @@ const CrmDashboard = () => {
 
   const handleSave = async () => {
     if (!form.name.trim()) { toast({ title: "Введите название клиента", variant: "destructive" }); return; }
+    const cleanedForm = { ...form, contact_person: (form.contact_person || "").replace(/\u200B/g, "").split("\n").filter(Boolean).join("\n") };
     try {
       if (editClient) {
-        await updateClient.mutateAsync({ id: editClient.id, ...form });
+        await updateClient.mutateAsync({ id: editClient.id, ...cleanedForm });
         toast({ title: "Клиент обновлён" });
       } else {
-        await createClient.mutateAsync(form);
+        await createClient.mutateAsync(cleanedForm);
         toast({ title: "Клиент добавлен" });
       }
       setShowAdd(false);
@@ -820,27 +821,37 @@ const CrmDashboard = () => {
             <div>
               <Label>Контактные лица</Label>
               {(() => {
-                const contacts = (form.contact_person || "").split("\n");
-                // Show fields only if there's content or user explicitly added
-                const visibleContacts = contacts.length === 1 && contacts[0] === "" ? [] : contacts;
-                return visibleContacts.map((person, idx) => (
-                  <div key={idx} className="flex items-center gap-2 mt-1">
+                const raw = form.contact_person || "";
+                // Parse contacts: split by newline, but keep empty entries to show blank inputs
+                const contacts = raw.split("\n");
+                const hasContacts = !(contacts.length === 1 && contacts[0] === "");
+                if (!hasContacts) return null;
+                return contacts.map((person, idx) => (
+                  <div key={`contact-${idx}`} className="flex items-center gap-2 mt-1">
                     <Input value={person} onChange={(e) => {
-                      const lines = [...visibleContacts];
+                      const lines = [...contacts];
                       lines[idx] = e.target.value;
                       setForm({ ...form, contact_person: lines.join("\n") });
                     }} className="bg-gray-50 border-gray-300 text-gray-900" placeholder="Имя, должность..." />
                     <Button type="button" size="icon" variant="ghost" className="h-8 w-8 text-red-400 shrink-0" onClick={() => {
-                      const lines = [...visibleContacts];
+                      const lines = [...contacts];
                       lines.splice(idx, 1);
-                      setForm({ ...form, contact_person: lines.join("\n") });
+                      const result = lines.join("\n");
+                      setForm({ ...form, contact_person: result || "" });
                     }}><Trash2 className="w-3 h-3" /></Button>
                   </div>
                 ));
               })()}
               <Button type="button" size="sm" variant="ghost" className="text-[#fa3714] mt-1 h-7 text-xs" onClick={() => {
-                const existing = (form.contact_person || "").split("\n").filter(Boolean);
-                setForm({ ...form, contact_person: [...existing, ""].join("\n") });
+                const raw = form.contact_person || "";
+                const contacts = raw.split("\n");
+                const hasContacts = !(contacts.length === 1 && contacts[0] === "");
+                if (!hasContacts) {
+                  // First contact: create a single entry with a zero-width space as marker
+                  setForm({ ...form, contact_person: "\u200B" });
+                } else {
+                  setForm({ ...form, contact_person: raw + "\n\u200B" });
+                }
               }}><Plus className="w-3 h-3 mr-1" /> Добавить контакт</Button>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
