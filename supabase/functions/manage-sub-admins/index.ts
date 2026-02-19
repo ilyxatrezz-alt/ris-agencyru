@@ -55,6 +55,12 @@ serve(async (req) => {
         .insert({ user_id: newUser.user.id, role: "sub_admin" });
       if (roleErr) throw roleErr;
 
+      // Auto-add to crm_team_members
+      const displayName = email.split("@")[0];
+      await adminClient
+        .from("crm_team_members")
+        .insert({ name: displayName, is_active: true });
+
       return new Response(JSON.stringify({ success: true, user_id: newUser.user.id, email }), {
         headers: { "Content-Type": "application/json", ...corsHeaders },
       });
