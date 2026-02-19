@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { useAllTasks, useUpdateTask, useDeleteTask, useTeamMembers, useClients } from "@/hooks/useCrmData";
+import { useAllTasks, useCreateTask, useUpdateTask, useDeleteTask, useTeamMembers, useClients } from "@/hooks/useCrmData";
+import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -11,7 +12,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "
 import { toast } from "@/hooks/use-toast";
 import {
   ArrowLeft, CheckCircle2, Clock, AlertCircle, Users, CalendarDays,
-  ListTodo, Search, Trash2, Edit, Filter
+  ListTodo, Search, Trash2, Edit, Filter, Plus
 } from "lucide-react";
 
 const taskStatusIcons: Record<string, any> = {
@@ -36,6 +37,7 @@ const CrmTasks = () => {
   const { data: allTasks } = useAllTasks();
   const { data: team } = useTeamMembers();
   const { data: clients } = useClients();
+  const createTask = useCreateTask();
   const updateTask = useUpdateTask();
   const deleteTask = useDeleteTask();
 
@@ -44,6 +46,28 @@ const CrmTasks = () => {
   const [search, setSearch] = useState("");
   const [editingTask, setEditingTask] = useState<any>(null);
   const [editForm, setEditForm] = useState({ status: "", priority: "", due_date: "", assignee_id: "" });
+
+  // New task state
+  const [showAddDialog, setShowAddDialog] = useState(false);
+  const [newTask, setNewTask] = useState({ title: "", description: "", client_id: "", assignee_id: "", priority: "medium", due_date: "" });
+
+  const handleCreateTask = async () => {
+    if (!newTask.title.trim() || !newTask.client_id) {
+      toast({ title: "Укажите название и клиента", variant: "destructive" });
+      return;
+    }
+    await createTask.mutateAsync({
+      title: newTask.title,
+      client_id: newTask.client_id,
+      description: newTask.description || undefined,
+      assignee_id: newTask.assignee_id || undefined,
+      priority: newTask.priority,
+      due_date: newTask.due_date || undefined,
+    });
+    toast({ title: "Задача создана ✅" });
+    setNewTask({ title: "", description: "", client_id: "", assignee_id: "", priority: "medium", due_date: "" });
+    setShowAddDialog(false);
+  };
 
   const filtered = allTasks?.filter(t => {
     // Status filter
@@ -103,7 +127,7 @@ const CrmTasks = () => {
       {/* Header */}
       <header className="border-b border-gray-200 bg-white sticky top-0 z-40 shadow-sm">
         <div className="container mx-auto px-3 sm:px-4 py-3 sm:py-4 flex items-center justify-between gap-2">
-          <div className="flex items-center gap-2 sm:gap-4 min-w-0">
+          <div className="flex items-center gap-2 min-w-0">
             <Button variant="ghost" size="icon" onClick={() => navigate("/crm")} className="text-gray-500 hover:text-gray-900 shrink-0">
               <ArrowLeft className="w-5 h-5" />
             </Button>
@@ -115,6 +139,9 @@ const CrmTasks = () => {
               <Badge className="bg-gray-100 text-gray-600 text-xs">{filtered.length}</Badge>
             </div>
           </div>
+          <Button size="sm" className="bg-[#fa3714] hover:bg-[#e0300f] text-white" onClick={() => setShowAddDialog(true)}>
+            <Plus className="w-4 h-4 mr-1" /> Добавить
+          </Button>
         </div>
       </header>
 
@@ -333,6 +360,84 @@ const CrmTasks = () => {
             <Button onClick={handleSaveEdit} className="bg-[#fa3714] hover:bg-[#e0300f] text-white"
               disabled={updateTask.isPending}>
               Сохранить
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Add task dialog */}
+      <Dialog open={showAddDialog} onOpenChange={setShowAddDialog}>
+        <DialogContent className="bg-white border-gray-200 text-gray-900 max-w-md">
+          <DialogHeader>
+            <DialogTitle>Новая задача</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4 py-2">
+            <div>
+              <Label className="text-sm">Клиент *</Label>
+              <Select value={newTask.client_id} onValueChange={(v) => setNewTask({ ...newTask, client_id: v })}>
+                <SelectTrigger className="bg-gray-50 border-gray-300 text-gray-900 mt-1">
+                  <SelectValue placeholder="Выберите клиента" />
+                </SelectTrigger>
+                <SelectContent className="bg-white border-gray-200 shadow-lg z-50">
+                  {clients?.map(c => (
+                    <SelectItem key={c.id} value={c.id}>{c.name}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+            <div>
+              <Label className="text-sm">Название *</Label>
+              <Input value={newTask.title} onChange={(e) => setNewTask({ ...newTask, title: e.target.value })}
+                placeholder="Что нужно сделать?"
+                className="bg-gray-50 border-gray-300 text-gray-900 mt-1" />
+            </div>
+            <div>
+              <Label className="text-sm">Описание</Label>
+              <Textarea value={newTask.description} onChange={(e) => setNewTask({ ...newTask, description: e.target.value })}
+                placeholder="Подробности..."
+                className="bg-gray-50 border-gray-300 text-gray-900 mt-1" rows={2} />
+            </div>
+            <div>
+              <Label className="text-sm">Ответственный</Label>
+              <Select value={newTask.assignee_id || "none"} onValueChange={(v) => setNewTask({ ...newTask, assignee_id: v === "none" ? "" : v })}>
+                <SelectTrigger className="bg-gray-50 border-gray-300 text-gray-900 mt-1">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent className="bg-white border-gray-200 shadow-lg z-50">
+                  <SelectItem value="none">Без ответственного</SelectItem>
+                  {team?.map(m => (
+                    <SelectItem key={m.id} value={m.id}>{m.name}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="grid grid-cols-2 gap-3">
+              <div>
+                <Label className="text-sm">Приоритет</Label>
+                <Select value={newTask.priority} onValueChange={(v) => setNewTask({ ...newTask, priority: v })}>
+                  <SelectTrigger className="bg-gray-50 border-gray-300 text-gray-900 mt-1">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent className="bg-white border-gray-200 shadow-lg z-50">
+                    <SelectItem value="low">Низкий</SelectItem>
+                    <SelectItem value="medium">Средний</SelectItem>
+                    <SelectItem value="high">Высокий</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div>
+                <Label className="text-sm">Дедлайн</Label>
+                <Input type="date" value={newTask.due_date}
+                  onChange={(e) => setNewTask({ ...newTask, due_date: e.target.value })}
+                  className="bg-gray-50 border-gray-300 text-gray-900 mt-1" />
+              </div>
+            </div>
+          </div>
+          <DialogFooter>
+            <Button variant="ghost" onClick={() => setShowAddDialog(false)} className="text-gray-500">Отмена</Button>
+            <Button onClick={handleCreateTask} className="bg-[#fa3714] hover:bg-[#e0300f] text-white"
+              disabled={createTask.isPending}>
+              Создать
             </Button>
           </DialogFooter>
         </DialogContent>
