@@ -137,7 +137,10 @@ export const useCreateTask = () => {
       const { error } = await supabase.from("crm_tasks").insert(task);
       if (error) throw error;
     },
-    onSuccess: (_, vars) => qc.invalidateQueries({ queryKey: ["crm-tasks", vars.client_id] }),
+    onSuccess: (_, vars) => {
+      qc.invalidateQueries({ queryKey: ["crm-tasks", vars.client_id] });
+      qc.invalidateQueries({ queryKey: ["crm-all-tasks"] });
+    },
   });
 };
 
