@@ -187,33 +187,33 @@ const Admin = () => {
 
             {/* Main Tabs */}
             <Tabs defaultValue="hero" className="space-y-6">
-              <TabsList className="w-full flex flex-wrap h-auto gap-1 p-1 bg-muted/50">
-                <TabsTrigger value="hero" className="flex-1 min-w-[100px] gap-2 py-3">
-                  <Home className="h-4 w-4" />
+              <TabsList className="w-full grid grid-cols-4 sm:grid-cols-7 h-auto gap-1 p-1 bg-muted/50">
+                <TabsTrigger value="hero" className="gap-1.5 py-2.5 px-2 text-xs sm:text-sm">
+                  <Home className="h-4 w-4 shrink-0" />
                   <span className="hidden sm:inline">Главная</span>
                 </TabsTrigger>
-                <TabsTrigger value="contacts" className="flex-1 min-w-[100px] gap-2 py-3">
-                  <Phone className="h-4 w-4" />
+                <TabsTrigger value="contacts" className="gap-1.5 py-2.5 px-2 text-xs sm:text-sm">
+                  <Phone className="h-4 w-4 shrink-0" />
                   <span className="hidden sm:inline">Контакты</span>
                 </TabsTrigger>
-                <TabsTrigger value="company" className="flex-1 min-w-[100px] gap-2 py-3">
-                  <Building className="h-4 w-4" />
+                <TabsTrigger value="company" className="gap-1.5 py-2.5 px-2 text-xs sm:text-sm">
+                  <Building className="h-4 w-4 shrink-0" />
                   <span className="hidden sm:inline">Компания</span>
                 </TabsTrigger>
-                <TabsTrigger value="stats" className="flex-1 min-w-[100px] gap-2 py-3">
-                  <BarChart3 className="h-4 w-4" />
+                <TabsTrigger value="stats" className="gap-1.5 py-2.5 px-2 text-xs sm:text-sm">
+                  <BarChart3 className="h-4 w-4 shrink-0" />
                   <span className="hidden sm:inline">Статистика</span>
                 </TabsTrigger>
-                <TabsTrigger value="pages" className="flex-1 min-w-[100px] gap-2 py-3">
-                  <FileText className="h-4 w-4" />
+                <TabsTrigger value="pages" className="gap-1.5 py-2.5 px-2 text-xs sm:text-sm">
+                  <FileText className="h-4 w-4 shrink-0" />
                   <span className="hidden sm:inline">Страницы</span>
                 </TabsTrigger>
-                <TabsTrigger value="cases" className="flex-1 min-w-[100px] gap-2 py-3">
-                  <FolderOpen className="h-4 w-4" />
+                <TabsTrigger value="cases" className="gap-1.5 py-2.5 px-2 text-xs sm:text-sm">
+                  <FolderOpen className="h-4 w-4 shrink-0" />
                   <span className="hidden sm:inline">Кейсы</span>
                 </TabsTrigger>
-                <TabsTrigger value="websites" className="flex-1 min-w-[100px] gap-2 py-3">
-                  <Globe className="h-4 w-4" />
+                <TabsTrigger value="websites" className="gap-1.5 py-2.5 px-2 text-xs sm:text-sm">
+                  <Globe className="h-4 w-4 shrink-0" />
                   <span className="hidden sm:inline">Сайты</span>
                 </TabsTrigger>
               </TabsList>

@@ -224,7 +224,7 @@ const CrmDashboard = () => {
 
       <main className="container mx-auto px-3 sm:px-4 py-4 sm:py-8">
         <Tabs defaultValue="operational" className="space-y-6">
-          <TabsList className="bg-gray-100 border border-gray-200 w-full sm:w-auto grid grid-cols-2 sm:inline-flex" style={{ gridTemplateColumns: isSuperAdmin ? "1fr 1fr 1fr" : "1fr" }}>
+          <TabsList className="bg-gray-100 border border-gray-200 w-full sm:w-auto flex flex-wrap gap-1 h-auto p-1 sm:inline-flex">
             <TabsTrigger value="operational" className="text-xs sm:text-sm data-[state=active]:bg-[#fa3714] data-[state=active]:text-white gap-1.5">
               <Users className="w-4 h-4" /> <span>Клиенты</span>
               <Badge className="bg-green-100 text-green-700 text-[10px] ml-1">{operationalClients.length}</Badge>
