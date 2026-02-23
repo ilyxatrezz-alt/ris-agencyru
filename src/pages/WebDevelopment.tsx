@@ -446,9 +446,9 @@ const WebDevelopment = () => {
                   className="text-lg px-8 py-6 border-2 hover:bg-secondary"
                   asChild
                 >
-                  <a href={`tel:${siteConfig.phoneRaw}`}>
+                  <a href="tel:+79490215151">
                     <Phone className="mr-2 w-5 h-5" />
-                    {siteConfig.phone}
+                    +7 (949) 021-51-51
                   </a>
                 </Button>
               </motion.div>
@@ -516,7 +516,7 @@ const WebDevelopment = () => {
             </div>
 
             {/* Quick CTA */}
-            <QuickCTA variant="compact" text="Хотите узнать больше?" />
+            <QuickCTA variant="compact" text="Хотите узнать больше?" phone="+7 (949) 021-51-51" phoneRaw="+79490215151" />
           </div>
         </section>
 
@@ -565,7 +565,7 @@ const WebDevelopment = () => {
             </div>
 
             {/* Quick CTA */}
-            <QuickCTA variant="gradient" text="Нужен сайт с такими возможностями?" />
+            <QuickCTA variant="gradient" text="Нужен сайт с такими возможностями?" phone="+7 (949) 021-51-51" phoneRaw="+79490215151" />
           </div>
         </section>
 
@@ -638,7 +638,7 @@ const WebDevelopment = () => {
 
             {/* Quick CTA */}
             <div className="text-center pt-12">
-              <QuickCTA text="Не нашли подходящий тариф?" />
+              <QuickCTA text="Не нашли подходящий тариф?" phone="+7 (949) 021-51-51" phoneRaw="+79490215151" />
             </div>
           </div>
         </section>
@@ -693,7 +693,7 @@ const WebDevelopment = () => {
             </div>
 
             {/* Quick CTA */}
-            <QuickCTA variant="gradient" text="Готовы начать проект?" />
+            <QuickCTA variant="gradient" text="Готовы начать проект?" phone="+7 (949) 021-51-51" phoneRaw="+79490215151" />
           </div>
         </section>
 
@@ -740,7 +740,7 @@ const WebDevelopment = () => {
             </div>
 
             {/* Quick CTA */}
-            <QuickCTA variant="compact" text="Хотите такой же результат?" />
+            <QuickCTA variant="compact" text="Хотите такой же результат?" phone="+7 (949) 021-51-51" phoneRaw="+79490215151" />
           </div>
         </section>
 
@@ -835,7 +835,7 @@ const WebDevelopment = () => {
             </div>
 
             {/* Quick CTA */}
-            <QuickCTA variant="gradient" text="Хотите такой же сайт?" />
+            <QuickCTA variant="gradient" text="Хотите такой же сайт?" phone="+7 (949) 021-51-51" phoneRaw="+79490215151" />
           </div>
         </section>
 
@@ -958,7 +958,7 @@ const WebDevelopment = () => {
                         </a>
                       </Button>
                       <Button variant="outline" size="sm" className="flex-1" asChild>
-                        <a href={`tel:${siteConfig.phoneRaw}`}>
+                        <a href="tel:+79490215151">
                           <Phone className="mr-2 w-4 h-4" />
                           Позвонить
                         </a>
