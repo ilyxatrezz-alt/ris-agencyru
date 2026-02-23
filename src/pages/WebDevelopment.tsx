@@ -516,7 +516,7 @@ const WebDevelopment = () => {
             </div>
 
             {/* Quick CTA */}
-            <QuickCTA variant="compact" text="Хотите узнать больше?" phone="+7 (949) 021-51-51" phoneRaw="+79490215151" telegramUrl="https://t.me/+79490215151" />
+            <QuickCTA variant="compact" text="Хотите узнать больше?" phone="+7 (949) 021-51-51" phoneRaw="+79490215151" telegramUrl="https://t.me/manager_ris" />
           </div>
         </section>
 
@@ -565,7 +565,7 @@ const WebDevelopment = () => {
             </div>
 
             {/* Quick CTA */}
-            <QuickCTA variant="gradient" text="Нужен сайт с такими возможностями?" phone="+7 (949) 021-51-51" phoneRaw="+79490215151" telegramUrl="https://t.me/+79490215151" />
+            <QuickCTA variant="gradient" text="Нужен сайт с такими возможностями?" phone="+7 (949) 021-51-51" phoneRaw="+79490215151" telegramUrl="https://t.me/manager_ris" />
           </div>
         </section>
 
@@ -638,7 +638,7 @@ const WebDevelopment = () => {
 
             {/* Quick CTA */}
             <div className="text-center pt-12">
-              <QuickCTA text="Не нашли подходящий тариф?" phone="+7 (949) 021-51-51" phoneRaw="+79490215151" telegramUrl="https://t.me/+79490215151" />
+              <QuickCTA text="Не нашли подходящий тариф?" phone="+7 (949) 021-51-51" phoneRaw="+79490215151" telegramUrl="https://t.me/manager_ris" />
             </div>
           </div>
         </section>
@@ -693,7 +693,7 @@ const WebDevelopment = () => {
             </div>
 
             {/* Quick CTA */}
-            <QuickCTA variant="gradient" text="Готовы начать проект?" phone="+7 (949) 021-51-51" phoneRaw="+79490215151" telegramUrl="https://t.me/+79490215151" />
+            <QuickCTA variant="gradient" text="Готовы начать проект?" phone="+7 (949) 021-51-51" phoneRaw="+79490215151" telegramUrl="https://t.me/manager_ris" />
           </div>
         </section>
 
@@ -740,7 +740,7 @@ const WebDevelopment = () => {
             </div>
 
             {/* Quick CTA */}
-            <QuickCTA variant="compact" text="Хотите такой же результат?" phone="+7 (949) 021-51-51" phoneRaw="+79490215151" telegramUrl="https://t.me/+79490215151" />
+            <QuickCTA variant="compact" text="Хотите такой же результат?" phone="+7 (949) 021-51-51" phoneRaw="+79490215151" telegramUrl="https://t.me/manager_ris" />
           </div>
         </section>
 
@@ -835,7 +835,7 @@ const WebDevelopment = () => {
             </div>
 
             {/* Quick CTA */}
-            <QuickCTA variant="gradient" text="Хотите такой же сайт?" phone="+7 (949) 021-51-51" phoneRaw="+79490215151" telegramUrl="https://t.me/+79490215151" />
+            <QuickCTA variant="gradient" text="Хотите такой же сайт?" phone="+7 (949) 021-51-51" phoneRaw="+79490215151" telegramUrl="https://t.me/manager_ris" />
           </div>
         </section>
 
@@ -952,7 +952,7 @@ const WebDevelopment = () => {
                     <p className="text-sm text-muted-foreground mb-3">Обсудить проект:</p>
                     <div className="flex gap-2">
                       <Button variant="outline" size="sm" className="flex-1" asChild>
-                        <a href="https://t.me/+79490215151" target="_blank" rel="noopener noreferrer">
+                        <a href="https://t.me/manager_ris" target="_blank" rel="noopener noreferrer">
                           <MessageSquare className="mr-2 w-4 h-4" />
                           Telegram
                         </a>
@@ -1014,7 +1014,7 @@ const WebDevelopment = () => {
                   className="bg-white/10 border-2 border-white text-white hover:bg-white hover:text-primary text-lg px-8 py-6 font-bold transition-all"
                   asChild
                 >
-                  <a href="https://t.me/+79490215151" target="_blank" rel="noopener noreferrer">
+                  <a href="https://t.me/manager_ris" target="_blank" rel="noopener noreferrer">
                     Написать в Telegram
                   </a>
                 </Button>
