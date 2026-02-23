@@ -8,11 +8,13 @@ interface QuickCTAProps {
   text?: string;
   phone?: string;
   phoneRaw?: string;
+  telegramUrl?: string;
 }
 
-const QuickCTA = ({ variant = "default", text, phone, phoneRaw }: QuickCTAProps) => {
+const QuickCTA = ({ variant = "default", text, phone, phoneRaw, telegramUrl }: QuickCTAProps) => {
   const displayPhone = phone || siteConfig.phone;
   const rawPhone = phoneRaw || siteConfig.phoneRaw;
+  const tgUrl = telegramUrl || siteConfig.telegramUrl;
   if (variant === "compact") {
     return (
       <motion.div
@@ -26,7 +28,7 @@ const QuickCTA = ({ variant = "default", text, phone, phoneRaw }: QuickCTAProps)
           className="gradient-primary shadow-cta gap-2"
           asChild
         >
-          <a href={siteConfig.telegramUrl} target="_blank" rel="noopener noreferrer">
+          <a href={tgUrl} target="_blank" rel="noopener noreferrer">
             <MessageCircle className="w-4 h-4" />
             Telegram
           </a>
@@ -69,7 +71,7 @@ const QuickCTA = ({ variant = "default", text, phone, phoneRaw }: QuickCTAProps)
               className="gradient-primary shadow-cta gap-2 group"
               asChild
             >
-              <a href={siteConfig.telegramUrl} target="_blank" rel="noopener noreferrer">
+              <a href={tgUrl} target="_blank" rel="noopener noreferrer">
                 <MessageCircle className="w-5 h-5" />
                 Написать в Telegram
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
@@ -108,7 +110,7 @@ const QuickCTA = ({ variant = "default", text, phone, phoneRaw }: QuickCTAProps)
           className="gradient-primary shadow-cta gap-2 group"
           asChild
         >
-          <a href={siteConfig.telegramUrl} target="_blank" rel="noopener noreferrer">
+          <a href={tgUrl} target="_blank" rel="noopener noreferrer">
             <MessageCircle className="w-4 h-4" />
             Telegram
             <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
