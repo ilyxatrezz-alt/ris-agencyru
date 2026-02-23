@@ -6,9 +6,13 @@ import { siteConfig } from "@/config/siteConfig";
 interface QuickCTAProps {
   variant?: "default" | "compact" | "gradient";
   text?: string;
+  phone?: string;
+  phoneRaw?: string;
 }
 
-const QuickCTA = ({ variant = "default", text }: QuickCTAProps) => {
+const QuickCTA = ({ variant = "default", text, phone, phoneRaw }: QuickCTAProps) => {
+  const displayPhone = phone || siteConfig.phone;
+  const rawPhone = phoneRaw || siteConfig.phoneRaw;
   if (variant === "compact") {
     return (
       <motion.div
@@ -33,7 +37,7 @@ const QuickCTA = ({ variant = "default", text }: QuickCTAProps) => {
           className="gap-2"
           asChild
         >
-          <a href={`tel:${siteConfig.phoneRaw}`}>
+          <a href={`tel:${rawPhone}`}>
             <Phone className="w-4 h-4" />
             Позвонить
           </a>
@@ -77,9 +81,9 @@ const QuickCTA = ({ variant = "default", text }: QuickCTAProps) => {
               className="gap-2 border-2"
               asChild
             >
-              <a href={`tel:${siteConfig.phoneRaw}`}>
+              <a href={`tel:${rawPhone}`}>
                 <Phone className="w-5 h-5" />
-                {siteConfig.phone}
+                {displayPhone}
               </a>
             </Button>
           </div>
@@ -115,7 +119,7 @@ const QuickCTA = ({ variant = "default", text }: QuickCTAProps) => {
           className="gap-2 border-2"
           asChild
         >
-          <a href={`tel:${siteConfig.phoneRaw}`}>
+          <a href={`tel:${rawPhone}`}>
             <Phone className="w-4 h-4" />
             Позвонить
           </a>
