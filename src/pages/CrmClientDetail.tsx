@@ -19,7 +19,7 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { toast } from "@/hooks/use-toast";
 import {
-  ArrowLeft, Plus, Trash2, CheckCircle2, Clock, AlertCircle, DollarSign,
+  ArrowLeft, Plus, Trash2, CheckCircle2, Clock, AlertCircle, PlayCircle, DollarSign,
   Users, CalendarDays, ChevronDown, ChevronUp, Calculator, Edit
 } from "lucide-react";
 
@@ -30,7 +30,7 @@ const priorityColors: Record<string, string> = {
 };
 const taskStatusIcons: Record<string, any> = {
   pending: <Clock className="w-4 h-4 text-yellow-500" />,
-  in_progress: <AlertCircle className="w-4 h-4 text-blue-500" />,
+  in_progress: <PlayCircle className="w-4 h-4 text-blue-500" />,
   done: <CheckCircle2 className="w-4 h-4 text-green-500" />,
 };
 

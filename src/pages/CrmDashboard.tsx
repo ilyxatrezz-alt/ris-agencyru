@@ -15,7 +15,7 @@ import { toast } from "@/hooks/use-toast";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
   Users, ListTodo, DollarSign, TrendingUp, Plus, Search, Phone, Mail, MessageCircle, Globe,
-  ArrowLeft, Trash2, Edit, Eye, Megaphone, Receipt, Calculator, CheckCircle2, Clock, AlertCircle,
+  ArrowLeft, Trash2, Edit, Eye, Megaphone, Receipt, Calculator, CheckCircle2, Clock, AlertCircle, PlayCircle,
   CalendarDays, UserPlus, ArrowRight, Star, ExternalLink, Shield, ShieldCheck
 } from "lucide-react";
 
@@ -53,7 +53,7 @@ const statusColors: Record<string, string> = {
 
 const taskStatusIcons: Record<string, any> = {
   pending: <Clock className="w-4 h-4 text-yellow-500" />,
-  in_progress: <AlertCircle className="w-4 h-4 text-blue-500" />,
+  in_progress: <PlayCircle className="w-4 h-4 text-blue-500" />,
   done: <CheckCircle2 className="w-4 h-4 text-green-500" />,
 };
 const priorityLabels: Record<string, string> = { low: "Низкий", medium: "Средний", high: "Высокий" };
