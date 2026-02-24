@@ -64,9 +64,9 @@ export const useSubAdmins = () =>
 export const useCreateSubAdmin = () => {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: async ({ email, password }: { email: string; password: string }) => {
+    mutationFn: async ({ email, password, name }: { email: string; password: string; name: string }) => {
       const { data, error } = await supabase.functions.invoke("manage-sub-admins", {
-        body: { action: "create", email, password },
+        body: { action: "create", email, password, name },
       });
       if (error) throw error;
       if (data?.error) throw new Error(data.error);
