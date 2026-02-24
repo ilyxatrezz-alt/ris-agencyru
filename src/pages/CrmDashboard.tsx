@@ -95,7 +95,7 @@ const CrmDashboard = () => {
   const [showAgencyExpForm, setShowAgencyExpForm] = useState(false);
   const [agencyExpForm, setAgencyExpForm] = useState({ title: "", amount: "", description: "", period: "" });
   const [showSubAdminForm, setShowSubAdminForm] = useState(false);
-  const [subAdminForm, setSubAdminForm] = useState({ email: "", password: "" });
+  const [subAdminForm, setSubAdminForm] = useState({ email: "", password: "", name: "" });
   const [managingSubAdmin, setManagingSubAdmin] = useState<string | null>(null);
   const [form, setForm] = useState({
     name: "", contact_person: "", phone: "", email: "", telegram: "", website: "", notes: "", status: "active",
@@ -726,7 +726,7 @@ const CrmDashboard = () => {
                     <p className="text-sm font-medium text-blue-800">Управление суб-админами</p>
                     <p className="text-xs text-blue-600 mt-0.5">Суб-админы видят только задачи по назначенным проектам. Финансы и бюджеты им недоступны.</p>
                   </div>
-                  <Button onClick={() => { setSubAdminForm({ email: "", password: "" }); setShowSubAdminForm(true); }} className="bg-blue-600 hover:bg-blue-700 text-white shrink-0">
+                  <Button onClick={() => { setSubAdminForm({ email: "", password: "", name: "" }); setShowSubAdminForm(true); }} className="bg-blue-600 hover:bg-blue-700 text-white shrink-0">
                     <UserPlus className="w-4 h-4 mr-2" /> Добавить суб-админа
                   </Button>
                 </CardContent>
@@ -736,7 +736,7 @@ const CrmDashboard = () => {
                 <div className="text-center py-16">
                   <Shield className="w-12 h-12 text-gray-200 mx-auto mb-4" />
                   <p className="text-gray-400 mb-4">Суб-админов пока нет</p>
-                  <Button onClick={() => { setSubAdminForm({ email: "", password: "" }); setShowSubAdminForm(true); }} className="bg-blue-600 hover:bg-blue-700 text-white">
+                  <Button onClick={() => { setSubAdminForm({ email: "", password: "", name: "" }); setShowSubAdminForm(true); }} className="bg-blue-600 hover:bg-blue-700 text-white">
                     <UserPlus className="w-4 h-4 mr-2" /> Добавить первого
                   </Button>
                 </div>
@@ -972,6 +972,11 @@ const CrmDashboard = () => {
           </DialogHeader>
           <div className="grid gap-4 py-2">
             <div>
+              <Label>Имя *</Label>
+              <Input value={subAdminForm.name} onChange={(e) => setSubAdminForm({ ...subAdminForm, name: e.target.value })}
+                className="bg-gray-50 border-gray-300 text-gray-900 mt-1" placeholder="Имя сотрудника" />
+            </div>
+            <div>
               <Label>Email *</Label>
               <Input type="email" value={subAdminForm.email} onChange={(e) => setSubAdminForm({ ...subAdminForm, email: e.target.value })}
                 className="bg-gray-50 border-gray-300 text-gray-900 mt-1" placeholder="admin@example.com" />
@@ -986,14 +991,14 @@ const CrmDashboard = () => {
           <DialogFooter>
             <Button variant="ghost" onClick={() => setShowSubAdminForm(false)} className="text-gray-500">Отмена</Button>
             <Button onClick={async () => {
-              if (!subAdminForm.email || !subAdminForm.password) {
+              if (!subAdminForm.name || !subAdminForm.email || !subAdminForm.password) {
                 toast({ title: "Заполните все поля", variant: "destructive" });
                 return;
               }
               try {
-                await createSubAdmin.mutateAsync({ email: subAdminForm.email, password: subAdminForm.password });
+                await createSubAdmin.mutateAsync({ email: subAdminForm.email, password: subAdminForm.password, name: subAdminForm.name });
                 setShowSubAdminForm(false);
-                setSubAdminForm({ email: "", password: "" });
+                setSubAdminForm({ email: "", password: "", name: "" });
                 toast({ title: "Суб-админ создан! 🎉" });
               } catch (e: any) {
                 toast({ title: "Ошибка", description: e.message, variant: "destructive" });

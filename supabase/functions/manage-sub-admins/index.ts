@@ -38,7 +38,7 @@ serve(async (req) => {
 
     if (!callerRole) throw new Error("Forbidden: not a super admin");
 
-    const { action, email, password, user_id } = await req.json();
+    const { action, email, password, user_id, name } = await req.json();
 
     if (action === "create") {
       // Create user via admin API
@@ -56,7 +56,7 @@ serve(async (req) => {
       if (roleErr) throw roleErr;
 
       // Auto-add to crm_team_members
-      const displayName = email.split("@")[0];
+      const displayName = name || email.split("@")[0];
       await adminClient
         .from("crm_team_members")
         .insert({ name: displayName, is_active: true });
