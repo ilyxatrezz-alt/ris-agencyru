@@ -46,6 +46,7 @@ export const useMyClientAccess = () => {
 interface SubAdmin {
   user_id: string;
   email: string;
+  name: string;
   client_ids: string[];
 }
 
@@ -82,6 +83,20 @@ export const useRemoveSubAdmin = () => {
     mutationFn: async (userId: string) => {
       const { data, error } = await supabase.functions.invoke("manage-sub-admins", {
         body: { action: "remove", user_id: userId },
+      });
+      if (error) throw error;
+      if (data?.error) throw new Error(data.error);
+    },
+    onSuccess: () => qc.invalidateQueries({ queryKey: ["sub-admins"] }),
+  });
+};
+
+export const useUpdateSubAdminName = () => {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: async ({ userId, name }: { userId: string; name: string }) => {
+      const { data, error } = await supabase.functions.invoke("manage-sub-admins", {
+        body: { action: "update_name", user_id: userId, name },
       });
       if (error) throw error;
       if (data?.error) throw new Error(data.error);

@@ -46,6 +46,7 @@ serve(async (req) => {
         email,
         password,
         email_confirm: true,
+        user_metadata: { display_name: name || email.split("@")[0] },
       });
       if (createErr) throw createErr;
 
@@ -96,11 +97,24 @@ serve(async (req) => {
         subAdmins.push({
           user_id: r.user_id,
           email: user?.email || "Unknown",
+          name: user?.user_metadata?.display_name || user?.email?.split("@")[0] || "Unknown",
           client_ids: (access || []).map((a: any) => a.client_id),
         });
       }
 
       return new Response(JSON.stringify({ subAdmins }), {
+        headers: { "Content-Type": "application/json", ...corsHeaders },
+      });
+    }
+
+    if (action === "update_name") {
+      // Update user display name
+      const { error: updateErr } = await adminClient.auth.admin.updateUserById(user_id, {
+        user_metadata: { display_name: name },
+      });
+      if (updateErr) throw updateErr;
+
+      return new Response(JSON.stringify({ success: true }), {
         headers: { "Content-Type": "application/json", ...corsHeaders },
       });
     }
