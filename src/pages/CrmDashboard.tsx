@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCrmStats, useClients, useCreateClient, useDeleteClient, useUpdateClient, useAgencyExpenses, useCreateAgencyExpense, useDeleteAgencyExpense, useAllTasks, useUpdateTask, useTeamMembers, useAllFinances } from "@/hooks/useCrmData";
-import { useIsSuperAdmin, useMyClientAccess, useSubAdmins, useCreateSubAdmin, useRemoveSubAdmin, useToggleClientAccess } from "@/hooks/useUserRole";
+import { useIsSuperAdmin, useMyClientAccess, useSubAdmins, useCreateSubAdmin, useRemoveSubAdmin, useToggleClientAccess, useUpdateSubAdminName } from "@/hooks/useUserRole";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -81,7 +81,8 @@ const CrmDashboard = () => {
   const createSubAdmin = useCreateSubAdmin();
   const removeSubAdmin = useRemoveSubAdmin();
   const toggleClientAccess = useToggleClientAccess();
-
+  const updateSubAdminName = useUpdateSubAdminName();
+  const [editingSubAdminName, setEditingSubAdminName] = useState<{ userId: string; name: string } | null>(null);
   const [search, setSearch] = useState("");
   const [potentialSearch, setPotentialSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState<string>("all");
@@ -751,7 +752,8 @@ const CrmDashboard = () => {
                               <Shield className="w-4 h-4 text-blue-600" />
                             </div>
                             <div>
-                              <p className="font-medium text-gray-900">{sa.email}</p>
+                              <p className="font-medium text-gray-900">{sa.name}</p>
+                              <p className="text-xs text-gray-500">{sa.email}</p>
                               <p className="text-xs text-gray-400">Доступ к {sa.client_ids.length} клиентам</p>
                             </div>
                           </div>
@@ -759,6 +761,10 @@ const CrmDashboard = () => {
                             <Button size="sm" variant="outline" onClick={() => setManagingSubAdmin(managingSubAdmin === sa.user_id ? null : sa.user_id)}
                               className="text-blue-600 border-blue-300 hover:bg-blue-50">
                               <Edit className="w-3.5 h-3.5 mr-1" /> Настроить доступ
+                            </Button>
+                            <Button size="sm" variant="outline" onClick={() => setEditingSubAdminName({ userId: sa.user_id, name: sa.name })}
+                              className="text-gray-600 border-gray-300 hover:bg-gray-50">
+                              <Edit className="w-3.5 h-3.5 mr-1" /> Имя
                             </Button>
                             <Button size="sm" variant="ghost" className="text-red-400 hover:text-red-600"
                               onClick={async () => {
@@ -1005,6 +1011,35 @@ const CrmDashboard = () => {
               }
             }} className="bg-blue-600 hover:bg-blue-700 text-white" disabled={createSubAdmin.isPending}>
               {createSubAdmin.isPending ? "Создаю..." : "Создать"}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* ═══ Edit sub-admin name dialog ═══ */}
+      <Dialog open={!!editingSubAdminName} onOpenChange={(open) => !open && setEditingSubAdminName(null)}>
+        <DialogContent className="bg-white border-gray-200 text-gray-900 max-w-md">
+          <DialogHeader>
+            <DialogTitle>Изменить имя</DialogTitle>
+          </DialogHeader>
+          <div className="py-2">
+            <Label>Имя</Label>
+            <Input value={editingSubAdminName?.name ?? ""} onChange={(e) => setEditingSubAdminName(prev => prev ? { ...prev, name: e.target.value } : null)}
+              className="bg-gray-50 border-gray-300 text-gray-900 mt-1" placeholder="Имя сотрудника" />
+          </div>
+          <DialogFooter>
+            <Button variant="ghost" onClick={() => setEditingSubAdminName(null)} className="text-gray-500">Отмена</Button>
+            <Button onClick={async () => {
+              if (!editingSubAdminName?.name) return;
+              try {
+                await updateSubAdminName.mutateAsync({ userId: editingSubAdminName.userId, name: editingSubAdminName.name });
+                setEditingSubAdminName(null);
+                toast({ title: "Имя обновлено ✅" });
+              } catch (e: any) {
+                toast({ title: "Ошибка", description: e.message, variant: "destructive" });
+              }
+            }} className="bg-blue-600 hover:bg-blue-700 text-white" disabled={updateSubAdminName.isPending}>
+              {updateSubAdminName.isPending ? "Сохраняю..." : "Сохранить"}
             </Button>
           </DialogFooter>
         </DialogContent>
