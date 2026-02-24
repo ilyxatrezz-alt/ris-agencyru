@@ -11,13 +11,13 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { toast } from "@/hooks/use-toast";
 import {
-  ArrowLeft, CheckCircle2, Clock, AlertCircle, Users, CalendarDays,
+  ArrowLeft, CheckCircle2, Clock, AlertCircle, PlayCircle, Users, CalendarDays,
   ListTodo, Search, Trash2, Edit, Filter, Plus
 } from "lucide-react";
 
 const taskStatusIcons: Record<string, any> = {
   pending: <Clock className="w-5 h-5 text-yellow-500" />,
-  in_progress: <AlertCircle className="w-5 h-5 text-blue-500" />,
+  in_progress: <PlayCircle className="w-5 h-5 text-blue-500" />,
   done: <CheckCircle2 className="w-5 h-5 text-green-500" />,
 };
 const statusLabels: Record<string, string> = { pending: "Ожидает", in_progress: "В работе", done: "Выполнена" };
