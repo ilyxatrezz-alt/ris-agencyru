@@ -9,6 +9,7 @@ import PriceCalculator from "@/components/PriceCalculator";
 import CasesSlider from "@/components/CasesSlider";
 import ReviewsBlock from "@/components/ReviewsBlock";
 import Footer from "@/components/Footer";
+import CookieConsent from "@/components/CookieConsent";
 
 import ScrollProgress from "@/components/ScrollProgress";
 import FloatingElements from "@/components/FloatingElements";
@@ -39,6 +40,7 @@ const Index = () => {
         <ContactForm />
       </main>
       <Footer />
+      <CookieConsent />
     </div>
   );
 };
