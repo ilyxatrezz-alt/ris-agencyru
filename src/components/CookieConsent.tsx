@@ -81,8 +81,8 @@ const CookieConsent = () => {
                 transition={{ delay: 0.3 }}
               >
                 Мы используем файлы куки (cookies), чтобы сделать сайт лучше для вас.
-                Они помогают запоминать ваши предпочтения (preferences) и анализировать
-                посещаемость (analytics). 
+                Они помогают запоминать ваши предпочтения и анализировать
+                посещаемость.
               </motion.p>
 
               <motion.div
@@ -92,7 +92,7 @@ const CookieConsent = () => {
                 transition={{ delay: 0.4 }}
               >
                 <Shield className="h-3.5 w-3.5 shrink-0" />
-                <span>Ваши данные (your data) в безопасности (are safe)</span>
+                <span>Ваши данные в безопасности</span>
               </motion.div>
 
               <motion.div
