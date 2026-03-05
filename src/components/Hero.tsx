@@ -1,14 +1,21 @@
-import { ArrowRight, Play, Star } from "lucide-react";
+import { ArrowRight, Play } from "lucide-react";
 import { Button } from "./ui/button";
 import { Link } from "react-router-dom";
-import { motion, useScroll, useTransform } from "framer-motion";
-import { useRef } from "react";
+import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
+import { useRef, useState, useEffect } from "react";
 import GlitchText from "./GlitchText";
 import TextReveal from "./TextReveal";
 import MagneticButton from "./MagneticButton";
 import MorphingShape from "./MorphingShape";
 import ServicesCarousel from "./ServicesCarousel";
 import { useSiteSettingsMap, getSetting } from "@/hooks/useSiteSettings";
+
+const rotatingPhrases = [
+  "Продаём",
+  "Масштабируем",
+  "Приносим прибыль",
+  "Повышаем узнаваемость",
+];
 
 const Hero = () => {
   const containerRef = useRef(null);
@@ -22,9 +29,15 @@ const Hero = () => {
   const heroOpacity = useTransform(scrollYProgress, [0, 0.7, 1], [1, 1, 0]);
   const heroScale = useTransform(scrollYProgress, [0, 0.8, 1], [1, 1, 0.95]);
 
-  // Get settings with fallbacks
-  const heroBadge = getSetting(settings, "hero_badge", "С 2014 года • 500+ млн ₽ рекламных бюджетов");
-  const heroSubtitle = getSetting(settings, "hero_subtitle", "Создаём сайты и запускаем рекламу, которая окупается. Комплексный digital-маркетинг с гарантией результата.");
+  const [phraseIndex, setPhraseIndex] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setPhraseIndex((prev) => (prev + 1) % rotatingPhrases.length);
+    }, 2500);
+    return () => clearInterval(interval);
+  }, []);
+
   const heroCtaPrimary = getSetting(settings, "hero_cta_primary", "Получить аудит бесплатно");
   const heroCtaSecondary = getSetting(settings, "hero_cta_secondary", "Смотреть кейсы");
 
@@ -141,25 +154,45 @@ const Hero = () => {
             animate={{ opacity: 1 }}
             transition={{ duration: 0.6 }}
           >
-            {/* Badge */}
+            {/* Rotating Phrases Badge */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.2 }}
+              className="h-12 sm:h-14 flex items-center justify-center"
             >
-              <motion.span 
-                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-gradient-to-r from-primary/20 to-primary/5 border border-primary/30 text-primary text-sm font-bold backdrop-blur-sm"
-                animate={{ 
-                  boxShadow: [
-                    "0 0 0 0 hsl(9 96% 53% / 0.4)",
-                    "0 0 0 10px hsl(9 96% 53% / 0)",
-                  ]
-                }}
-                transition={{ duration: 2, repeat: Infinity }}
-              >
-                <Star className="h-4 w-4 fill-primary" />
-                {heroBadge}
-              </motion.span>
+              <AnimatePresence mode="wait">
+                <motion.span
+                  key={phraseIndex}
+                  className="inline-flex items-center gap-3 px-6 sm:px-8 py-3 sm:py-3.5 rounded-full bg-gradient-to-r from-primary/25 via-primary/15 to-primary/25 border border-primary/40 text-primary text-base sm:text-lg font-black uppercase tracking-wider backdrop-blur-md"
+                  initial={{ opacity: 0, y: 20, scale: 0.8, filter: "blur(10px)" }}
+                  animate={{ 
+                    opacity: 1, y: 0, scale: 1, filter: "blur(0px)",
+                    textShadow: [
+                      "0 0 8px hsl(9 96% 53% / 0.8)",
+                      "0 0 20px hsl(9 96% 53% / 0.4)",
+                      "0 0 8px hsl(9 96% 53% / 0.8)",
+                    ],
+                  }}
+                  exit={{ opacity: 0, y: -20, scale: 0.8, filter: "blur(10px)" }}
+                  transition={{ duration: 0.5 }}
+                >
+                  <motion.span
+                    className="w-2.5 h-2.5 rounded-full bg-primary"
+                    animate={{ 
+                      scale: [1, 1.5, 1],
+                      opacity: [1, 0.5, 1],
+                      boxShadow: [
+                        "0 0 0 0 hsl(9 96% 53% / 0.7)",
+                        "0 0 0 8px hsl(9 96% 53% / 0)",
+                        "0 0 0 0 hsl(9 96% 53% / 0.7)",
+                      ]
+                    }}
+                    transition={{ duration: 1.5, repeat: Infinity }}
+                  />
+                  {rotatingPhrases[phraseIndex]}
+                </motion.span>
+              </AnimatePresence>
             </motion.div>
 
             {/* Main Heading */}
@@ -170,25 +203,24 @@ const Hero = () => {
             >
               <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-black leading-[0.95] tracking-tight uppercase">
                 <span className="text-white block">
-                  <TextReveal delay={0.5}>РИС: Ваш партнёр</TextReveal>
+                  <TextReveal delay={0.5}>РИС: Зерно вашего</TextReveal>
                 </span>
                 <span className="block">
-                  <span className="text-white">в </span>
-                  <GlitchText text="цифровом" className="text-primary" />
-                  <span className="text-white"> </span>
-                  <GlitchText text="маркетинге" className="text-primary" />
+                  <GlitchText text="роста" className="text-primary" />
+                  <span className="text-white"> в </span>
+                  <GlitchText text="интернете" className="text-primary" />
                 </span>
               </h1>
             </motion.div>
 
             {/* Subtitle */}
             <motion.p 
-              className="text-lg sm:text-xl text-zinc-400 max-w-2xl mx-auto leading-relaxed"
+              className="text-lg sm:text-xl md:text-2xl text-zinc-400 max-w-3xl mx-auto leading-relaxed"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.4 }}
             >
-              {heroSubtitle}
+              Превращаем ваш бизнес в <span className="text-white font-semibold">машину по генерации прибыли</span>. Сайты, реклама, SMM — всё, что нужно для роста.
             </motion.p>
           </motion.div>
 
