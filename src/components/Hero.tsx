@@ -149,7 +149,7 @@ const Hero = () => {
         <div className="max-w-7xl mx-auto">
           {/* Top - Title centered */}
           <motion.div 
-            className="text-center mb-12 lg:mb-16 space-y-6"
+            className="text-center mb-6 sm:mb-8 lg:mb-12 space-y-4 sm:space-y-6"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.6 }}
