@@ -137,7 +137,7 @@ const ServicesCarousel = () => {
     <div className="relative w-full select-none">
       {/* 3D Carousel */}
       <div 
-        className="relative h-[420px] sm:h-[500px] md:h-[560px] flex items-center justify-center overflow-hidden"
+        className="relative h-[340px] sm:h-[460px] md:h-[560px] flex items-center justify-center overflow-hidden"
         style={{ perspective: "1800px" }}
         onTouchStart={handleTouchStart}
         onTouchMove={handleTouchMove}
