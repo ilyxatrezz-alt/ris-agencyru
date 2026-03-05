@@ -30,7 +30,7 @@ const Header = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       setSloganIndex((prev) => (prev + 1) % slogans.length);
-    }, 4000);
+    }, 6000);
     return () => clearInterval(interval);
   }, []);
 
@@ -78,19 +78,19 @@ const Header = () => {
             </div>
           </Link>
 
-          {/* Center slogan — desktop only */}
-          <div className="hidden lg:flex flex-1 justify-center items-center overflow-hidden mx-4">
+          {/* Center slogan — all screens */}
+          <div className="flex flex-1 justify-center items-center overflow-hidden mx-2 sm:mx-4">
             <AnimatePresence mode="wait">
               <motion.div
                 key={sloganIndex}
-                className="flex items-center gap-2"
-                initial={{ opacity: 0, y: 20, filter: "blur(8px)", scale: 0.9 }}
+                className="flex items-center gap-1.5 sm:gap-2"
+                initial={{ opacity: 0, y: 24, filter: "blur(12px)", scale: 0.85 }}
                 animate={{ opacity: 1, y: 0, filter: "blur(0px)", scale: 1 }}
-                exit={{ opacity: 0, y: -20, filter: "blur(8px)", scale: 0.9 }}
-                transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+                exit={{ opacity: 0, y: -24, filter: "blur(12px)", scale: 0.85 }}
+                transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
               >
                 <motion.span
-                  className="w-1.5 h-1.5 rounded-full bg-primary"
+                  className="w-1 h-1 sm:w-1.5 sm:h-1.5 rounded-full bg-primary shrink-0"
                   animate={{
                     boxShadow: [
                       "0 0 0 0 hsl(var(--primary) / 0.6)",
@@ -100,21 +100,21 @@ const Header = () => {
                   }}
                   transition={{ duration: 2, repeat: Infinity }}
                 />
-                <span className="text-sm font-bold text-muted-foreground tracking-wide whitespace-nowrap">
+                <span className="text-[10px] sm:text-xs lg:text-sm font-bold text-muted-foreground tracking-wide whitespace-nowrap">
                   {slogans[sloganIndex].split("").map((char, i) => (
                     <motion.span
                       key={`${sloganIndex}-${i}`}
                       className="inline-block"
                       initial={{ opacity: 0, y: 8 }}
                       animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: i * 0.02, duration: 0.3 }}
+                      transition={{ delay: i * 0.03, duration: 0.4 }}
                     >
                       {char === " " ? "\u00A0" : char}
                     </motion.span>
                   ))}
                 </span>
                 <motion.span
-                  className="w-1.5 h-1.5 rounded-full bg-primary"
+                  className="w-1 h-1 sm:w-1.5 sm:h-1.5 rounded-full bg-primary shrink-0"
                   animate={{
                     boxShadow: [
                       "0 0 0 0 hsl(var(--primary) / 0.6)",
@@ -179,28 +179,6 @@ const Header = () => {
               exit={{ opacity: 0, height: 0 }}
               transition={{ duration: 0.3 }}
             >
-              {/* Mobile slogan */}
-              <motion.div
-                className="flex items-center justify-center gap-2 pb-3 mb-3 border-b border-border/30"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.2 }}
-              >
-                <span className="w-1.5 h-1.5 rounded-full bg-primary" />
-                <AnimatePresence mode="wait">
-                  <motion.span
-                    key={sloganIndex}
-                    className="text-xs font-bold text-muted-foreground tracking-wide"
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -10 }}
-                    transition={{ duration: 0.4 }}
-                  >
-                    {slogans[sloganIndex]}
-                  </motion.span>
-                </AnimatePresence>
-                <span className="w-1.5 h-1.5 rounded-full bg-primary" />
-              </motion.div>
 
               <div className="flex flex-col space-y-2">
                 {navigation.map((item, index) => (

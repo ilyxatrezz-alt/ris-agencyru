@@ -221,31 +221,70 @@ const Hero = () => {
               transition={{ duration: 0.6, delay: 0.4 }}
             >
               <span>Создаём </span>
-              {["Сайты", "Рекламу", "SMM"].map((word, i) => (
-                <motion.span
-                  key={word}
-                  className="inline-block text-primary font-black"
-                  initial={{ opacity: 0, scale: 0.5, filter: "blur(12px)" }}
-                  animate={{ 
-                    opacity: 1, scale: 1, filter: "blur(0px)",
-                    textShadow: [
-                      "0 0 0px hsl(9 96% 53% / 0)",
-                      "0 0 24px hsl(9 96% 53% / 0.6)",
-                      "0 0 0px hsl(9 96% 53% / 0)",
-                    ],
-                  }}
-                  transition={{ 
-                    opacity: { duration: 0.5, delay: 0.7 + i * 0.25 },
-                    scale: { duration: 0.5, delay: 0.7 + i * 0.25 },
-                    filter: { duration: 0.5, delay: 0.7 + i * 0.25 },
-                    textShadow: { duration: 2.5, repeat: Infinity, delay: i * 0.3 },
-                  }}
-                >
-                  {word}
-                  <span className="text-zinc-400 font-normal">{i < 2 ? ", " : " "}</span>
-                </motion.span>
-              ))}
+              <motion.span
+                className="inline-block text-primary font-black"
+                initial={{ opacity: 0, scale: 0.5, filter: "blur(12px)" }}
+                animate={{ 
+                  opacity: 1, scale: 1, filter: "blur(0px)",
+                  textShadow: [
+                    "0 0 0px hsl(9 96% 53% / 0)",
+                    "0 0 24px hsl(9 96% 53% / 0.6)",
+                    "0 0 0px hsl(9 96% 53% / 0)",
+                  ],
+                }}
+                transition={{ 
+                  opacity: { duration: 0.5, delay: 0.7 },
+                  scale: { duration: 0.5, delay: 0.7 },
+                  filter: { duration: 0.5, delay: 0.7 },
+                  textShadow: { duration: 2.5, repeat: Infinity },
+                }}
+              >
+                Сайты
+                <span className="text-zinc-400 font-normal">, </span>
+              </motion.span>
               <span>запускаем </span>
+              <motion.span
+                className="inline-block text-primary font-black"
+                initial={{ opacity: 0, scale: 0.5, filter: "blur(12px)" }}
+                animate={{ 
+                  opacity: 1, scale: 1, filter: "blur(0px)",
+                  textShadow: [
+                    "0 0 0px hsl(9 96% 53% / 0)",
+                    "0 0 24px hsl(9 96% 53% / 0.6)",
+                    "0 0 0px hsl(9 96% 53% / 0)",
+                  ],
+                }}
+                transition={{ 
+                  opacity: { duration: 0.5, delay: 0.95 },
+                  scale: { duration: 0.5, delay: 0.95 },
+                  filter: { duration: 0.5, delay: 0.95 },
+                  textShadow: { duration: 2.5, repeat: Infinity, delay: 0.3 },
+                }}
+              >
+                Рекламу
+                <span className="text-zinc-400 font-normal">, </span>
+              </motion.span>
+              <motion.span
+                className="inline-block text-primary font-black"
+                initial={{ opacity: 0, scale: 0.5, filter: "blur(12px)" }}
+                animate={{ 
+                  opacity: 1, scale: 1, filter: "blur(0px)",
+                  textShadow: [
+                    "0 0 0px hsl(9 96% 53% / 0)",
+                    "0 0 24px hsl(9 96% 53% / 0.6)",
+                    "0 0 0px hsl(9 96% 53% / 0)",
+                  ],
+                }}
+                transition={{ 
+                  opacity: { duration: 0.5, delay: 1.2 },
+                  scale: { duration: 0.5, delay: 1.2 },
+                  filter: { duration: 0.5, delay: 1.2 },
+                  textShadow: { duration: 2.5, repeat: Infinity, delay: 0.6 },
+                }}
+              >
+                SMM
+              </motion.span>
+              <span> </span>
               <motion.span
                 className="inline-block text-white font-bold"
                 initial={{ opacity: 0 }}
