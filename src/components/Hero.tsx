@@ -215,45 +215,54 @@ const Hero = () => {
 
             {/* Subtitle */}
             <motion.div 
-              className="text-lg sm:text-xl md:text-2xl text-zinc-400 max-w-3xl mx-auto leading-relaxed"
+              className="text-base sm:text-xl md:text-2xl text-zinc-400 max-w-3xl mx-auto leading-relaxed"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.4 }}
             >
-              <span>Превращаем любой бизнес в </span>
-              <motion.span 
-                className="text-white font-bold relative inline-block"
-                animate={{ 
-                  textShadow: [
-                    "0 0 0px hsl(9 96% 53% / 0)",
-                    "0 0 20px hsl(9 96% 53% / 0.6)",
-                    "0 0 0px hsl(9 96% 53% / 0)",
-                  ]
-                }}
-                transition={{ duration: 2.5, repeat: Infinity }}
-              >
-                машину по генерации прибыли
-              </motion.span>
-              <span>. </span>
-              <br className="hidden sm:block" />
               <span>Создаём </span>
               {["Сайты", "Рекламу", "SMM"].map((word, i) => (
                 <motion.span
                   key={word}
                   className="inline-block text-primary font-black"
-                  initial={{ opacity: 0, y: 15, filter: "blur(8px)" }}
-                  animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-                  transition={{ duration: 0.5, delay: 0.8 + i * 0.2 }}
+                  initial={{ opacity: 0, scale: 0.5, filter: "blur(12px)" }}
+                  animate={{ 
+                    opacity: 1, scale: 1, filter: "blur(0px)",
+                    textShadow: [
+                      "0 0 0px hsl(9 96% 53% / 0)",
+                      "0 0 24px hsl(9 96% 53% / 0.6)",
+                      "0 0 0px hsl(9 96% 53% / 0)",
+                    ],
+                  }}
+                  transition={{ 
+                    opacity: { duration: 0.5, delay: 0.7 + i * 0.25 },
+                    scale: { duration: 0.5, delay: 0.7 + i * 0.25 },
+                    filter: { duration: 0.5, delay: 0.7 + i * 0.25 },
+                    textShadow: { duration: 2.5, repeat: Infinity, delay: i * 0.3 },
+                  }}
                 >
-                  {word}{i < 2 ? <span className="text-zinc-400 font-normal">, </span> : " "}
+                  {word}
+                  <span className="text-zinc-400 font-normal">{i < 2 ? ", " : " "}</span>
                 </motion.span>
               ))}
+              <span>запускаем </span>
               <motion.span
+                className="inline-block text-white font-bold"
                 initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 1.5, duration: 0.6 }}
+                animate={{ 
+                  opacity: 1,
+                  textShadow: [
+                    "0 0 0px rgba(255,255,255,0)",
+                    "0 0 16px rgba(255,255,255,0.3)",
+                    "0 0 0px rgba(255,255,255,0)",
+                  ],
+                }}
+                transition={{ 
+                  opacity: { delay: 1.5, duration: 0.6 },
+                  textShadow: { duration: 3, repeat: Infinity },
+                }}
               >
-                и всё, что нужно для роста
+                и всё, что необходимо для роста
               </motion.span>
             </motion.div>
           </motion.div>
