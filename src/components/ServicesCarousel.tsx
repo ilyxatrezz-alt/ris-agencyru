@@ -87,7 +87,7 @@ const ServicesCarousel = () => {
   // Auto-rotate with pause on interaction
   const resetAutoPlay = useCallback(() => {
     if (autoPlayRef.current) clearInterval(autoPlayRef.current);
-    autoPlayRef.current = setInterval(next, 4000);
+    autoPlayRef.current = setInterval(next, 5500);
   }, [next]);
 
   useEffect(() => {
@@ -137,7 +137,7 @@ const ServicesCarousel = () => {
     <div className="relative w-full select-none">
       {/* 3D Carousel */}
       <div 
-        className="relative h-[380px] sm:h-[440px] md:h-[500px] flex items-center justify-center overflow-hidden"
+        className="relative h-[420px] sm:h-[500px] md:h-[560px] flex items-center justify-center overflow-hidden"
         style={{ perspective: "1800px" }}
         onTouchStart={handleTouchStart}
         onTouchMove={handleTouchMove}
@@ -151,7 +151,7 @@ const ServicesCarousel = () => {
           if (absOffset > 2) return null;
 
           const isCenter = offset === 0;
-          const xPos = offset * (window.innerWidth < 640 ? 100 : window.innerWidth < 768 ? 160 : 200);
+          const xPos = offset * (window.innerWidth < 640 ? 120 : window.innerWidth < 768 ? 180 : 240);
 
           return (
             <motion.div
@@ -177,7 +177,7 @@ const ServicesCarousel = () => {
               <motion.div
                 className={`
                   relative rounded-2xl sm:rounded-3xl overflow-hidden
-                  w-[200px] sm:w-[260px] md:w-[320px]
+                  w-[230px] sm:w-[300px] md:w-[380px]
                   border ${service.border}
                   backdrop-blur-xl
                   p-6 sm:p-7 md:p-8
@@ -205,18 +205,18 @@ const ServicesCarousel = () => {
 
                 {/* Icon */}
                 <motion.div
-                  className={`relative w-14 h-14 sm:w-16 sm:h-16 md:w-20 md:h-20 rounded-2xl bg-gradient-to-br ${service.iconBg} flex items-center justify-center mb-5 shadow-lg`}
+                  className={`relative w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 rounded-2xl bg-gradient-to-br ${service.iconBg} flex items-center justify-center mb-6 shadow-lg`}
                   animate={isCenter ? { 
                     rotate: [0, 5, -5, 0],
                     scale: [1, 1.05, 1],
                   } : {}}
                   transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
                 >
-                  <Icon className="w-7 h-7 sm:w-8 sm:h-8 md:w-10 md:h-10 text-white" strokeWidth={1.5} />
+                  <Icon className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 text-white" strokeWidth={1.5} />
                 </motion.div>
 
                 {/* Text */}
-                <h3 className="text-white font-black text-lg sm:text-xl md:text-2xl leading-tight mb-2 relative z-10">
+                <h3 className="text-white font-black text-xl sm:text-2xl md:text-3xl leading-tight mb-2 relative z-10">
                   {service.title}
                 </h3>
                 <p className="text-zinc-500 text-xs sm:text-sm md:text-base font-medium uppercase tracking-wider relative z-10">

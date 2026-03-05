@@ -214,14 +214,48 @@ const Hero = () => {
             </motion.div>
 
             {/* Subtitle */}
-            <motion.p 
+            <motion.div 
               className="text-lg sm:text-xl md:text-2xl text-zinc-400 max-w-3xl mx-auto leading-relaxed"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.4 }}
             >
-              Превращаем ваш бизнес в <span className="text-white font-semibold">машину по генерации прибыли</span>. Сайты, реклама, SMM — всё, что нужно для роста.
-            </motion.p>
+              <span>Превращаем любой бизнес в </span>
+              <motion.span 
+                className="text-white font-bold relative inline-block"
+                animate={{ 
+                  textShadow: [
+                    "0 0 0px hsl(9 96% 53% / 0)",
+                    "0 0 20px hsl(9 96% 53% / 0.6)",
+                    "0 0 0px hsl(9 96% 53% / 0)",
+                  ]
+                }}
+                transition={{ duration: 2.5, repeat: Infinity }}
+              >
+                машину по генерации прибыли
+              </motion.span>
+              <span>. </span>
+              <br className="hidden sm:block" />
+              <span>Создаём </span>
+              {["Сайты", "Рекламу", "SMM"].map((word, i) => (
+                <motion.span
+                  key={word}
+                  className="inline-block text-primary font-black"
+                  initial={{ opacity: 0, y: 15, filter: "blur(8px)" }}
+                  animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                  transition={{ duration: 0.5, delay: 0.8 + i * 0.2 }}
+                >
+                  {word}{i < 2 ? <span className="text-zinc-400 font-normal">, </span> : " "}
+                </motion.span>
+              ))}
+              <motion.span
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 1.5, duration: 0.6 }}
+              >
+                и всё, что нужно для роста
+              </motion.span>
+            </motion.div>
           </motion.div>
 
           {/* Services Carousel - Full Width */}
