@@ -92,27 +92,24 @@ const Hero = () => {
         }}
       />
 
-      {/* Floating Particles - brighter with 3D effect */}
-      {[...Array(40)].map((_, i) => (
+      {/* Minimal floating particles */}
+      {[...Array(12)].map((_, i) => (
         <motion.div
           key={i}
           className="absolute rounded-full"
           style={{
-            width: `${Math.random() * 4 + 2}px`,
-            height: `${Math.random() * 4 + 2}px`,
+            width: `${Math.random() * 3 + 1}px`,
+            height: `${Math.random() * 3 + 1}px`,
             left: `${Math.random() * 100}%`,
             top: `${Math.random() * 100}%`,
-            background: i % 3 === 0 ? 'hsl(9 96% 53% / 0.8)' : 'rgba(255,255,255,0.4)',
-            boxShadow: i % 3 === 0 ? '0 0 10px hsl(9 96% 53% / 0.5)' : 'none',
+            background: i % 3 === 0 ? 'hsl(9 96% 53% / 0.6)' : 'rgba(255,255,255,0.2)',
           }}
           animate={{
-            y: [0, -60, 0],
-            x: [0, Math.random() * 20 - 10, 0],
-            opacity: [0.2, 1, 0.2],
-            scale: [1, 1.8, 1],
+            y: [0, -40, 0],
+            opacity: [0.1, 0.6, 0.1],
           }}
           transition={{
-            duration: 4 + Math.random() * 4,
+            duration: 6 + Math.random() * 4,
             repeat: Infinity,
             delay: Math.random() * 4,
           }}
