@@ -199,8 +199,8 @@ const Header = () => {
         </div>
       </div>
 
-      {/* Bottom spacer so content isn't hidden behind tab bar on mobile */}
-      <div className="md:hidden h-16" style={{ paddingBottom: 'env(safe-area-inset-bottom)' }} />
+    </>
+  );
     </>
   );
 };
