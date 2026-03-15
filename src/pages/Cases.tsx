@@ -23,7 +23,7 @@ const Cases = () => {
       slug: c.slug,
       title: c.title,
       description: c.description,
-      image: c.image_url || fallbackImages[c.slug] || caseDentistry,
+      image: c.image_url || fallbackImages[c.slug] || "/images/case-category-medicine.jpg",
       stats: {
         leads: c.stats_leads || "—",
         cpl: c.stats_cpl || "—",
