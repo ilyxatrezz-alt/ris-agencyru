@@ -173,7 +173,7 @@ const Header = () => {
                 >
                   {isActive && (
                     <motion.div
-                      className="absolute top-0 left-1/2 -translate-x-1/2 w-12 h-[3px] rounded-b-full bg-primary shadow-[0_2px_12px_hsl(var(--primary)/0.5)]"
+                      className="absolute top-0 inset-x-0 mx-auto w-12 h-[3px] rounded-b-full bg-primary shadow-[0_2px_12px_hsl(var(--primary)/0.5)]"
                       layoutId="activeTab"
                       transition={{ type: "spring", stiffness: 400, damping: 30 }}
                     />
