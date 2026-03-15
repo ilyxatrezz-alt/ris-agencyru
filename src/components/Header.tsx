@@ -25,6 +25,14 @@ const navigation = [
   { name: "Контакты", href: "/contacts", icon: Phone },
 ];
 
+const mobileNav = [
+  { name: "Главная", href: "/", icon: Home },
+  { name: "Услуги", href: "/services", icon: Briefcase },
+  { name: "Сайты", href: "/web-development", icon: Globe, center: true },
+  { name: "Кейсы", href: "/cases", icon: FolderOpen },
+  { name: "Контакты", href: "/contacts", icon: Phone },
+];
+
 const Header = () => {
   const [sloganIndex, setSloganIndex] = useState(0);
   const location = useLocation();
