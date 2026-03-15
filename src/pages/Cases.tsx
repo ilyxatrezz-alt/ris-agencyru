@@ -112,7 +112,7 @@ const Cases = () => {
         </section>
 
         {/* Cases Grid */}
-        <section className="py-20 md:py-28">
+        <section className="py-12 md:py-28">
           <div className="container mx-auto px-4">
             {isLoading ? (
               <div className="flex items-center justify-center py-16">
