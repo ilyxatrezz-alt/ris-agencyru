@@ -180,27 +180,28 @@ const Header = () => {
                   <Link
                     key={item.name}
                     to={item.href}
-                    className="flex flex-col items-center justify-end flex-1 relative py-2"
+                    className="flex flex-col items-center flex-1 relative py-2"
                   >
+                    {/* FAB circle positioned above the bar */}
                     <motion.div
                       whileTap={{ scale: 0.9 }}
-                      className="flex flex-col items-center gap-1.5"
-                    >
-                      <div className={cn(
-                        "flex items-center justify-center w-12 h-12 -mt-8 rounded-full shadow-lg transition-all duration-200 ring-4 ring-background",
+                      className={cn(
+                        "absolute -top-5 flex items-center justify-center w-12 h-12 rounded-full shadow-lg ring-4 ring-background",
                         isActive
                           ? "gradient-primary shadow-cta"
                           : "bg-primary/90 shadow-cta"
-                      )}>
-                        <Icon className="h-5 w-5 text-primary-foreground" strokeWidth={2} />
-                      </div>
-                      <span className={cn(
-                        "text-[11px] leading-none tracking-wide",
-                        isActive ? "font-extrabold text-primary" : "font-semibold text-muted-foreground"
-                      )}>
-                        {item.name}
-                      </span>
+                      )}
+                    >
+                      <Icon className="h-5 w-5 text-primary-foreground" strokeWidth={2} />
                     </motion.div>
+                    {/* Spacer to push label down to same level as other items */}
+                    <div className="w-10 h-10" />
+                    <span className={cn(
+                      "text-[11px] leading-none tracking-wide mt-1.5",
+                      isActive ? "font-extrabold text-primary" : "font-semibold text-muted-foreground"
+                    )}>
+                      {item.name}
+                    </span>
                   </Link>
                 );
               }
