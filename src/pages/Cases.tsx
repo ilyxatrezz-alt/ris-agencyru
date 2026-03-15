@@ -7,19 +7,15 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight, TrendingUp, Zap, Target, Award, Loader2 } from "lucide-react";
 import { motion } from "framer-motion";
 import { useCaseCategories } from "@/hooks/useCases";
-import caseDentistry from "@/assets/case-dentistry.jpg";
-import caseConstruction from "@/assets/case-construction.jpg";
-import caseRestaurant from "@/assets/case-restaurant.jpg";
+const fallbackImages: Record<string, string> = {
+    "medicine-beauty": "/images/case-category-medicine.jpg",
+    construction: "/images/case-category-construction.jpg",
+    horeca: "/images/case-category-horeca.jpg",
+    lawyers: "/images/case-category-lawyers.jpg",
+  };
 
 const Cases = () => {
   const { data: categories = [], isLoading } = useCaseCategories();
-
-  const fallbackImages: Record<string, string> = {
-    "medicine-beauty": caseDentistry,
-    construction: caseConstruction,
-    horeca: caseRestaurant,
-    lawyers: caseDentistry,
-  };
 
   const caseCategories = categories
     .filter((c) => c.is_active !== false)
