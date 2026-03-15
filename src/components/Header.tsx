@@ -160,9 +160,8 @@ const Header = () => {
 
       {/* Mobile Bottom Tab Bar */}
       <div className="md:hidden fixed bottom-0 left-0 right-0 z-50">
-        {/* Frosted glass bar */}
-        <div className="bg-background/90 backdrop-blur-xl border-t border-border/50 px-2 pb-[env(safe-area-inset-bottom)]">
-          <nav className="flex items-stretch justify-around h-16">
+        <div className="bg-background/95 backdrop-blur-2xl border-t-2 border-primary/20 px-3 pb-[env(safe-area-inset-bottom)] shadow-[0_-4px_30px_-4px_hsl(0_0%_0%/0.15)]">
+          <nav className="flex items-stretch justify-around h-20">
             {navigation.map((item) => {
               const Icon = item.icon;
               const isActive = location.pathname === item.href;
@@ -170,25 +169,35 @@ const Header = () => {
                 <Link
                   key={item.name}
                   to={item.href}
-                  className="flex flex-col items-center justify-center flex-1 relative"
+                  className="flex flex-col items-center justify-center flex-1 relative py-2"
                 >
-                  {/* Active indicator dot */}
                   {isActive && (
                     <motion.div
-                      className="absolute -top-px left-1/2 -translate-x-1/2 w-8 h-[3px] rounded-b-full bg-primary"
+                      className="absolute top-0 left-1/2 -translate-x-1/2 w-12 h-[3px] rounded-b-full bg-primary shadow-[0_2px_12px_hsl(var(--primary)/0.5)]"
                       layoutId="activeTab"
                       transition={{ type: "spring", stiffness: 400, damping: 30 }}
                     />
                   )}
                   <motion.div
-                    animate={isActive ? { scale: 1 } : { scale: 1 }}
+                    whileTap={{ scale: 0.9 }}
                     className={cn(
-                      "flex flex-col items-center gap-0.5 transition-colors",
+                      "flex flex-col items-center gap-1.5 transition-all duration-200",
                       isActive ? "text-primary" : "text-muted-foreground"
                     )}
                   >
-                    <Icon className={cn("h-5 w-5", isActive && "drop-shadow-[0_0_8px_hsl(var(--primary)/0.5)]")} strokeWidth={isActive ? 2.5 : 1.5} />
-                    <span className={cn("text-[10px] leading-tight", isActive ? "font-bold" : "font-medium")}>
+                    <div className={cn(
+                      "flex items-center justify-center w-10 h-10 rounded-2xl transition-all duration-200",
+                      isActive ? "bg-primary/10" : ""
+                    )}>
+                      <Icon 
+                        className={cn("h-6 w-6", isActive && "drop-shadow-[0_0_10px_hsl(var(--primary)/0.6)]")} 
+                        strokeWidth={isActive ? 2.5 : 1.8} 
+                      />
+                    </div>
+                    <span className={cn(
+                      "text-[11px] leading-none tracking-wide",
+                      isActive ? "font-extrabold" : "font-semibold"
+                    )}>
                       {item.name}
                     </span>
                   </motion.div>
