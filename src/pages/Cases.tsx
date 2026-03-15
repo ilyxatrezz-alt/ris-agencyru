@@ -179,7 +179,7 @@ const Cases = () => {
         </section>
 
         {/* Stats Banner */}
-        <section className="py-24 relative overflow-hidden">
+        <section className="py-12 md:py-24 relative overflow-hidden">
           <div className="absolute inset-0 bg-gradient-primary" />
           <motion.div
             className="absolute inset-0 opacity-10"
