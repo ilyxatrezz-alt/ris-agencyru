@@ -60,8 +60,8 @@ const ComparisonBlock = () => {
 
   return (
     <section className="py-24 relative overflow-hidden">
-      {/* Subtle grid */}
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,hsl(var(--border)/0.15)_1px,transparent_1px),linear-gradient(to_bottom,hsl(var(--border)/0.15)_1px,transparent_1px)] bg-[size:60px_60px] pointer-events-none" />
+      {/* Background */}
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,hsl(var(--border)/0.3)_1px,transparent_1px),linear-gradient(to_bottom,hsl(var(--border)/0.3)_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none" />
 
       <div className="container mx-auto px-4 relative z-10">
         <motion.div

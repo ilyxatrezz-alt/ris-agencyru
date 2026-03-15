@@ -21,7 +21,7 @@ const Footer = () => {
   const legalOgrnip = getSetting(settings, "legal_ogrnip", "314169024600232");
 
   return (
-    <footer className="bg-[hsl(0_0%_2.5%)] text-accent-foreground border-t border-border/20 noise">
+    <footer className="bg-accent text-accent-foreground border-t border-border/10 noise">
       <div className="container mx-auto px-4 py-16">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
           {/* Logo and Description */}

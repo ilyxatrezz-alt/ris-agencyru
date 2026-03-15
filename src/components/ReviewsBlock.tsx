@@ -35,7 +35,7 @@ const ReviewsBlock = () => {
   })) || [];
 
   return (
-    <section className="py-20 relative overflow-hidden">
+    <section className="py-20 bg-secondary/30 relative overflow-hidden">
       {/* Decorative Elements */}
       <motion.div
         className="absolute top-20 right-10 w-64 h-64 bg-primary/5 rounded-full blur-3xl pointer-events-none"
