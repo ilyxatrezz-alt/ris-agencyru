@@ -1,9 +1,11 @@
 import { Check, X, Users, TrendingUp, BarChart, Clock, Shield, Headphones } from "lucide-react";
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { useRef } from "react";
 import { useSiteSettingsMap, getSetting } from "@/hooks/useSiteSettings";
 
 const ComparisonBlock = () => {
   const { settings } = useSiteSettingsMap();
+  const sectionRef = useRef<HTMLDivElement>(null);
 
   const badge = getSetting(settings, "home_comparison_badge", "Сравнение подходов");
   const title = getSetting(settings, "home_comparison_title", "Агентство РИС vs Фрилансер");
@@ -59,11 +61,9 @@ const ComparisonBlock = () => {
   ];
 
   return (
-    <section className="py-24 relative overflow-hidden">
-      {/* Subtle grid */}
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,hsl(var(--border)/0.15)_1px,transparent_1px),linear-gradient(to_bottom,hsl(var(--border)/0.15)_1px,transparent_1px)] bg-[size:60px_60px] pointer-events-none" />
-
+    <section ref={sectionRef} className="py-24 relative overflow-hidden">
       <div className="container mx-auto px-4 relative z-10">
+        {/* Header */}
         <motion.div
           className="text-center max-w-3xl mx-auto mb-16"
           initial={{ opacity: 0, y: 30 }}
@@ -81,139 +81,90 @@ const ComparisonBlock = () => {
           <p className="text-lg text-muted-foreground">{subtitle}</p>
         </motion.div>
 
-        <div className="space-y-6">
-          {comparisons.map((item, index) => {
-            const Icon = item.icon;
-            const isEven = index % 2 === 0;
+        {/* Sticky left label + scrolling comparisons */}
+        <div className="grid lg:grid-cols-[280px_1fr] gap-8 lg:gap-12">
+          {/* Sticky side label — desktop only */}
+          <div className="hidden lg:block">
+            <div className="sticky top-32 space-y-6">
+              <div className="space-y-4">
+                <div className="flex items-center gap-3 p-4 rounded-2xl bg-emerald-50 border border-emerald-200">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-500">
+                    <Check className="h-5 w-5 text-white" />
+                  </div>
+                  <div>
+                    <p className="font-bold text-emerald-700 text-sm">РИС (Агентство)</p>
+                    <p className="text-xs text-emerald-600">Проверенный результат</p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-3 p-4 rounded-2xl bg-red-50 border border-red-200">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-red-500">
+                    <X className="h-5 w-5 text-white" />
+                  </div>
+                  <div>
+                    <p className="font-bold text-red-700 text-sm">Фрилансер</p>
+                    <p className="text-xs text-red-600">Непредсказуемые риски</p>
+                  </div>
+                </div>
+              </div>
+              <p className="text-sm text-muted-foreground leading-relaxed">
+                Листайте вниз, чтобы увидеть разницу по каждому критерию
+              </p>
+            </div>
+          </div>
 
-            return (
-              <motion.div
-                key={index}
-                className="grid md:grid-cols-2 gap-4"
-                initial={{ opacity: 0, x: isEven ? -50 : 50 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{
-                  duration: 0.6,
-                  delay: index * 0.08,
-                  type: "spring",
-                  stiffness: 100,
-                }}
-              >
-                {/* Agency Card - Green */}
+          {/* Scrolling comparison cards */}
+          <div className="space-y-4">
+            {comparisons.map((item, index) => {
+              const Icon = item.icon;
+              return (
                 <motion.div
-                  className="relative flex items-start gap-4 p-6 rounded-2xl bg-gradient-to-br from-emerald-500/10 via-emerald-500/5 to-green-500/10 border-2 border-emerald-500/30 overflow-hidden group cursor-pointer"
-                  whileHover={{
-                    scale: 1.02,
-                    borderColor: "rgb(16, 185, 129)",
-                  }}
-                  whileTap={{ scale: 0.98 }}
-                  transition={{ type: "spring", stiffness: 400, damping: 17 }}
+                  key={index}
+                  className="space-y-3"
+                  initial={{ opacity: 0, y: 40 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-50px" }}
+                  transition={{ duration: 0.5, delay: 0.05 }}
                 >
-                  {/* Animated glow on hover */}
-                  <motion.div className="absolute inset-0 bg-gradient-to-r from-emerald-500/0 via-emerald-500/20 to-emerald-500/0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
+                  {/* Category title */}
+                  <div className="flex items-center gap-2 px-1">
+                    <Icon className="h-4 w-4 text-muted-foreground" />
+                    <span className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">{item.title}</span>
+                  </div>
 
-                  {/* Floating particles */}
-                  <motion.div
-                    className="absolute top-2 right-2 w-2 h-2 rounded-full bg-emerald-400/50"
-                    animate={{
-                      y: [0, -10, 0],
-                      opacity: [0.3, 0.7, 0.3],
-                      scale: [1, 1.2, 1],
-                    }}
-                    transition={{ duration: 2, repeat: Infinity, delay: index * 0.2 }}
-                  />
-                  <motion.div
-                    className="absolute bottom-4 right-8 w-1.5 h-1.5 rounded-full bg-green-400/40"
-                    animate={{ y: [0, -8, 0], opacity: [0.2, 0.6, 0.2] }}
-                    transition={{ duration: 2.5, repeat: Infinity, delay: index * 0.3 }}
-                  />
-
-                  {/* Check icon with pulse */}
-                  <motion.div
-                    className="relative flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-emerald-500 to-green-600 shadow-lg shadow-emerald-500/30 flex-shrink-0"
-                    whileHover={{ rotate: [0, -10, 10, 0] }}
-                    transition={{ duration: 0.5 }}
-                  >
-                    <motion.div
-                      className="absolute inset-0 rounded-xl bg-emerald-400/50"
-                      animate={{ scale: [1, 1.4, 1], opacity: [0.5, 0, 0.5] }}
-                      transition={{ duration: 2, repeat: Infinity }}
-                    />
-                    <Check className="h-6 w-6 text-white relative z-10" />
-                  </motion.div>
-
-                  <div className="flex-1 relative z-10">
-                    <div className="flex items-center gap-2 mb-2">
-                      <Icon className="h-5 w-5 text-emerald-500" />
-                      <h3 className="font-bold text-emerald-600 dark:text-emerald-400">РИС (Агентство)</h3>
+                  <div className="grid md:grid-cols-2 gap-3">
+                    {/* Agency */}
+                    <div className="p-5 rounded-2xl bg-emerald-50/80 border border-emerald-200/60 hover:border-emerald-300 transition-colors">
+                      <p className="text-sm text-foreground leading-relaxed lg:hidden">
+                        <span className="font-bold text-emerald-600 text-xs uppercase tracking-wide block mb-1">РИС</span>
+                        {item.agency}
+                      </p>
+                      <p className="text-sm text-foreground leading-relaxed hidden lg:block">{item.agency}</p>
                     </div>
-                    <p className="text-sm text-foreground leading-relaxed">{item.agency}</p>
+
+                    {/* Freelancer */}
+                    <div className="p-5 rounded-2xl bg-red-50/60 border border-red-200/40 hover:border-red-200 transition-colors">
+                      <p className="text-sm text-muted-foreground leading-relaxed lg:hidden">
+                        <span className="font-bold text-red-500 text-xs uppercase tracking-wide block mb-1">Фрилансер</span>
+                        {item.freelancer}
+                      </p>
+                      <p className="text-sm text-muted-foreground leading-relaxed hidden lg:block">{item.freelancer}</p>
+                    </div>
                   </div>
                 </motion.div>
-
-                {/* Freelancer Card - Red */}
-                <motion.div
-                  className="relative flex items-start gap-4 p-6 rounded-2xl bg-gradient-to-br from-red-500/10 via-red-500/5 to-rose-500/10 border-2 border-red-500/30 overflow-hidden group cursor-pointer"
-                  whileHover={{
-                    scale: 1.02,
-                    borderColor: "rgb(239, 68, 68)",
-                  }}
-                  whileTap={{ scale: 0.98 }}
-                  transition={{ type: "spring", stiffness: 400, damping: 17 }}
-                >
-                  {/* Animated warning stripes */}
-                  <motion.div className="absolute inset-0 bg-gradient-to-r from-red-500/0 via-red-500/10 to-red-500/0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
-
-                  {/* Warning flicker */}
-                  <motion.div
-                    className="absolute top-2 right-2 w-2 h-2 rounded-full bg-red-400/50"
-                    animate={{ opacity: [0.3, 0.8, 0.3], scale: [1, 1.3, 1] }}
-                    transition={{ duration: 1.5, repeat: Infinity, delay: index * 0.15 }}
-                  />
-
-                  {/* X icon with shake */}
-                  <motion.div
-                    className="relative flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-red-500 to-rose-600 shadow-lg shadow-red-500/30 flex-shrink-0"
-                    whileHover={{ x: [0, -3, 3, -3, 3, 0] }}
-                    transition={{ duration: 0.4 }}
-                  >
-                    <motion.div
-                      className="absolute inset-0 rounded-xl bg-red-400/30"
-                      animate={{ opacity: [0.3, 0.6, 0.3] }}
-                      transition={{ duration: 1, repeat: Infinity }}
-                    />
-                    <X className="h-6 w-6 text-white relative z-10" />
-                  </motion.div>
-
-                  <div className="flex-1 relative z-10">
-                    <div className="flex items-center gap-2 mb-2">
-                      <Icon className="h-5 w-5 text-red-500" />
-                      <h3 className="font-bold text-red-600 dark:text-red-400">Фрилансер (Риски)</h3>
-                    </div>
-                    <p className="text-sm text-muted-foreground leading-relaxed">{item.freelancer}</p>
-                  </div>
-                </motion.div>
-              </motion.div>
-            );
-          })}
+              );
+            })}
+          </div>
         </div>
 
-        {/* CTA with animated gradient */}
+        {/* CTA */}
         <motion.div
           className="mt-16 text-center"
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.5 }}
+          transition={{ duration: 0.6, delay: 0.2 }}
         >
-          <motion.p
-            className="text-xl font-bold text-foreground mb-2"
-            animate={{ scale: [1, 1.02, 1] }}
-            transition={{ duration: 3, repeat: Infinity }}
-          >
-            {ctaTitle}
-          </motion.p>
+          <p className="text-xl font-bold text-foreground mb-2">{ctaTitle}</p>
           <p className="text-muted-foreground">{ctaSubtitle}</p>
         </motion.div>
       </div>
