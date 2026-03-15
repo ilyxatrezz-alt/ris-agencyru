@@ -126,7 +126,7 @@ const Footer = () => {
           </div>
         </div>
 
-        <div className="mt-16 pt-8 border-t border-accent-foreground/10 flex flex-col md:flex-row justify-between items-center gap-4">
+        <div className="mt-16 pt-8 border-t border-accent-foreground/10 flex flex-col md:flex-row justify-between items-center gap-4 pb-24 md:pb-0">
           <p className="text-sm text-accent-foreground/50">
             © {new Date().getFullYear()} {companyFullName}. Все права защищены.
           </p>
