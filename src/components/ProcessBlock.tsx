@@ -1,97 +1,42 @@
 import { FileText, Search, Lightbulb, Rocket, Settings, FileCheck, ArrowRight } from "lucide-react";
-import { motion, useInView } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
-import TiltCard from "./TiltCard";
 import { useSiteSettingsMap, getSetting } from "@/hooks/useSiteSettings";
 import { useProcessSteps } from "@/hooks/useProcessSteps";
 
-const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
-  FileText,
-  Search,
-  Lightbulb,
-  Rocket,
-  Settings,
-  FileCheck,
-};
+const defaultIcons = [FileText, Search, Lightbulb, Rocket, Settings, FileCheck];
 
 const ProcessBlock = () => {
   const { settings } = useSiteSettingsMap();
   const { data: stepsData } = useProcessSteps();
-
-  const containerRef = useRef(null);
-  const isInView = useInView(containerRef, { once: true, margin: "-100px" });
+  const sectionRef = useRef<HTMLDivElement>(null);
 
   const badge = getSetting(settings, "home_process_badge", "Как мы работаем");
   const titlePrefix = getSetting(settings, "home_process_title_prefix", "От заявки до");
-  const titleHighlight = getSetting(
-    settings,
-    "home_process_title_highlight",
-    "стабильного потока клиентов"
-  );
+  const titleHighlight = getSetting(settings, "home_process_title_highlight", "стабильного потока клиентов");
   const subtitle = getSetting(
     settings,
     "home_process_subtitle",
     "Прозрачный процесс в 6 этапов. Вы всегда знаете, что происходит с вашим проектом."
   );
 
-  const defaultIcons = [FileText, Search, Lightbulb, Rocket, Settings, FileCheck];
-  
   const steps = stepsData?.map((step, index) => ({
     icon: defaultIcons[index % defaultIcons.length],
     title: step.title,
     description: step.description,
-    duration: "",
     number: step.step_number,
   })) || [];
 
   return (
-    <section ref={containerRef} className="py-24 bg-accent text-accent-foreground relative overflow-hidden noise">
-      {/* Background Elements */}
-      <div className="absolute inset-0 gradient-hero" />
-
-      {/* Animated orbs */}
-      <motion.div
-        className="absolute top-0 right-0 w-[600px] h-[600px] rounded-full gradient-red-glow opacity-30"
-        animate={{ scale: [1, 1.2, 1], opacity: [0.2, 0.4, 0.2] }}
-        transition={{ duration: 8, repeat: Infinity }}
-      />
-      <motion.div
-        className="absolute bottom-0 left-0 w-[400px] h-[400px] rounded-full gradient-red-glow opacity-20"
-        animate={{ scale: [1.1, 0.9, 1.1], x: [-20, 20, -20] }}
-        transition={{ duration: 10, repeat: Infinity }}
-      />
-
-      {/* Animated connecting lines */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <svg className="absolute inset-0 w-full h-full opacity-10">
-          <motion.line
-            x1="10%"
-            y1="30%"
-            x2="90%"
-            y2="30%"
-            stroke="hsl(9, 96%, 53%)"
-            strokeWidth="1"
-            strokeDasharray="10 5"
-            initial={{ pathLength: 0 }}
-            animate={isInView ? { pathLength: 1 } : {}}
-            transition={{ duration: 3, delay: 0.5 }}
-          />
-          <motion.line
-            x1="10%"
-            y1="70%"
-            x2="90%"
-            y2="70%"
-            stroke="hsl(9, 96%, 53%)"
-            strokeWidth="1"
-            strokeDasharray="10 5"
-            initial={{ pathLength: 0 }}
-            animate={isInView ? { pathLength: 1 } : {}}
-            transition={{ duration: 3, delay: 1 }}
-          />
-        </svg>
-      </div>
+    <section ref={sectionRef} className="py-24 bg-foreground text-background relative overflow-hidden">
+      {/* Subtle pattern */}
+      <div className="absolute inset-0 opacity-[0.03]" style={{
+        backgroundImage: `linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)`,
+        backgroundSize: '40px 40px',
+      }} />
 
       <div className="container mx-auto px-4 relative z-10">
+        {/* Header */}
         <motion.div
           className="text-center max-w-3xl mx-auto mb-16"
           initial={{ opacity: 0, y: 30 }}
@@ -99,88 +44,47 @@ const ProcessBlock = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          <motion.span
-            className="inline-block px-4 py-2 rounded-full bg-primary/20 text-primary text-sm font-semibold mb-4"
-            animate={{
-              boxShadow: [
-                "0 0 0 0 hsl(9 96% 53% / 0.4)",
-                "0 0 0 15px hsl(9 96% 53% / 0)",
-              ],
-            }}
-            transition={{ duration: 2, repeat: Infinity }}
-          >
+          <span className="inline-block px-4 py-2 rounded-full bg-white/10 text-primary text-sm font-semibold mb-4">
             {badge}
-          </motion.span>
+          </span>
           <h2 className="text-3xl md:text-5xl font-black mb-6">
-            {titlePrefix} <span className="text-gradient-primary">{titleHighlight}</span>
+            {titlePrefix} <span className="text-primary">{titleHighlight}</span>
           </h2>
-          <p className="text-lg text-accent-foreground/70">{subtitle}</p>
+          <p className="text-lg text-background/60">{subtitle}</p>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {/* Sticky number + scrolling steps */}
+        <div className="max-w-4xl mx-auto">
           {steps.map((step, index) => {
             const Icon = step.icon;
             return (
-              <TiltCard key={index}>
-                <motion.div
-                  className="group relative p-8 rounded-2xl glass border border-accent-foreground/10 hover:border-primary/30 transition-all duration-500 overflow-hidden h-full"
-                  initial={{ opacity: 0, y: 50 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
-                >
-                  {/* Large Number with animation */}
-                  <motion.div
-                    className="absolute -top-4 -right-4 text-8xl font-black text-primary/10 group-hover:text-primary/25 transition-colors duration-500"
-                    animate={{ y: [0, -5, 0], scale: [1, 1.02, 1] }}
-                    transition={{ duration: 4, repeat: Infinity, delay: index * 0.2 }}
-                  >
-                    {step.number}
-                  </motion.div>
-
-                  {/* Hover Gradient with animation */}
-                  <motion.div
-                    className="absolute inset-0 bg-gradient-to-br from-primary/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-                    initial={false}
-                    whileHover={{ scale: 1.05 }}
-                  />
-
-                  <div className="relative space-y-4" style={{ transform: "translateZ(50px)" }}>
-                    <motion.div
-                      className="flex h-14 w-14 items-center justify-center rounded-xl gradient-primary shadow-cta group-hover:shadow-glow transition-all duration-300"
-                      whileHover={{ rotate: 360, scale: 1.1 }}
-                      transition={{ duration: 0.6 }}
-                    >
-                      <Icon className="h-7 w-7 text-primary-foreground" />
-                    </motion.div>
-
-                    <div className="flex items-center justify-between">
-                      <h3 className="text-xl font-bold text-accent-foreground group-hover:text-primary transition-colors glow-text">
-                        {step.title}
-                      </h3>
-                      <motion.span
-                        className="text-xs font-semibold px-3 py-1 rounded-full bg-primary/20 text-primary"
-                        whileHover={{ scale: 1.1 }}
-                      >
-                        {step.duration}
-                      </motion.span>
-                    </div>
-
-                    <p className="text-sm text-accent-foreground/70 leading-relaxed">{step.description}</p>
+              <motion.div
+                key={index}
+                className="grid grid-cols-[60px_1fr] md:grid-cols-[80px_1fr] gap-4 md:gap-8 mb-12 last:mb-0"
+                initial={{ opacity: 0, x: -30 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true, margin: "-60px" }}
+                transition={{ duration: 0.5, delay: 0.05 }}
+              >
+                {/* Step number - sticky */}
+                <div className="sticky top-28 self-start">
+                  <div className="w-14 h-14 md:w-16 md:h-16 rounded-2xl bg-primary flex items-center justify-center shadow-lg shadow-primary/30">
+                    <span className="text-xl md:text-2xl font-black text-white">{step.number}</span>
                   </div>
-
-                  {/* Connection Arrow */}
-                  {index < steps.length - 1 && index !== 2 && (
-                    <motion.div
-                      className="hidden lg:block absolute top-1/2 -right-3 transform -translate-y-1/2 z-20"
-                      animate={{ x: [0, 5, 0] }}
-                      transition={{ duration: 1.5, repeat: Infinity }}
-                    >
-                      <ArrowRight className="h-6 w-6 text-primary/50" />
-                    </motion.div>
+                  {index < steps.length - 1 && (
+                    <div className="w-px h-16 bg-gradient-to-b from-primary/50 to-transparent mx-auto mt-3" />
                   )}
-                </motion.div>
-              </TiltCard>
+                </div>
+
+                {/* Step content */}
+                <div className="pb-8 border-b border-white/10 last:border-0">
+                  <div className="flex items-center gap-3 mb-3">
+                    <Icon className="h-5 w-5 text-primary" />
+                    <h3 className="text-xl md:text-2xl font-bold">{step.title}</h3>
+                  </div>
+                  <p className="text-background/60 leading-relaxed">{step.description}</p>
+                </div>
+              </motion.div>
             );
           })}
         </div>

@@ -10,32 +10,32 @@ import CasesSlider from "@/components/CasesSlider";
 import ReviewsBlock from "@/components/ReviewsBlock";
 import Footer from "@/components/Footer";
 import CookieConsent from "@/components/CookieConsent";
-
 import ScrollProgress from "@/components/ScrollProgress";
-import FloatingElements from "@/components/FloatingElements";
-import MouseSpotlight from "@/components/MouseSpotlight";
-import RippleEffect from "@/components/RippleEffect";
 
 const Index = () => {
   return (
     <div className="min-h-screen relative">
-      
       <ScrollProgress />
-      <FloatingElements />
-      <MouseSpotlight />
-      <RippleEffect />
       <Header />
       <main>
-        <Hero />
-        <StatsBlock />
-        <QuickContact />
-        <CasesSlider />
-        <PriceCalculator />
-        <ComparisonBlock />
-        <ProcessBlock />
-        <ReviewsBlock />
-        <QuickContact />
-        <ContactForm />
+        {/* Hero is sticky — content scrolls over it */}
+        <div className="relative">
+          <div className="sticky top-0 z-0">
+            <Hero />
+          </div>
+          {/* This div scrolls over the hero */}
+          <div className="relative z-10 bg-background rounded-t-[2.5rem] shadow-[0_-20px_60px_-15px_rgba(0,0,0,0.15)] -mt-8">
+            <StatsBlock />
+            <QuickContact />
+            <CasesSlider />
+            <PriceCalculator />
+            <ComparisonBlock />
+            <ProcessBlock />
+            <ReviewsBlock />
+            <QuickContact />
+            <ContactForm />
+          </div>
+        </div>
       </main>
       <Footer />
       <CookieConsent />
