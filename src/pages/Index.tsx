@@ -27,13 +27,11 @@ const Index = () => {
       <Header />
       <main>
         <Hero />
-        <QuickContact />
         <StatsBlock />
         <QuickContact />
         <CasesSlider />
         <PriceCalculator />
         <ComparisonBlock />
-        <QuickContact />
         <ProcessBlock />
         <ReviewsBlock />
         <QuickContact />

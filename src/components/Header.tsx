@@ -45,7 +45,7 @@ const Header = () => {
   return (
     <>
       {bannerEnabled && <HolidayBanner text={bannerText} />}
-      <header className="sticky top-0 z-50 w-full border-b border-border/50 bg-background/95 backdrop-blur-xl supports-[backdrop-filter]:bg-background/80 relative overflow-visible pb-4">
+      <header className="sticky top-0 z-50 w-full border-b border-border/30 bg-background/90 backdrop-blur-xl supports-[backdrop-filter]:bg-background/75 relative overflow-visible pb-4">
         {garlandEnabled && <GarlandLights />}
       <div className="container mx-auto px-4">
         <nav className="flex h-20 items-center justify-between">

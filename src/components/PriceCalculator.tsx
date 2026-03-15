@@ -129,7 +129,7 @@ const PriceCalculator = () => {
   const costs = calculateTotal();
 
   return (
-    <section className="py-10 sm:py-12 md:py-16 lg:py-24 bg-gradient-to-br from-primary/5 to-accent/5 w-full overflow-hidden">
+    <section className="py-10 sm:py-12 md:py-16 lg:py-24 bg-secondary/10 w-full overflow-hidden">
       <div className="w-full px-3 sm:px-4 md:px-6 lg:px-8 max-w-7xl mx-auto">
         <div className="space-y-5 sm:space-y-6 md:space-y-8">
           {/* Header */}

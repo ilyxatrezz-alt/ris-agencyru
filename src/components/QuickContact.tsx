@@ -69,7 +69,7 @@ const QuickContact = () => {
   };
 
   return (
-    <section className="py-12 bg-gradient-to-r from-primary/5 via-primary/10 to-primary/5 relative overflow-hidden">
+    <section className="py-12 bg-gradient-to-r from-primary/5 via-primary/8 to-primary/5 relative overflow-hidden border-y border-border/30">
       {/* Animated Background */}
       <motion.div
         className="absolute inset-0 bg-[radial-gradient(ellipse_at_left,hsl(var(--primary)/0.1),transparent_50%)]"
