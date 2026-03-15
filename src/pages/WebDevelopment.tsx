@@ -643,6 +643,97 @@ const WebDevelopment = () => {
           </div>
         </section>
 
+        {/* Portfolio Cases Section */}
+        <section className="py-24 relative overflow-hidden">
+          <div className="container mx-auto px-4">
+            <div className="text-center max-w-3xl mx-auto mb-16">
+              <span className="text-primary font-semibold text-sm uppercase tracking-wider">
+                Наши работы
+              </span>
+              <h2 className="text-3xl md:text-5xl font-black mt-4 mb-6">
+                Сайты, которые мы{" "}
+                <span className="text-gradient-primary">создали</span>
+              </h2>
+              <p className="text-lg text-muted-foreground">
+                Реальные проекты для бизнеса в разных нишах. Нажмите на карточку, чтобы посмотреть подробнее.
+              </p>
+            </div>
+
+            <div className="grid md:grid-cols-3 gap-8 max-w-7xl mx-auto">
+              {portfolioCases.map((caseItem, index) => (
+                <motion.div
+                  key={caseItem.id}
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: index * 0.15 }}
+                  className="group cursor-pointer"
+                  onClick={() => openLightbox(caseItem)}
+                >
+                  <Card className="h-full border-border/50 hover:border-primary/50 transition-all duration-300 hover:shadow-xl overflow-hidden">
+                    <div className="relative aspect-[3/4] overflow-hidden bg-muted">
+                      <img
+                        src={caseItem.images[0]}
+                        alt={caseItem.title}
+                        className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                      <div className="absolute bottom-4 left-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <div className="flex gap-2">
+                          {caseItem.images.slice(0, 4).map((img, i) => (
+                            <div key={i} className="w-12 h-12 rounded-lg overflow-hidden border-2 border-white/50">
+                              <img src={img} alt="" className="w-full h-full object-cover object-top" />
+                            </div>
+                          ))}
+                          {caseItem.images.length > 4 && (
+                            <div className="w-12 h-12 rounded-lg bg-black/50 border-2 border-white/50 flex items-center justify-center text-white text-sm font-bold">
+                              +{caseItem.images.length - 4}
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                      <div className="absolute top-4 left-4">
+                        <span className="px-3 py-1.5 bg-primary text-primary-foreground text-xs font-bold rounded-full">
+                          {caseItem.category}
+                        </span>
+                      </div>
+                    </div>
+                    
+                    <CardContent className="p-6 space-y-3">
+                      <div className="flex items-start justify-between gap-2">
+                        <div>
+                          <h3 className="text-xl font-bold group-hover:text-primary transition-colors">
+                            {caseItem.title}
+                          </h3>
+                          <p className="text-sm text-muted-foreground mt-1">
+                            {caseItem.subtitle}
+                          </p>
+                        </div>
+                        <ExternalLink className="w-5 h-5 text-muted-foreground group-hover:text-primary transition-colors flex-shrink-0 mt-1" />
+                      </div>
+                      <p className="text-sm text-muted-foreground line-clamp-2">
+                        {caseItem.description}
+                      </p>
+                      <a 
+                        href={caseItem.url} 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        onClick={(e) => e.stopPropagation()}
+                        className="inline-flex items-center gap-1 text-primary font-semibold text-sm hover:underline"
+                      >
+                        Посмотреть сайт
+                        <ArrowRight className="w-4 h-4" />
+                      </a>
+                    </CardContent>
+                  </Card>
+                </motion.div>
+              ))}
+            </div>
+
+            <QuickCTA variant="gradient" text="Хотите такой же сайт?" phone="+7 (949) 021-51-51" phoneRaw="+79490215151" telegramUrl="https://t.me/manager_ris" />
+          </div>
+        </section>
+
         {/* Process Section */}
         <section className="py-24">
           <div className="container mx-auto px-4">
@@ -669,12 +760,10 @@ const WebDevelopment = () => {
                   viewport={{ once: true }}
                   transition={{ delay: index * 0.1 }}
                 >
-                  {/* Timeline line */}
                   {index !== process.length - 1 && (
                     <div className="absolute left-[27px] top-14 w-0.5 h-[calc(100%-3.5rem)] bg-gradient-to-b from-primary to-primary/20" />
                   )}
                   
-                  {/* Step number */}
                   <div className="flex-shrink-0 w-14 h-14 rounded-full bg-primary flex items-center justify-center text-primary-foreground font-black text-lg shadow-cta">
                     {step.step}
                   </div>
@@ -692,7 +781,6 @@ const WebDevelopment = () => {
               ))}
             </div>
 
-            {/* Quick CTA */}
             <QuickCTA variant="gradient" text="Готовы начать проект?" phone="+7 (949) 021-51-51" phoneRaw="+79490215151" telegramUrl="https://t.me/manager_ris" />
           </div>
         </section>
@@ -739,105 +827,10 @@ const WebDevelopment = () => {
               ))}
             </div>
 
-            {/* Quick CTA */}
             <QuickCTA variant="compact" text="Хотите такой же результат?" phone="+7 (949) 021-51-51" phoneRaw="+79490215151" telegramUrl="https://t.me/manager_ris" />
           </div>
         </section>
 
-        {/* Portfolio Cases Section */}
-        <section className="py-24 relative overflow-hidden">
-          <div className="container mx-auto px-4">
-            <div className="text-center max-w-3xl mx-auto mb-16">
-              <span className="text-primary font-semibold text-sm uppercase tracking-wider">
-                Наши работы
-              </span>
-              <h2 className="text-3xl md:text-5xl font-black mt-4 mb-6">
-                Сайты, которые мы{" "}
-                <span className="text-gradient-primary">создали</span>
-              </h2>
-              <p className="text-lg text-muted-foreground">
-                Реальные проекты для бизнеса в разных нишах. Нажмите на карточку, чтобы посмотреть подробнее.
-              </p>
-            </div>
-
-            <div className="grid md:grid-cols-3 gap-8 max-w-7xl mx-auto">
-              {portfolioCases.map((caseItem, index) => (
-                <motion.div
-                  key={caseItem.id}
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: index * 0.15 }}
-                  className="group cursor-pointer"
-                  onClick={() => openLightbox(caseItem)}
-                >
-                  <Card className="h-full border-border/50 hover:border-primary/50 transition-all duration-300 hover:shadow-xl overflow-hidden">
-                    {/* Image gallery preview */}
-                    <div className="relative aspect-[3/4] overflow-hidden bg-muted">
-                      <img
-                        src={caseItem.images[0]}
-                        alt={caseItem.title}
-                        className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500"
-                      />
-                      {/* Overlay with image count */}
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                      <div className="absolute bottom-4 left-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                        <div className="flex gap-2">
-                          {caseItem.images.slice(0, 4).map((img, i) => (
-                            <div key={i} className="w-12 h-12 rounded-lg overflow-hidden border-2 border-white/50">
-                              <img src={img} alt="" className="w-full h-full object-cover object-top" />
-                            </div>
-                          ))}
-                          {caseItem.images.length > 4 && (
-                            <div className="w-12 h-12 rounded-lg bg-black/50 border-2 border-white/50 flex items-center justify-center text-white text-sm font-bold">
-                              +{caseItem.images.length - 4}
-                            </div>
-                          )}
-                        </div>
-                      </div>
-                      {/* Category badge */}
-                      <div className="absolute top-4 left-4">
-                        <span className="px-3 py-1.5 bg-primary text-primary-foreground text-xs font-bold rounded-full">
-                          {caseItem.category}
-                        </span>
-                      </div>
-                    </div>
-                    
-                    <CardContent className="p-6 space-y-3">
-                      <div className="flex items-start justify-between gap-2">
-                        <div>
-                          <h3 className="text-xl font-bold group-hover:text-primary transition-colors">
-                            {caseItem.title}
-                          </h3>
-                          <p className="text-sm text-muted-foreground mt-1">
-                            {caseItem.subtitle}
-                          </p>
-                        </div>
-                        <ExternalLink className="w-5 h-5 text-muted-foreground group-hover:text-primary transition-colors flex-shrink-0 mt-1" />
-                      </div>
-                      <p className="text-sm text-muted-foreground line-clamp-2">
-                        {caseItem.description}
-                      </p>
-                      <a 
-                        href={caseItem.url} 
-                        target="_blank" 
-                        rel="noopener noreferrer"
-                        onClick={(e) => e.stopPropagation()}
-                        className="inline-flex items-center gap-1 text-primary font-semibold text-sm hover:underline"
-                      >
-                        Посмотреть сайт
-                        <ArrowRight className="w-4 h-4" />
-                      </a>
-                    </CardContent>
-                  </Card>
-                </motion.div>
-              ))}
-            </div>
-
-            {/* Quick CTA */}
-            <QuickCTA variant="gradient" text="Хотите такой же сайт?" phone="+7 (949) 021-51-51" phoneRaw="+79490215151" telegramUrl="https://t.me/manager_ris" />
-          </div>
-        </section>
 
         {/* Lightbox Modal */}
         <AnimatePresence>
