@@ -14,7 +14,7 @@ import ScrollProgress from "@/components/ScrollProgress";
 
 const Index = () => {
   return (
-    <div className="min-h-screen relative">
+    <div className="min-h-screen relative pb-16 md:pb-0">
       <ScrollProgress />
       <Header />
       <main>
