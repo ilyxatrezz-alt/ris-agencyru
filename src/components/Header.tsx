@@ -180,22 +180,22 @@ const Header = () => {
                   <Link
                     key={item.name}
                     to={item.href}
-                    className="flex flex-col items-center justify-center flex-1 relative -mt-5"
+                    className="flex flex-col items-center justify-center flex-1 relative -mt-6"
                   >
                     <motion.div
                       whileTap={{ scale: 0.9 }}
                       className="flex flex-col items-center gap-1"
                     >
                       <div className={cn(
-                        "flex items-center justify-center w-14 h-14 rounded-full shadow-lg transition-all duration-200",
+                        "flex items-center justify-center w-12 h-12 rounded-full shadow-lg transition-all duration-200",
                         isActive
                           ? "gradient-primary shadow-cta"
                           : "bg-primary/90 shadow-cta"
                       )}>
-                        <Icon className="h-6 w-6 text-primary-foreground" strokeWidth={2} />
+                        <Icon className="h-5 w-5 text-primary-foreground" strokeWidth={2} />
                       </div>
                       <span className={cn(
-                        "text-[10px] leading-none tracking-wide mt-0.5",
+                        "text-[10px] leading-none tracking-wide",
                         isActive ? "font-extrabold text-primary" : "font-semibold text-muted-foreground"
                       )}>
                         {item.name}
