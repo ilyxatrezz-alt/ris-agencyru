@@ -337,31 +337,27 @@ const Hero = () => {
         </div>
       </motion.div>
 
-      {/* Scroll Indicator - fixed at center bottom */}
+      {/* Scroll Indicator */}
       <motion.div 
-        className="absolute bottom-8 inset-x-0 flex justify-center z-20"
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 2, duration: 0.5 }}
+        className="absolute bottom-12 inset-x-0 flex justify-center z-20"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 2.5, duration: 0.8 }}
       >
         <motion.div 
-          className="flex flex-col items-center gap-2 text-zinc-500"
-          animate={{ y: [0, 10, 0] }}
-          transition={{ duration: 2, repeat: Infinity }}
+          className="flex flex-col items-center gap-2 text-zinc-400"
+          animate={{ y: [0, 8, 0] }}
+          transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
         >
-          <span className="text-xs uppercase tracking-widest">Скролл</span>
-          <div className="w-6 h-10 rounded-full border-2 border-zinc-700 flex justify-center p-2">
+          <div className="w-5 h-8 rounded-full border border-zinc-600 flex justify-center pt-1.5">
             <motion.div 
-              className="w-1 h-2 rounded-full bg-primary"
-              animate={{ y: [0, 12, 0] }}
+              className="w-1 h-1.5 rounded-full bg-primary"
+              animate={{ y: [0, 10, 0], opacity: [1, 0.3, 1] }}
               transition={{ duration: 2, repeat: Infinity }}
             />
           </div>
         </motion.div>
       </motion.div>
-
-      {/* Bottom Gradient */}
-      <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-background via-background/50 to-transparent pointer-events-none" />
     </section>
   );
 };
