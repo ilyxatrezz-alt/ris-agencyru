@@ -65,7 +65,7 @@ const Cases = () => {
       <Header />
       <main>
         {/* Hero Section */}
-        <section className="relative py-24 md:py-32 overflow-hidden">
+        <section className="relative py-16 md:py-32 overflow-hidden bg-secondary/50">
           {/* Animated Background */}
           <div className="absolute inset-0 bg-gradient-hero" />
           <motion.div
