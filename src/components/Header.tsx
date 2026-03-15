@@ -169,7 +169,7 @@ const Header = () => {
       {/* Mobile Bottom Tab Bar */}
       <div className="md:hidden fixed bottom-0 left-0 right-0 z-50">
         <div className="bg-background/95 backdrop-blur-2xl border-t-2 border-primary/20 px-3 pb-[env(safe-area-inset-bottom)] shadow-[0_-4px_30px_-4px_hsl(0_0%_0%/0.15)]">
-          <nav className="flex items-end justify-around h-20 relative">
+          <nav className="flex items-center justify-around h-20 relative">
             {mobileNav.map((item) => {
               const Icon = item.icon;
               const isActive = location.pathname === item.href;
