@@ -1,361 +1,134 @@
-import { ArrowRight, Play } from "lucide-react";
+import { ArrowRight, Play, Star } from "lucide-react";
 import { Button } from "./ui/button";
 import { Link } from "react-router-dom";
-import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
-import { useRef, useState, useEffect } from "react";
-import GlitchText from "./GlitchText";
-import TextReveal from "./TextReveal";
-import MagneticButton from "./MagneticButton";
-import MorphingShape from "./MorphingShape";
+import { motion } from "framer-motion";
+import { useRef } from "react";
 import ServicesCarousel from "./ServicesCarousel";
 import { useSiteSettingsMap, getSetting } from "@/hooks/useSiteSettings";
-
-const rotatingPhrases = [
-  "Продаём",
-  "Масштабируем",
-  "Приносим прибыль",
-  "Повышаем узнаваемость",
-];
 
 const Hero = () => {
   const containerRef = useRef(null);
   const { settings } = useSiteSettingsMap();
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start start", "end start"],
-  });
-  
-  const heroY = useTransform(scrollYProgress, [0, 1], [0, 150]);
-  const heroOpacity = useTransform(scrollYProgress, [0, 0.7, 1], [1, 1, 0]);
-  const heroScale = useTransform(scrollYProgress, [0, 0.8, 1], [1, 1, 0.95]);
-
-  const [phraseIndex, setPhraseIndex] = useState(0);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setPhraseIndex((prev) => (prev + 1) % rotatingPhrases.length);
-    }, 2500);
-    return () => clearInterval(interval);
-  }, []);
 
   const heroCtaPrimary = getSetting(settings, "hero_cta_primary", "Получить аудит бесплатно");
   const heroCtaSecondary = getSetting(settings, "hero_cta_secondary", "Смотреть кейсы");
 
   return (
-    <section ref={containerRef} className="relative min-h-screen flex items-center justify-center overflow-hidden bg-zinc-950">
-      {/* Morphing background shape */}
-      <MorphingShape />
+    <section ref={containerRef} className="relative min-h-screen flex flex-col justify-center overflow-hidden bg-zinc-950">
+      {/* Simple gradient background */}
+      <div className="absolute inset-0 bg-gradient-to-b from-zinc-950 via-zinc-900 to-zinc-950" />
       
-      {/* Deep Black Background with noise texture */}
-      <div className="absolute inset-0 bg-gradient-to-br from-zinc-950 via-zinc-900 to-zinc-950" />
-      
-      {/* Noise overlay for texture */}
+      {/* Single accent glow — subtle */}
       <div 
-        className="absolute inset-0 opacity-[0.03]" 
-        style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")`,
-        }}
-      />
-      
-      {/* Animated Gradient Orbs - more vibrant */}
-      <motion.div
-        className="absolute top-[-20%] left-[-10%] w-[900px] h-[900px] rounded-full"
-        style={{
-          background: "radial-gradient(ellipse at center, hsl(9 96% 53% / 0.25) 0%, hsl(9 96% 53% / 0.1) 30%, transparent 60%)",
-        }}
-        animate={{
-          x: [-50, 100, -50],
-          y: [-30, 80, -30],
-          scale: [1, 1.2, 1],
-        }}
-        transition={{ duration: 18, repeat: Infinity, ease: "easeInOut" }}
-      />
-      
-      <motion.div
-        className="absolute bottom-[-30%] right-[-15%] w-[700px] h-[700px] rounded-full"
-        style={{
-          background: "radial-gradient(ellipse at center, hsl(9 96% 53% / 0.2) 0%, hsl(20 90% 50% / 0.1) 40%, transparent 60%)",
-        }}
-        animate={{
-          x: [80, -80, 80],
-          y: [40, -60, 40],
-          scale: [1.1, 0.9, 1.1],
-        }}
-        transition={{ duration: 14, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+        className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[600px] pointer-events-none"
+        style={{ background: "radial-gradient(ellipse at center, hsl(9 96% 53% / 0.12) 0%, transparent 60%)" }}
       />
 
-      {/* Subtle center glow */}
-      <div 
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[80%] pointer-events-none"
-        style={{
-          background: "radial-gradient(ellipse at center, hsl(9 96% 53% / 0.05) 0%, transparent 50%)",
-        }}
-      />
-
-      {/* Minimal floating particles */}
-      {[...Array(12)].map((_, i) => (
-        <motion.div
-          key={i}
-          className="absolute rounded-full"
-          style={{
-            width: `${Math.random() * 3 + 1}px`,
-            height: `${Math.random() * 3 + 1}px`,
-            left: `${Math.random() * 100}%`,
-            top: `${Math.random() * 100}%`,
-            background: i % 3 === 0 ? 'hsl(9 96% 53% / 0.6)' : 'rgba(255,255,255,0.2)',
-          }}
-          animate={{
-            y: [0, -40, 0],
-            opacity: [0.1, 0.6, 0.1],
-          }}
-          transition={{
-            duration: 6 + Math.random() * 4,
-            repeat: Infinity,
-            delay: Math.random() * 4,
-          }}
-        />
-      ))}
-
-      {/* Subtle grid */}
-      <div className="absolute inset-0 opacity-[0.03]" style={{
-        backgroundImage: `
-          linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px),
-          linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)
-        `,
-        backgroundSize: '80px 80px',
-      }} />
-
-      {/* Content with parallax */}
-      <motion.div 
-        className="container relative z-10 mx-auto px-4 py-24"
-        style={{ y: heroY, opacity: heroOpacity, scale: heroScale }}
-      >
-        <div className="max-w-7xl mx-auto">
-          {/* Top - Title centered */}
-          <motion.div 
-            className="text-center mb-6 sm:mb-8 lg:mb-12 space-y-4 sm:space-y-6"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.6 }}
+      {/* Content — NO parallax opacity so buttons stay clickable */}
+      <div className="container relative z-10 mx-auto px-4 pt-8 pb-20 sm:py-16">
+        <div className="max-w-4xl mx-auto">
+          
+          {/* Social proof bar */}
+          <motion.div
+            className="flex items-center justify-center gap-3 mb-8"
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4, delay: 0.1 }}
           >
-            {/* Rotating Phrases Badge */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-              className="h-12 sm:h-14 flex items-center justify-center"
-            >
-              <AnimatePresence mode="wait">
-                <motion.span
-                  key={phraseIndex}
-                  className="inline-flex items-center gap-3 px-6 sm:px-8 py-3 sm:py-3.5 rounded-full bg-gradient-to-r from-primary/25 via-primary/15 to-primary/25 border border-primary/40 text-primary text-base sm:text-lg font-black uppercase tracking-wider backdrop-blur-md"
-                  initial={{ opacity: 0, y: 20, scale: 0.8, filter: "blur(10px)" }}
-                  animate={{ 
-                    opacity: 1, y: 0, scale: 1, filter: "blur(0px)",
-                    textShadow: [
-                      "0 0 8px hsl(9 96% 53% / 0.8)",
-                      "0 0 20px hsl(9 96% 53% / 0.4)",
-                      "0 0 8px hsl(9 96% 53% / 0.8)",
-                    ],
-                  }}
-                  exit={{ opacity: 0, y: -20, scale: 0.8, filter: "blur(10px)" }}
-                  transition={{ duration: 0.5 }}
-                >
-                  <motion.span
-                    className="w-2.5 h-2.5 rounded-full bg-primary"
-                    animate={{ 
-                      scale: [1, 1.5, 1],
-                      opacity: [1, 0.5, 1],
-                      boxShadow: [
-                        "0 0 0 0 hsl(9 96% 53% / 0.7)",
-                        "0 0 0 8px hsl(9 96% 53% / 0)",
-                        "0 0 0 0 hsl(9 96% 53% / 0.7)",
-                      ]
-                    }}
-                    transition={{ duration: 1.5, repeat: Infinity }}
-                  />
-                  {rotatingPhrases[phraseIndex]}
-                </motion.span>
-              </AnimatePresence>
-            </motion.div>
-
-            {/* Main Heading */}
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.3 }}
-            >
-              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-black leading-[0.95] tracking-tight uppercase">
-                <span className="text-white block">
-                  <TextReveal delay={0.5}>РИС: Зерно вашего</TextReveal>
-                </span>
-                <span className="block">
-                  <GlitchText text="роста" className="text-primary" />
-                  <span className="text-white"> в </span>
-                  <GlitchText text="интернете" className="text-primary" />
-                </span>
-              </h1>
-            </motion.div>
-
-            {/* Subtitle */}
-            <motion.div 
-              className="text-base sm:text-xl md:text-2xl text-zinc-400 max-w-3xl mx-auto leading-relaxed"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.4 }}
-            >
-              <span>Создаём </span>
-              <motion.span
-                className="inline-block text-primary font-black"
-                initial={{ opacity: 0, scale: 0.5, filter: "blur(12px)" }}
-                animate={{ 
-                  opacity: 1, scale: 1, filter: "blur(0px)",
-                  textShadow: [
-                    "0 0 0px hsl(9 96% 53% / 0)",
-                    "0 0 24px hsl(9 96% 53% / 0.6)",
-                    "0 0 0px hsl(9 96% 53% / 0)",
-                  ],
-                }}
-                transition={{ 
-                  opacity: { duration: 0.5, delay: 0.7 },
-                  scale: { duration: 0.5, delay: 0.7 },
-                  filter: { duration: 0.5, delay: 0.7 },
-                  textShadow: { duration: 2.5, repeat: Infinity },
-                }}
-              >
-                Сайты
-                <span className="text-zinc-400 font-normal">, </span>
-              </motion.span>
-              <span>запускаем </span>
-              <motion.span
-                className="inline-block text-primary font-black"
-                initial={{ opacity: 0, scale: 0.5, filter: "blur(12px)" }}
-                animate={{ 
-                  opacity: 1, scale: 1, filter: "blur(0px)",
-                  textShadow: [
-                    "0 0 0px hsl(9 96% 53% / 0)",
-                    "0 0 24px hsl(9 96% 53% / 0.6)",
-                    "0 0 0px hsl(9 96% 53% / 0)",
-                  ],
-                }}
-                transition={{ 
-                  opacity: { duration: 0.5, delay: 0.95 },
-                  scale: { duration: 0.5, delay: 0.95 },
-                  filter: { duration: 0.5, delay: 0.95 },
-                  textShadow: { duration: 2.5, repeat: Infinity, delay: 0.3 },
-                }}
-              >
-                Рекламу
-                <span className="text-zinc-400 font-normal">, </span>
-              </motion.span>
-              <motion.span
-                className="inline-block text-primary font-black"
-                initial={{ opacity: 0, scale: 0.5, filter: "blur(12px)" }}
-                animate={{ 
-                  opacity: 1, scale: 1, filter: "blur(0px)",
-                  textShadow: [
-                    "0 0 0px hsl(9 96% 53% / 0)",
-                    "0 0 24px hsl(9 96% 53% / 0.6)",
-                    "0 0 0px hsl(9 96% 53% / 0)",
-                  ],
-                }}
-                transition={{ 
-                  opacity: { duration: 0.5, delay: 1.2 },
-                  scale: { duration: 0.5, delay: 1.2 },
-                  filter: { duration: 0.5, delay: 1.2 },
-                  textShadow: { duration: 2.5, repeat: Infinity, delay: 0.6 },
-                }}
-              >
-                SMM
-              </motion.span>
-              <span> </span>
-              <motion.span
-                className="inline-block text-white font-bold"
-                initial={{ opacity: 0 }}
-                animate={{ 
-                  opacity: 1,
-                  textShadow: [
-                    "0 0 0px rgba(255,255,255,0)",
-                    "0 0 16px rgba(255,255,255,0.3)",
-                    "0 0 0px rgba(255,255,255,0)",
-                  ],
-                }}
-                transition={{ 
-                  opacity: { delay: 1.5, duration: 0.6 },
-                  textShadow: { duration: 3, repeat: Infinity },
-                }}
-              >
-                и всё, что необходимо для роста
-              </motion.span>
-            </motion.div>
+            <div className="flex -space-x-1">
+              {[...Array(5)].map((_, i) => (
+                <Star key={i} className="h-4 w-4 fill-yellow-400 text-yellow-400" />
+              ))}
+            </div>
+            <span className="text-zinc-400 text-sm font-medium">200+ проектов с 2014 года</span>
           </motion.div>
 
-          {/* Services Carousel - Full Width */}
+          {/* Main Heading — readable, clear hierarchy */}
           <motion.div
-            initial={{ opacity: 0, y: 60 }}
+            className="text-center mb-6"
+            initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.6, duration: 0.8, type: "spring", stiffness: 100 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+          >
+            <h1 className="text-[2rem] leading-[1.1] sm:text-5xl md:text-6xl lg:text-7xl font-black tracking-tight">
+              <span className="text-white">Превращаем рекламу</span>
+              <br />
+              <span className="text-white">в </span>
+              <span className="text-primary">реальную прибыль</span>
+            </h1>
+          </motion.div>
+
+          {/* Subtitle — one clear sentence */}
+          <motion.p
+            className="text-center text-base sm:text-lg md:text-xl text-zinc-400 max-w-2xl mx-auto mb-8 leading-relaxed"
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.35 }}
+          >
+            Создаём <span className="text-white font-semibold">сайты</span>, запускаем{" "}
+            <span className="text-white font-semibold">рекламу</span>,{" "}
+            <span className="text-white font-semibold">SMM</span> — и всё, что нужно, чтобы ваш бизнес рос.
+            <span className="block text-sm text-zinc-500 mt-2">Средний CPL наших клиентов на 40% ниже рынка</span>
+          </motion.p>
+
+          {/* CTA Buttons — ABOVE carousel, always visible */}
+          <motion.div 
+            className="flex flex-col sm:flex-row gap-3 justify-center mb-12"
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.45 }}
+          >
+            <Button
+              asChild
+              size="lg"
+              className="gradient-primary shadow-cta hover:shadow-glow text-base sm:text-lg h-12 sm:h-14 px-6 sm:px-8 font-bold group"
+            >
+              <Link to="/contacts">
+                {heroCtaPrimary}
+                <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+              </Link>
+            </Button>
+            <Button
+              asChild
+              variant="outline"
+              size="lg"
+              className="border-zinc-700 bg-zinc-800/50 text-white hover:bg-zinc-800 hover:border-primary/50 text-base sm:text-lg h-12 sm:h-14 px-6 sm:px-8 font-semibold"
+            >
+              <Link to="/cases" className="flex items-center gap-2">
+                <Play className="h-4 w-4" />
+                {heroCtaSecondary}
+              </Link>
+            </Button>
+          </motion.div>
+
+          {/* Services Carousel */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.55, duration: 0.6 }}
           >
             <ServicesCarousel />
           </motion.div>
-
-          {/* CTA Buttons centered below carousel */}
-          <motion.div 
-            className="flex flex-col sm:flex-row gap-4 justify-center pt-10"
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.8 }}
-          >
-            <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-              <Button
-                asChild
-                size="lg"
-                className="w-full sm:w-auto gradient-primary shadow-cta hover:shadow-glow text-lg h-14 px-8 font-bold group relative overflow-hidden"
-              >
-                <Link to="/contacts">
-                  <span className="relative z-10 flex items-center">
-                    {heroCtaPrimary}
-                    <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
-                  </span>
-                </Link>
-              </Button>
-            </motion.div>
-            <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-              <Button
-                asChild
-                variant="outline"
-                size="lg"
-                className="w-full sm:w-auto border-zinc-700 bg-zinc-800/50 text-white hover:bg-zinc-800 hover:border-primary/50 text-lg h-14 px-8 font-semibold backdrop-blur-sm"
-              >
-                <Link to="/cases" className="flex items-center gap-2">
-                  <Play className="h-4 w-4" />
-                  {heroCtaSecondary}
-                </Link>
-              </Button>
-            </motion.div>
-          </motion.div>
         </div>
-      </motion.div>
+      </div>
 
       {/* Scroll Indicator */}
       <motion.div 
-        className="absolute bottom-12 inset-x-0 flex justify-center z-20"
+        className="absolute bottom-6 sm:bottom-10 inset-x-0 flex justify-center z-20"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 2.5, duration: 0.8 }}
+        transition={{ delay: 1.5, duration: 0.8 }}
       >
         <motion.div 
-          className="flex flex-col items-center gap-2 text-zinc-400"
-          animate={{ y: [0, 8, 0] }}
+          className="w-5 h-8 rounded-full border border-zinc-600 flex justify-center pt-1.5"
+          animate={{ y: [0, 6, 0] }}
           transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
         >
-          <div className="w-5 h-8 rounded-full border border-zinc-600 flex justify-center pt-1.5">
-            <motion.div 
-              className="w-1 h-1.5 rounded-full bg-primary"
-              animate={{ y: [0, 10, 0], opacity: [1, 0.3, 1] }}
-              transition={{ duration: 2, repeat: Infinity }}
-            />
-          </div>
+          <motion.div 
+            className="w-1 h-1.5 rounded-full bg-primary"
+            animate={{ y: [0, 10, 0], opacity: [1, 0.3, 1] }}
+            transition={{ duration: 2, repeat: Infinity }}
+          />
         </motion.div>
       </motion.div>
     </section>
