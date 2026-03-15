@@ -50,7 +50,7 @@ const CasesSlider = () => {
     })) || [];
 
   return (
-    <section className="py-16 md:py-24 bg-gradient-to-br from-primary/5 to-accent/5">
+    <section className="py-16 md:py-24 bg-secondary/20 relative overflow-hidden">
       <div className="container mx-auto px-4">
         <div className="max-w-6xl mx-auto space-y-8">
           {/* Header */}
