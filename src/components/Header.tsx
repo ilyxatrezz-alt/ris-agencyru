@@ -169,10 +169,42 @@ const Header = () => {
       {/* Mobile Bottom Tab Bar */}
       <div className="md:hidden fixed bottom-0 left-0 right-0 z-50">
         <div className="bg-background/95 backdrop-blur-2xl border-t-2 border-primary/20 px-3 pb-[env(safe-area-inset-bottom)] shadow-[0_-4px_30px_-4px_hsl(0_0%_0%/0.15)]">
-          <nav className="flex items-stretch justify-around h-20">
-            {navigation.map((item) => {
+          <nav className="flex items-end justify-around h-20 relative">
+            {mobileNav.map((item) => {
               const Icon = item.icon;
               const isActive = location.pathname === item.href;
+              const isCenter = item.center;
+
+              if (isCenter) {
+                return (
+                  <Link
+                    key={item.name}
+                    to={item.href}
+                    className="flex flex-col items-center justify-center flex-1 relative -mt-5"
+                  >
+                    <motion.div
+                      whileTap={{ scale: 0.9 }}
+                      className="flex flex-col items-center gap-1"
+                    >
+                      <div className={cn(
+                        "flex items-center justify-center w-14 h-14 rounded-full shadow-lg transition-all duration-200",
+                        isActive
+                          ? "gradient-primary shadow-cta"
+                          : "bg-primary/90 shadow-cta"
+                      )}>
+                        <Icon className="h-6 w-6 text-primary-foreground" strokeWidth={2} />
+                      </div>
+                      <span className={cn(
+                        "text-[10px] leading-none tracking-wide mt-0.5",
+                        isActive ? "font-extrabold text-primary" : "font-semibold text-muted-foreground"
+                      )}>
+                        {item.name}
+                      </span>
+                    </motion.div>
+                  </Link>
+                );
+              }
+
               return (
                 <Link
                   key={item.name}
