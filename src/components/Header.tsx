@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Home, Briefcase, FolderOpen, Users, Phone } from "lucide-react";
+import { Home, Briefcase, FolderOpen, Users, Phone, Globe } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { motion, AnimatePresence } from "framer-motion";
 import { useSiteSettingsMap, getSetting } from "@/hooks/useSiteSettings";
