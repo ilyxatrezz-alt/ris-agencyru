@@ -194,7 +194,7 @@ const ContactForm = () => {
                 type="submit"
                 size="lg"
                 disabled={isLoading}
-                className="w-full h-14 gradient-primary shadow-cta hover:shadow-glow text-lg font-bold group"
+                className="w-full h-14 gradient-primary shadow-cta hover:shadow-glow text-sm sm:text-lg font-bold group px-4"
               >
                 {isLoading ? (
                   <>
