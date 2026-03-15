@@ -116,27 +116,14 @@ const Hero = () => {
         />
       ))}
 
-      {/* Grid Pattern - more visible */}
-      <div className="absolute inset-0 opacity-[0.04]" style={{
+      {/* Subtle grid */}
+      <div className="absolute inset-0 opacity-[0.03]" style={{
         backgroundImage: `
-          linear-gradient(rgba(255,255,255,0.15) 1px, transparent 1px),
-          linear-gradient(90deg, rgba(255,255,255,0.15) 1px, transparent 1px)
+          linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)
         `,
-        backgroundSize: '60px 60px',
+        backgroundSize: '80px 80px',
       }} />
-
-      {/* Diagonal accent lines */}
-      <div className="absolute inset-0 overflow-hidden opacity-[0.05]">
-        {[...Array(10)].map((_, i) => (
-          <motion.div
-            key={i}
-            className="absolute w-[2px] h-[400%] bg-gradient-to-b from-transparent via-primary/60 to-transparent -rotate-45"
-            style={{ left: `${i * 12}%`, top: '-150%' }}
-            animate={{ y: [0, 150, 0] }}
-            transition={{ duration: 15 + i * 2, repeat: Infinity, ease: "linear" }}
-          />
-        ))}
-      </div>
 
       {/* Content with parallax */}
       <motion.div 
