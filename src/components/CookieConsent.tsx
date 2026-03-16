@@ -66,12 +66,9 @@ const CookieConsent = () => {
                 >
                   <Cookie className="h-6 w-6 text-primary" />
                 </motion.div>
-                <div>
-                  <h3 className="font-bold text-foreground text-base leading-tight">
-                    Печеньки! 🍪
-                  </h3>
-                  <p className="text-xs text-muted-foreground">(Cookies!)</p>
-                </div>
+                <h3 className="font-bold text-foreground text-base leading-tight">
+                  Куки (cookie) 🍪
+                </h3>
               </motion.div>
 
               <motion.p
@@ -80,9 +77,7 @@ const CookieConsent = () => {
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.3 }}
               >
-                Мы используем файлы куки (cookies), чтобы сделать сайт лучше для вас.
-                Они помогают запоминать ваши предпочтения и анализировать
-                посещаемость.
+                Данный сайт использует файлы cookie (куки) для предоставления услуг и анализа посещаемости. Пользуясь сайтом, вы принимаете условия политики конфиденциальности.
               </motion.p>
 
               <motion.div
@@ -106,7 +101,7 @@ const CookieConsent = () => {
                   className="flex-1 gradient-primary shadow-cta font-bold text-sm"
                   size="sm"
                 >
-                  Принять (Accept) ✓
+                  Принять ✓
                 </Button>
                 <Button
                   onClick={handleDecline}
@@ -114,7 +109,7 @@ const CookieConsent = () => {
                   className="text-sm font-medium"
                   size="sm"
                 >
-                  Отклонить (Decline)
+                  Отклонить
                 </Button>
               </motion.div>
             </div>
