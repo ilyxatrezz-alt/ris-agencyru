@@ -101,7 +101,7 @@ const CookieConsent = () => {
                   className="flex-1 gradient-primary shadow-cta font-bold text-sm"
                   size="sm"
                 >
-                  Принять (Accept) ✓
+                  Принять ✓
                 </Button>
                 <Button
                   onClick={handleDecline}
@@ -109,7 +109,7 @@ const CookieConsent = () => {
                   className="text-sm font-medium"
                   size="sm"
                 >
-                  Отклонить (Decline)
+                  Отклонить
                 </Button>
               </motion.div>
             </div>
