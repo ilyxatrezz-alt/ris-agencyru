@@ -16,6 +16,7 @@ const ContactForm = () => {
   const { settings } = useSiteSettingsMap();
 
   const [isLoading, setIsLoading] = useState(false);
+  const [privacyAccepted, setPrivacyAccepted] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
