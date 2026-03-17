@@ -12,12 +12,15 @@ import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { motion } from "framer-motion";
 import { supabase } from "@/integrations/supabase/client";
+import { Checkbox } from "./ui/checkbox";
+import { Link } from "react-router-dom";
 import { useSiteSettingsMap, getSetting } from "@/hooks/useSiteSettings";
 
 const QuickContact = () => {
   const { toast } = useToast();
   const { settings } = useSiteSettingsMap();
   const [isLoading, setIsLoading] = useState(false);
+  const [privacyAccepted, setPrivacyAccepted] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
@@ -156,9 +159,24 @@ const QuickContact = () => {
                     <SelectItem value="other">Другое</SelectItem>
                   </SelectContent>
                 </Select>
+                <div className="flex items-start gap-3">
+                  <Checkbox
+                    id="privacy-quick"
+                    checked={privacyAccepted}
+                    onCheckedChange={(checked) => setPrivacyAccepted(checked === true)}
+                    disabled={isLoading}
+                    className="mt-0.5"
+                  />
+                  <label htmlFor="privacy-quick" className="text-xs text-muted-foreground leading-relaxed cursor-pointer">
+                    Я даю согласие на{" "}
+                    <Link to="/privacy-policy" className="text-primary underline hover:no-underline" target="_blank">
+                      обработку персональных данных
+                    </Link>
+                  </label>
+                </div>
                 <Button
                   type="submit"
-                  disabled={isLoading}
+                  disabled={isLoading || !privacyAccepted}
                   className="w-full h-12 gradient-primary shadow-cta hover:shadow-glow font-bold"
                 >
                   {isLoading ? (

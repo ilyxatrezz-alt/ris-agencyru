@@ -5,6 +5,8 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { Mail, Phone, User, ArrowRight, Gift, Loader2 } from "lucide-react";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { supabase } from "@/integrations/supabase/client";
 import { useSiteSettingsMap, getSetting } from "@/hooks/useSiteSettings";
@@ -14,6 +16,7 @@ const ContactForm = () => {
   const { settings } = useSiteSettingsMap();
 
   const [isLoading, setIsLoading] = useState(false);
+  const [privacyAccepted, setPrivacyAccepted] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
@@ -189,11 +192,27 @@ const ContactForm = () => {
               />
             </div>
 
+            <div className="flex items-start gap-3">
+              <Checkbox
+                id="privacy-contact"
+                checked={privacyAccepted}
+                onCheckedChange={(checked) => setPrivacyAccepted(checked === true)}
+                disabled={isLoading}
+                className="mt-0.5"
+              />
+              <label htmlFor="privacy-contact" className="text-xs text-muted-foreground leading-relaxed cursor-pointer">
+                Я даю согласие на{" "}
+                <Link to="/privacy-policy" className="text-primary underline hover:no-underline" target="_blank">
+                  обработку персональных данных
+                </Link>
+              </label>
+            </div>
+
             <motion.div whileHover={{ scale: 1.01 }} whileTap={{ scale: 0.99 }}>
               <Button
                 type="submit"
                 size="lg"
-                disabled={isLoading}
+                disabled={isLoading || !privacyAccepted}
                 className="w-full h-14 gradient-primary shadow-cta hover:shadow-glow text-sm sm:text-lg font-bold group px-4"
               >
                 {isLoading ? (
@@ -209,8 +228,6 @@ const ContactForm = () => {
                 )}
               </Button>
             </motion.div>
-
-            <p className="text-xs text-center text-muted-foreground">{privacyText}</p>
           </motion.form>
         </div>
       </div>
