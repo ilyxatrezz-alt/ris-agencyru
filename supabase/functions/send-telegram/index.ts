@@ -1,7 +1,7 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 
 const TELEGRAM_BOT_TOKEN = Deno.env.get("TELEGRAM_BOT_TOKEN");
-const TELEGRAM_CHAT_ID = "-1003231440543";
+const TELEGRAM_CHAT_ID = "-5261931142";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
