@@ -64,6 +64,7 @@ const AppContent = () => {
                 <Route path="/smm" element={<Smm />} />
                 <Route path="/about" element={<About />} />
                 <Route path="/contacts" element={<Contacts />} />
+                <Route path="/privacy-policy" element={<PrivacyPolicy />} />
                 <Route path="/auth" element={<Auth />} />
                 <Route
                   path="/admin"
