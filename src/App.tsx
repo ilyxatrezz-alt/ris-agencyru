@@ -26,6 +26,7 @@ import Admin from "./pages/Admin";
 import NotFound from "./pages/NotFound";
 import WebDevelopment from "./pages/WebDevelopment";
 import Smm from "./pages/Smm";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
 import CrmDashboard from "./pages/CrmDashboard";
 import CrmClientDetail from "./pages/CrmClientDetail";
 import CrmTasks from "./pages/CrmTasks";
