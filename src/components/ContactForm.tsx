@@ -70,7 +70,7 @@ const ContactForm = () => {
         title: "Заявка отправлена!",
         description: "Мы свяжемся с вами в течение 2 часов.",
       });
-      setFormData({ name: "", phone: "", email: "", message: "" });
+      setFormData({ name: "", phone: "", message: "" });
     } catch (error) {
       console.error("Error sending form:", error);
       toast({
