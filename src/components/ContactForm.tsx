@@ -157,22 +157,6 @@ const ContactForm = () => {
               </div>
             </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="email" className="flex items-center gap-2 text-sm font-semibold">
-                <Mail className="h-4 w-4 text-primary" />
-                {emailLabel}
-              </Label>
-              <Input
-                id="email"
-                type="email"
-                placeholder={emailPlaceholder}
-                value={formData.email}
-                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                required
-                disabled={isLoading}
-                className="h-12 border-border/50 focus:border-primary"
-              />
-            </div>
 
             <div className="space-y-2">
               <Label htmlFor="message" className="text-sm font-semibold">
