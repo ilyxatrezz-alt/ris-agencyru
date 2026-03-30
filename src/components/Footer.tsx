@@ -130,9 +130,14 @@ const Footer = () => {
           <p className="text-sm text-accent-foreground/50">
             © {new Date().getFullYear()} {companyFullName}. Все права защищены.
           </p>
-          <p className="text-xs text-accent-foreground/40">
-            {legalName} • ИНН {legalInn} • ОГРНИП {legalOgrnip}
-          </p>
+          <div className="flex flex-col md:flex-row items-center gap-2 md:gap-4">
+            <Link to="/privacy-policy" className="text-xs text-accent-foreground/40 hover:text-primary transition-colors underline">
+              Политика обработки персональных данных
+            </Link>
+            <p className="text-xs text-accent-foreground/40">
+              {legalName} • ИНН {legalInn} • ОГРНИП {legalOgrnip}
+            </p>
+          </div>
         </div>
       </div>
     </footer>
