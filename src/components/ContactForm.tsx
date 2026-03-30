@@ -37,8 +37,6 @@ const ContactForm = () => {
   const phoneLabel = getSetting(settings, "home_contact_form_phone_label", "Телефон");
   const phonePlaceholder = getSetting(settings, "home_contact_form_phone_placeholder", "+7 (___) ___-__-__");
 
-  const emailLabel = getSetting(settings, "home_contact_form_email_label", "Email");
-  const emailPlaceholder = getSetting(settings, "home_contact_form_email_placeholder", "email@example.com");
 
   const messageLabel = getSetting(settings, "home_contact_form_message_label", "Расскажите о проекте (необязательно)");
   const messagePlaceholder = getSetting(
