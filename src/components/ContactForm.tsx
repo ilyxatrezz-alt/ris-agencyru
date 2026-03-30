@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
-import { Mail, Phone, User, ArrowRight, Gift, Loader2 } from "lucide-react";
+import { Phone, User, ArrowRight, Gift, Loader2 } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
@@ -20,7 +20,6 @@ const ContactForm = () => {
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
-    email: "",
     message: "",
   });
 
@@ -38,8 +37,6 @@ const ContactForm = () => {
   const phoneLabel = getSetting(settings, "home_contact_form_phone_label", "Телефон");
   const phonePlaceholder = getSetting(settings, "home_contact_form_phone_placeholder", "+7 (___) ___-__-__");
 
-  const emailLabel = getSetting(settings, "home_contact_form_email_label", "Email");
-  const emailPlaceholder = getSetting(settings, "home_contact_form_email_placeholder", "email@example.com");
 
   const messageLabel = getSetting(settings, "home_contact_form_message_label", "Расскажите о проекте (необязательно)");
   const messagePlaceholder = getSetting(
@@ -73,7 +70,7 @@ const ContactForm = () => {
         title: "Заявка отправлена!",
         description: "Мы свяжемся с вами в течение 2 часов.",
       });
-      setFormData({ name: "", phone: "", email: "", message: "" });
+      setFormData({ name: "", phone: "", message: "" });
     } catch (error) {
       console.error("Error sending form:", error);
       toast({
@@ -160,22 +157,6 @@ const ContactForm = () => {
               </div>
             </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="email" className="flex items-center gap-2 text-sm font-semibold">
-                <Mail className="h-4 w-4 text-primary" />
-                {emailLabel}
-              </Label>
-              <Input
-                id="email"
-                type="email"
-                placeholder={emailPlaceholder}
-                value={formData.email}
-                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                required
-                disabled={isLoading}
-                className="h-12 border-border/50 focus:border-primary"
-              />
-            </div>
 
             <div className="space-y-2">
               <Label htmlFor="message" className="text-sm font-semibold">
