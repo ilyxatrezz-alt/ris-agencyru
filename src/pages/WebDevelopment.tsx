@@ -84,7 +84,7 @@ const WebDevelopment = () => {
   const packages = [
     {
       name: "Лендинг",
-      price: "от 35 000 ₽",
+      price: "от 25 000 ₽",
       description: "Одностраничный продающий сайт для одной услуги или продукта",
       features: [
         "1 продающая страница",
