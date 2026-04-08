@@ -26,7 +26,13 @@ import {
   ExternalLink,
   ChevronLeft,
   ChevronRight,
-  X
+  X,
+  Heart,
+  Eye,
+  Scale,
+  Handshake,
+  Target,
+  Award
 } from "lucide-react";
 import ParallaxSection from "@/components/ParallaxSection";
 import QuickCTA from "@/components/QuickCTA";
@@ -520,129 +526,6 @@ const WebDevelopment = () => {
           </div>
         </section>
 
-        {/* Features Section */}
-        <section className="py-24 relative">
-          <div className="container mx-auto px-4">
-            <ParallaxSection>
-              <div className="text-center max-w-3xl mx-auto mb-16">
-                <span className="text-primary font-semibold text-sm uppercase tracking-wider">
-                  Почему выбирают нас
-                </span>
-                <h2 className="text-3xl md:text-5xl font-black mt-4 mb-6">
-                  Сайты, которые{" "}
-                  <span className="text-gradient-primary">работают на вас</span>
-                </h2>
-                <p className="text-lg text-muted-foreground">
-                  Каждый сайт создаётся с одной целью — приносить вам клиентов и увеличивать прибыль
-                </p>
-              </div>
-            </ParallaxSection>
-
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {features.map((feature, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: index * 0.1 }}
-                >
-                  <Card className="h-full border-border/50 hover:border-primary/50 transition-all duration-300 hover:shadow-lg group overflow-hidden">
-                    <CardContent className="p-6 space-y-4">
-                      <div className={`inline-flex items-center justify-center w-14 h-14 rounded-xl bg-gradient-to-br ${feature.gradient} shadow-lg`}>
-                        <feature.icon className="w-7 h-7 text-white" />
-                      </div>
-                      <h3 className="text-xl font-bold group-hover:text-primary transition-colors">
-                        {feature.title}
-                      </h3>
-                      <p className="text-muted-foreground">
-                        {feature.description}
-                      </p>
-                    </CardContent>
-                  </Card>
-                </motion.div>
-              ))}
-            </div>
-
-            {/* Quick CTA */}
-            <QuickCTA variant="gradient" text="Нужен сайт с такими возможностями?" phone="+7 (949) 021-51-51" phoneRaw="+79490215151" telegramUrl="https://t.me/manager_ris" />
-          </div>
-        </section>
-
-        {/* Packages Section */}
-        <section className="py-24 bg-secondary/30 relative overflow-hidden">
-          <div className="absolute inset-0 bg-grid-pattern opacity-5" />
-          
-          <div className="container mx-auto px-4 relative z-10">
-            <div className="text-center max-w-3xl mx-auto mb-16">
-              <span className="text-primary font-semibold text-sm uppercase tracking-wider">
-                Тарифы
-              </span>
-              <h2 className="text-3xl md:text-5xl font-black mt-4 mb-6">
-                Выберите свой{" "}
-                <span className="text-gradient-primary">идеальный сайт</span>
-              </h2>
-              <p className="text-lg text-muted-foreground">
-                Прозрачные цены без скрытых платежей. Вы платите только за результат.
-              </p>
-            </div>
-
-            <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto pt-8">
-              {packages.map((pkg, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: index * 0.15 }}
-                  className={`relative ${pkg.popular ? "md:-mt-4 md:mb-4" : ""}`}
-                >
-                  {pkg.popular && (
-                    <div className="absolute -top-3 left-1/2 -translate-x-1/2 z-20 whitespace-nowrap">
-                      <span className="px-4 py-1.5 bg-primary text-primary-foreground text-sm font-bold rounded-full shadow-cta">
-                        Популярный выбор
-                      </span>
-                    </div>
-                  )}
-                  <Card className={`h-full border-2 ${pkg.popular ? "border-primary shadow-xl" : "border-border/50"}`}>
-                    <div className={`h-2 bg-gradient-to-r ${pkg.gradient}`} />
-                    <CardContent className="p-8 space-y-6">
-                      <div>
-                        <h3 className="text-2xl font-bold">{pkg.name}</h3>
-                        <p className="text-muted-foreground mt-2">{pkg.description}</p>
-                      </div>
-                      <div>
-                        <span className="text-4xl font-black text-primary">{pkg.price}</span>
-                      </div>
-                      <ul className="space-y-3">
-                        {pkg.features.map((feature, i) => (
-                          <li key={i} className="flex items-start gap-3">
-                            <CheckCircle2 className="w-5 h-5 text-accent flex-shrink-0 mt-0.5" />
-                            <span className="text-muted-foreground">{feature}</span>
-                          </li>
-                        ))}
-                      </ul>
-                      <Button
-                        className={`w-full ${pkg.popular ? "gradient-primary shadow-cta" : ""}`}
-                        variant={pkg.popular ? "default" : "outline"}
-                        size="lg"
-                        asChild
-                      >
-                        <Link to="/contacts">Заказать</Link>
-                      </Button>
-                    </CardContent>
-                  </Card>
-                </motion.div>
-              ))}
-            </div>
-
-            {/* Quick CTA */}
-            <div className="text-center pt-12">
-              <QuickCTA text="Не нашли подходящий тариф?" phone="+7 (949) 021-51-51" phoneRaw="+79490215151" telegramUrl="https://t.me/manager_ris" />
-            </div>
-          </div>
-        </section>
-
         {/* Portfolio Cases Section */}
         <section className="py-24 relative overflow-hidden">
           <div className="container mx-auto px-4">
@@ -731,6 +614,137 @@ const WebDevelopment = () => {
             </div>
 
             <QuickCTA variant="gradient" text="Хотите такой же сайт?" phone="+7 (949) 021-51-51" phoneRaw="+79490215151" telegramUrl="https://t.me/manager_ris" />
+          </div>
+        </section>
+
+        {/* Features Section */}
+        <section className="py-24 relative">
+          <div className="container mx-auto px-4">
+            <ParallaxSection>
+              <div className="text-center max-w-3xl mx-auto mb-16">
+                <span className="text-primary font-semibold text-sm uppercase tracking-wider">
+                  Почему выбирают нас
+                </span>
+                <h2 className="text-3xl md:text-5xl font-black mt-4 mb-6">
+                  Сайты, которые{" "}
+                  <span className="text-gradient-primary">работают на вас</span>
+                </h2>
+                <p className="text-lg text-muted-foreground">
+                  Каждый сайт создаётся с одной целью — приносить вам клиентов и увеличивать прибыль
+                </p>
+              </div>
+            </ParallaxSection>
+
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {features.map((feature, index) => (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: index * 0.1 }}
+                >
+                  <Card className="h-full border-border/50 hover:border-primary/50 transition-all duration-300 hover:shadow-lg group overflow-hidden">
+                    <CardContent className="p-6 space-y-4">
+                      <div className={`inline-flex items-center justify-center w-14 h-14 rounded-xl bg-gradient-to-br ${feature.gradient} shadow-lg`}>
+                        <feature.icon className="w-7 h-7 text-white" />
+                      </div>
+                      <h3 className="text-xl font-bold group-hover:text-primary transition-colors">
+                        {feature.title}
+                      </h3>
+                      <p className="text-muted-foreground">
+                        {feature.description}
+                      </p>
+                    </CardContent>
+                  </Card>
+                </motion.div>
+              ))}
+            </div>
+
+            {/* Quick CTA */}
+            <QuickCTA variant="gradient" text="Нужен сайт с такими возможностями?" phone="+7 (949) 021-51-51" phoneRaw="+79490215151" telegramUrl="https://t.me/manager_ris" />
+          </div>
+        </section>
+
+        {/* Principles Section */}
+        <section className="py-24 bg-secondary/30 relative overflow-hidden">
+          <div className="absolute inset-0 bg-grid-pattern opacity-5" />
+          <div className="container mx-auto px-4 relative z-10">
+            <div className="text-center max-w-3xl mx-auto mb-16">
+              <span className="text-primary font-semibold text-sm uppercase tracking-wider">
+                Наш подход
+              </span>
+              <h2 className="text-3xl md:text-5xl font-black mt-4 mb-6">
+                Наши{" "}
+                <span className="text-gradient-primary">принципы</span>
+              </h2>
+              <p className="text-lg text-muted-foreground">
+                Ценности, которые лежат в основе каждого нашего проекта
+              </p>
+            </div>
+
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+              {[
+                {
+                  icon: Eye,
+                  title: "Прозрачность",
+                  description: "Вы всегда знаете, на что тратится каждый рубль. Никаких скрытых платежей, подводных камней и мелкого шрифта. Открытый диалог на каждом этапе.",
+                  gradient: "from-blue-500 to-cyan-500",
+                },
+                {
+                  icon: Heart,
+                  title: "Честность",
+                  description: "Мы не обещаем невозможного. Если видим, что проект требует доработки — скажем прямо. Лучше горькая правда, чем сладкая ложь.",
+                  gradient: "from-red-500 to-pink-500",
+                },
+                {
+                  icon: Scale,
+                  title: "Справедливость",
+                  description: "Честные цены за реальную работу. Мы не завышаем стоимость и не экономим на качестве. Баланс цены и результата — наш приоритет.",
+                  gradient: "from-amber-500 to-orange-500",
+                },
+                {
+                  icon: Handshake,
+                  title: "Партнёрство",
+                  description: "Мы не просто подрядчики — мы ваши партнёры. Нам важен успех вашего бизнеса, потому что ваш рост — это и наш рост.",
+                  gradient: "from-green-500 to-emerald-500",
+                },
+                {
+                  icon: Target,
+                  title: "Результативность",
+                  description: "Красивый сайт — это хорошо, но нам важнее, чтобы он приносил вам клиентов и деньги. Каждое решение подчинено результату.",
+                  gradient: "from-purple-500 to-violet-500",
+                },
+                {
+                  icon: Award,
+                  title: "Ответственность",
+                  description: "Мы отвечаем за каждый проект. Гарантия на все работы, бесплатная поддержка и оперативное решение любых вопросов после запуска.",
+                  gradient: "from-indigo-500 to-blue-500",
+                },
+              ].map((principle, index) => (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: index * 0.1 }}
+                >
+                  <Card className="h-full border-border/50 hover:border-primary/50 transition-all duration-300 hover:shadow-lg group">
+                    <CardContent className="p-6 space-y-4">
+                      <div className={`inline-flex items-center justify-center w-14 h-14 rounded-xl bg-gradient-to-br ${principle.gradient} shadow-lg`}>
+                        <principle.icon className="w-7 h-7 text-white" />
+                      </div>
+                      <h3 className="text-xl font-bold group-hover:text-primary transition-colors">
+                        {principle.title}
+                      </h3>
+                      <p className="text-muted-foreground">
+                        {principle.description}
+                      </p>
+                    </CardContent>
+                  </Card>
+                </motion.div>
+              ))}
+            </div>
           </div>
         </section>
 
@@ -828,6 +842,80 @@ const WebDevelopment = () => {
             </div>
 
             <QuickCTA variant="compact" text="Хотите такой же результат?" phone="+7 (949) 021-51-51" phoneRaw="+79490215151" telegramUrl="https://t.me/manager_ris" />
+          </div>
+        </section>
+
+        {/* Packages Section */}
+        <section className="py-24 bg-secondary/50 relative overflow-hidden">
+          <div className="absolute inset-0 bg-grid-pattern opacity-5" />
+          
+          <div className="container mx-auto px-4 relative z-10">
+            <div className="text-center max-w-3xl mx-auto mb-16">
+              <span className="text-primary font-semibold text-sm uppercase tracking-wider">
+                Тарифы
+              </span>
+              <h2 className="text-3xl md:text-5xl font-black mt-4 mb-6">
+                Выберите свой{" "}
+                <span className="text-gradient-primary">идеальный сайт</span>
+              </h2>
+              <p className="text-lg text-muted-foreground">
+                Прозрачные цены без скрытых платежей. Вы платите только за результат.
+              </p>
+            </div>
+
+            <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto pt-8">
+              {packages.map((pkg, index) => (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: index * 0.15 }}
+                  className={`relative ${pkg.popular ? "md:-mt-4 md:mb-4" : ""}`}
+                >
+                  {pkg.popular && (
+                    <div className="absolute -top-3 left-1/2 -translate-x-1/2 z-20 whitespace-nowrap">
+                      <span className="px-4 py-1.5 bg-primary text-primary-foreground text-sm font-bold rounded-full shadow-cta">
+                        Популярный выбор
+                      </span>
+                    </div>
+                  )}
+                  <Card className={`h-full border-2 ${pkg.popular ? "border-primary shadow-xl" : "border-border/50"}`}>
+                    <div className={`h-2 bg-gradient-to-r ${pkg.gradient}`} />
+                    <CardContent className="p-8 space-y-6">
+                      <div>
+                        <h3 className="text-2xl font-bold">{pkg.name}</h3>
+                        <p className="text-muted-foreground mt-2">{pkg.description}</p>
+                      </div>
+                      <div>
+                        <span className="text-4xl font-black text-primary">{pkg.price}</span>
+                      </div>
+                      <ul className="space-y-3">
+                        {pkg.features.map((feature, i) => (
+                          <li key={i} className="flex items-start gap-3">
+                            <CheckCircle2 className="w-5 h-5 text-accent flex-shrink-0 mt-0.5" />
+                            <span className="text-muted-foreground">{feature}</span>
+                          </li>
+                        ))}
+                      </ul>
+                      <Button
+                        className={`w-full ${pkg.popular ? "gradient-primary shadow-cta" : ""}`}
+                        variant={pkg.popular ? "default" : "outline"}
+                        size="lg"
+                        asChild
+                      >
+                        <Link to="/contacts">Заказать</Link>
+                      </Button>
+                    </CardContent>
+                  </Card>
+                </motion.div>
+              ))}
+            </div>
+
+            {/* Quick CTA */}
+            <div className="text-center pt-12">
+              <QuickCTA text="Не нашли подходящий тариф?" phone="+7 (949) 021-51-51" phoneRaw="+79490215151" telegramUrl="https://t.me/manager_ris" />
+            </div>
           </div>
         </section>
 
