@@ -625,54 +625,8 @@ const WebDevelopment = () => {
           </div>
         </section>
 
-        {/* Features Section */}
-        <section className="py-24 relative">
-          <div className="container mx-auto px-4">
-            <ParallaxSection>
-              <div className="text-center max-w-3xl mx-auto mb-16">
-                <span className="text-primary font-semibold text-sm uppercase tracking-wider">
-                  Почему выбирают нас
-                </span>
-                <h2 className="text-3xl md:text-5xl font-black mt-4 mb-6">
-                  Сайты, которые{" "}
-                  <span className="text-gradient-primary">работают на вас</span>
-                </h2>
-                <p className="text-lg text-muted-foreground">
-                  Каждый сайт создаётся с одной целью — приносить вам клиентов и увеличивать прибыль
-                </p>
-              </div>
-            </ParallaxSection>
-
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {features.map((feature, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: index * 0.1 }}
-                >
-                  <Card className="h-full border-border/50 hover:border-primary/50 transition-all duration-300 hover:shadow-lg group overflow-hidden">
-                    <CardContent className="p-6 space-y-4">
-                      <div className={`inline-flex items-center justify-center w-14 h-14 rounded-xl bg-gradient-to-br ${feature.gradient} shadow-lg`}>
-                        <feature.icon className="w-7 h-7 text-white" />
-                      </div>
-                      <h3 className="text-xl font-bold group-hover:text-primary transition-colors">
-                        {feature.title}
-                      </h3>
-                      <p className="text-muted-foreground">
-                        {feature.description}
-                      </p>
-                    </CardContent>
-                  </Card>
-                </motion.div>
-              ))}
-            </div>
-
-            {/* Quick CTA */}
-            <QuickCTA variant="gradient" text="Нужен сайт с такими возможностями?" phone="+7 (949) 021-51-51" phoneRaw="+79490215151" telegramUrl="https://t.me/manager_ris" />
-          </div>
-        </section>
+        {/* Interactive Quiz */}
+        <WebDevQuiz />
 
         {/* Principles Section */}
         <section className="py-24 bg-secondary/30 relative overflow-hidden">
