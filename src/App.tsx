@@ -37,7 +37,7 @@ const queryClient = new QueryClient();
 const AppContent = () => {
   const [showPreloader, setShowPreloader] = useState(true);
   const { settings } = useSiteSettingsMap();
-  const snowEnabled = getSetting(settings, "effects_snow_enabled", "true") === "true";
+  const snowEnabled = getSetting(settings, "effects_snow_enabled", "false") === "true";
 
   return (
     <>

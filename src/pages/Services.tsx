@@ -3,6 +3,7 @@ import Footer from "@/components/Footer";
 import ContactForm from "@/components/ContactForm";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 import { Search, Target, Globe, BarChart, TrendingUp, Users, Send, Gift, CheckCircle, ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
 
@@ -89,6 +90,11 @@ const Services = () => {
 
   return (
     <div className="min-h-screen">
+      <Helmet>
+        <title>Услуги digital-агентства РИС в Донецке — Реклама, сайты, SMM</title>
+        <meta name="description" content="Услуги digital-агентства в Донецке: контекстная реклама Яндекс.Директ, таргетированная реклама ВКонтакте, создание сайтов, SMM продвижение. Директолог и таргетолог в Донецке." />
+        <meta name="keywords" content="реклама Донецк, директолог Донецк, таргетолог Донецк, создание рекламы Донецк, digital агентство Донецк, маркетинг ДНР" />
+      </Helmet>
       <Header />
       <main>
         {/* Hero Section */}

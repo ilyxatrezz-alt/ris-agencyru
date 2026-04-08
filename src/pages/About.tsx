@@ -1,6 +1,7 @@
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ContactForm from "@/components/ContactForm";
+import { Helmet } from "react-helmet-async";
 import { Award, Target, Users, Zap, Shield, TrendingUp, CheckCircle } from "lucide-react";
 import { motion } from "framer-motion";
 
@@ -48,6 +49,11 @@ const About = () => {
 
   return (
     <div className="min-h-screen">
+      <Helmet>
+        <title>О компании РИС — Digital-агентство в Донецке с 2014 года</title>
+        <meta name="description" content="Агентство РИС — команда маркетологов, дизайнеров и разработчиков в Донецке. 10+ лет опыта, 200+ проектов, реклама и создание сайтов в ДНР. Честность, прозрачность, результат." />
+        <meta name="keywords" content="digital агентство Донецк, маркетинговое агентство ДНР, рекламное агентство Донецк, веб-студия Донецк" />
+      </Helmet>
       <Header />
       <main>
         {/* Hero */}

@@ -67,8 +67,8 @@ const Hero = () => {
           >
             Создаём <span className="text-white font-semibold">сайты</span>, запускаем{" "}
             <span className="text-white font-semibold">рекламу</span>,{" "}
-            <span className="text-white font-semibold">SMM</span> — и всё, что нужно, чтобы ваш бизнес рос.
-            <span className="block text-sm text-zinc-500 mt-2">Средний CPL наших клиентов на 40% ниже рынка</span>
+            <span className="text-white font-semibold">SMM</span> — всё для роста бизнеса в Донецке и по всей России.
+            <span className="block text-sm text-zinc-500 mt-2">Директолог, таргетолог, веб-разработка — средний CPL на 40% ниже рынка</span>
           </motion.p>
 
           {/* CTA Buttons — ABOVE carousel, always visible */}
