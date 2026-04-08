@@ -26,7 +26,13 @@ import {
   ExternalLink,
   ChevronLeft,
   ChevronRight,
-  X
+  X,
+  Heart,
+  Eye,
+  Scale,
+  Handshake,
+  Target,
+  Award
 } from "lucide-react";
 import ParallaxSection from "@/components/ParallaxSection";
 import QuickCTA from "@/components/QuickCTA";
