@@ -614,8 +614,54 @@ const WebDevelopment = () => {
         {/* Interactive Quiz */}
         <WebDevQuiz />
 
+        {/* Testimonials Section */}
+        <section className="py-24 bg-secondary/30">
+          <div className="container mx-auto px-4">
+            <div className="text-center max-w-3xl mx-auto mb-16">
+              <span className="text-primary font-semibold text-sm uppercase tracking-wider">
+                Отзывы клиентов
+              </span>
+              <h2 className="text-3xl md:text-5xl font-black mt-4 mb-6">
+                Нам{" "}
+                <span className="text-gradient-primary">доверяют</span>
+              </h2>
+            </div>
+
+            <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+              {testimonials.map((testimonial, index) => (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: index * 0.1 }}
+                >
+                  <Card className="h-full border-border/50 hover:shadow-lg transition-all">
+                    <CardContent className="p-6 space-y-4">
+                      <div className="flex gap-1">
+                        {Array.from({ length: testimonial.rating }).map((_, i) => (
+                          <Star key={i} className="w-5 h-5 fill-accent text-accent" />
+                        ))}
+                      </div>
+                      <p className="text-muted-foreground italic">
+                        "{testimonial.text}"
+                      </p>
+                      <div className="pt-4 border-t">
+                        <div className="font-bold">{testimonial.author}</div>
+                        <div className="text-sm text-muted-foreground">{testimonial.position}</div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </motion.div>
+              ))}
+            </div>
+
+            <QuickCTA variant="compact" text="Хотите такой же результат?" phone="+7 (949) 021-51-51" phoneRaw="+79490215151" telegramUrl="https://t.me/manager_ris" />
+          </div>
+        </section>
+
         {/* Principles Section */}
-        <section className="py-24 bg-secondary/30 relative overflow-hidden">
+        <section className="py-24 relative overflow-hidden">
           <div className="absolute inset-0 bg-grid-pattern opacity-5" />
           <div className="container mx-auto px-4 relative z-10">
             <div className="text-center max-w-3xl mx-auto mb-16">
@@ -697,7 +743,7 @@ const WebDevelopment = () => {
         </section>
 
         {/* Process Section */}
-        <section className="py-24">
+        <section className="py-24 bg-secondary/30">
           <div className="container mx-auto px-4">
             <div className="text-center max-w-3xl mx-auto mb-16">
               <span className="text-primary font-semibold text-sm uppercase tracking-wider">
@@ -744,52 +790,6 @@ const WebDevelopment = () => {
             </div>
 
             <QuickCTA variant="gradient" text="Готовы начать проект?" phone="+7 (949) 021-51-51" phoneRaw="+79490215151" telegramUrl="https://t.me/manager_ris" />
-          </div>
-        </section>
-
-        {/* Testimonials Section */}
-        <section className="py-24 bg-secondary/30">
-          <div className="container mx-auto px-4">
-            <div className="text-center max-w-3xl mx-auto mb-16">
-              <span className="text-primary font-semibold text-sm uppercase tracking-wider">
-                Отзывы клиентов
-              </span>
-              <h2 className="text-3xl md:text-5xl font-black mt-4 mb-6">
-                Нам{" "}
-                <span className="text-gradient-primary">доверяют</span>
-              </h2>
-            </div>
-
-            <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-              {testimonials.map((testimonial, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: index * 0.1 }}
-                >
-                  <Card className="h-full border-border/50 hover:shadow-lg transition-all">
-                    <CardContent className="p-6 space-y-4">
-                      <div className="flex gap-1">
-                        {Array.from({ length: testimonial.rating }).map((_, i) => (
-                          <Star key={i} className="w-5 h-5 fill-accent text-accent" />
-                        ))}
-                      </div>
-                      <p className="text-muted-foreground italic">
-                        "{testimonial.text}"
-                      </p>
-                      <div className="pt-4 border-t">
-                        <div className="font-bold">{testimonial.author}</div>
-                        <div className="text-sm text-muted-foreground">{testimonial.position}</div>
-                      </div>
-                    </CardContent>
-                  </Card>
-                </motion.div>
-              ))}
-            </div>
-
-            <QuickCTA variant="compact" text="Хотите такой же результат?" phone="+7 (949) 021-51-51" phoneRaw="+79490215151" telegramUrl="https://t.me/manager_ris" />
           </div>
         </section>
 
