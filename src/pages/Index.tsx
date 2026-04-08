@@ -12,6 +12,7 @@ import ReviewsBlock from "@/components/ReviewsBlock";
 import Footer from "@/components/Footer";
 import CookieConsent from "@/components/CookieConsent";
 import ScrollProgress from "@/components/ScrollProgress";
+import MoneyCtaButton from "@/components/MoneyCtaButton";
 
 const Index = () => {
   return (
@@ -24,21 +25,21 @@ const Index = () => {
       <ScrollProgress />
       <Header />
       <main>
-        {/* Hero is sticky — content scrolls over it */}
         <div className="relative">
           <div className="sticky top-0 z-0">
             <Hero />
           </div>
-          {/* This div scrolls over the hero */}
+          {/* Content scrolls over the hero */}
           <div className="relative z-10 bg-background rounded-t-[2.5rem] shadow-[0_-20px_60px_-15px_rgba(0,0,0,0.15)] -mt-8">
             <StatsBlock />
-            <QuickContact />
+            <MoneyCtaButton />
             <CasesSlider />
+            <QuickContact />
             <PriceCalculator />
             <ComparisonBlock />
             <ProcessBlock />
             <ReviewsBlock />
-            <QuickContact />
+            <MoneyCtaButton />
             <ContactForm />
           </div>
         </div>
