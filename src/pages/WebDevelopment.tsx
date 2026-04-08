@@ -357,7 +357,7 @@ const WebDevelopment = () => {
 
       <main ref={containerRef} className="overflow-hidden">
         {/* Hero Section */}
-        <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-b from-background via-background to-secondary/30">
+        <section className="relative py-24 md:py-32 flex items-center justify-center overflow-hidden bg-gradient-to-b from-background via-background to-secondary/30">
           {/* Animated background */}
           <div className="absolute inset-0 overflow-hidden">
             <div className="absolute -top-1/2 -left-1/2 w-full h-full bg-gradient-radial from-primary/10 via-transparent to-transparent animate-pulse" />
@@ -480,20 +480,6 @@ const WebDevelopment = () => {
             </div>
           </motion.div>
 
-          {/* Scroll indicator */}
-          <motion.div
-            className="absolute bottom-10 left-1/2 -translate-x-1/2"
-            animate={{ y: [0, 10, 0] }}
-            transition={{ duration: 2, repeat: Infinity }}
-          >
-            <div className="w-6 h-10 rounded-full border-2 border-primary/30 flex justify-center pt-2">
-              <motion.div
-                className="w-1.5 h-3 bg-primary rounded-full"
-                animate={{ y: [0, 12, 0], opacity: [1, 0, 1] }}
-                transition={{ duration: 2, repeat: Infinity }}
-              />
-            </div>
-          </motion.div>
         </section>
 
         {/* Stats Ticker */}
