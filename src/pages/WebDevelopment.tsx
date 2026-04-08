@@ -495,34 +495,41 @@ const WebDevelopment = () => {
           </motion.div>
         </section>
 
-        {/* Stats Section */}
-        <section className="py-20 bg-secondary/50">
+        {/* Stats Ticker */}
+        <section className="py-6 border-y border-border/30 bg-secondary/30 overflow-hidden">
           <div className="container mx-auto px-4">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+            <div className="flex items-center justify-center gap-3 md:gap-6 flex-wrap md:flex-nowrap">
               {stats.map((stat, index) => (
                 <motion.div
                   key={index}
-                  className="text-center"
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
+                  className="flex items-center gap-2.5 group cursor-default"
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
                   viewport={{ once: true }}
-                  transition={{ delay: index * 0.1 }}
+                  transition={{ delay: index * 0.08, type: "spring", stiffness: 300 }}
+                  whileHover={{ scale: 1.05 }}
                 >
-                  <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-primary/10 mb-4">
-                    <stat.icon className="w-8 h-8 text-primary" />
+                  <motion.div 
+                    className="flex items-center justify-center w-10 h-10 rounded-xl bg-primary/10 group-hover:bg-primary/20 transition-colors"
+                    whileHover={{ rotate: [0, -10, 10, 0] }}
+                    transition={{ duration: 0.4 }}
+                  >
+                    <stat.icon className="w-5 h-5 text-primary" />
+                  </motion.div>
+                  <div className="flex flex-col">
+                    <span className="text-lg md:text-xl font-black text-foreground leading-tight">
+                      {stat.value}
+                    </span>
+                    <span className="text-[11px] text-muted-foreground font-medium leading-tight">
+                      {stat.label}
+                    </span>
                   </div>
-                  <div className="text-3xl md:text-4xl font-black text-primary mb-2">
-                    {stat.value}
-                  </div>
-                  <div className="text-muted-foreground font-medium">
-                    {stat.label}
-                  </div>
+                  {index < stats.length - 1 && (
+                    <div className="hidden md:block w-px h-8 bg-border/50 ml-3" />
+                  )}
                 </motion.div>
               ))}
             </div>
-
-            {/* Quick CTA */}
-            <QuickCTA variant="compact" text="Хотите узнать больше?" phone="+7 (949) 021-51-51" phoneRaw="+79490215151" telegramUrl="https://t.me/manager_ris" />
           </div>
         </section>
 
