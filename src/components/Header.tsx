@@ -38,9 +38,9 @@ const Header = () => {
   const location = useLocation();
   const { settings } = useSiteSettingsMap();
 
-  const garlandEnabled = getSetting(settings, "effects_garland_enabled", "true") === "true";
-  const bannerEnabled = getSetting(settings, "effects_banner_enabled", "true") === "true";
-  const bannerText = getSetting(settings, "effects_banner_text", "С Новым 2026 годом! 🎄 Желаем успехов и процветания вашему бизнесу!");
+  const garlandEnabled = getSetting(settings, "effects_garland_enabled", "false") === "true";
+  const bannerEnabled = getSetting(settings, "effects_banner_enabled", "false") === "true";
+  const bannerText = getSetting(settings, "effects_banner_text", "");
 
   useEffect(() => {
     const interval = setInterval(() => {
