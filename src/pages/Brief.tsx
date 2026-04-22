@@ -509,6 +509,10 @@ const Brief = () => {
                         <Label>Референсы (сайты, которые нравятся)</Label>
                         <Textarea value={data.references} onChange={(e) => update("references", e.target.value)} placeholder="apple.com, tilda.cc — что именно нравится?" rows={2} />
                       </div>
+                      <div className="space-y-2">
+                        <Label>Пожелания и идеи по дизайну</Label>
+                        <Textarea value={data.designWishes} onChange={(e) => update("designWishes", e.target.value)} placeholder="Анимации, видео-фон, 3D-элементы, особое настроение, чего точно НЕ хочется…" rows={3} />
+                      </div>
                     </>
                   )}
 
