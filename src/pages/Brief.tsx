@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { Helmet } from "react-helmet-async";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowLeft, ArrowRight, Check, Loader2, Sparkles, Send } from "lucide-react";
+import { ArrowLeft, ArrowRight, Check, Loader2, Sparkles, Send, Upload, X, FileImage } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -13,6 +13,8 @@ import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+
+type UploadedFile = { name: string; url: string };
 
 type BriefData = {
   // Step 1 — Контакты
@@ -32,13 +34,15 @@ type BriefData = {
   features: string[];
   // Step 5 — Дизайн
   style: string;
-  colors: string;
+  colors: string[];
+  colorCombo: string;
   references: string;
   // Step 6 — Контент
   content: string;
   branding: string;
-  // Step 7 — Бюджет
-  budget: string;
+  logoFiles: UploadedFile[];
+  photoFiles: UploadedFile[];
+  // Step 7 — Сроки
   deadline: string;
   additional: string;
 };
@@ -48,9 +52,9 @@ const initialData: BriefData = {
   company: "", niche: "", geo: "", currentSite: "",
   siteType: "", goal: "", audience: "",
   features: [],
-  style: "", colors: "", references: "",
-  content: "", branding: "",
-  budget: "", deadline: "", additional: "",
+  style: "", colors: [], colorCombo: "", references: "",
+  content: "", branding: "", logoFiles: [], photoFiles: [],
+  deadline: "", additional: "",
 };
 
 const SITE_TYPES = ["Лендинг (1 страница)", "Многостраничный сайт", "Интернет-магазин", "Корпоративный портал", "Квиз-сайт", "Не знаю — нужна консультация"];
@@ -60,7 +64,38 @@ const FEATURES = [
   "Интеграция с 1С", "Мультиязычность", "SEO-оптимизация", "Подключение аналитики"
 ];
 const STYLES = ["Минимализм", "Корпоративный строгий", "Яркий и продающий", "Премиум / люкс", "Креативный / необычный", "Доверюсь дизайнеру"];
-const BUDGETS = ["до 50 000 ₽", "50 000 – 100 000 ₽", "100 000 – 200 000 ₽", "200 000 – 500 000 ₽", "от 500 000 ₽", "Жду предложение"];
+
+// Палитра цветов для выбора
+const COLOR_PALETTE = [
+  { name: "Синий", hex: "#2563EB" },
+  { name: "Голубой", hex: "#0EA5E9" },
+  { name: "Бирюза", hex: "#14B8A6" },
+  { name: "Зелёный", hex: "#22C55E" },
+  { name: "Жёлтый", hex: "#EAB308" },
+  { name: "Оранжевый", hex: "#F97316" },
+  { name: "Красный", hex: "#EF4444" },
+  { name: "Розовый", hex: "#EC4899" },
+  { name: "Фиолетовый", hex: "#8B5CF6" },
+  { name: "Индиго", hex: "#6366F1" },
+  { name: "Чёрный", hex: "#0A0A0A" },
+  { name: "Белый", hex: "#FFFFFF" },
+  { name: "Серый", hex: "#6B7280" },
+  { name: "Бежевый", hex: "#D6C7A8" },
+  { name: "Золотой", hex: "#D4AF37" },
+];
+
+// Готовые сочетания
+const COLOR_COMBOS = [
+  { name: "Классика", colors: ["#0A0A0A", "#FFFFFF", "#2563EB"] },
+  { name: "Премиум", colors: ["#0A0A0A", "#D4AF37", "#FFFFFF"] },
+  { name: "Минимализм", colors: ["#FFFFFF", "#0A0A0A", "#6B7280"] },
+  { name: "Яркий", colors: ["#F97316", "#0A0A0A", "#FFFFFF"] },
+  { name: "Природа", colors: ["#22C55E", "#FFFFFF", "#D6C7A8"] },
+  { name: "Технологии", colors: ["#0EA5E9", "#6366F1", "#0A0A0A"] },
+  { name: "Энергия", colors: ["#EF4444", "#EAB308", "#0A0A0A"] },
+  { name: "Уют", colors: ["#D6C7A8", "#8B5CF6", "#FFFFFF"] },
+];
+
 const DEADLINES = ["Срочно (до 2 недель)", "1 месяц", "2-3 месяца", "Не горит"];
 
 const steps = [
@@ -70,7 +105,7 @@ const steps = [
   { id: 4, title: "Функционал", emoji: "🛠" },
   { id: 5, title: "Дизайн", emoji: "🎨" },
   { id: 6, title: "Контент", emoji: "📦" },
-  { id: 7, title: "Бюджет", emoji: "💰" },
+  { id: 7, title: "Сроки", emoji: "⏱" },
 ];
 
 const Brief = () => {
@@ -80,6 +115,10 @@ const Brief = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [privacyAccepted, setPrivacyAccepted] = useState(false);
+  const [uploadingLogo, setUploadingLogo] = useState(false);
+  const [uploadingPhoto, setUploadingPhoto] = useState(false);
+  const logoInputRef = useRef<HTMLInputElement>(null);
+  const photoInputRef = useRef<HTMLInputElement>(null);
 
   const totalSteps = steps.length;
   const progress = (step / totalSteps) * 100;
@@ -96,12 +135,63 @@ const Brief = () => {
     }));
   };
 
+  const toggleColor = (hex: string) => {
+    setData((prev) => ({
+      ...prev,
+      colors: prev.colors.includes(hex)
+        ? prev.colors.filter((c) => c !== hex)
+        : [...prev.colors, hex],
+      colorCombo: "", // сбрасываем готовое сочетание при ручном выборе
+    }));
+  };
+
+  const selectCombo = (comboName: string, colors: string[]) => {
+    setData((prev) => ({ ...prev, colorCombo: comboName, colors }));
+  };
+
+  const uploadFiles = async (
+    files: FileList,
+    folder: "logos" | "photos",
+    setUploading: (v: boolean) => void,
+    key: "logoFiles" | "photoFiles"
+  ) => {
+    setUploading(true);
+    try {
+      const uploaded: UploadedFile[] = [];
+      for (const file of Array.from(files)) {
+        if (file.size > 10 * 1024 * 1024) {
+          toast({ title: "Файл слишком большой", description: `${file.name} больше 10MB`, variant: "destructive" });
+          continue;
+        }
+        const ext = file.name.split(".").pop();
+        const fileName = `brief/${folder}/${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
+        const { error } = await supabase.storage.from("site-images").upload(fileName, file);
+        if (error) throw error;
+        const { data: pub } = supabase.storage.from("site-images").getPublicUrl(fileName);
+        uploaded.push({ name: file.name, url: pub.publicUrl });
+      }
+      setData((prev) => ({ ...prev, [key]: [...prev[key], ...uploaded] }));
+      if (uploaded.length) {
+        toast({ title: "Загружено", description: `Файлов: ${uploaded.length}` });
+      }
+    } catch (e) {
+      console.error(e);
+      toast({ title: "Ошибка загрузки", description: "Попробуйте ещё раз", variant: "destructive" });
+    } finally {
+      setUploading(false);
+    }
+  };
+
+  const removeFile = (key: "logoFiles" | "photoFiles", url: string) => {
+    setData((prev) => ({ ...prev, [key]: prev[key].filter((f) => f.url !== url) }));
+  };
+
   const canProceed = () => {
     switch (step) {
       case 1: return data.name.trim() && data.phone.trim();
       case 2: return data.company.trim() && data.niche.trim();
       case 3: return data.siteType && data.goal.trim();
-      case 7: return data.budget && privacyAccepted;
+      case 7: return privacyAccepted;
       default: return true;
     }
   };
@@ -113,8 +203,15 @@ const Brief = () => {
     if (!canProceed()) return;
     setIsLoading(true);
     try {
+      const payload = {
+        ...data,
+        colors: data.colors.join(", "),
+        colorCombo: data.colorCombo,
+        logoFiles: data.logoFiles.map((f) => `${f.name}: ${f.url}`).join("\n") || "—",
+        photoFiles: data.photoFiles.map((f) => `${f.name}: ${f.url}`).join("\n") || "—",
+      };
       const { error } = await supabase.functions.invoke("send-telegram", {
-        body: { formType: "brief", ...data },
+        body: { formType: "brief", ...payload },
       });
       if (error) throw error;
       setSubmitted(true);
@@ -144,7 +241,6 @@ const Brief = () => {
 
         {!submitted ? (
           <>
-            {/* Header */}
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-10">
               <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 text-primary text-sm font-semibold mb-4">
                 <Sparkles className="h-4 w-4" /> Бриф на создание сайта
@@ -157,7 +253,6 @@ const Brief = () => {
               </p>
             </motion.div>
 
-            {/* Progress */}
             <div className="mb-8">
               <div className="flex justify-between items-center mb-3">
                 <span className="text-sm font-semibold text-muted-foreground">
@@ -167,7 +262,6 @@ const Brief = () => {
               </div>
               <Progress value={progress} className="h-2" />
 
-              {/* Step dots */}
               <div className="hidden md:flex justify-between mt-4">
                 {steps.map((s) => (
                   <button
@@ -191,7 +285,6 @@ const Brief = () => {
               </div>
             </div>
 
-            {/* Step Content */}
             <div className="bg-card border border-border/50 rounded-3xl p-6 md:p-10 shadow-card min-h-[400px]">
               <AnimatePresence mode="wait">
                 <motion.div
@@ -306,6 +399,7 @@ const Brief = () => {
                     <>
                       <h2 className="text-2xl font-bold mb-1">Дизайн и стиль</h2>
                       <p className="text-muted-foreground text-sm mb-6">Какой визуал вам ближе?</p>
+
                       <div className="space-y-3">
                         <Label>Стиль сайта</Label>
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
@@ -323,10 +417,66 @@ const Brief = () => {
                           ))}
                         </div>
                       </div>
-                      <div className="space-y-2">
-                        <Label>Цветовая гамма</Label>
-                        <Input value={data.colors} onChange={(e) => update("colors", e.target.value)} placeholder="Синий + белый, фирменные цвета, на ваш вкус…" className="h-12" />
+
+                      {/* Палитра */}
+                      <div className="space-y-3">
+                        <Label>Выберите цвета (можно несколько)</Label>
+                        <div className="grid grid-cols-5 sm:grid-cols-8 gap-2">
+                          {COLOR_PALETTE.map((c) => {
+                            const selected = data.colors.includes(c.hex);
+                            return (
+                              <button
+                                key={c.hex}
+                                type="button"
+                                onClick={() => toggleColor(c.hex)}
+                                title={c.name}
+                                className={`relative aspect-square rounded-xl border-2 transition-all hover:scale-110 ${
+                                  selected ? "border-primary scale-110 shadow-glow" : "border-border/50"
+                                }`}
+                                style={{ backgroundColor: c.hex }}
+                              >
+                                {selected && (
+                                  <div className="absolute inset-0 flex items-center justify-center">
+                                    <div className="bg-background/90 rounded-full p-0.5">
+                                      <Check className="h-3 w-3 text-primary" />
+                                    </div>
+                                  </div>
+                                )}
+                              </button>
+                            );
+                          })}
+                        </div>
+                        {data.colors.length > 0 && (
+                          <p className="text-xs text-muted-foreground">
+                            Выбрано: {data.colors.length} {data.colors.length === 1 ? "цвет" : "цвета"}
+                          </p>
+                        )}
                       </div>
+
+                      {/* Готовые сочетания */}
+                      <div className="space-y-3">
+                        <Label>Или выберите готовое сочетание</Label>
+                        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                          {COLOR_COMBOS.map((combo) => (
+                            <button
+                              key={combo.name}
+                              type="button"
+                              onClick={() => selectCombo(combo.name, combo.colors)}
+                              className={`p-2 rounded-xl border-2 transition-all text-left ${
+                                data.colorCombo === combo.name ? "border-primary bg-primary/10" : "border-border hover:border-primary/50"
+                              }`}
+                            >
+                              <div className="flex gap-1 mb-2">
+                                {combo.colors.map((c) => (
+                                  <div key={c} className="flex-1 h-8 rounded-md border border-border/30" style={{ backgroundColor: c }} />
+                                ))}
+                              </div>
+                              <span className="text-xs font-semibold">{combo.name}</span>
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+
                       <div className="space-y-2">
                         <Label>Референсы (сайты, которые нравятся)</Label>
                         <Textarea value={data.references} onChange={(e) => update("references", e.target.value)} placeholder="apple.com, tilda.cc — что именно нравится?" rows={2} />
@@ -338,38 +488,106 @@ const Brief = () => {
                     <>
                       <h2 className="text-2xl font-bold mb-1">Контент и брендинг</h2>
                       <p className="text-muted-foreground text-sm mb-6">У вас уже есть материалы?</p>
+
                       <div className="space-y-2">
                         <Label>Тексты для сайта</Label>
                         <Textarea value={data.content} onChange={(e) => update("content", e.target.value)} placeholder="Готовы / напишем сами / нужна помощь копирайтера" rows={2} />
                       </div>
+
                       <div className="space-y-2">
                         <Label>Логотип и брендбук</Label>
                         <Textarea value={data.branding} onChange={(e) => update("branding", e.target.value)} placeholder="Есть логотип / нужно разработать / есть полный брендбук" rows={2} />
+                      </div>
+
+                      {/* Загрузка лого */}
+                      <div className="space-y-2">
+                        <Label>Загрузить логотип</Label>
+                        <input
+                          ref={logoInputRef}
+                          type="file"
+                          accept="image/*,.pdf,.ai,.eps,.svg"
+                          multiple
+                          className="hidden"
+                          onChange={(e) => e.target.files && uploadFiles(e.target.files, "logos", setUploadingLogo, "logoFiles")}
+                        />
+                        <Button
+                          type="button"
+                          variant="outline"
+                          onClick={() => logoInputRef.current?.click()}
+                          disabled={uploadingLogo}
+                          className="w-full h-12"
+                        >
+                          {uploadingLogo ? (
+                            <><Loader2 className="h-4 w-4 mr-2 animate-spin" /> Загружаем…</>
+                          ) : (
+                            <><Upload className="h-4 w-4 mr-2" /> Выбрать файл логотипа</>
+                          )}
+                        </Button>
+                        {data.logoFiles.length > 0 && (
+                          <div className="space-y-1 mt-2">
+                            {data.logoFiles.map((f) => (
+                              <div key={f.url} className="flex items-center gap-2 p-2 rounded-lg bg-muted/50 text-sm">
+                                <FileImage className="h-4 w-4 text-primary shrink-0" />
+                                <span className="flex-1 truncate">{f.name}</span>
+                                <button onClick={() => removeFile("logoFiles", f.url)} type="button" className="text-muted-foreground hover:text-destructive">
+                                  <X className="h-4 w-4" />
+                                </button>
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+
+                      {/* Загрузка фото */}
+                      <div className="space-y-2">
+                        <Label>Загрузить фото для сайта</Label>
+                        <input
+                          ref={photoInputRef}
+                          type="file"
+                          accept="image/*"
+                          multiple
+                          className="hidden"
+                          onChange={(e) => e.target.files && uploadFiles(e.target.files, "photos", setUploadingPhoto, "photoFiles")}
+                        />
+                        <Button
+                          type="button"
+                          variant="outline"
+                          onClick={() => photoInputRef.current?.click()}
+                          disabled={uploadingPhoto}
+                          className="w-full h-12"
+                        >
+                          {uploadingPhoto ? (
+                            <><Loader2 className="h-4 w-4 mr-2 animate-spin" /> Загружаем…</>
+                          ) : (
+                            <><Upload className="h-4 w-4 mr-2" /> Выбрать фото (можно несколько)</>
+                          )}
+                        </Button>
+                        {data.photoFiles.length > 0 && (
+                          <div className="grid grid-cols-3 sm:grid-cols-4 gap-2 mt-2">
+                            {data.photoFiles.map((f) => (
+                              <div key={f.url} className="relative group aspect-square rounded-lg overflow-hidden border border-border">
+                                <img src={f.url} alt={f.name} className="w-full h-full object-cover" />
+                                <button
+                                  onClick={() => removeFile("photoFiles", f.url)}
+                                  type="button"
+                                  className="absolute top-1 right-1 p-1 rounded-full bg-destructive text-destructive-foreground opacity-0 group-hover:opacity-100 transition-opacity"
+                                >
+                                  <X className="h-3 w-3" />
+                                </button>
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                        <p className="text-xs text-muted-foreground">До 10MB на файл</p>
                       </div>
                     </>
                   )}
 
                   {step === 7 && (
                     <>
-                      <h2 className="text-2xl font-bold mb-1">Бюджет и сроки</h2>
+                      <h2 className="text-2xl font-bold mb-1">Сроки и пожелания</h2>
                       <p className="text-muted-foreground text-sm mb-6">Финальный шаг — почти всё!</p>
-                      <div className="space-y-3">
-                        <Label>Бюджет на разработку *</Label>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                          {BUDGETS.map((b) => (
-                            <button
-                              key={b}
-                              type="button"
-                              onClick={() => update("budget", b)}
-                              className={`text-left p-3 rounded-xl border-2 transition-all text-sm font-medium ${
-                                data.budget === b ? "border-primary bg-primary/10" : "border-border hover:border-primary/50"
-                              }`}
-                            >
-                              {b}
-                            </button>
-                          ))}
-                        </div>
-                      </div>
+
                       <div className="space-y-3">
                         <Label>Желаемые сроки</Label>
                         <div className="grid grid-cols-2 gap-2">
@@ -387,10 +605,12 @@ const Brief = () => {
                           ))}
                         </div>
                       </div>
+
                       <div className="space-y-2">
                         <Label>Что ещё важно рассказать?</Label>
-                        <Textarea value={data.additional} onChange={(e) => update("additional", e.target.value)} placeholder="Любые комментарии, пожелания, вопросы…" rows={3} />
+                        <Textarea value={data.additional} onChange={(e) => update("additional", e.target.value)} placeholder="Любые комментарии, пожелания, вопросы…" rows={4} />
                       </div>
+
                       <div className="flex items-start gap-3 pt-2">
                         <Checkbox id="privacy-brief" checked={privacyAccepted} onCheckedChange={(c) => setPrivacyAccepted(c === true)} className="mt-0.5" />
                         <label htmlFor="privacy-brief" className="text-xs text-muted-foreground leading-relaxed cursor-pointer">
@@ -406,7 +626,6 @@ const Brief = () => {
               </AnimatePresence>
             </div>
 
-            {/* Navigation */}
             <div className="flex justify-between gap-3 mt-6">
               <Button
                 variant="outline"
