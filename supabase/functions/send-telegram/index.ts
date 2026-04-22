@@ -72,13 +72,17 @@ const handler = async (req: Request): Promise<Response> => {
           `<b>🎨 ДИЗАЙН</b>\n` +
           `Стиль: ${briefData.style || "—"}\n` +
           `Цвета: ${briefData.colors || "—"}\n` +
+          `Сочетание: ${briefData.colorCombo || "—"}\n` +
           `Референсы: ${briefData.references || "—"}\n\n` +
           `<b>📦 КОНТЕНТ</b>\n` +
           `Тексты: ${briefData.content || "—"}\n` +
           `Логотип/брендбук: ${briefData.branding || "—"}\n\n` +
-          `<b>💰 БЮДЖЕТ И СРОКИ</b>\n` +
-          `Бюджет: ${briefData.budget || "—"}\n` +
-          `Сроки: ${briefData.deadline || "—"}\n\n` +
+          `<b>📎 ФАЙЛЫ — ЛОГОТИП</b>\n` +
+          `${briefData.logoFiles || "—"}\n\n` +
+          `<b>📎 ФАЙЛЫ — ФОТО ДЛЯ САЙТА</b>\n` +
+          `${briefData.photoFiles || "—"}\n\n` +
+          `<b>⏱ СРОКИ</b>\n` +
+          `${briefData.deadline || "—"}\n\n` +
           `<b>💬 ДОПОЛНИТЕЛЬНО</b>\n` +
           `${briefData.additional || "—"}`;
         break;
