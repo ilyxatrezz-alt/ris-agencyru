@@ -26,6 +26,8 @@ type BriefData = {
   niche: string;
   geo: string;
   currentSite: string;
+  products: string;
+  competitors: string;
   // Step 3 — Задача
   siteType: string;
   goal: string;
@@ -37,6 +39,7 @@ type BriefData = {
   colors: string[];
   colorCombo: string;
   references: string;
+  designWishes: string;
   // Step 6 — Контент
   content: string;
   branding: string;
@@ -49,10 +52,10 @@ type BriefData = {
 
 const initialData: BriefData = {
   name: "", phone: "", messenger: "",
-  company: "", niche: "", geo: "", currentSite: "",
+  company: "", niche: "", geo: "", currentSite: "", products: "", competitors: "",
   siteType: "", goal: "", audience: "",
   features: [],
-  style: "", colors: [], colorCombo: "", references: "",
+  style: "", colors: [], colorCombo: "", references: "", designWishes: "",
   content: "", branding: "", logoFiles: [], photoFiles: [],
   deadline: "", additional: "",
 };
