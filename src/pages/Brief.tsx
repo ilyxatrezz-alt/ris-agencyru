@@ -197,6 +197,7 @@ const Brief = () => {
   };
 
   const canProceed = () => {
+    if (isSkipped(step)) return true;
     switch (step) {
       case 1: return data.name.trim() && data.phone.trim();
       case 2: return data.company.trim() && data.niche.trim();
@@ -213,12 +214,18 @@ const Brief = () => {
     if (!canProceed()) return;
     setIsLoading(true);
     try {
+      const skippedLabels = skippedSteps
+        .map((id) => steps.find((s) => s.id === id))
+        .filter(Boolean)
+        .map((s) => `${s!.emoji} ${s!.title}`)
+        .join(", ");
       const payload = {
         ...data,
         colors: data.colors.join(", "),
         colorCombo: data.colorCombo,
         logoFiles: data.logoFiles.map((f) => `${f.name}: ${f.url}`).join("\n") || "—",
         photoFiles: data.photoFiles.map((f) => `${f.name}: ${f.url}`).join("\n") || "—",
+        skippedSteps: skippedLabels || "—",
       };
       const { error } = await supabase.functions.invoke("send-telegram", {
         body: { formType: "brief", ...payload },
