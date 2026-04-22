@@ -83,6 +83,8 @@ const handler = async (req: Request): Promise<Response> => {
           `${briefData.photoFiles || "—"}\n\n` +
           `<b>⏱ СРОКИ</b>\n` +
           `${briefData.deadline || "—"}\n\n` +
+          `<b>⏭ ПРОПУЩЕННЫЕ ШАГИ</b> (клиент уже знаком)\n` +
+          `${briefData.skippedSteps || "—"}\n\n` +
           `<b>💬 ДОПОЛНИТЕЛЬНО</b>\n` +
           `${briefData.additional || "—"}`;
         break;

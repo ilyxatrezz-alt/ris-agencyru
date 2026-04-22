@@ -117,8 +117,18 @@ const Brief = () => {
   const [privacyAccepted, setPrivacyAccepted] = useState(false);
   const [uploadingLogo, setUploadingLogo] = useState(false);
   const [uploadingPhoto, setUploadingPhoto] = useState(false);
+  const [skippedSteps, setSkippedSteps] = useState<number[]>([]);
   const logoInputRef = useRef<HTMLInputElement>(null);
   const photoInputRef = useRef<HTMLInputElement>(null);
+
+  const SKIPPABLE_STEPS = [1, 2, 3, 6];
+  const isSkipped = (s: number) => skippedSteps.includes(s);
+
+  const skipStep = () => {
+    if (!SKIPPABLE_STEPS.includes(step)) return;
+    setSkippedSteps((prev) => prev.includes(step) ? prev : [...prev, step]);
+    if (step < totalSteps) setStep(step + 1);
+  };
 
   const totalSteps = steps.length;
   const progress = (step / totalSteps) * 100;
@@ -187,6 +197,7 @@ const Brief = () => {
   };
 
   const canProceed = () => {
+    if (isSkipped(step)) return true;
     switch (step) {
       case 1: return data.name.trim() && data.phone.trim();
       case 2: return data.company.trim() && data.niche.trim();
@@ -203,12 +214,18 @@ const Brief = () => {
     if (!canProceed()) return;
     setIsLoading(true);
     try {
+      const skippedLabels = skippedSteps
+        .map((id) => steps.find((s) => s.id === id))
+        .filter(Boolean)
+        .map((s) => `${s!.emoji} ${s!.title}`)
+        .join(", ");
       const payload = {
         ...data,
         colors: data.colors.join(", "),
         colorCombo: data.colorCombo,
         logoFiles: data.logoFiles.map((f) => `${f.name}: ${f.url}`).join("\n") || "—",
         photoFiles: data.photoFiles.map((f) => `${f.name}: ${f.url}`).join("\n") || "—",
+        skippedSteps: skippedLabels || "—",
       };
       const { error } = await supabase.functions.invoke("send-telegram", {
         body: { formType: "brief", ...payload },
@@ -626,40 +643,52 @@ const Brief = () => {
               </AnimatePresence>
             </div>
 
-            <div className="flex justify-between gap-3 mt-6">
-              <Button
-                variant="outline"
-                onClick={prev}
-                disabled={step === 1}
-                size="lg"
-                className="flex-1 sm:flex-none"
-              >
-                <ArrowLeft className="h-4 w-4 mr-2" /> Назад
-              </Button>
-
-              {step < totalSteps ? (
-                <Button
-                  onClick={next}
-                  disabled={!canProceed()}
-                  size="lg"
-                  className="flex-1 gradient-primary shadow-cta hover:shadow-glow font-bold"
+            <div className="space-y-3 mt-6">
+              {SKIPPABLE_STEPS.includes(step) && step < totalSteps && (
+                <button
+                  type="button"
+                  onClick={skipStep}
+                  className="w-full text-sm text-muted-foreground hover:text-primary underline underline-offset-4 transition-colors py-2"
                 >
-                  Далее <ArrowRight className="h-4 w-4 ml-2" />
-                </Button>
-              ) : (
-                <Button
-                  onClick={submit}
-                  disabled={!canProceed() || isLoading}
-                  size="lg"
-                  className="flex-1 gradient-primary shadow-cta hover:shadow-glow font-bold"
-                >
-                  {isLoading ? (
-                    <><Loader2 className="h-4 w-4 mr-2 animate-spin" /> Отправка…</>
-                  ) : (
-                    <>Отправить бриф <Send className="h-4 w-4 ml-2" /></>
-                  )}
-                </Button>
+                  Это вы про меня уже знаете → пропустить шаг
+                </button>
               )}
+
+              <div className="flex justify-between gap-3">
+                <Button
+                  variant="outline"
+                  onClick={prev}
+                  disabled={step === 1}
+                  size="lg"
+                  className="flex-1 sm:flex-none"
+                >
+                  <ArrowLeft className="h-4 w-4 mr-2" /> Назад
+                </Button>
+
+                {step < totalSteps ? (
+                  <Button
+                    onClick={next}
+                    disabled={!canProceed()}
+                    size="lg"
+                    className="flex-1 gradient-primary shadow-cta hover:shadow-glow font-bold"
+                  >
+                    Далее <ArrowRight className="h-4 w-4 ml-2" />
+                  </Button>
+                ) : (
+                  <Button
+                    onClick={submit}
+                    disabled={!canProceed() || isLoading}
+                    size="lg"
+                    className="flex-1 gradient-primary shadow-cta hover:shadow-glow font-bold"
+                  >
+                    {isLoading ? (
+                      <><Loader2 className="h-4 w-4 mr-2 animate-spin" /> Отправка…</>
+                    ) : (
+                      <>Отправить бриф <Send className="h-4 w-4 ml-2" /></>
+                    )}
+                  </Button>
+                )}
+              </div>
             </div>
           </>
         ) : (
