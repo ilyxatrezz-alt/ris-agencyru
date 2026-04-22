@@ -26,6 +26,8 @@ type BriefData = {
   niche: string;
   geo: string;
   currentSite: string;
+  products: string;
+  competitors: string;
   // Step 3 — Задача
   siteType: string;
   goal: string;
@@ -37,6 +39,7 @@ type BriefData = {
   colors: string[];
   colorCombo: string;
   references: string;
+  designWishes: string;
   // Step 6 — Контент
   content: string;
   branding: string;
@@ -49,10 +52,10 @@ type BriefData = {
 
 const initialData: BriefData = {
   name: "", phone: "", messenger: "",
-  company: "", niche: "", geo: "", currentSite: "",
+  company: "", niche: "", geo: "", currentSite: "", products: "", competitors: "",
   siteType: "", goal: "", audience: "",
   features: [],
-  style: "", colors: [], colorCombo: "", references: "",
+  style: "", colors: [], colorCombo: "", references: "", designWishes: "",
   content: "", branding: "", logoFiles: [], photoFiles: [],
   deadline: "", additional: "",
 };
@@ -351,6 +354,14 @@ const Brief = () => {
                         <Label>Текущий сайт (если есть)</Label>
                         <Input value={data.currentSite} onChange={(e) => update("currentSite", e.target.value)} placeholder="example.ru или «нет сайта»" className="h-12" />
                       </div>
+                      <div className="space-y-2">
+                        <Label>Основные продукты / услуги</Label>
+                        <Textarea value={data.products} onChange={(e) => update("products", e.target.value)} placeholder="Что вы продаёте? Краткое описание основных товаров или услуг…" rows={3} />
+                      </div>
+                      <div className="space-y-2">
+                        <Label>Прямые конкуренты</Label>
+                        <Textarea value={data.competitors} onChange={(e) => update("competitors", e.target.value)} placeholder="Сайты или названия 2-5 конкурентов: konkurent1.ru, конкурент 2…" rows={2} />
+                      </div>
                     </>
                   )}
 
@@ -497,6 +508,10 @@ const Brief = () => {
                       <div className="space-y-2">
                         <Label>Референсы (сайты, которые нравятся)</Label>
                         <Textarea value={data.references} onChange={(e) => update("references", e.target.value)} placeholder="apple.com, tilda.cc — что именно нравится?" rows={2} />
+                      </div>
+                      <div className="space-y-2">
+                        <Label>Пожелания и идеи по дизайну</Label>
+                        <Textarea value={data.designWishes} onChange={(e) => update("designWishes", e.target.value)} placeholder="Анимации, видео-фон, 3D-элементы, особое настроение, чего точно НЕ хочется…" rows={3} />
                       </div>
                     </>
                   )}
