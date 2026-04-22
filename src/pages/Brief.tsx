@@ -117,8 +117,18 @@ const Brief = () => {
   const [privacyAccepted, setPrivacyAccepted] = useState(false);
   const [uploadingLogo, setUploadingLogo] = useState(false);
   const [uploadingPhoto, setUploadingPhoto] = useState(false);
+  const [skippedSteps, setSkippedSteps] = useState<number[]>([]);
   const logoInputRef = useRef<HTMLInputElement>(null);
   const photoInputRef = useRef<HTMLInputElement>(null);
+
+  const SKIPPABLE_STEPS = [1, 2, 3, 6];
+  const isSkipped = (s: number) => skippedSteps.includes(s);
+
+  const skipStep = () => {
+    if (!SKIPPABLE_STEPS.includes(step)) return;
+    setSkippedSteps((prev) => prev.includes(step) ? prev : [...prev, step]);
+    if (step < totalSteps) setStep(step + 1);
+  };
 
   const totalSteps = steps.length;
   const progress = (step / totalSteps) * 100;
