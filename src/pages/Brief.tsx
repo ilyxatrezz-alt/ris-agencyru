@@ -354,6 +354,14 @@ const Brief = () => {
                         <Label>Текущий сайт (если есть)</Label>
                         <Input value={data.currentSite} onChange={(e) => update("currentSite", e.target.value)} placeholder="example.ru или «нет сайта»" className="h-12" />
                       </div>
+                      <div className="space-y-2">
+                        <Label>Основные продукты / услуги</Label>
+                        <Textarea value={data.products} onChange={(e) => update("products", e.target.value)} placeholder="Что вы продаёте? Краткое описание основных товаров или услуг…" rows={3} />
+                      </div>
+                      <div className="space-y-2">
+                        <Label>Прямые конкуренты</Label>
+                        <Textarea value={data.competitors} onChange={(e) => update("competitors", e.target.value)} placeholder="Сайты или названия 2-5 конкурентов: konkurent1.ru, конкурент 2…" rows={2} />
+                      </div>
                     </>
                   )}
 
