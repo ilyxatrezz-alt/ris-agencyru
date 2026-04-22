@@ -31,6 +31,7 @@ import CrmDashboard from "./pages/CrmDashboard";
 import CrmClientDetail from "./pages/CrmClientDetail";
 import CrmTasks from "./pages/CrmTasks";
 import CrmAccounting from "./pages/CrmAccounting";
+import Brief from "./pages/Brief";
 
 const queryClient = new QueryClient();
 
@@ -65,6 +66,7 @@ const AppContent = () => {
                 <Route path="/about" element={<About />} />
                 <Route path="/contacts" element={<Contacts />} />
                 <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+                <Route path="/brief" element={<Brief />} />
                 <Route path="/auth" element={<Auth />} />
                 <Route
                   path="/admin"

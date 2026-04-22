@@ -50,6 +50,39 @@ const handler = async (req: Request): Promise<Response> => {
           `🏢 <b>Ниша:</b> ${data.niche || "Не указана"}`;
         break;
 
+      case "brief":
+        const briefData = data as any;
+        messageText = `📋 <b>НОВЫЙ БРИФ НА САЙТ</b>\n\n` +
+          `━━━━━━━━━━━━━━━━━━━\n` +
+          `<b>👤 КОНТАКТЫ</b>\n` +
+          `Имя: ${briefData.name || "—"}\n` +
+          `Телефон: ${briefData.phone || "—"}\n` +
+          `Telegram/WhatsApp: ${briefData.messenger || "—"}\n\n` +
+          `<b>🏢 О КОМПАНИИ</b>\n` +
+          `Название: ${briefData.company || "—"}\n` +
+          `Сфера: ${briefData.niche || "—"}\n` +
+          `Гео: ${briefData.geo || "—"}\n` +
+          `Сайт сейчас: ${briefData.currentSite || "—"}\n\n` +
+          `<b>🎯 ЗАДАЧА</b>\n` +
+          `Тип сайта: ${briefData.siteType || "—"}\n` +
+          `Цель сайта: ${briefData.goal || "—"}\n` +
+          `Целевая аудитория: ${briefData.audience || "—"}\n\n` +
+          `<b>🛠 ФУНКЦИОНАЛ</b>\n` +
+          `${(briefData.features || []).map((f: string) => `• ${f}`).join("\n") || "—"}\n\n` +
+          `<b>🎨 ДИЗАЙН</b>\n` +
+          `Стиль: ${briefData.style || "—"}\n` +
+          `Цвета: ${briefData.colors || "—"}\n` +
+          `Референсы: ${briefData.references || "—"}\n\n` +
+          `<b>📦 КОНТЕНТ</b>\n` +
+          `Тексты: ${briefData.content || "—"}\n` +
+          `Логотип/брендбук: ${briefData.branding || "—"}\n\n` +
+          `<b>💰 БЮДЖЕТ И СРОКИ</b>\n` +
+          `Бюджет: ${briefData.budget || "—"}\n` +
+          `Сроки: ${briefData.deadline || "—"}\n\n` +
+          `<b>💬 ДОПОЛНИТЕЛЬНО</b>\n` +
+          `${briefData.additional || "—"}`;
+        break;
+
       case "calculator":
         const servicesText = data.services?.join(", ") || "Не выбраны";
         messageText = `💰 <b>Заявка с калькулятора</b>\n\n` +
