@@ -62,7 +62,9 @@ const handler = async (req: Request): Promise<Response> => {
           `Название: ${briefData.company || "—"}\n` +
           `Сфера: ${briefData.niche || "—"}\n` +
           `Гео: ${briefData.geo || "—"}\n` +
-          `Сайт сейчас: ${briefData.currentSite || "—"}\n\n` +
+          `Сайт сейчас: ${briefData.currentSite || "—"}\n` +
+          `Продукты/услуги: ${briefData.products || "—"}\n` +
+          `Конкуренты: ${briefData.competitors || "—"}\n\n` +
           `<b>🎯 ЗАДАЧА</b>\n` +
           `Тип сайта: ${briefData.siteType || "—"}\n` +
           `Цель сайта: ${briefData.goal || "—"}\n` +
@@ -73,7 +75,8 @@ const handler = async (req: Request): Promise<Response> => {
           `Стиль: ${briefData.style || "—"}\n` +
           `Цвета: ${briefData.colors || "—"}\n` +
           `Сочетание: ${briefData.colorCombo || "—"}\n` +
-          `Референсы: ${briefData.references || "—"}\n\n` +
+          `Референсы: ${briefData.references || "—"}\n` +
+          `Пожелания к дизайну: ${briefData.designWishes || "—"}\n\n` +
           `<b>📦 КОНТЕНТ</b>\n` +
           `Тексты: ${briefData.content || "—"}\n` +
           `Логотип/брендбук: ${briefData.branding || "—"}\n\n` +
