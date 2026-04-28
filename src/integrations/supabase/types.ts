@@ -653,6 +653,33 @@ export type Database = {
         }
         Relationships: []
       }
+      project_manifest_tasks: {
+        Row: {
+          comment: string
+          completed: boolean
+          created_at: string
+          id: string
+          task_key: string
+          updated_at: string
+        }
+        Insert: {
+          comment?: string
+          completed?: boolean
+          created_at?: string
+          id?: string
+          task_key: string
+          updated_at?: string
+        }
+        Update: {
+          comment?: string
+          completed?: boolean
+          created_at?: string
+          id?: string
+          task_key?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       reviews: {
         Row: {
           author: string

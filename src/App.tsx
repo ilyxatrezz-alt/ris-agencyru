@@ -34,6 +34,7 @@ import CrmAccounting from "./pages/CrmAccounting";
 import Brief from "./pages/Brief";
 import UsaScript from "./pages/UsaScript";
 import AntiAging from "./pages/AntiAging";
+import Manifest from "./pages/Manifest";
 
 const queryClient = new QueryClient();
 
@@ -71,6 +72,7 @@ const AppContent = () => {
                 <Route path="/brief" element={<Brief />} />
                 <Route path="/usa-script-ris" element={<UsaScript />} />
                 <Route path="/project-anti-aging" element={<AntiAging />} />
+                <Route path="/project-manifest-barbershop" element={<Manifest />} />
                 <Route path="/auth" element={<Auth />} />
                 <Route
                   path="/admin"
