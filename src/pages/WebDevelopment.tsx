@@ -38,6 +38,7 @@ import {
 import ParallaxSection from "@/components/ParallaxSection";
 import QuickCTA from "@/components/QuickCTA";
 import { siteConfig } from "@/config/siteConfig";
+import alexeyTokovPhoto from "@/assets/alexey-tokov.jpg";
 
 const WebDevelopment = () => {
   const containerRef = useRef<HTMLDivElement>(null);
