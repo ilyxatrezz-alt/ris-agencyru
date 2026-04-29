@@ -522,6 +522,137 @@ const WebDevelopment = () => {
           </div>
         </section>
 
+        {/* Meet the Developer — Алексей Токов */}
+        <section className="py-24 relative overflow-hidden bg-gradient-to-b from-background to-secondary/20">
+          <div className="absolute inset-0 overflow-hidden pointer-events-none">
+            <div className="absolute top-1/4 -left-32 w-96 h-96 rounded-full bg-primary/10 blur-3xl" />
+            <div className="absolute bottom-1/4 -right-32 w-96 h-96 rounded-full bg-accent/10 blur-3xl" />
+          </div>
+
+          <div className="container mx-auto px-4 relative z-10">
+            <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center max-w-6xl mx-auto">
+              <motion.div
+                initial={{ opacity: 0, x: -30 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.7 }}
+                className="relative"
+              >
+                <div className="relative aspect-[4/5] max-w-md mx-auto lg:mx-0">
+                  <div className="absolute -inset-4 bg-gradient-to-br from-primary via-accent to-primary rounded-3xl blur-2xl opacity-30" />
+                  <div className="absolute -inset-1 bg-gradient-to-br from-primary to-accent rounded-3xl" />
+                  <div className="relative rounded-3xl overflow-hidden shadow-2xl">
+                    <img
+                      src={alexeyTokovPhoto}
+                      alt="Алексей Токов — ведущий разработчик сайтов в РИС"
+                      className="w-full h-full object-cover"
+                      loading="lazy"
+                    />
+                  </div>
+
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: 0.4, type: "spring" }}
+                    className="absolute -bottom-6 -right-2 md:-right-6 bg-card border border-border shadow-2xl rounded-2xl p-4 flex items-center gap-3"
+                  >
+                    <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
+                      <Award className="w-6 h-6 text-primary" />
+                    </div>
+                    <div>
+                      <div className="text-xs text-muted-foreground">Опыт</div>
+                      <div className="text-lg font-black">10+ лет</div>
+                    </div>
+                  </motion.div>
+
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: 0.6, type: "spring" }}
+                    className="absolute -top-4 -left-2 md:-left-6 bg-card border border-border shadow-2xl rounded-2xl p-4 flex items-center gap-3"
+                  >
+                    <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
+                      <Globe className="w-6 h-6 text-primary" />
+                    </div>
+                    <div>
+                      <div className="text-xs text-muted-foreground">Проектов</div>
+                      <div className="text-lg font-black">200+</div>
+                    </div>
+                  </motion.div>
+                </div>
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0, x: 30 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.7 }}
+                className="space-y-6"
+              >
+                <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 text-primary text-sm font-semibold">
+                  <Sparkles className="w-4 h-4" />
+                  Знакомьтесь
+                </span>
+
+                <h2 className="text-4xl md:text-5xl lg:text-6xl font-black leading-tight">
+                  Алексей <span className="text-gradient-primary">Токов</span>
+                </h2>
+
+                <p className="text-xl text-muted-foreground font-medium">
+                  Ведущий разработчик сайтов в РИС
+                </p>
+
+                <p className="text-lg text-foreground/80 leading-relaxed">
+                  Каждый сайт, который вы видите в портфолио ниже — это моя работа.
+                  Я не «студия из 100 человек», а конкретный человек, который сам
+                  садится за код и доводит проект до результата. От первого экрана
+                  до последней кнопки — отвечаю лично.
+                </p>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
+                  {[
+                    "Сам пишу код — без посредников",
+                    "На связи с понедельника по субботу",
+                    "Знаю, как сайт превращается в заявки",
+                    "Делаю долго работающие проекты",
+                  ].map((item, i) => (
+                    <div key={i} className="flex items-start gap-2">
+                      <CheckCircle2 className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
+                      <span className="text-sm text-foreground/80">{item}</span>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="flex flex-col sm:flex-row gap-3 pt-4">
+                  <Button
+                    size="lg"
+                    className="gradient-primary shadow-cta hover:shadow-glow group"
+                    asChild
+                  >
+                    <Link to="/contacts">
+                      Обсудить проект с Алексеем
+                      <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                    </Link>
+                  </Button>
+                  <Button
+                    size="lg"
+                    variant="outline"
+                    className="border-2"
+                    asChild
+                  >
+                    <a href="https://t.me/manager_ris" target="_blank" rel="noopener noreferrer">
+                      <MessageSquare className="mr-2 w-5 h-5" />
+                      Написать в Telegram
+                    </a>
+                  </Button>
+                </div>
+              </motion.div>
+            </div>
+          </div>
+        </section>
+
         {/* Portfolio Cases Section */}
         <section className="py-24 relative overflow-hidden">
           <div className="container mx-auto px-4">
