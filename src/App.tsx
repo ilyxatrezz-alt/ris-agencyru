@@ -71,6 +71,7 @@ const AppContent = () => {
                 <Route path="/contacts" element={<Contacts />} />
                 <Route path="/privacy-policy" element={<PrivacyPolicy />} />
                 <Route path="/brief" element={<Brief />} />
+                <Route path="/brief-farooq" element={<BriefFarooq />} />
                 <Route path="/usa-script-ris" element={<UsaScript />} />
                 <Route path="/project-anti-aging" element={<AntiAging />} />
                 <Route path="/project-manifest-barbershop" element={<Manifest />} />
