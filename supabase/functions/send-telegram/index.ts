@@ -92,6 +92,27 @@ const handler = async (req: Request): Promise<Response> => {
           `${briefData.additional || "—"}`;
         break;
 
+      case "brief-farooq":
+        const f = data as any;
+        messageText = `🤖 <b>AI CONSULTING BRIEF — FAROOQ</b>\n\n` +
+          `━━━━━━━━━━━━━━━━━━━\n` +
+          `<b>👤 CONTACT</b>\n` +
+          `Name: ${f.name || "—"}\n` +
+          `Reach: ${f.contact || "—"}\n\n` +
+          `<b>🧠 Q1 — What you help clients do</b>\n` +
+          `Services: ${f.services || "—"}\n` +
+          `Own words: ${f.servicesOther || "—"}\n\n` +
+          `<b>💼 Q2 — How clients buy</b>\n` +
+          `Process: ${f.salesProcess || "—"}\n` +
+          `Sales manager: ${f.hasSalesManager || "—"}\n` +
+          `Automation: ${f.hasAutomation || "—"}\n\n` +
+          `<b>🌐 Q3 — Website</b>\n` +
+          `Has website: ${f.hasWebsite || "—"}\n` +
+          `URL: ${f.websiteUrl || "—"}\n` +
+          `What it does: ${f.websiteRole || "—"}\n\n` +
+          `<b>✨ Notes</b>\n${f.notes || "—"}`;
+        break;
+
       case "calculator":
         const servicesText = data.services?.join(", ") || "Не выбраны";
         messageText = `💰 <b>Заявка с калькулятора</b>\n\n` +

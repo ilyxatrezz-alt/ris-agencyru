@@ -32,6 +32,7 @@ import CrmClientDetail from "./pages/CrmClientDetail";
 import CrmTasks from "./pages/CrmTasks";
 import CrmAccounting from "./pages/CrmAccounting";
 import Brief from "./pages/Brief";
+import BriefFarooq from "./pages/BriefFarooq";
 import UsaScript from "./pages/UsaScript";
 import AntiAging from "./pages/AntiAging";
 import Manifest from "./pages/Manifest";
@@ -70,6 +71,7 @@ const AppContent = () => {
                 <Route path="/contacts" element={<Contacts />} />
                 <Route path="/privacy-policy" element={<PrivacyPolicy />} />
                 <Route path="/brief" element={<Brief />} />
+                <Route path="/brief-farooq" element={<BriefFarooq />} />
                 <Route path="/usa-script-ris" element={<UsaScript />} />
                 <Route path="/project-anti-aging" element={<AntiAging />} />
                 <Route path="/project-manifest-barbershop" element={<Manifest />} />
