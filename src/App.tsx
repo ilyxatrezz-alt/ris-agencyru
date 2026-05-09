@@ -32,6 +32,7 @@ import CrmClientDetail from "./pages/CrmClientDetail";
 import CrmTasks from "./pages/CrmTasks";
 import CrmAccounting from "./pages/CrmAccounting";
 import Brief from "./pages/Brief";
+import BriefFarooq from "./pages/BriefFarooq";
 import UsaScript from "./pages/UsaScript";
 import AntiAging from "./pages/AntiAging";
 import Manifest from "./pages/Manifest";
