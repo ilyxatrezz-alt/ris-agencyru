@@ -111,6 +111,9 @@ const handler = async (req: Request): Promise<Response> => {
           `URL: ${f.websiteUrl || "—"}\n` +
           `What it does: ${f.websiteRole || "—"}\n\n` +
           `<b>✨ Notes</b>\n${f.notes || "—"}`;
+        break;
+
+      case "calculator":
         const servicesText = data.services?.join(", ") || "Не выбраны";
         messageText = `💰 <b>Заявка с калькулятора</b>\n\n` +
           `📋 <b>Услуги:</b> ${servicesText}\n` +
