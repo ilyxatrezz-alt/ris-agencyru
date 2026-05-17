@@ -363,3 +363,53 @@
 .animate-marquee:hover {
   animation-play-state: paused;
 }
+
+/* ===== Editorial 2026 utilities ===== */
+.font-display {
+  font-family: 'Instrument Serif', 'Times New Roman', Georgia, serif;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+}
+
+.font-display-italic {
+  font-family: 'Instrument Serif', 'Times New Roman', Georgia, serif;
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+}
+
+.editorial-eyebrow {
+  font-size: 0.7rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.editorial-rule {
+  height: 1px;
+  background: currentColor;
+  opacity: 0.15;
+  width: 100%;
+}
+
+.dotted-grid {
+  background-image: radial-gradient(circle, hsl(0 0% 0% / 0.08) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+@keyframes marquee-slow {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.animate-marquee-slow {
+  animation: marquee-slow 40s linear infinite;
+}
+
+@keyframes ticker-up {
+  0%, 100% { transform: translateY(0); }
+  10%, 30% { transform: translateY(-100%); }
+  40%, 60% { transform: translateY(-200%); }
+  70%, 90% { transform: translateY(-300%); }
+}
+
