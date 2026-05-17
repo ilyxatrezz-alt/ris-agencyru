@@ -215,9 +215,11 @@ const PriceCalculator = () => {
               <span className="text-2xl sm:text-3xl md:text-4xl font-bold text-primary">₽</span>
             </div>
 
-            {costs.monthly > 0 && (
-              <p className="text-[11px] sm:text-xs text-muted-foreground mt-3 tabular-nums">
-                Настройка {formatRub(costs.setup)} ₽ + ведение {formatRub(costs.monthly)} ₽/мес
+            {(costs.monthly > 0 || costs.setup > 0) && (
+              <p className="text-[11px] sm:text-xs text-muted-foreground mt-3 tabular-nums text-center px-4">
+                {costs.setup > 0 && <>Сайт от {formatRub(costs.setup)} ₽</>}
+                {costs.setup > 0 && costs.monthly > 0 && " + "}
+                {costs.monthly > 0 && <>ведение и бюджет {formatRub(costs.monthly)} ₽/мес</>}
               </p>
             )}
 
