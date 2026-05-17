@@ -19,6 +19,7 @@ import CaseMedicineBeauty from "./pages/CaseMedicineBeauty";
 import CaseConstruction from "./pages/CaseConstruction";
 import CaseHoreca from "./pages/CaseHoreca";
 import CaseLawyers from "./pages/CaseLawyers";
+import CaseSliderDetail from "./pages/CaseSliderDetail";
 import About from "./pages/About";
 import Contacts from "./pages/Contacts";
 import Auth from "./pages/Auth";
@@ -65,6 +66,7 @@ const AppContent = () => {
                 <Route path="/cases/construction" element={<CaseConstruction />} />
                 <Route path="/cases/horeca" element={<CaseHoreca />} />
                 <Route path="/cases/lawyers" element={<CaseLawyers />} />
+                <Route path="/cases/item/:id" element={<CaseSliderDetail />} />
                 <Route path="/web-development" element={<WebDevelopment />} />
                 <Route path="/smm" element={<Smm />} />
                 <Route path="/about" element={<About />} />
