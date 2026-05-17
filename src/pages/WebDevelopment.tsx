@@ -359,129 +359,118 @@ const WebDevelopment = () => {
 
       <main ref={containerRef} className="overflow-hidden">
         {/* Hero Section */}
-        <section className="relative py-24 md:py-32 flex items-center justify-center overflow-hidden bg-gradient-to-b from-background via-background to-secondary/30">
-          {/* Animated background */}
-          <div className="absolute inset-0 overflow-hidden">
-            <div className="absolute -top-1/2 -left-1/2 w-full h-full bg-gradient-radial from-primary/10 via-transparent to-transparent animate-pulse" />
-            <div className="absolute -bottom-1/2 -right-1/2 w-full h-full bg-gradient-radial from-accent/10 via-transparent to-transparent animate-pulse" style={{ animationDelay: "1s" }} />
-            
-            {/* Floating elements */}
-            {[...Array(20)].map((_, i) => (
-              <motion.div
-                key={i}
-                className="absolute w-2 h-2 bg-primary/20 rounded-full"
-                style={{
-                  left: `${Math.random() * 100}%`,
-                  top: `${Math.random() * 100}%`,
-                }}
-                animate={{
-                  y: [0, -30, 0],
-                  opacity: [0.2, 0.5, 0.2],
-                }}
-                transition={{
-                  duration: 3 + Math.random() * 2,
-                  repeat: Infinity,
-                  delay: Math.random() * 2,
-                }}
-              />
-            ))}
+        {/* Editorial 2026 Hero */}
+        <section className="relative bg-background text-foreground border-b border-foreground/10 overflow-hidden">
+          {/* Top meta bar */}
+          <div className="border-b border-foreground/10">
+            <div className="container mx-auto px-4 py-3 flex items-center justify-between text-[11px] tracking-[0.22em] uppercase font-semibold text-foreground/60">
+              <span>§ Web — Vol. 14</span>
+              <span className="hidden sm:inline">Сайты / Лендинги / Магазины</span>
+              <span className="flex items-center gap-1.5">
+                <span className="inline-block w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
+                Принимаем заявки
+              </span>
+            </div>
           </div>
 
-          <motion.div 
-            className="container mx-auto px-4 relative z-10"
+          <motion.div
+            className="container mx-auto px-4 pt-14 sm:pt-20 pb-16 sm:pb-24"
             style={{ y: heroY, opacity: heroOpacity }}
           >
-            <div className="max-w-5xl mx-auto text-center space-y-8">
-              <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8 }}
-              >
-                <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 text-primary text-sm font-medium mb-6">
-                  <Sparkles className="w-4 h-4" />
-                  Создаём сайты, которые продают
+            {/* Meta row */}
+            <div className="grid grid-cols-12 gap-4 mb-10 sm:mb-14">
+              <div className="col-span-6 sm:col-span-4 flex items-center gap-2">
+                <Star className="h-3 w-3 fill-foreground text-foreground" />
+                <span className="text-[11px] uppercase tracking-[0.18em] font-semibold text-foreground/60">
+                  200+ проектов · с 2014
                 </span>
-              </motion.div>
-
-              <motion.h1
-                className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black leading-tight"
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.1 }}
-              >
-                Сайт, который{" "}
-                <span className="relative">
-                  <span className="text-gradient-primary">приносит клиентов</span>
-                  <motion.span
-                    className="absolute -bottom-2 left-0 right-0 h-1 bg-gradient-to-r from-primary via-accent to-primary rounded-full"
-                    initial={{ scaleX: 0 }}
-                    animate={{ scaleX: 1 }}
-                    transition={{ duration: 1, delay: 0.5 }}
-                  />
+              </div>
+              <div className="hidden sm:flex col-span-4 items-center justify-center gap-3">
+                <span className="editorial-rule w-10" />
+                <span className="font-display-italic text-2xl text-primary">№ 002</span>
+                <span className="editorial-rule w-10" />
+              </div>
+              <div className="col-span-6 sm:col-span-4 flex items-center justify-end">
+                <span className="text-[11px] uppercase tracking-[0.18em] font-semibold text-foreground/60">
+                  От 3 дней · Под ключ
                 </span>
-                {" "}каждый день
-              </motion.h1>
+              </div>
+            </div>
 
-              <motion.p
-                className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto"
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.2 }}
-              >
-                Разрабатываем продающие сайты за 3-7 дней. 
-                Современный дизайн, быстрая загрузка, высокая конверсия. 
-                <span className="text-primary font-semibold"> 200+ успешных проектов</span>
-              </motion.p>
+            {/* MASSIVE headline */}
+            <motion.div
+              initial={{ opacity: 0, y: 50 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
+            >
+              <h1 className="text-[16vw] sm:text-[13vw] lg:text-[11.5vw] font-black tracking-[-0.05em] leading-[0.82] uppercase">
+                Сайты,
+              </h1>
+              <div className="grid grid-cols-12 gap-4 items-end mt-2">
+                <div className="hidden lg:block col-span-3 pb-6">
+                  <div className="editorial-rule mb-4" />
+                  <p className="text-sm leading-relaxed text-foreground/60 max-w-[16rem]">
+                    Лендинги, корпоративные сайты, интернет-магазины. Готовы за 3–7 дней. Дизайн, который приносит заявки.
+                  </p>
+                </div>
+                <h1 className="col-span-12 lg:col-span-9 text-[16vw] sm:text-[13vw] lg:text-[11.5vw] font-black tracking-[-0.05em] leading-[0.82] uppercase text-right lg:text-left">
+                  <span className="font-display-italic font-normal normal-case tracking-tight text-foreground/40">которые</span>
+                </h1>
+              </div>
+              <h1 className="text-[16vw] sm:text-[13vw] lg:text-[11.5vw] font-black tracking-[-0.05em] leading-[0.82] uppercase text-primary mt-2">
+                продают.
+              </h1>
+            </motion.div>
 
+            {/* CTA row */}
+            <div className="grid grid-cols-12 gap-4 items-end mt-12 sm:mt-16">
               <motion.div
-                className="flex flex-col sm:flex-row gap-4 justify-center pt-4"
-                initial={{ opacity: 0, y: 30 }}
+                className="col-span-12 lg:col-span-7 flex flex-col sm:flex-row gap-3"
+                initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.3 }}
+                transition={{ duration: 0.6, delay: 0.5 }}
               >
                 <Button
-                  size="lg"
-                  className="gradient-primary shadow-cta hover:shadow-glow text-lg px-8 py-6 group"
                   asChild
+                  size="lg"
+                  className="group bg-foreground hover:bg-primary text-background rounded-full h-14 px-7 text-sm font-bold uppercase tracking-wider transition-colors"
                 >
                   <Link to="/contacts">
                     Получить предложение
-                    <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                    <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
                   </Link>
                 </Button>
                 <Button
-                  size="lg"
-                  variant="outline"
-                  className="text-lg px-8 py-6 border-2 hover:bg-secondary"
                   asChild
+                  variant="ghost"
+                  size="lg"
+                  className="rounded-full h-14 px-7 text-sm font-bold uppercase tracking-wider border border-foreground/20 hover:bg-foreground hover:text-background"
                 >
                   <a href="tel:+79490215151">
-                    <Phone className="mr-2 w-5 h-5" />
+                    <Phone className="mr-2 h-4 w-4" />
                     +7 (949) 021-51-51
                   </a>
                 </Button>
               </motion.div>
 
-              {/* Trust badges */}
               <motion.div
-                className="flex flex-wrap gap-6 justify-center pt-8"
+                className="hidden lg:flex col-span-5 justify-end items-end gap-6"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ duration: 0.8, delay: 0.5 }}
+                transition={{ delay: 0.7 }}
               >
-                {[
-                  "✓ Гарантия результата",
-                  "✓ Оплата по факту",
-                  "✓ Бесплатная поддержка 30 дней",
-                ].map((badge, i) => (
-                  <span key={i} className="text-sm text-muted-foreground font-medium">
-                    {badge}
-                  </span>
-                ))}
+                <div className="text-right">
+                  <div className="font-display text-7xl leading-none text-foreground">3<span className="text-primary">–7</span></div>
+                  <div className="text-[10px] uppercase tracking-[0.2em] text-foreground/60 mt-1">Дней до запуска</div>
+                </div>
+                <div className="editorial-rule rotate-90 w-12" />
+                <div className="text-right">
+                  <div className="font-display text-7xl leading-none text-foreground">×5<span className="text-primary">.</span></div>
+                  <div className="text-[10px] uppercase tracking-[0.2em] text-foreground/60 mt-1">Рост конверсии</div>
+                </div>
               </motion.div>
             </div>
           </motion.div>
-
         </section>
 
         {/* Stats Ticker */}
