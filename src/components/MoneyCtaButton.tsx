@@ -237,7 +237,9 @@ const MoneyCtaButton = () => {
                               : "border-border bg-background"
                           }`}
                         >
-                          <div className="text-xl sm:text-2xl mb-1">{g.emoji}</div>
+                          <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-primary/10 text-primary flex items-center justify-center mb-2 group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
+                            <g.Icon className="w-5 h-5" strokeWidth={2} />
+                          </div>
                           <div className="text-xs sm:text-sm font-bold leading-tight">{g.label}</div>
                         </button>
                       ))}
