@@ -32,22 +32,29 @@ const ReviewsBlock = () => {
   })) || [];
 
   return (
-    <section className="py-20 bg-muted/30 relative overflow-hidden">
+    <section className="py-20 md:py-32 bg-secondary/40 relative overflow-hidden border-t border-foreground/10">
       <div className="container mx-auto px-4 relative z-10">
-        {/* Header */}
-        <motion.div
-          className="text-center max-w-3xl mx-auto mb-12"
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-        >
-          <h2 className="text-3xl md:text-5xl font-bold mb-4">
-            {title.split(" ").slice(0, 1).join(" ")}{" "}
-            <span className="text-gradient-primary">{title.split(" ").slice(1).join(" ")}</span>
-          </h2>
-          <p className="text-lg text-muted-foreground">{subtitle}</p>
-        </motion.div>
+        {/* Editorial header */}
+        <div className="grid grid-cols-12 gap-4 mb-14">
+          <div className="col-span-12 md:col-span-3">
+            <span className="editorial-eyebrow text-foreground/60">§ 04 — Голоса</span>
+            <div className="editorial-rule mt-4" />
+            <p className="text-sm text-foreground/60 mt-6 leading-relaxed max-w-[16rem]">
+              {subtitle}
+            </p>
+          </div>
+          <motion.div
+            className="col-span-12 md:col-span-9"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7 }}
+          >
+            <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black tracking-[-0.035em] leading-[0.95] uppercase">
+              {title.split(" ").slice(0, 1).join(" ")} <span className="font-display-italic font-normal normal-case text-primary">{title.split(" ").slice(1).join(" ")}</span>
+            </h2>
+          </motion.div>
+        </div>
 
         {/* Rating Summary — sticky on desktop */}
         <div className="max-w-5xl mx-auto grid lg:grid-cols-[280px_1fr] gap-8">
