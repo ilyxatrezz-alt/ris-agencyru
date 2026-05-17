@@ -65,12 +65,15 @@ const Hero = () => {
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
-            className="font-black uppercase leading-[0.86] tracking-tighter text-[14vw] sm:text-[11vw] lg:text-[9.5vw]"
+            className="font-black uppercase leading-[0.86] tracking-tighter text-[12vw] sm:text-[9vw] lg:text-[7.5vw]"
           >
-            <span className="block">
-              Хватит{" "}
+            <span className="block">Хватит доверять</span>
+            <span className="block font-display-italic italic font-normal lowercase text-black/40 tracking-normal">
+              непрофессионалам —
+            </span>
+            <span className="block mt-2">
               <span className="relative inline-block">
-                <span className="text-primary">РИС</span>ковать
+                <span className="text-primary">РИС</span>кни
                 <motion.svg
                   initial={{ pathLength: 0, opacity: 0 }}
                   animate={{ pathLength: 1, opacity: 1 }}
@@ -87,10 +90,14 @@ const Hero = () => {
                     strokeLinecap="round"
                   />
                 </motion.svg>
+              </span>{" "}
+              получить{" "}
+              <span className="whitespace-nowrap">
+                <span className="font-display-italic italic font-normal lowercase tracking-normal text-primary">
+                  гарантированный
+                </span>{" "}
+                результат.
               </span>
-            </span>
-            <span className="block font-display-italic italic font-normal lowercase text-black/40 tracking-normal mt-2">
-              с непрофессионалами.
             </span>
           </motion.h1>
 
