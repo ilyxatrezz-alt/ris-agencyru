@@ -102,10 +102,10 @@ const StatsBlock = () => {
       {/* Kinetic editorial composition */}
       <div className="relative w-full px-4 sm:px-6 pt-8 pb-16 md:pb-28">
         <div className="relative w-full max-w-7xl mx-auto h-[560px] sm:h-[640px] md:h-[680px] lg:h-[720px]">
-          {/* Watermark word */}
-          <div className="absolute inset-0 flex items-center justify-center opacity-[0.07] pointer-events-none select-none">
-            <span className="text-[28vw] md:text-[22vw] font-black text-background leading-none tracking-tighter">
-              STATS
+          {/* Watermark word — МЫ */}
+          <div className="absolute inset-0 flex items-center justify-center opacity-[0.06] pointer-events-none select-none">
+            <span className="text-[60vw] sm:text-[48vw] md:text-[40vw] font-black text-background leading-[0.8] tracking-[-0.06em]">
+              МЫ
             </span>
           </div>
 
@@ -127,19 +127,19 @@ const StatsBlock = () => {
             </div>
           </motion.div>
 
-          {/* Metric 2 — center-right, gigantic outlined */}
+          {/* Metric 2 — top-right (moved up so sticker doesn't clash) */}
           <motion.div
-            className="absolute top-1/2 right-0 sm:translate-x-4 md:translate-x-10 -translate-y-1/2 z-10 text-right"
+            className="absolute top-[6%] sm:top-[4%] right-0 sm:translate-x-4 md:translate-x-10 z-10 text-right"
             initial={{ opacity: 0, x: 60 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.9, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
           >
             <div className="flex flex-col items-end">
-              <span className="text-[28vw] sm:text-[22vw] md:text-[18vw] lg:text-[16vw] font-black leading-[0.72] tracking-[-0.05em] text-background/90">
+              <span className="text-[26vw] sm:text-[20vw] md:text-[16vw] lg:text-[14vw] font-black leading-[0.72] tracking-[-0.05em] text-background/90">
                 <AnimatedCounter value={v2} suffix={s2} suffixClass="text-primary" />
               </span>
-              <span className="font-display-italic text-2xl sm:text-3xl md:text-5xl italic text-primary mr-4 md:mr-12 -mt-2 md:-mt-4">
+              <span className="font-display-italic text-2xl sm:text-3xl md:text-5xl italic text-primary mr-4 md:mr-12 mt-1 md:mt-2">
                 {l2}
               </span>
             </div>
@@ -168,17 +168,17 @@ const StatsBlock = () => {
             </div>
           </motion.div>
 
-          {/* Metric 4 — angled red sticker */}
+          {/* Metric 4 — angled red sticker, bottom-right corner clear of 200+ */}
           <motion.div
-            className="absolute bottom-0 right-2 sm:right-1/4 z-50 bg-primary p-4 sm:p-6 md:p-10 shadow-[0_20px_50px_-12px_hsl(var(--primary)/0.6)]"
+            className="absolute bottom-0 right-0 sm:right-2 md:right-6 z-50 bg-primary p-4 sm:p-6 md:p-8 shadow-[0_20px_50px_-12px_hsl(var(--primary)/0.6)]"
             initial={{ opacity: 0, rotate: 0, scale: 0.85 }}
-            whileInView={{ opacity: 1, rotate: -8, scale: 1 }}
+            whileInView={{ opacity: 1, rotate: -6, scale: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.45, ease: [0.22, 1, 0.36, 1] }}
             whileHover={{ rotate: 0 }}
           >
             <div className="flex flex-col">
-              <span className="text-4xl sm:text-5xl md:text-7xl font-black text-foreground leading-none uppercase tracking-tight">
+              <span className="text-4xl sm:text-5xl md:text-6xl font-black text-foreground leading-none uppercase tracking-tight">
                 {v4}
               </span>
               <span className="font-display-italic text-base sm:text-xl md:text-2xl text-foreground italic mt-1">
@@ -189,7 +189,7 @@ const StatsBlock = () => {
 
           {/* Decorative kinetic lines */}
           <div className="absolute top-1/4 left-1/3 w-px h-48 md:h-64 bg-primary rotate-[-45deg] hidden md:block opacity-60 pointer-events-none" />
-          <div className="absolute bottom-1/3 right-1/4 w-[200px] h-px bg-background/30 hidden md:block pointer-events-none" />
+          <div className="absolute top-1/2 left-[15%] w-[180px] h-px bg-background/30 hidden md:block pointer-events-none" />
         </div>
 
         {/* Editorial CTA */}
