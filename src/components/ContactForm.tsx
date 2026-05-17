@@ -84,35 +84,42 @@ const ContactForm = () => {
   };
 
   return (
-    <section className="py-24 gradient-primary relative overflow-hidden">
-      {/* Background Elements */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,hsl(0_0%_100%/0.1),transparent_70%)]" />
+    <section className="py-24 md:py-32 bg-foreground text-background relative overflow-hidden border-t border-foreground/10">
+      {/* Editorial background */}
+      <div className="absolute inset-0 opacity-[0.04]" style={{
+        backgroundImage: `radial-gradient(circle, rgba(255,255,255,0.6) 1px, transparent 1px)`,
+        backgroundSize: '32px 32px',
+      }} />
       <motion.div
-        className="absolute -top-20 -left-20 w-96 h-96 rounded-full bg-primary-foreground/5 blur-3xl"
-        animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.5, 0.3] }}
-        transition={{ duration: 8, repeat: Infinity }}
+        className="absolute -top-40 -right-40 w-[600px] h-[600px] rounded-full bg-primary/30 blur-3xl"
+        animate={{ scale: [1, 1.15, 1], opacity: [0.3, 0.5, 0.3] }}
+        transition={{ duration: 10, repeat: Infinity }}
       />
 
       <div className="container mx-auto px-4 relative z-10">
-        <div className="max-w-4xl mx-auto">
-          <motion.div
-            className="text-center mb-12 text-primary-foreground"
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-          >
+        <div className="max-w-6xl mx-auto">
+          {/* Editorial header */}
+          <div className="grid grid-cols-12 gap-4 mb-12">
+            <div className="col-span-12 md:col-span-3">
+              <span className="editorial-eyebrow text-background/60">§ 05 — Контакт</span>
+              <div className="editorial-rule mt-4 bg-background" />
+              <div className="inline-flex items-center gap-2 mt-6 text-xs uppercase tracking-[0.18em] font-semibold text-primary">
+                <Gift className="h-4 w-4" />
+                {badgeText}
+              </div>
+            </div>
             <motion.div
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary-foreground/10 border border-primary-foreground/20 mb-6"
-              animate={{ scale: [1, 1.02, 1] }}
-              transition={{ duration: 2, repeat: Infinity }}
+              className="col-span-12 md:col-span-9"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
             >
-              <Gift className="h-4 w-4" />
-              <span className="text-sm font-semibold">{badgeText}</span>
+              <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black tracking-[-0.035em] leading-[0.95] uppercase">
+                {title.split("!")[0]}<span className="text-primary">!</span>
+              </h2>
+              <p className="mt-6 text-base md:text-lg text-background/70 max-w-xl">{subtitle}</p>
             </motion.div>
-
-            <h2 className="text-3xl md:text-5xl font-black mb-4">{title}</h2>
-            <p className="text-lg text-primary-foreground/90 max-w-2xl mx-auto">{subtitle}</p>
-          </motion.div>
+          </div>
 
           <motion.form
             onSubmit={handleSubmit}
