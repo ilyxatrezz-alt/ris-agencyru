@@ -63,23 +63,27 @@ const ComparisonBlock = () => {
   return (
     <section ref={sectionRef} className="py-24 relative overflow-hidden">
       <div className="container mx-auto px-4 relative z-10">
-        {/* Header */}
-        <motion.div
-          className="text-center max-w-3xl mx-auto mb-16"
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-        >
-          <span className="inline-block px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-semibold mb-4">
-            {badge}
-          </span>
-          <h2 className="text-3xl md:text-5xl font-black mb-6">
-            {title.split(" vs ")[0]} <span className="text-gradient-primary">vs</span>{" "}
-            {title.split(" vs ")[1] || "Фрилансер"}
-          </h2>
-          <p className="text-lg text-muted-foreground">{subtitle}</p>
-        </motion.div>
+        {/* Editorial header */}
+        <div className="grid grid-cols-12 gap-4 mb-16">
+          <div className="col-span-12 md:col-span-3">
+            <span className="editorial-eyebrow text-foreground/60">§ 02 — Сравнение</span>
+            <div className="editorial-rule mt-4" />
+            <p className="text-sm text-foreground/60 mt-6 leading-relaxed max-w-[16rem]">
+              {subtitle}
+            </p>
+          </div>
+          <motion.div
+            className="col-span-12 md:col-span-9"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7 }}
+          >
+            <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black tracking-[-0.035em] leading-[0.95] uppercase">
+              {title.split(" vs ")[0]} <span className="font-display-italic font-normal normal-case text-primary lowercase">vs</span> {title.split(" vs ")[1] || "Фрилансер"}
+            </h2>
+          </motion.div>
+        </div>
 
         {/* Sticky left label + scrolling comparisons */}
         <div className="grid lg:grid-cols-[280px_1fr] gap-8 lg:gap-12">
