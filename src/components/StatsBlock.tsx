@@ -99,9 +99,91 @@ const StatsBlock = () => {
         </div>
       </div>
 
-      {/* Kinetic editorial composition */}
-      <div className="relative w-full px-4 sm:px-6 pt-8 pb-16 md:pb-28">
-        <div className="relative w-full max-w-7xl mx-auto h-[560px] sm:h-[640px] md:h-[680px] lg:h-[720px]">
+      {/* Mobile stacked layout */}
+      <div className="sm:hidden relative w-full px-4 pt-4 pb-12">
+        {/* Watermark */}
+        <div className="absolute inset-0 flex items-center justify-center opacity-[0.05] pointer-events-none select-none">
+          <span className="text-[70vw] font-black text-background leading-[0.8] tracking-[-0.06em]">
+            МЫ
+          </span>
+        </div>
+
+        <div className="relative z-10 space-y-10">
+          {/* Metric 1 */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="flex flex-col"
+          >
+            <span className="text-primary text-[28vw] font-black leading-[0.8] tracking-[-0.05em]">
+              <AnimatedCounter value={v1} prefix={p1} suffix={s1} />
+            </span>
+            <span className="font-display-italic text-xl text-background italic mt-2 leading-tight max-w-[14rem]">
+              {l1}
+            </span>
+          </motion.div>
+
+          {/* Metric 2 */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="flex flex-col items-end text-right"
+          >
+            <span className="text-[32vw] font-black leading-[0.75] tracking-[-0.05em] text-background/90">
+              <AnimatedCounter value={v2} suffix={s2} suffixClass="text-primary" />
+            </span>
+            <span className="font-display-italic text-2xl italic text-primary mt-1 leading-tight">
+              {l2}
+            </span>
+          </motion.div>
+
+          {/* Metric 3 + 4 in a row */}
+          <div className="flex items-end justify-between gap-4">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              className="flex flex-col"
+            >
+              <span className="text-7xl font-black text-background leading-none tracking-[-0.04em]">
+                <AnimatedCounter value={v3} suffix={s3} />
+              </span>
+              <span className="font-display-italic text-base text-background italic mt-2 leading-tight">
+                {l3}
+              </span>
+              <span className="text-xs font-black uppercase tracking-widest text-primary mt-1">
+                3+ года
+              </span>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, scale: 0.85, rotate: 0 }}
+              whileInView={{ opacity: 1, scale: 1, rotate: -6 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
+              className="bg-primary p-4 shadow-[0_20px_50px_-12px_hsl(var(--primary)/0.6)] shrink-0"
+            >
+              <div className="flex flex-col">
+                <span className="text-4xl font-black text-foreground leading-none uppercase tracking-tight">
+                  {v4}
+                </span>
+                <span className="font-display-italic text-base text-foreground italic mt-1">
+                  {l4}
+                </span>
+              </div>
+            </motion.div>
+          </div>
+        </div>
+      </div>
+
+      {/* Kinetic editorial composition (sm+) */}
+      <div className="hidden sm:block relative w-full px-4 sm:px-6 pt-8 pb-16 md:pb-28">
+        <div className="relative w-full max-w-7xl mx-auto h-[640px] md:h-[680px] lg:h-[720px]">
           {/* Watermark word — МЫ */}
           <div className="absolute inset-0 flex items-center justify-center opacity-[0.06] pointer-events-none select-none">
             <span className="text-[60vw] sm:text-[48vw] md:text-[40vw] font-black text-background leading-[0.8] tracking-[-0.06em]">
