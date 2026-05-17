@@ -1,6 +1,22 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
-import { ArrowRight, Loader2, Check, Send, Sparkles } from "lucide-react";
+import {
+  ArrowRight,
+  Loader2,
+  Check,
+  Send,
+  Sparkles,
+  Stethoscope,
+  HardHat,
+  UtensilsCrossed,
+  ShoppingBag,
+  Briefcase,
+  MoreHorizontal,
+  PhoneCall,
+  TrendingUp,
+  MonitorSmartphone,
+  Megaphone,
+} from "lucide-react";
 import { Input } from "./ui/input";
 import { Checkbox } from "./ui/checkbox";
 import { Button } from "./ui/button";
@@ -11,19 +27,19 @@ import { supabase } from "@/integrations/supabase/client";
 type Step = 0 | 1 | 2 | 3 | 4;
 
 const NICHES = [
-  { value: "medicine", label: "Медицина / Красота", emoji: "💊" },
-  { value: "construction", label: "Строительство / Ремонт", emoji: "🏗️" },
-  { value: "horeca", label: "HoReCa / Рестораны", emoji: "🍽️" },
-  { value: "ecommerce", label: "Интернет-магазин", emoji: "🛒" },
-  { value: "services", label: "Услуги B2B / B2C", emoji: "💼" },
-  { value: "other", label: "Другое", emoji: "✨" },
+  { value: "medicine", label: "Медицина / Красота", Icon: Stethoscope },
+  { value: "construction", label: "Строительство / Ремонт", Icon: HardHat },
+  { value: "horeca", label: "HoReCa / Рестораны", Icon: UtensilsCrossed },
+  { value: "ecommerce", label: "Интернет-магазин", Icon: ShoppingBag },
+  { value: "services", label: "Услуги B2B / B2C", Icon: Briefcase },
+  { value: "other", label: "Другое", Icon: MoreHorizontal },
 ];
 
 const GOALS = [
-  { value: "leads", label: "Поток заявок", emoji: "📞" },
-  { value: "sales", label: "Рост продаж", emoji: "📈" },
-  { value: "site", label: "Новый сайт", emoji: "🖥️" },
-  { value: "smm", label: "Соцсети / SMM", emoji: "📱" },
+  { value: "leads", label: "Поток заявок", Icon: PhoneCall },
+  { value: "sales", label: "Рост продаж", Icon: TrendingUp },
+  { value: "site", label: "Новый сайт", Icon: MonitorSmartphone },
+  { value: "smm", label: "Соцсети / SMM", Icon: Megaphone },
 ];
 
 const BUDGETS = [
