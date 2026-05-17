@@ -1,0 +1,1 @@
+UPDATE public.cases_slider_items SET link = '/cases/item/' || id::text WHERE id IN ('62cda3ef-ddb2-4c8a-93dc-3cc1f2a7fa43','e09adb35-ae8e-4369-93d5-2ba37402f2c0','517eb8b9-2e81-4d37-8b79-6e0a8f37a848');
