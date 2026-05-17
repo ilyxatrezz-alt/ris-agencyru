@@ -5,7 +5,7 @@ import CityHeader from "@/components/CityHeader";
 import CityHero from "@/components/CityHero";
 import StatsBlock from "@/components/StatsBlock";
 import ComparisonBlock from "@/components/ComparisonBlock";
-import ProcessBlock from "@/components/ProcessBlock";
+import LiveDashboardDemo from "@/components/LiveDashboardDemo";
 import ContactForm from "@/components/ContactForm";
 import QuickContact from "@/components/QuickContact";
 import PriceCalculator from "@/components/PriceCalculator";
@@ -56,7 +56,7 @@ const CityIndex = () => {
           <PriceCalculator />
           <ComparisonBlock />
           <QuickContact />
-          <ProcessBlock />
+          <LiveDashboardDemo />
           <CityReviews />
           <QuickContact />
           <ContactForm />

@@ -3,7 +3,7 @@ import Header from "@/components/Header";
 import Hero from "@/components/Hero";
 import StatsBlock from "@/components/StatsBlock";
 import ComparisonBlock from "@/components/ComparisonBlock";
-import ProcessBlock from "@/components/ProcessBlock";
+import LiveDashboardDemo from "@/components/LiveDashboardDemo";
 import ContactForm from "@/components/ContactForm";
 import QuickContact from "@/components/QuickContact";
 import PriceCalculator from "@/components/PriceCalculator";
@@ -32,7 +32,7 @@ const Index = () => {
         <QuickContact />
         <PriceCalculator />
         <ComparisonBlock />
-        <ProcessBlock />
+        <LiveDashboardDemo />
         <ReviewsBlock />
         <MoneyCtaButton />
         <ContactForm />
