@@ -273,10 +273,12 @@ const StatsBlock = () => {
           <div className="absolute top-1/4 left-1/3 w-px h-48 md:h-64 bg-primary rotate-[-45deg] hidden md:block opacity-60 pointer-events-none" />
           <div className="absolute top-1/2 left-[15%] w-[180px] h-px bg-background/30 hidden md:block pointer-events-none" />
         </div>
+      </div>
 
-        {/* Editorial CTA */}
+      {/* Editorial CTA */}
+      <div className="px-4 sm:px-6 pb-16 md:pb-20">
         <motion.div
-          className="container mx-auto flex items-center justify-between mt-12 md:mt-16 pt-8 border-t border-background/15"
+          className="container mx-auto flex items-center justify-between gap-4 pt-8 border-t border-background/15"
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
@@ -287,7 +289,7 @@ const StatsBlock = () => {
           </span>
           <Link
             to="/contacts"
-            className="inline-flex items-center gap-3 text-sm font-bold uppercase tracking-[0.18em] group text-background"
+            className="inline-flex items-center gap-3 text-sm font-bold uppercase tracking-[0.18em] group text-background ml-auto"
           >
             <span>Получить аудит</span>
             <span className="flex h-12 w-12 items-center justify-center rounded-full bg-primary text-background group-hover:bg-background group-hover:text-foreground transition-colors">
