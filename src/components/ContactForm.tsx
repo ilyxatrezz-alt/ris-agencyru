@@ -84,48 +84,55 @@ const ContactForm = () => {
   };
 
   return (
-    <section className="py-24 gradient-primary relative overflow-hidden">
-      {/* Background Elements */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,hsl(0_0%_100%/0.1),transparent_70%)]" />
+    <section className="py-24 md:py-32 bg-foreground text-background relative overflow-hidden border-t border-foreground/10">
+      {/* Editorial background */}
+      <div className="absolute inset-0 opacity-[0.04]" style={{
+        backgroundImage: `radial-gradient(circle, rgba(255,255,255,0.6) 1px, transparent 1px)`,
+        backgroundSize: '32px 32px',
+      }} />
       <motion.div
-        className="absolute -top-20 -left-20 w-96 h-96 rounded-full bg-primary-foreground/5 blur-3xl"
-        animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.5, 0.3] }}
-        transition={{ duration: 8, repeat: Infinity }}
+        className="absolute -top-40 -right-40 w-[600px] h-[600px] rounded-full bg-primary/30 blur-3xl"
+        animate={{ scale: [1, 1.15, 1], opacity: [0.3, 0.5, 0.3] }}
+        transition={{ duration: 10, repeat: Infinity }}
       />
 
       <div className="container mx-auto px-4 relative z-10">
-        <div className="max-w-4xl mx-auto">
-          <motion.div
-            className="text-center mb-12 text-primary-foreground"
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-          >
+        <div className="max-w-6xl mx-auto">
+          {/* Editorial header */}
+          <div className="grid grid-cols-12 gap-4 mb-12">
+            <div className="col-span-12 md:col-span-3">
+              <span className="editorial-eyebrow text-background/60">§ 05 — Контакт</span>
+              <div className="editorial-rule mt-4 bg-background" />
+              <div className="inline-flex items-center gap-2 mt-6 text-xs uppercase tracking-[0.18em] font-semibold text-primary">
+                <Gift className="h-4 w-4" />
+                {badgeText}
+              </div>
+            </div>
             <motion.div
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary-foreground/10 border border-primary-foreground/20 mb-6"
-              animate={{ scale: [1, 1.02, 1] }}
-              transition={{ duration: 2, repeat: Infinity }}
+              className="col-span-12 md:col-span-9"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
             >
-              <Gift className="h-4 w-4" />
-              <span className="text-sm font-semibold">{badgeText}</span>
+              <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black tracking-[-0.035em] leading-[0.95] uppercase">
+                {title.split("!")[0]}<span className="text-primary">!</span>
+              </h2>
+              <p className="mt-6 text-base md:text-lg text-background/70 max-w-xl">{subtitle}</p>
             </motion.div>
-
-            <h2 className="text-3xl md:text-5xl font-black mb-4">{title}</h2>
-            <p className="text-lg text-primary-foreground/90 max-w-2xl mx-auto">{subtitle}</p>
-          </motion.div>
+          </div>
 
           <motion.form
             onSubmit={handleSubmit}
-            className="bg-card p-8 md:p-12 rounded-3xl shadow-2xl space-y-6"
+            className="bg-background text-foreground p-8 md:p-14 rounded-[32px] space-y-8 border border-foreground/5"
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.2 }}
           >
-            <div className="grid md:grid-cols-2 gap-6">
-              <div className="space-y-2">
-                <Label htmlFor="name" className="flex items-center gap-2 text-sm font-semibold">
-                  <User className="h-4 w-4 text-primary" />
+            <div className="grid md:grid-cols-2 gap-8">
+              <div className="space-y-3">
+                <Label htmlFor="name" className="editorial-eyebrow text-foreground/60 flex items-center gap-2">
+                  <span className="font-display-italic normal-case tracking-normal text-primary text-base">01</span>
                   {nameLabel}
                 </Label>
                 <Input
@@ -135,13 +142,13 @@ const ContactForm = () => {
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                   required
                   disabled={isLoading}
-                  className="h-12 border-border/50 focus:border-primary"
+                  className="h-14 text-lg border-0 border-b border-foreground/20 rounded-none px-0 focus-visible:ring-0 focus-visible:border-primary bg-transparent"
                 />
               </div>
 
-              <div className="space-y-2">
-                <Label htmlFor="phone" className="flex items-center gap-2 text-sm font-semibold">
-                  <Phone className="h-4 w-4 text-primary" />
+              <div className="space-y-3">
+                <Label htmlFor="phone" className="editorial-eyebrow text-foreground/60 flex items-center gap-2">
+                  <span className="font-display-italic normal-case tracking-normal text-primary text-base">02</span>
                   {phoneLabel}
                 </Label>
                 <Input
@@ -152,14 +159,14 @@ const ContactForm = () => {
                   onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                   required
                   disabled={isLoading}
-                  className="h-12 border-border/50 focus:border-primary"
+                  className="h-14 text-lg border-0 border-b border-foreground/20 rounded-none px-0 focus-visible:ring-0 focus-visible:border-primary bg-transparent"
                 />
               </div>
             </div>
 
-
-            <div className="space-y-2">
-              <Label htmlFor="message" className="text-sm font-semibold">
+            <div className="space-y-3">
+              <Label htmlFor="message" className="editorial-eyebrow text-foreground/60 flex items-center gap-2">
+                <span className="font-display-italic normal-case tracking-normal text-primary text-base">03</span>
                 {messageLabel}
               </Label>
               <Textarea
@@ -167,13 +174,13 @@ const ContactForm = () => {
                 placeholder={messagePlaceholder}
                 value={formData.message}
                 onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                rows={4}
+                rows={3}
                 disabled={isLoading}
-                className="border-border/50 focus:border-primary resize-none"
+                className="border-0 border-b border-foreground/20 rounded-none px-0 focus-visible:ring-0 focus-visible:border-primary resize-none text-lg bg-transparent"
               />
             </div>
 
-            <div className="flex items-start gap-3">
+            <div className="flex items-start gap-3 pt-2">
               <Checkbox
                 id="privacy-contact"
                 checked={privacyAccepted}
@@ -181,7 +188,7 @@ const ContactForm = () => {
                 disabled={isLoading}
                 className="mt-0.5"
               />
-              <label htmlFor="privacy-contact" className="text-xs text-muted-foreground leading-relaxed cursor-pointer">
+              <label htmlFor="privacy-contact" className="text-xs text-foreground/60 leading-relaxed cursor-pointer">
                 Я даю согласие на{" "}
                 <Link to="/privacy-policy" className="text-primary underline hover:no-underline" target="_blank">
                   обработку персональных данных
@@ -189,12 +196,12 @@ const ContactForm = () => {
               </label>
             </div>
 
-            <motion.div whileHover={{ scale: 1.01 }} whileTap={{ scale: 0.99 }}>
+            <motion.div whileHover={{ scale: 1.005 }} whileTap={{ scale: 0.995 }}>
               <Button
                 type="submit"
                 size="lg"
                 disabled={isLoading || !privacyAccepted}
-                className="w-full h-14 gradient-primary shadow-cta hover:shadow-glow text-sm sm:text-lg font-bold group px-4"
+                className="w-full h-16 bg-foreground hover:bg-primary text-background text-sm sm:text-base font-bold group px-4 rounded-full uppercase tracking-[0.18em] transition-colors"
               >
                 {isLoading ? (
                   <>
@@ -204,7 +211,7 @@ const ContactForm = () => {
                 ) : (
                   <>
                     {submitText}
-                    <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+                    <ArrowRight className="ml-3 h-5 w-5 group-hover:translate-x-1 transition-transform" />
                   </>
                 )}
               </Button>

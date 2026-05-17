@@ -25,24 +25,17 @@ const Index = () => {
       <ScrollProgress />
       <Header />
       <main>
-        <div className="relative">
-          <div className="sticky top-0 z-0">
-            <Hero />
-          </div>
-          {/* Content scrolls over the hero */}
-          <div className="relative z-10 bg-background rounded-t-[2.5rem] shadow-[0_-20px_60px_-15px_rgba(0,0,0,0.15)] -mt-8">
-            <StatsBlock />
-            <MoneyCtaButton />
-            <CasesSlider />
-            <QuickContact />
-            <PriceCalculator />
-            <ComparisonBlock />
-            <ProcessBlock />
-            <ReviewsBlock />
-            <MoneyCtaButton />
-            <ContactForm />
-          </div>
-        </div>
+        <Hero />
+        <StatsBlock />
+        <MoneyCtaButton />
+        <CasesSlider />
+        <QuickContact />
+        <PriceCalculator />
+        <ComparisonBlock />
+        <ProcessBlock />
+        <ReviewsBlock />
+        <MoneyCtaButton />
+        <ContactForm />
       </main>
       <Footer />
       <CookieConsent />

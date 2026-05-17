@@ -1,4 +1,4 @@
-import { ArrowRight, Star } from "lucide-react";
+import { ArrowUpRight, Star } from "lucide-react";
 import { Button } from "./ui/button";
 import { Link } from "react-router-dom";
 import { motion, useScroll, useTransform } from "framer-motion";
@@ -6,9 +6,8 @@ import { useRef } from "react";
 import { useSiteSettingsMap, getSetting } from "@/hooks/useSiteSettings";
 
 const services = [
-  "Запуск рекламы", "Создание сайтов", "SMM продвижение", 
-  "Съёмка видео", "Аналитика", "SEO оптимизация",
-  "Яндекс.Директ", "VK Таргет", "Контент-маркетинг",
+  "Реклама", "Сайты", "SMM", "Видео", "Аналитика",
+  "SEO", "Яндекс.Директ", "VK Ads", "Контент",
 ];
 
 const Hero = () => {
@@ -22,125 +21,157 @@ const Hero = () => {
   const heroCtaPrimary = getSetting(settings, "hero_cta_primary", "Получить аудит бесплатно");
   const heroCtaSecondary = getSetting(settings, "hero_cta_secondary", "Смотреть кейсы");
 
-  const textY = useTransform(scrollYProgress, [0, 1], [0, -80]);
-  const textOpacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
+  const blockY = useTransform(scrollYProgress, [0, 1], [0, -120]);
+  const fadeOut = useTransform(scrollYProgress, [0, 0.6], [1, 0]);
 
   return (
-    <section ref={containerRef} className="relative min-h-screen flex flex-col justify-center overflow-hidden bg-zinc-950">
-      {/* Gradient background */}
-      <div className="absolute inset-0 bg-gradient-to-b from-zinc-950 via-zinc-900 to-zinc-950" />
-      
-      {/* Subtle accent glow */}
-      <div 
-        className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[600px] pointer-events-none"
-        style={{ background: "radial-gradient(ellipse at center, hsl(9 96% 53% / 0.08) 0%, transparent 60%)" }}
-      />
+    <section
+      ref={containerRef}
+      className="relative min-h-screen flex flex-col bg-background text-foreground overflow-hidden"
+    >
+      {/* Top editorial bar */}
+      <div className="relative z-10 border-b border-foreground/10">
+        <div className="container mx-auto px-4 py-3 flex items-center justify-between text-[11px] tracking-[0.22em] uppercase font-semibold text-foreground/60">
+          <span>Vol. 14 — Est. 2014</span>
+          <span className="hidden sm:inline">Реклама / Сайты / Рост</span>
+          <span className="flex items-center gap-1.5">
+            <span className="inline-block w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
+            На связи
+          </span>
+        </div>
+      </div>
 
-      {/* Content */}
-      <motion.div 
-        className="container relative z-10 mx-auto px-4 pt-24 pb-16 sm:pt-28 sm:pb-20"
-        style={{ y: textY, opacity: textOpacity }}
+      {/* Main editorial composition */}
+      <motion.div
+        className="container relative z-10 mx-auto px-4 pt-10 sm:pt-14 pb-12 flex-1 flex flex-col"
+        style={{ opacity: fadeOut }}
       >
-        <div className="max-w-6xl mx-auto">
-          
-          {/* Social proof badge */}
-          <motion.div
-            className="flex items-center justify-center gap-3 mb-10"
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-          >
-            <div className="flex -space-x-0.5">
+        {/* Top meta row */}
+        <div className="grid grid-cols-12 gap-4 mb-8 sm:mb-10">
+          <div className="col-span-6 sm:col-span-4 flex items-center gap-2">
+            <div className="flex">
               {[...Array(5)].map((_, i) => (
-                <Star key={i} className="h-3.5 w-3.5 fill-yellow-400 text-yellow-400" />
+                <Star key={i} className="h-3 w-3 fill-foreground text-foreground" />
               ))}
             </div>
-            <span className="text-zinc-500 text-xs font-medium tracking-wide uppercase">200+ проектов с 2014 года</span>
-          </motion.div>
+            <span className="text-[11px] uppercase tracking-[0.18em] font-semibold text-foreground/60">
+              200+ проектов
+            </span>
+          </div>
+          <div className="hidden sm:flex col-span-4 items-center justify-center">
+            <span className="font-display-italic text-2xl text-primary">№ 001</span>
+          </div>
+          <div className="col-span-6 sm:col-span-4 flex items-center justify-end">
+            <span className="text-[11px] uppercase tracking-[0.18em] font-semibold text-foreground/60">
+              Donetsk · Russia
+            </span>
+          </div>
+        </div>
 
-          {/* BOLD Main Heading — Upperquad-style oversized */}
-          <motion.div
-            className="text-center mb-6"
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.2, ease: [0.25, 0.4, 0.25, 1] }}
-          >
-            <h1 className="text-[2.5rem] leading-[0.95] sm:text-6xl md:text-7xl lg:text-[5.5rem] xl:text-[6.5rem] font-black tracking-[-0.03em] uppercase">
-              <span className="text-white block">Превращаем</span>
-              <span className="text-white block">рекламу в</span>
-              <motion.span 
-                className="text-primary block"
-                initial={{ opacity: 0, x: -30 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.7, delay: 0.5 }}
-              >
-                реальную прибыль
-              </motion.span>
+        {/* MASSIVE headline — asymmetric magazine layout */}
+        <motion.div
+          className="grid grid-cols-12 gap-x-4 gap-y-2 mb-10 sm:mb-14"
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+          style={{ y: blockY }}
+        >
+          {/* Line 1 */}
+          <div className="col-span-12 flex items-baseline gap-4 sm:gap-8">
+            <h1 className="text-[14vw] sm:text-[11vw] lg:text-[9.5vw] font-black tracking-[-0.045em] leading-[0.85] uppercase">
+              Превра
+              <span className="font-display-italic font-normal text-primary normal-case tracking-tight">щаем</span>
             </h1>
-          </motion.div>
+          </div>
 
-          {/* Subtitle — clean, editorial */}
-          <motion.p
-            className="text-center text-sm sm:text-base md:text-lg text-zinc-500 max-w-xl mx-auto mb-10 leading-relaxed font-light"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.6, delay: 0.6 }}
-          >
-            Создаём <span className="text-zinc-300">сайты</span>, запускаем{" "}
-            <span className="text-zinc-300">рекламу</span>,{" "}
-            <span className="text-zinc-300">SMM</span> — всё для роста бизнеса
-            <span className="block text-xs text-zinc-600 mt-1.5">Средний CPL на 40% ниже рынка</span>
-          </motion.p>
+          {/* Line 2 — with inline meta */}
+          <div className="col-span-12 grid grid-cols-12 gap-4 items-end mt-1 sm:mt-2">
+            <div className="hidden lg:block col-span-3">
+              <div className="editorial-rule mb-3" />
+              <p className="text-xs leading-relaxed text-foreground/60 max-w-[14rem]">
+                Создаём сайты, запускаем рекламу, выстраиваем поток клиентов. 10+ лет, без воды.
+              </p>
+            </div>
+            <div className="col-span-12 lg:col-span-9">
+              <h1 className="text-[14vw] sm:text-[11vw] lg:text-[9.5vw] font-black tracking-[-0.045em] leading-[0.85] uppercase">
+                рекламу <span className="font-display-italic font-normal normal-case text-foreground/40">в</span>
+              </h1>
+            </div>
+          </div>
 
-          {/* CTA Buttons */}
-          <motion.div 
-            className="flex flex-col sm:flex-row gap-3 justify-center mb-16"
+          {/* Line 3 — bold accent */}
+          <div className="col-span-12 mt-1 sm:mt-2">
+            <h1 className="text-[14vw] sm:text-[11vw] lg:text-[9.5vw] font-black tracking-[-0.045em] leading-[0.85] uppercase text-primary">
+              прибыль.
+            </h1>
+          </div>
+        </motion.div>
+
+        {/* CTA + side meta row */}
+        <div className="grid grid-cols-12 gap-4 items-end mt-auto">
+          {/* Left: CTAs */}
+          <motion.div
+            className="col-span-12 lg:col-span-7 flex flex-col sm:flex-row gap-3"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.7 }}
+            transition={{ duration: 0.6, delay: 0.5 }}
           >
             <Button
               asChild
               size="lg"
-              className="gradient-primary shadow-cta hover:shadow-glow text-base sm:text-lg h-12 sm:h-14 px-6 sm:px-10 font-bold group rounded-full"
+              className="group bg-foreground hover:bg-primary text-background rounded-full h-14 px-7 text-sm font-bold uppercase tracking-wider transition-colors"
             >
               <Link to="/contacts">
                 {heroCtaPrimary}
-                <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+                <ArrowUpRight className="ml-2 h-5 w-5 transition-transform group-hover:rotate-45" />
               </Link>
             </Button>
             <Button
               asChild
-              variant="outline"
+              variant="ghost"
               size="lg"
-              className="border-zinc-700 bg-transparent text-white hover:bg-zinc-800/50 hover:border-zinc-600 text-base sm:text-lg h-12 sm:h-14 px-6 sm:px-10 font-medium rounded-full"
+              className="rounded-full h-14 px-7 text-sm font-bold uppercase tracking-wider border border-foreground/20 hover:bg-foreground hover:text-background"
             >
               <Link to="/cases">
-                {heroCtaSecondary}
+                {heroCtaSecondary} →
               </Link>
             </Button>
           </motion.div>
 
-          {/* Services marquee — infinite scroll ticker */}
+          {/* Right: editorial stat */}
           <motion.div
-            className="overflow-hidden"
+            className="hidden lg:flex col-span-5 justify-end items-end gap-6"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: 0.9 }}
+            transition={{ delay: 0.7 }}
           >
-            <div className="flex animate-marquee whitespace-nowrap">
-              {[...services, ...services, ...services].map((service, i) => (
-                <span
-                  key={i}
-                  className="inline-flex items-center mx-3 sm:mx-4 px-4 sm:px-5 py-2 rounded-full border border-zinc-800 text-zinc-500 text-xs sm:text-sm font-medium hover:border-primary/30 hover:text-zinc-300 transition-colors duration-300 cursor-default"
-                >
-                  {service}
-                </span>
-              ))}
+            <div className="text-right">
+              <div className="font-display text-7xl leading-none text-foreground">−40<span className="text-primary">%</span></div>
+              <div className="text-[10px] uppercase tracking-[0.2em] text-foreground/60 mt-1">CPL ниже рынка</div>
+            </div>
+            <div className="editorial-rule rotate-90 w-12" />
+            <div className="text-right">
+              <div className="font-display text-7xl leading-none text-foreground">10<span className="text-primary">+</span></div>
+              <div className="text-[10px] uppercase tracking-[0.2em] text-foreground/60 mt-1">Лет в digital</div>
             </div>
           </motion.div>
         </div>
       </motion.div>
+
+      {/* Bottom marquee — editorial ticker */}
+      <div className="relative z-10 border-t border-b border-foreground/10 py-4 bg-background">
+        <div className="flex animate-marquee whitespace-nowrap">
+          {[...services, ...services, ...services].map((service, i) => (
+            <span
+              key={i}
+              className="inline-flex items-center gap-6 mx-6 text-foreground"
+            >
+              <span className="text-2xl font-display-italic text-primary">✦</span>
+              <span className="text-base sm:text-lg font-bold uppercase tracking-wider">{service}</span>
+            </span>
+          ))}
+        </div>
+      </div>
     </section>
   );
 };
