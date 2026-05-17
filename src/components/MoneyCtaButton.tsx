@@ -231,7 +231,7 @@ const MoneyCtaButton = () => {
                         <button
                           key={g.value}
                           onClick={() => handlePick(setGoal, g.value, 2)}
-                          className={`text-left p-3 sm:p-4 rounded-2xl border-2 transition-all hover:border-primary hover:bg-primary/5 ${
+                          className={`group text-left p-3 sm:p-4 rounded-2xl border-2 transition-all hover:border-primary hover:bg-primary/5 ${
                             goal === g.value
                               ? "border-primary bg-primary/10"
                               : "border-border bg-background"
