@@ -123,16 +123,16 @@ const ContactForm = () => {
 
           <motion.form
             onSubmit={handleSubmit}
-            className="bg-card p-8 md:p-12 rounded-3xl shadow-2xl space-y-6"
+            className="bg-background text-foreground p-8 md:p-14 rounded-[32px] space-y-8 border border-foreground/5"
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.2 }}
           >
-            <div className="grid md:grid-cols-2 gap-6">
-              <div className="space-y-2">
-                <Label htmlFor="name" className="flex items-center gap-2 text-sm font-semibold">
-                  <User className="h-4 w-4 text-primary" />
+            <div className="grid md:grid-cols-2 gap-8">
+              <div className="space-y-3">
+                <Label htmlFor="name" className="editorial-eyebrow text-foreground/60 flex items-center gap-2">
+                  <span className="font-display-italic normal-case tracking-normal text-primary text-base">01</span>
                   {nameLabel}
                 </Label>
                 <Input
@@ -142,13 +142,13 @@ const ContactForm = () => {
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                   required
                   disabled={isLoading}
-                  className="h-12 border-border/50 focus:border-primary"
+                  className="h-14 text-lg border-0 border-b border-foreground/20 rounded-none px-0 focus-visible:ring-0 focus-visible:border-primary bg-transparent"
                 />
               </div>
 
-              <div className="space-y-2">
-                <Label htmlFor="phone" className="flex items-center gap-2 text-sm font-semibold">
-                  <Phone className="h-4 w-4 text-primary" />
+              <div className="space-y-3">
+                <Label htmlFor="phone" className="editorial-eyebrow text-foreground/60 flex items-center gap-2">
+                  <span className="font-display-italic normal-case tracking-normal text-primary text-base">02</span>
                   {phoneLabel}
                 </Label>
                 <Input
@@ -159,14 +159,14 @@ const ContactForm = () => {
                   onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                   required
                   disabled={isLoading}
-                  className="h-12 border-border/50 focus:border-primary"
+                  className="h-14 text-lg border-0 border-b border-foreground/20 rounded-none px-0 focus-visible:ring-0 focus-visible:border-primary bg-transparent"
                 />
               </div>
             </div>
 
-
-            <div className="space-y-2">
-              <Label htmlFor="message" className="text-sm font-semibold">
+            <div className="space-y-3">
+              <Label htmlFor="message" className="editorial-eyebrow text-foreground/60 flex items-center gap-2">
+                <span className="font-display-italic normal-case tracking-normal text-primary text-base">03</span>
                 {messageLabel}
               </Label>
               <Textarea
@@ -174,13 +174,13 @@ const ContactForm = () => {
                 placeholder={messagePlaceholder}
                 value={formData.message}
                 onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                rows={4}
+                rows={3}
                 disabled={isLoading}
-                className="border-border/50 focus:border-primary resize-none"
+                className="border-0 border-b border-foreground/20 rounded-none px-0 focus-visible:ring-0 focus-visible:border-primary resize-none text-lg bg-transparent"
               />
             </div>
 
-            <div className="flex items-start gap-3">
+            <div className="flex items-start gap-3 pt-2">
               <Checkbox
                 id="privacy-contact"
                 checked={privacyAccepted}
@@ -188,7 +188,7 @@ const ContactForm = () => {
                 disabled={isLoading}
                 className="mt-0.5"
               />
-              <label htmlFor="privacy-contact" className="text-xs text-muted-foreground leading-relaxed cursor-pointer">
+              <label htmlFor="privacy-contact" className="text-xs text-foreground/60 leading-relaxed cursor-pointer">
                 Я даю согласие на{" "}
                 <Link to="/privacy-policy" className="text-primary underline hover:no-underline" target="_blank">
                   обработку персональных данных
@@ -196,12 +196,12 @@ const ContactForm = () => {
               </label>
             </div>
 
-            <motion.div whileHover={{ scale: 1.01 }} whileTap={{ scale: 0.99 }}>
+            <motion.div whileHover={{ scale: 1.005 }} whileTap={{ scale: 0.995 }}>
               <Button
                 type="submit"
                 size="lg"
                 disabled={isLoading || !privacyAccepted}
-                className="w-full h-14 gradient-primary shadow-cta hover:shadow-glow text-sm sm:text-lg font-bold group px-4"
+                className="w-full h-16 bg-foreground hover:bg-primary text-background text-sm sm:text-base font-bold group px-4 rounded-full uppercase tracking-[0.18em] transition-colors"
               >
                 {isLoading ? (
                   <>
@@ -211,7 +211,7 @@ const ContactForm = () => {
                 ) : (
                   <>
                     {submitText}
-                    <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+                    <ArrowRight className="ml-3 h-5 w-5 group-hover:translate-x-1 transition-transform" />
                   </>
                 )}
               </Button>
