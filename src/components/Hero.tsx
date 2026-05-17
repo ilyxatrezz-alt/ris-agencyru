@@ -37,12 +37,13 @@ const Hero = () => {
           transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
           className="max-w-5xl mx-auto text-center w-full"
         >
-          {/* Top Badge */}
-          <div className="inline-flex items-center gap-2.5 px-3.5 py-1.5 sm:px-4 sm:py-2 border border-white/10 rounded-full mb-8 sm:mb-12 bg-white/5 backdrop-blur-sm">
-            <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
-            <span className="text-white/60 text-[10px] sm:text-xs tracking-[0.2em] uppercase">
-              Digital Growth Agency
+          {/* Top Eyebrow */}
+          <div className="inline-flex items-center gap-4 mb-8 sm:mb-12">
+            <span className="h-px w-8 sm:w-12 bg-primary" />
+            <span className="text-white/70 text-[10px] sm:text-xs tracking-[0.35em] uppercase font-bold">
+              Агентство роста <span className="text-primary">/</span> с 2014
             </span>
+            <span className="h-px w-8 sm:w-12 bg-primary" />
           </div>
 
           {/* Headline */}
