@@ -2,123 +2,106 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useSiteSettingsMap, getSetting } from "@/hooks/useSiteSettings";
 
-const tickerItems = [
-  "STRATEGY", "GROWTH", "ROI", "SCALE", "PROFITS",
-  "EDITORIAL", "2026", "РЕКЛАМА", "САЙТЫ", "SMM", "SEO",
-];
-
 const Hero = () => {
   const { settings } = useSiteSettingsMap();
   const heroCtaPrimary = getSetting(settings, "hero_cta_primary", "Получить аудит бесплатно");
   const heroCtaSecondary = getSetting(settings, "hero_cta_secondary", "Смотреть кейсы");
 
   return (
-    <section className="relative bg-[#f4f4f2] text-foreground py-4 sm:py-10 lg:py-14 px-3 sm:px-6">
-      <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-        className="mx-auto w-full max-w-[420px] sm:max-w-3xl lg:max-w-6xl bg-background border border-foreground shadow-[6px_6px_0_0_hsl(var(--foreground))] sm:shadow-[10px_10px_0_0_hsl(var(--foreground))] flex flex-col overflow-hidden"
-      >
-        {/* Masthead */}
-        <div className="p-4 sm:p-6 border-b-2 border-foreground flex flex-col gap-2">
-          <div className="flex justify-between items-end border-b border-foreground pb-1.5 gap-2">
-            <span className="text-[10px] sm:text-xs font-bold uppercase tracking-tighter">Issue №01</span>
-            <span className="text-[10px] sm:text-xs font-bold uppercase tracking-tighter text-primary text-center">
-              Price: Your Growth
-            </span>
-            <span className="text-[10px] sm:text-xs font-bold uppercase tracking-tighter">Editorial 2026</span>
-          </div>
-          <h1 className="text-5xl sm:text-7xl lg:text-8xl font-black tracking-tighter leading-none text-center">
-            РИС
-          </h1>
+    <section className="relative w-full bg-[#0a0a0a] overflow-hidden selection:bg-primary selection:text-white">
+      {/* Ambient red glow */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[320px] h-[320px] sm:w-[600px] sm:h-[600px] rounded-full blur-[80px] sm:blur-[120px]"
+        style={{ background: "hsl(9 96% 53% / 0.18)" }}
+      />
+
+      {/* Top-right wordmark */}
+      <div className="absolute top-4 right-4 sm:top-8 sm:right-8 z-20">
+        <span className="font-black text-xl sm:text-2xl text-white tracking-tighter">
+          РИС<span className="text-primary">.</span>
+        </span>
+      </div>
+
+      {/* Scroll hint (desktop) */}
+      <div className="absolute bottom-12 left-12 hidden lg:block z-20">
+        <div className="text-[10px] text-white/20 uppercase tracking-[0.5em] [writing-mode:vertical-lr]">
+          Scroll to explore
         </div>
+      </div>
 
-        {/* Main */}
-        <div className="p-4 sm:p-6 lg:p-10 flex flex-col gap-5 sm:gap-7">
+      <div className="relative z-10 container mx-auto px-4 sm:px-6 py-20 sm:py-28 lg:py-32 min-h-[88vh] sm:min-h-screen flex items-center justify-center">
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+          className="max-w-5xl mx-auto text-center w-full"
+        >
+          {/* Top Badge */}
+          <div className="inline-flex items-center gap-2.5 px-3.5 py-1.5 sm:px-4 sm:py-2 border border-white/10 rounded-full mb-8 sm:mb-12 bg-white/5 backdrop-blur-sm">
+            <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
+            <span className="text-white/60 text-[10px] sm:text-xs tracking-[0.2em] uppercase">
+              Digital Growth Agency
+            </span>
+          </div>
+
           {/* Headline */}
-          <div className="border-b-2 border-foreground pb-4 sm:pb-6">
-            <h2 className="text-[42px] sm:text-[72px] lg:text-[104px] leading-[0.9] font-black uppercase tracking-tight">
-              БОЛЬШЕ{" "}
-              <span className="text-primary font-display-italic font-normal normal-case tracking-normal">
-                клиентов,
+          <h1 className="text-white leading-[0.9] tracking-tighter mb-8 sm:mb-12">
+            <span className="block font-black text-5xl sm:text-8xl md:text-9xl uppercase">
+              Больше
+            </span>
+            <span className="block font-display-italic italic text-6xl sm:text-9xl md:text-[10rem] text-primary -mt-2 sm:-mt-8 leading-none">
+              клиентов
+            </span>
+            <div className="flex items-center justify-center gap-3 sm:gap-4 mt-2">
+              <div className="hidden md:block h-px w-16 lg:w-24 bg-white/20" />
+              <span className="font-black text-4xl sm:text-7xl md:text-8xl uppercase text-white/90">
+                Больше прибыли
               </span>
-              <br />
-              БОЛЬШЕ{" "}
-              <span className="bg-foreground text-background px-1.5 sm:px-3">
-                ПРИБЫЛИ.
-              </span>
-            </h2>
-          </div>
+              <div className="hidden md:block h-px w-16 lg:w-24 bg-white/20" />
+            </div>
+          </h1>
 
-          {/* Editorial columns */}
-          <div className="grid grid-cols-12 gap-4 sm:gap-6">
-            <div className="col-span-7 flex flex-col gap-2 sm:gap-3">
-              <div className="aspect-square sm:aspect-[4/3] bg-muted border border-foreground relative overflow-hidden">
-                <div className="absolute inset-0 opacity-20 bg-[radial-gradient(circle,hsl(var(--foreground))_1px,transparent_0)] bg-[length:4px_4px]" />
-                <div className="absolute inset-0 flex items-end p-3">
-                  <span className="text-[10px] sm:text-xs font-bold uppercase opacity-60">
-                    Photo: Agency Case 2026
-                  </span>
-                </div>
-                <div className="absolute top-3 right-3 bg-primary text-background w-10 h-10 sm:w-14 sm:h-14 flex items-center justify-center font-black text-xs sm:text-base uppercase">
-                  NEW
-                </div>
-              </div>
-              <p className="text-[11px] sm:text-sm leading-tight">
-                <span className="font-bold uppercase">Эксклюзив:</span> Мы внедряем стратегии, которые трансформируют рынок маркетинга. Масштабирование без границ.
-              </p>
-            </div>
-            <div className="col-span-5 border-l border-foreground pl-3 sm:pl-5 flex flex-col justify-between gap-4">
-              <div className="flex flex-col gap-2">
-                <div className="h-px bg-foreground w-full" />
-                <p className="text-[10px] sm:text-xs leading-none uppercase font-bold">Аналитика</p>
-                <p className="text-[14px] sm:text-xl font-display-italic leading-tight">
-                  «Рынок требует радикальных решений»
-                </p>
-                <div className="h-px bg-foreground w-full" />
-              </div>
-              <div className="flex flex-col gap-1.5">
-                <div className="text-3xl sm:text-5xl font-black leading-none text-primary">01</div>
-                <div className="text-[9px] sm:text-xs leading-tight uppercase font-bold">
-                  Первый шаг к доминированию
-                </div>
-              </div>
-            </div>
-          </div>
+          {/* Description */}
+          <p className="max-w-xl mx-auto text-white/55 text-base sm:text-lg md:text-xl mb-10 sm:mb-16 leading-relaxed font-light px-2">
+            Проектируем маркетинговые системы, которые масштабируют ваш бизнес через взрывной рост охватов и конверсий.
+          </p>
 
           {/* CTAs */}
-          <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 mt-1">
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3 sm:gap-6 px-2 sm:px-0">
             <Link
               to="/contacts"
-              className="flex-1 bg-primary text-background font-black py-4 sm:py-5 px-4 text-center uppercase tracking-tight border-2 border-foreground hover:bg-foreground transition-colors text-sm sm:text-base"
+              className="group relative px-6 sm:px-8 py-4 sm:py-5 bg-primary text-white font-bold rounded-full overflow-hidden transition-all hover:scale-105 active:scale-95 shadow-[0_0_40px_-10px_hsl(9_96%_53%/0.6)] text-sm sm:text-base"
             >
-              {heroCtaPrimary}
+              <span className="relative z-10">{heroCtaPrimary}</span>
+              <span className="absolute inset-0 bg-black/15 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
             </Link>
+
             <Link
               to="/cases"
-              className="flex-1 bg-background text-foreground font-bold py-3 sm:py-4 px-4 uppercase tracking-tight border-2 border-foreground hover:bg-muted transition-colors flex justify-between items-center text-sm sm:text-base"
+              className="group flex items-center justify-center gap-3 px-6 sm:px-8 py-4 sm:py-5 text-white font-bold border border-white/15 rounded-full hover:bg-white/5 transition-all text-sm sm:text-base"
             >
               <span>{heroCtaSecondary}</span>
-              <span className="text-xl">→</span>
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 20 20"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                className="group-hover:translate-x-1 transition-transform"
+              >
+                <path
+                  d="M4.16663 10H15.8333M15.8333 10L10.8333 5M15.8333 10L10.8333 15"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
             </Link>
           </div>
-        </div>
-
-        {/* Ticker */}
-        <div className="bg-foreground text-background py-1.5 sm:py-2 overflow-hidden whitespace-nowrap border-t-2 border-foreground">
-          <div className="flex animate-marquee">
-            {[...tickerItems, ...tickerItems, ...tickerItems].map((item, i) => (
-              <span
-                key={i}
-                className="text-[10px] sm:text-xs font-bold uppercase tracking-widest px-3 sm:px-4"
-              >
-                {item} •
-              </span>
-            ))}
-          </div>
-        </div>
-      </motion.div>
+        </motion.div>
+      </div>
     </section>
   );
 };
