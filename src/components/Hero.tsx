@@ -22,7 +22,7 @@ const Hero = () => {
   const heroCtaSecondary = getSetting(settings, "hero_cta_secondary", "Смотреть кейсы");
 
   const blockY = useTransform(scrollYProgress, [0, 1], [0, -120]);
-  const fadeOut = useTransform(scrollYProgress, [0, 0.6], [1, 0]);
+  const fadeOut = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
 
   return (
     <section
@@ -43,11 +43,11 @@ const Hero = () => {
 
       {/* Main editorial composition */}
       <motion.div
-        className="container relative z-10 mx-auto px-4 pt-10 sm:pt-14 pb-12 flex-1 flex flex-col"
+        className="container relative z-10 mx-auto px-4 pt-12 sm:pt-16 pb-12 flex-1 flex flex-col"
         style={{ opacity: fadeOut }}
       >
         {/* Top meta row */}
-        <div className="grid grid-cols-12 gap-4 mb-8 sm:mb-10">
+        <div className="grid grid-cols-12 gap-4 mb-10 sm:mb-14">
           <div className="col-span-6 sm:col-span-4 flex items-center gap-2">
             <div className="flex">
               {[...Array(5)].map((_, i) => (
@@ -58,8 +58,10 @@ const Hero = () => {
               200+ проектов
             </span>
           </div>
-          <div className="hidden sm:flex col-span-4 items-center justify-center">
+          <div className="hidden sm:flex col-span-4 items-center justify-center gap-3">
+            <span className="editorial-rule w-10" />
             <span className="font-display-italic text-2xl text-primary">№ 001</span>
+            <span className="editorial-rule w-10" />
           </div>
           <div className="col-span-6 sm:col-span-4 flex items-center justify-end">
             <span className="text-[11px] uppercase tracking-[0.18em] font-semibold text-foreground/60">
@@ -68,43 +70,36 @@ const Hero = () => {
           </div>
         </div>
 
-        {/* MASSIVE headline — asymmetric magazine layout */}
+        {/* MASSIVE headline — clean confident statement */}
         <motion.div
-          className="grid grid-cols-12 gap-x-4 gap-y-2 mb-10 sm:mb-14"
-          initial={{ opacity: 0, y: 40 }}
+          className="mb-10 sm:mb-14"
+          initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
           style={{ y: blockY }}
         >
           {/* Line 1 */}
-          <div className="col-span-12 flex items-baseline gap-4 sm:gap-8">
-            <h1 className="text-[14vw] sm:text-[11vw] lg:text-[9.5vw] font-black tracking-[-0.045em] leading-[0.85] uppercase">
-              Превра
-              <span className="font-display-italic font-normal text-primary normal-case tracking-tight">щаем</span>
-            </h1>
-          </div>
+          <h1 className="text-[16vw] sm:text-[13vw] lg:text-[11.5vw] font-black tracking-[-0.05em] leading-[0.82] uppercase">
+            Больше
+          </h1>
 
-          {/* Line 2 — with inline meta */}
-          <div className="col-span-12 grid grid-cols-12 gap-4 items-end mt-1 sm:mt-2">
-            <div className="hidden lg:block col-span-3">
-              <div className="editorial-rule mb-3" />
-              <p className="text-xs leading-relaxed text-foreground/60 max-w-[14rem]">
-                Создаём сайты, запускаем рекламу, выстраиваем поток клиентов. 10+ лет, без воды.
+          {/* Line 2 — with side description */}
+          <div className="grid grid-cols-12 gap-4 items-end mt-2">
+            <div className="hidden lg:block col-span-3 pb-6">
+              <div className="editorial-rule mb-4" />
+              <p className="text-sm leading-relaxed text-foreground/60 max-w-[16rem]">
+                Создаём сайты, запускаем рекламу, выстраиваем стабильный поток клиентов. 10+ лет в digital.
               </p>
             </div>
-            <div className="col-span-12 lg:col-span-9">
-              <h1 className="text-[14vw] sm:text-[11vw] lg:text-[9.5vw] font-black tracking-[-0.045em] leading-[0.85] uppercase">
-                рекламу <span className="font-display-italic font-normal normal-case text-foreground/40">в</span>
-              </h1>
-            </div>
-          </div>
-
-          {/* Line 3 — bold accent */}
-          <div className="col-span-12 mt-1 sm:mt-2">
-            <h1 className="text-[14vw] sm:text-[11vw] lg:text-[9.5vw] font-black tracking-[-0.045em] leading-[0.85] uppercase text-primary">
-              прибыль.
+            <h1 className="col-span-12 lg:col-span-9 text-[16vw] sm:text-[13vw] lg:text-[11.5vw] font-black tracking-[-0.05em] leading-[0.82] uppercase text-right lg:text-left">
+              <span className="font-display-italic font-normal normal-case tracking-tight text-foreground/40">клиентов,</span>
             </h1>
           </div>
+
+          {/* Line 3 — bold red accent */}
+          <h1 className="text-[16vw] sm:text-[13vw] lg:text-[11.5vw] font-black tracking-[-0.05em] leading-[0.82] uppercase text-primary mt-2">
+            больше прибыли.
+          </h1>
         </motion.div>
 
         {/* CTA + side meta row */}
