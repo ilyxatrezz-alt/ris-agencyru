@@ -1,4 +1,4 @@
-import { Phone, Zap, Loader2 } from "lucide-react";
+import { Phone, Loader2, ArrowUpRight } from "lucide-react";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import {
@@ -72,65 +72,99 @@ const QuickContact = () => {
   };
 
   return (
-    <section className="py-12 bg-gradient-to-r from-primary/5 via-primary/10 to-primary/5 relative overflow-hidden">
-      {/* Animated Background */}
-      <motion.div
-        className="absolute inset-0 bg-[radial-gradient(ellipse_at_left,hsl(var(--primary)/0.1),transparent_50%)]"
-        animate={{ opacity: [0.5, 0.8, 0.5] }}
-        transition={{ duration: 5, repeat: Infinity }}
-      />
+    <section className="relative bg-foreground text-background overflow-hidden border-t border-foreground/10">
+      {/* Editorial header */}
+      <div className="container mx-auto px-4 pt-20 md:pt-28 pb-10 md:pb-16">
+        <div className="grid grid-cols-12 gap-4 items-end">
+          <div className="col-span-12 md:col-span-3">
+            <span className="editorial-eyebrow text-background/50">§ — {badgeText}</span>
+            <div className="h-px bg-background/20 mt-4" />
+          </div>
+          <motion.div
+            className="col-span-12 md:col-span-9"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7 }}
+          >
+            <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black tracking-[-0.035em] leading-[0.95] uppercase">
+              Позвоните <span className="font-display-italic font-normal normal-case text-primary">прямо</span> сейчас
+            </h2>
+            <p className="mt-6 text-base md:text-lg text-background/60 max-w-xl">
+              {subtitle}
+            </p>
+          </motion.div>
+        </div>
+      </div>
 
-      <div className="container mx-auto px-4 relative z-10">
-        <div className="max-w-5xl mx-auto">
-          <div className="grid md:grid-cols-2 gap-8 items-center">
-            {/* Call Button Section */}
-            <motion.div
-              className="text-center md:text-left space-y-4"
-              initial={{ opacity: 0, x: -30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-            >
-              <div className="flex items-center justify-center md:justify-start gap-2 text-primary">
-                <Zap className="h-5 w-5" />
-                <span className="text-sm font-semibold">{badgeText}</span>
+      {/* Asymmetric body */}
+      <div className="container mx-auto px-4 pb-20 md:pb-28">
+        <div className="grid grid-cols-12 gap-6 md:gap-10 items-stretch">
+          {/* Phone CTA — left, massive */}
+          <motion.div
+            className="col-span-12 md:col-span-7 flex flex-col justify-between gap-8"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7 }}
+          >
+            <div>
+              <div className="text-xs uppercase tracking-[0.2em] text-background/40 mb-4">
+                / звонок напрямую
               </div>
-              <h3 className="text-2xl md:text-3xl font-black">{title}</h3>
-              <p className="text-muted-foreground">{subtitle}</p>
-              <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-                <Button
-                  asChild
-                  size="lg"
-                  className="w-full md:w-auto gradient-primary shadow-cta hover:shadow-glow text-lg h-14 px-8 font-bold group"
-                >
-                  <a href={`tel:${phoneRaw}`} className="flex items-center justify-center gap-3">
-                    <motion.div
-                      animate={{ rotate: [0, 15, -15, 0] }}
-                      transition={{ duration: 1.5, repeat: Infinity }}
-                    >
-                      <Phone className="h-5 w-5" />
-                    </motion.div>
-                    {phoneDisplay}
-                  </a>
-                </Button>
-              </motion.div>
-            </motion.div>
+              <a
+                href={`tel:${phoneRaw}`}
+                className="group block"
+              >
+                <div className="flex items-start gap-3">
+                  <span className="font-display-italic text-3xl md:text-5xl text-primary italic leading-none mt-2">+</span>
+                  <span className="text-[14vw] md:text-[8vw] lg:text-[6.5vw] font-black leading-[0.85] tracking-[-0.05em] text-background group-hover:text-primary transition-colors">
+                    {phoneDisplay.replace(/^\+/, "")}
+                  </span>
+                </div>
+              </a>
+            </div>
 
-            {/* Quick Form */}
-            <motion.div
-              className="p-6 rounded-2xl bg-card shadow-card border border-border/50"
-              initial={{ opacity: 0, x: 30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-            >
-              <h4 className="text-lg font-bold mb-4 text-center">{formTitle}</h4>
-              <form onSubmit={handleSubmit} className="space-y-4">
+            <div className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6">
+              <a
+                href={`tel:${phoneRaw}`}
+                className="inline-flex items-center gap-3 self-start text-sm font-bold uppercase tracking-[0.18em] group text-background"
+              >
+                <span className="flex h-14 w-14 items-center justify-center rounded-full bg-primary text-background group-hover:scale-110 transition-transform">
+                  <Phone className="h-5 w-5" />
+                </span>
+                <span>Позвонить сейчас</span>
+              </a>
+              <div className="hidden sm:block h-10 w-px bg-background/20" />
+              <span className="font-display-italic text-lg md:text-xl text-background/50 italic">
+                ответим в течение 60 секунд
+              </span>
+            </div>
+          </motion.div>
+
+          {/* Form — right, white card */}
+          <motion.div
+            className="col-span-12 md:col-span-5"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7, delay: 0.1 }}
+          >
+            <div className="bg-background text-foreground rounded-[28px] md:rounded-[36px] p-6 md:p-8 shadow-[0_30px_80px_-20px_rgba(0,0,0,0.6)]">
+              <div className="flex items-center justify-between mb-6">
+                <h4 className="text-xl md:text-2xl font-black tracking-tight uppercase">{formTitle}</h4>
+                <ArrowUpRight className="h-5 w-5 text-primary" />
+              </div>
+
+              <form onSubmit={handleSubmit} className="space-y-3">
                 <Input
                   placeholder="Ваше имя"
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                   required
                   disabled={isLoading}
-                  className="h-12"
+                  maxLength={100}
+                  className="h-12 rounded-xl border-foreground/15 bg-transparent focus-visible:ring-primary"
                 />
                 <Input
                   type="tel"
@@ -139,14 +173,15 @@ const QuickContact = () => {
                   onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                   required
                   disabled={isLoading}
-                  className="h-12"
+                  maxLength={30}
+                  className="h-12 rounded-xl border-foreground/15 bg-transparent focus-visible:ring-primary"
                 />
                 <Select
                   value={formData.niche}
                   onValueChange={(value) => setFormData({ ...formData, niche: value })}
                   disabled={isLoading}
                 >
-                  <SelectTrigger className="h-12">
+                  <SelectTrigger className="h-12 rounded-xl border-foreground/15 bg-transparent focus:ring-primary">
                     <SelectValue placeholder="Выберите нишу" />
                   </SelectTrigger>
                   <SelectContent>
@@ -159,7 +194,8 @@ const QuickContact = () => {
                     <SelectItem value="other">Другое</SelectItem>
                   </SelectContent>
                 </Select>
-                <div className="flex items-start gap-3">
+
+                <div className="flex items-start gap-3 pt-1">
                   <Checkbox
                     id="privacy-quick"
                     checked={privacyAccepted}
@@ -174,10 +210,11 @@ const QuickContact = () => {
                     </Link>
                   </label>
                 </div>
+
                 <Button
                   type="submit"
                   disabled={isLoading || !privacyAccepted}
-                  className="w-full h-12 gradient-primary shadow-cta hover:shadow-glow font-bold"
+                  className="w-full h-14 rounded-xl bg-foreground hover:bg-foreground/90 text-background font-bold uppercase tracking-[0.12em] text-sm group"
                 >
                   {isLoading ? (
                     <>
@@ -185,12 +222,15 @@ const QuickContact = () => {
                       Отправка...
                     </>
                   ) : (
-                    submitText
+                    <span className="flex items-center gap-2">
+                      {submitText}
+                      <ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                    </span>
                   )}
                 </Button>
               </form>
-            </motion.div>
-          </div>
+            </div>
+          </motion.div>
         </div>
       </div>
     </section>
