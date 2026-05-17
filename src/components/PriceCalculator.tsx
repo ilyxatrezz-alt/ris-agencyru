@@ -66,10 +66,10 @@ const PriceCalculator = () => {
   const [period, setPeriod] = useState("3");
 
   const services: Service[] = [
-    { id: "website", name: "Создание сайта", setupPrice: 80000 },
-    { id: "yandex", name: "Яндекс.Директ", setupPrice: 25000, monthlyPercent: 15, monthlyFixed: 20000 },
-    { id: "vk", name: "ВКонтакте", setupPrice: 18000, monthlyPercent: 15, monthlyFixed: 15000 },
-    { id: "telegram", name: "Telegram Ads", setupPrice: 15000, monthlyPercent: 15, monthlyFixed: 12000 },
+    { id: "website", name: "Создание сайта", setupPrice: 20000 },
+    { id: "yandex", name: "Яндекс.Директ", setupPrice: 0, monthlyFixed: 25000 },
+    { id: "vk", name: "ВКонтакте", setupPrice: 0, monthlyFixed: 22000 },
+    { id: "telegram", name: "Telegram Ads", setupPrice: 0, monthlyFixed: 27000 },
   ];
 
   const hasWebsite = selectedServices.includes("website");
@@ -82,7 +82,7 @@ const PriceCalculator = () => {
 
   const calculateTotal = () => {
     let setupCost = 0;
-    let monthlyCost = 0;
+    let serviceMonthly = 0;
 
     selectedServices.forEach((serviceId) => {
       const service = services.find((s) => s.id === serviceId);
@@ -90,17 +90,18 @@ const PriceCalculator = () => {
       if (service.id === "telegram" && telegramIsBonus) return;
 
       setupCost += service.setupPrice;
-
-      if (service.monthlyPercent || service.monthlyFixed) {
-        const percentCost = service.monthlyPercent ? (adBudget[0] * service.monthlyPercent) / 100 : 0;
-        const fixedCost = service.monthlyFixed || 0;
-        monthlyCost += Math.max(percentCost, fixedCost);
-      }
+      if (service.monthlyFixed) serviceMonthly += service.monthlyFixed;
     });
 
-    if (selectedServices.length >= 3 && !telegramIsBonus) {
+    // Ad budget itself is paid by the client on top of the service fees
+    const adBudgetMonthly = hasAds ? adBudget[0] : 0;
+    let monthlyCost = serviceMonthly + adBudgetMonthly;
+
+    const discount = selectedServices.length >= 3 && !telegramIsBonus;
+    if (discount) {
       setupCost *= 0.9;
-      monthlyCost *= 0.9;
+      serviceMonthly *= 0.9;
+      monthlyCost = serviceMonthly + adBudgetMonthly;
     }
 
     const totalForPeriod = setupCost + monthlyCost * parseInt(period);
@@ -109,7 +110,7 @@ const PriceCalculator = () => {
       setup: Math.round(setupCost),
       monthly: Math.round(monthlyCost),
       total: Math.round(totalForPeriod),
-      discount: selectedServices.length >= 3 && !telegramIsBonus,
+      discount,
     };
   };
 
@@ -214,9 +215,11 @@ const PriceCalculator = () => {
               <span className="text-2xl sm:text-3xl md:text-4xl font-bold text-primary">₽</span>
             </div>
 
-            {costs.monthly > 0 && (
-              <p className="text-[11px] sm:text-xs text-muted-foreground mt-3 tabular-nums">
-                Настройка {formatRub(costs.setup)} ₽ + ведение {formatRub(costs.monthly)} ₽/мес
+            {(costs.monthly > 0 || costs.setup > 0) && (
+              <p className="text-[11px] sm:text-xs text-muted-foreground mt-3 tabular-nums text-center px-4">
+                {costs.setup > 0 && <>Сайт от {formatRub(costs.setup)} ₽</>}
+                {costs.setup > 0 && costs.monthly > 0 && " + "}
+                {costs.monthly > 0 && <>ведение и бюджет {formatRub(costs.monthly)} ₽/мес</>}
               </p>
             )}
 
