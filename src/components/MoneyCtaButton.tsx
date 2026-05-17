@@ -1,6 +1,22 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
-import { ArrowRight, Loader2, Check, Send, Sparkles } from "lucide-react";
+import {
+  ArrowRight,
+  Loader2,
+  Check,
+  Send,
+  Sparkles,
+  Stethoscope,
+  HardHat,
+  UtensilsCrossed,
+  ShoppingBag,
+  Briefcase,
+  MoreHorizontal,
+  PhoneCall,
+  TrendingUp,
+  MonitorSmartphone,
+  Megaphone,
+} from "lucide-react";
 import { Input } from "./ui/input";
 import { Checkbox } from "./ui/checkbox";
 import { Button } from "./ui/button";
@@ -11,19 +27,19 @@ import { supabase } from "@/integrations/supabase/client";
 type Step = 0 | 1 | 2 | 3 | 4;
 
 const NICHES = [
-  { value: "medicine", label: "Медицина / Красота", emoji: "💊" },
-  { value: "construction", label: "Строительство / Ремонт", emoji: "🏗️" },
-  { value: "horeca", label: "HoReCa / Рестораны", emoji: "🍽️" },
-  { value: "ecommerce", label: "Интернет-магазин", emoji: "🛒" },
-  { value: "services", label: "Услуги B2B / B2C", emoji: "💼" },
-  { value: "other", label: "Другое", emoji: "✨" },
+  { value: "medicine", label: "Медицина / Красота", Icon: Stethoscope },
+  { value: "construction", label: "Строительство / Ремонт", Icon: HardHat },
+  { value: "horeca", label: "HoReCa / Рестораны", Icon: UtensilsCrossed },
+  { value: "ecommerce", label: "Интернет-магазин", Icon: ShoppingBag },
+  { value: "services", label: "Услуги B2B / B2C", Icon: Briefcase },
+  { value: "other", label: "Другое", Icon: MoreHorizontal },
 ];
 
 const GOALS = [
-  { value: "leads", label: "Поток заявок", emoji: "📞" },
-  { value: "sales", label: "Рост продаж", emoji: "📈" },
-  { value: "site", label: "Новый сайт", emoji: "🖥️" },
-  { value: "smm", label: "Соцсети / SMM", emoji: "📱" },
+  { value: "leads", label: "Поток заявок", Icon: PhoneCall },
+  { value: "sales", label: "Рост продаж", Icon: TrendingUp },
+  { value: "site", label: "Новый сайт", Icon: MonitorSmartphone },
+  { value: "smm", label: "Соцсети / SMM", Icon: Megaphone },
 ];
 
 const BUDGETS = [
@@ -192,7 +208,9 @@ const MoneyCtaButton = () => {
                               : "border-border bg-background"
                           }`}
                         >
-                          <div className="text-xl sm:text-2xl mb-1">{n.emoji}</div>
+                          <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-primary/10 text-primary flex items-center justify-center mb-2 group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
+                            <n.Icon className="w-5 h-5" strokeWidth={2} />
+                          </div>
                           <div className="text-xs sm:text-sm font-bold leading-tight">{n.label}</div>
                         </button>
                       ))}
@@ -213,13 +231,15 @@ const MoneyCtaButton = () => {
                         <button
                           key={g.value}
                           onClick={() => handlePick(setGoal, g.value, 2)}
-                          className={`text-left p-3 sm:p-4 rounded-2xl border-2 transition-all hover:border-primary hover:bg-primary/5 ${
+                          className={`group text-left p-3 sm:p-4 rounded-2xl border-2 transition-all hover:border-primary hover:bg-primary/5 ${
                             goal === g.value
                               ? "border-primary bg-primary/10"
                               : "border-border bg-background"
                           }`}
                         >
-                          <div className="text-xl sm:text-2xl mb-1">{g.emoji}</div>
+                          <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-primary/10 text-primary flex items-center justify-center mb-2 group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
+                            <g.Icon className="w-5 h-5" strokeWidth={2} />
+                          </div>
                           <div className="text-xs sm:text-sm font-bold leading-tight">{g.label}</div>
                         </button>
                       ))}
