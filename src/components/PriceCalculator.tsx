@@ -1,7 +1,5 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
-import { Checkbox } from "@/components/ui/checkbox";
 import {
   Select,
   SelectContent,
@@ -10,10 +8,9 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Slider } from "@/components/ui/slider";
-import { Card } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Check, Gift, TrendingUp } from "lucide-react";
+import { ArrowRight, TrendingUp, Gift, Sparkles } from "lucide-react";
 import { Link } from "react-router-dom";
+import { motion, useInView } from "framer-motion";
 import { useSiteSettingsMap, getSetting } from "@/hooks/useSiteSettings";
 
 interface Service {
@@ -22,8 +19,34 @@ interface Service {
   setupPrice: number;
   monthlyPercent?: number;
   monthlyFixed?: number;
-  isBonus?: boolean;
 }
+
+const useAnimatedNumber = (value: number, duration = 600) => {
+  const [display, setDisplay] = useState(value);
+  const fromRef = useRef(value);
+  const startRef = useRef<number | null>(null);
+
+  useEffect(() => {
+    const from = fromRef.current;
+    const to = value;
+    if (from === to) return;
+    startRef.current = null;
+    let raf = 0;
+    const tick = (t: number) => {
+      if (startRef.current == null) startRef.current = t;
+      const p = Math.min(1, (t - startRef.current) / duration);
+      const eased = 1 - Math.pow(1 - p, 3);
+      const v = Math.round(from + (to - from) * eased);
+      setDisplay(v);
+      if (p < 1) raf = requestAnimationFrame(tick);
+      else fromRef.current = to;
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [value, duration]);
+
+  return display;
+};
 
 const PriceCalculator = () => {
   const { settings } = useSiteSettingsMap();
@@ -32,52 +55,21 @@ const PriceCalculator = () => {
   const subtitle = getSetting(
     settings,
     "home_price_calculator_subtitle",
-    "Рассчитайте стоимость продвижения за 1 минуту"
+    "Настройте параметры продвижения в реальном времени"
   );
-  const leftTitle = getSetting(settings, "home_price_calculator_left_title", "Выберите услуги");
-  const nicheLabel = getSetting(settings, "home_price_calculator_niche_label", "Ниша бизнеса");
-  const rightTitle = getSetting(settings, "home_price_calculator_right_title", "Расчет стоимости");
-  const rightSubtitle = getSetting(settings, "home_price_calculator_right_subtitle", "Прозрачное ценообразование");
-  const discountText = getSetting(settings, "home_price_calculator_discount", "Скидка 10% за комплекс");
-  const bonusText = getSetting(settings, "home_price_calculator_bonus", "Telegram в подарок!");
   const ctaText = getSetting(settings, "home_price_calculator_cta", "Получить предложение");
-  const roiTitle = getSetting(settings, "home_price_calculator_roi_title", "Средний ROI клиентов");
   const roiValue = getSetting(settings, "home_price_calculator_roi_value", "+180%");
-  const roiSubtitle = getSetting(settings, "home_price_calculator_roi_subtitle", "За первые 3 месяца");
 
-  const [selectedServices, setSelectedServices] = useState<string[]>([]);
+  const [selectedServices, setSelectedServices] = useState<string[]>(["website"]);
   const [niche, setNiche] = useState("");
   const [adBudget, setAdBudget] = useState([50000]);
   const [period, setPeriod] = useState("3");
 
   const services: Service[] = [
-    {
-      id: "website",
-      name: "Создание сайта",
-      setupPrice: 80000,
-    },
-    {
-      id: "yandex",
-      name: "Яндекс.Директ",
-      setupPrice: 25000,
-      monthlyPercent: 15,
-      monthlyFixed: 20000,
-    },
-    {
-      id: "vk",
-      name: "ВКонтакте",
-      setupPrice: 18000,
-      monthlyPercent: 15,
-      monthlyFixed: 15000,
-    },
-    {
-      id: "telegram",
-      name: "Telegram Ads",
-      setupPrice: 15000,
-      monthlyPercent: 15,
-      monthlyFixed: 12000,
-      isBonus: true,
-    },
+    { id: "website", name: "Создание сайта", setupPrice: 80000 },
+    { id: "yandex", name: "Яндекс.Директ", setupPrice: 25000, monthlyPercent: 15, monthlyFixed: 20000 },
+    { id: "vk", name: "ВКонтакте", setupPrice: 18000, monthlyPercent: 15, monthlyFixed: 15000 },
+    { id: "telegram", name: "Telegram Ads", setupPrice: 15000, monthlyPercent: 15, monthlyFixed: 12000 },
   ];
 
   const hasWebsite = selectedServices.includes("website");
@@ -86,6 +78,8 @@ const PriceCalculator = () => {
   const hasTelegram = selectedServices.includes("telegram");
   const telegramIsBonus = hasWebsite && (hasYandex || hasVK);
 
+  const hasAds = selectedServices.some((s) => ["yandex", "vk", "telegram"].includes(s));
+
   const calculateTotal = () => {
     let setupCost = 0;
     let monthlyCost = 0;
@@ -93,10 +87,7 @@ const PriceCalculator = () => {
     selectedServices.forEach((serviceId) => {
       const service = services.find((s) => s.id === serviceId);
       if (!service) return;
-
-      if (service.id === "telegram" && telegramIsBonus) {
-        return;
-      }
+      if (service.id === "telegram" && telegramIsBonus) return;
 
       setupCost += service.setupPrice;
 
@@ -123,95 +114,138 @@ const PriceCalculator = () => {
   };
 
   const toggleService = (serviceId: string) => {
-    setSelectedServices((prev) => (prev.includes(serviceId) ? prev.filter((id) => id !== serviceId) : [...prev, serviceId]));
+    setSelectedServices((prev) =>
+      prev.includes(serviceId) ? prev.filter((id) => id !== serviceId) : [...prev, serviceId]
+    );
   };
 
   const costs = calculateTotal();
+  const animated = useAnimatedNumber(costs.total);
+
+  // ROI progress fill: scales with number of services selected
+  const fillPercent = Math.min(100, 25 + selectedServices.length * 18);
+
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const inView = useInView(sectionRef, { once: true, margin: "-80px" });
+
+  // Format with thousands grouping
+  const formatRub = (n: number) => n.toLocaleString("ru-RU");
 
   return (
-    <section className="py-10 sm:py-12 md:py-16 lg:py-24 bg-gradient-to-br from-primary/5 to-accent/5 w-full overflow-hidden">
-      <div className="w-full px-3 sm:px-4 md:px-6 lg:px-8 max-w-7xl mx-auto">
-        <div className="space-y-5 sm:space-y-6 md:space-y-8">
+    <section
+      ref={sectionRef}
+      className="py-16 md:py-24 bg-muted/30"
+    >
+      <div className="container mx-auto px-3 sm:px-4">
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6 }}
+          className="max-w-2xl mx-auto bg-background rounded-[28px] md:rounded-[40px] border border-border shadow-[0_24px_60px_-24px_rgba(0,0,0,0.12)] overflow-hidden"
+        >
           {/* Header */}
-          <div className="text-center space-y-2 sm:space-y-3 md:space-y-4">
-            <h2 className="text-xl sm:text-2xl md:text-4xl lg:text-5xl font-bold">
+          <div className="p-6 sm:p-8 md:p-10 pb-4 sm:pb-6 text-center">
+            <div className="flex items-center justify-center gap-2 mb-3 md:mb-4">
+              <span className="text-primary text-lg font-medium leading-none">§</span>
+              <span className="text-[10px] sm:text-xs uppercase tracking-[0.2em] text-muted-foreground font-semibold">
+                Investment Calculator
+              </span>
+            </div>
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-medium tracking-tight mb-2 md:mb-3">
               {title.split(" ")[0]}{" "}
-              <span className="text-gradient-primary">{title.split(" ").slice(1).join(" ")}</span>
+              <span className="font-display-italic italic text-primary font-normal">
+                {title.split(" ").slice(1).join(" ")}
+              </span>
             </h2>
-            <p className="text-xs sm:text-sm md:text-lg lg:text-xl text-muted-foreground max-w-2xl mx-auto">
-              {subtitle}
-            </p>
+            <p className="text-muted-foreground text-xs sm:text-sm">{subtitle}</p>
           </div>
 
-          <div className="grid lg:grid-cols-2 gap-4 sm:gap-5 md:gap-6 lg:gap-8">
-            {/* Левая часть - Настройки */}
-            <div className="space-y-4 md:space-y-6 min-w-0">
-              <Card className="p-3 sm:p-4 md:p-6 space-y-3 sm:space-y-4 md:space-y-6">
-                <div>
-                  <h3 className="text-base sm:text-lg md:text-xl font-bold mb-2 sm:mb-3 md:mb-4">
-                    {leftTitle}
-                  </h3>
-                  <div className="space-y-2 sm:space-y-3">
-                    {services.map((service) => {
-                      const isDisabled = service.id === "telegram" && telegramIsBonus && !hasTelegram;
-                      const showBonus = service.id === "telegram" && telegramIsBonus && hasTelegram;
+          {/* Service Chips */}
+          <div className="px-6 sm:px-8 md:px-10 py-5 sm:py-6 border-y border-border bg-muted/40">
+            <p className="text-[10px] uppercase tracking-widest text-muted-foreground mb-3 md:mb-4 text-center font-semibold">
+              Выберите услуги
+            </p>
+            <div className="flex flex-wrap justify-center gap-2 sm:gap-3">
+              {services.map((service) => {
+                const isActive = selectedServices.includes(service.id);
+                const showBonus = service.id === "telegram" && telegramIsBonus && isActive;
+                return (
+                  <button
+                    key={service.id}
+                    type="button"
+                    onClick={() => toggleService(service.id)}
+                    className={`relative px-4 sm:px-5 md:px-6 py-2.5 sm:py-3 rounded-full border-2 text-xs sm:text-sm font-medium transition-all duration-200 ${
+                      isActive
+                        ? "border-primary bg-primary text-primary-foreground shadow-lg shadow-primary/20"
+                        : "border-border bg-background text-foreground/70 hover:border-foreground/30"
+                    }`}
+                  >
+                    <span className="inline-flex items-center gap-1.5">
+                      {service.name}
+                      {showBonus && (
+                        <Gift className="h-3 w-3 sm:h-3.5 sm:w-3.5" />
+                      )}
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
+            {telegramIsBonus && hasTelegram && (
+              <p className="text-[11px] text-emerald-600 font-medium mt-3 text-center">
+                🎁 Telegram Ads — в подарок к пакету
+              </p>
+            )}
+            {costs.discount && (
+              <p className="text-[11px] text-emerald-600 font-medium mt-2 text-center">
+                ✓ Скидка 10% за комплекс уже применена
+              </p>
+            )}
+          </div>
 
-                      return (
-                        <div
-                          key={service.id}
-                          className={`flex items-start gap-2 sm:gap-3 p-2 sm:p-3 md:p-4 rounded-lg border-2 transition-base ${
-                            selectedServices.includes(service.id)
-                              ? "border-primary bg-primary/5"
-                              : "border-border hover:border-primary/50"
-                          }`}
-                        >
-                          <Checkbox
-                            id={service.id}
-                            checked={selectedServices.includes(service.id)}
-                            onCheckedChange={() => toggleService(service.id)}
-                            disabled={isDisabled}
-                            className="mt-0.5 flex-shrink-0"
-                          />
-                          <div className="flex-1 min-w-0">
-                            <Label
-                              htmlFor={service.id}
-                              className="text-xs sm:text-sm md:text-base font-semibold cursor-pointer flex items-center gap-1 sm:gap-2 flex-wrap"
-                            >
-                              <span className="break-words">{service.name}</span>
-                              {showBonus && (
-                                <Badge
-                                  variant="secondary"
-                                  className="bg-accent text-accent-foreground text-[10px] sm:text-xs px-1 sm:px-2"
-                                >
-                                  <Gift className="h-2.5 w-2.5 sm:h-3 sm:w-3 mr-0.5 sm:mr-1" />
-                                  БОНУС
-                                </Badge>
-                              )}
-                            </Label>
-                            <p className="text-[10px] sm:text-xs md:text-sm text-muted-foreground mt-0.5 sm:mt-1">
-                              {service.id === "website" && "Лендинг или сайт под ключ"}
-                              {service.id === "yandex" && "Контекстная реклама"}
-                              {service.id === "vk" && "Таргетированная реклама"}
-                              {service.id === "telegram" && "Реклама в Telegram"}
-                            </p>
-                            {showBonus && (
-                              <p className="text-[10px] sm:text-xs text-accent font-medium mt-1 sm:mt-2">
-                                🎁 Бесплатно при покупке сайта + реклама!
-                              </p>
-                            )}
-                          </div>
-                        </div>
-                      );
-                    })}
+          {/* Massive Ticker */}
+          <div className="p-6 sm:p-8 md:p-10 flex flex-col items-center justify-center">
+            <div className="text-[10px] sm:text-[11px] uppercase tracking-widest text-muted-foreground mb-2">
+              Итого за {period} {parseInt(period) === 1 ? "месяц" : "мес."}
+            </div>
+            <div className="flex items-baseline justify-center gap-1.5 sm:gap-2 leading-none">
+              <span className="text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-bold tracking-[-0.04em] tabular-nums text-foreground">
+                {formatRub(animated)}
+              </span>
+              <span className="text-2xl sm:text-3xl md:text-4xl font-bold text-primary">₽</span>
+            </div>
+
+            {costs.monthly > 0 && (
+              <p className="text-[11px] sm:text-xs text-muted-foreground mt-3 tabular-nums">
+                Настройка {formatRub(costs.setup)} ₽ + ведение {formatRub(costs.monthly)} ₽/мес
+              </p>
+            )}
+
+            <div className="flex items-center gap-2 text-emerald-600 text-xs sm:text-sm font-semibold mt-3 sm:mt-4">
+              <TrendingUp className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+              ROI {roiValue} прогнозируемо
+            </div>
+          </div>
+
+          {/* ROI Progress Bar */}
+          <div className="px-6 sm:px-8 md:px-10 pb-6 sm:pb-8 md:pb-10">
+            <div className="relative w-full h-1.5 sm:h-2 bg-muted rounded-full overflow-hidden mb-6 sm:mb-8">
+              <motion.div
+                className="absolute top-0 left-0 h-full bg-gradient-to-r from-primary to-primary/70 rounded-full shadow-[0_0_15px_rgba(250,55,20,0.4)]"
+                initial={{ width: 0 }}
+                animate={{ width: `${fillPercent}%` }}
+                transition={{ duration: 0.6, ease: "easeOut" }}
+              />
+            </div>
+
+            {/* Niche + Budget + Period + CTA */}
+            <div className="space-y-3 sm:space-y-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <div className="text-[10px] text-muted-foreground uppercase tracking-widest mb-1.5 font-semibold">
+                    Ниша бизнеса
                   </div>
-                </div>
-
-                <div>
-                  <Label htmlFor="niche" className="text-xs sm:text-sm md:text-base font-semibold">
-                    {nicheLabel}
-                  </Label>
                   <Select value={niche} onValueChange={setNiche}>
-                    <SelectTrigger id="niche" className="mt-1.5 sm:mt-2 text-xs sm:text-sm">
+                    <SelectTrigger className="bg-muted/60 border-border rounded-xl h-11 text-sm">
                       <SelectValue placeholder="Выберите нишу" />
                     </SelectTrigger>
                     <SelectContent>
@@ -223,150 +257,82 @@ const PriceCalculator = () => {
                     </SelectContent>
                   </Select>
                 </div>
+                <div>
+                  <div className="text-[10px] text-muted-foreground uppercase tracking-widest mb-1.5 font-semibold">
+                    Период
+                  </div>
+                  <Select value={period} onValueChange={setPeriod}>
+                    <SelectTrigger className="bg-muted/60 border-border rounded-xl h-11 text-sm">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="1">1 месяц</SelectItem>
+                      <SelectItem value="3">3 месяца</SelectItem>
+                      <SelectItem value="6">6 месяцев</SelectItem>
+                      <SelectItem value="12">12 месяцев</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+              </div>
 
-                {selectedServices.some((s) => ["yandex", "vk", "telegram"].includes(s)) && (
-                  <>
-                    <div>
-                      <Label className="text-xs sm:text-sm md:text-base font-semibold">
-                        Бюджет: {adBudget[0].toLocaleString("ru-RU")} ₽/мес
-                      </Label>
-                      <Slider
-                        value={adBudget}
-                        onValueChange={setAdBudget}
-                        min={20000}
-                        max={500000}
-                        step={10000}
-                        className="mt-3 sm:mt-4"
-                      />
-                      <div className="flex justify-between text-[10px] sm:text-xs text-muted-foreground mt-1.5 sm:mt-2">
-                        <span>20 000 ₽</span>
-                        <span>500 000 ₽</span>
-                      </div>
-                    </div>
+              {hasAds && (
+                <div>
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-[10px] text-muted-foreground uppercase tracking-widest font-semibold">
+                      Рекламный бюджет
+                    </span>
+                    <span className="text-sm font-bold tabular-nums">
+                      {formatRub(adBudget[0])} ₽/мес
+                    </span>
+                  </div>
+                  <Slider
+                    value={adBudget}
+                    onValueChange={setAdBudget}
+                    min={20000}
+                    max={500000}
+                    step={10000}
+                  />
+                </div>
+              )}
 
-                    <div>
-                      <Label htmlFor="period" className="text-xs sm:text-sm md:text-base font-semibold">
-                        Период ведения
-                      </Label>
-                      <Select value={period} onValueChange={setPeriod}>
-                        <SelectTrigger id="period" className="mt-1.5 sm:mt-2 text-xs sm:text-sm">
-                          <SelectValue />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="1">1 месяц</SelectItem>
-                          <SelectItem value="3">3 месяца</SelectItem>
-                          <SelectItem value="6">6 месяцев</SelectItem>
-                          <SelectItem value="12">12 месяцев</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </div>
-                  </>
-                )}
-              </Card>
+              <Button
+                asChild
+                size="lg"
+                disabled={selectedServices.length === 0}
+                className="w-full h-14 rounded-2xl bg-foreground text-background hover:bg-foreground/90 font-semibold text-base shadow-[0_20px_40px_-12px_hsl(var(--foreground)/0.3)]"
+              >
+                <Link to="/contacts" className="flex items-center justify-center gap-3">
+                  {ctaText}
+                  <ArrowRight className="h-5 w-5" />
+                </Link>
+              </Button>
             </div>
 
-            {/* Правая часть - Результат */}
-            <div className="space-y-4 md:space-y-6 min-w-0">
-              <Card className="p-3 sm:p-4 md:p-6 lg:p-8 space-y-3 sm:space-y-4 md:space-y-6 bg-card shadow-card-hover lg:sticky lg:top-4">
-                <div>
-                  <h3 className="text-base sm:text-lg md:text-xl lg:text-2xl font-bold mb-1 sm:mb-2">
-                    {rightTitle}
-                  </h3>
-                  <p className="text-[10px] sm:text-xs md:text-sm text-muted-foreground">{rightSubtitle}</p>
-                </div>
+            {/* Trust badges */}
+            <div className="mt-6 sm:mt-8 flex flex-wrap justify-center sm:justify-between items-center gap-x-4 gap-y-2 text-[10px] sm:text-[11px] text-muted-foreground border-t border-border pt-5 sm:pt-6">
+              <div className="flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+                Прозрачное ценообразование
+              </div>
+              <div className="flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+                Еженедельные отчеты
+              </div>
+              <div className="flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+                Гарантия KPI
+              </div>
+            </div>
 
-                <div className="space-y-2 sm:space-y-3 md:space-y-4 py-2 sm:py-3 md:py-4 border-y">
-                  <div className="flex justify-between items-center gap-2">
-                    <span className="text-[10px] sm:text-xs md:text-sm lg:text-base text-muted-foreground">
-                      Настройка:
-                    </span>
-                    <span className="text-sm sm:text-base md:text-lg lg:text-xl font-bold whitespace-nowrap">
-                      {costs.setup.toLocaleString("ru-RU")} ₽
-                    </span>
-                  </div>
-                  {costs.monthly > 0 && (
-                    <div className="flex justify-between items-center gap-2">
-                      <span className="text-[10px] sm:text-xs md:text-sm lg:text-base text-muted-foreground">
-                        Ведение/мес:
-                      </span>
-                      <span className="text-sm sm:text-base md:text-lg lg:text-xl font-bold whitespace-nowrap">
-                        {costs.monthly.toLocaleString("ru-RU")} ₽
-                      </span>
-                    </div>
-                  )}
-                  {costs.discount && (
-                    <div className="flex items-center gap-1.5 sm:gap-2 text-accent text-[10px] sm:text-xs md:text-sm font-medium">
-                      <Check className="h-3 w-3 sm:h-4 sm:w-4 flex-shrink-0" />
-                      <span>{discountText}</span>
-                    </div>
-                  )}
-                  {telegramIsBonus && hasTelegram && (
-                    <div className="flex items-center gap-1.5 sm:gap-2 text-accent text-[10px] sm:text-xs md:text-sm font-medium">
-                      <Gift className="h-3 w-3 sm:h-4 sm:w-4 flex-shrink-0" />
-                      <span>{bonusText}</span>
-                    </div>
-                  )}
-                </div>
-
-                <div className="space-y-2 sm:space-y-3 md:space-y-4">
-                  <div className="flex flex-col gap-1">
-                    <span className="text-xs sm:text-sm md:text-base lg:text-lg font-semibold">
-                      Итого за {period} мес:
-                    </span>
-                    <div>
-                      <div className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-primary">
-                        {costs.total.toLocaleString("ru-RU")} ₽
-                      </div>
-                      {costs.monthly > 0 && (
-                        <div className="text-[10px] sm:text-xs md:text-sm text-muted-foreground">
-                          + {adBudget[0].toLocaleString("ru-RU")} ₽/мес на рекламу
-                        </div>
-                      )}
-                    </div>
-                  </div>
-
-                  <Button
-                    variant="cta"
-                    size="lg"
-                    className="w-full text-xs sm:text-sm md:text-base h-10 sm:h-11 md:h-12"
-                    asChild
-                    disabled={selectedServices.length === 0}
-                  >
-                    <Link to="/contacts">{ctaText}</Link>
-                  </Button>
-                </div>
-
-                <div className="space-y-2 sm:space-y-3 pt-2 sm:pt-3 md:pt-4 border-t">
-                  <div className="flex items-start gap-2 sm:gap-3 text-[10px] sm:text-xs md:text-sm">
-                    <Check className="h-3 w-3 sm:h-4 sm:w-4 md:h-5 md:w-5 text-accent flex-shrink-0 mt-0.5" />
-                    <span className="text-muted-foreground">Прогноз ROI до старта</span>
-                  </div>
-                  <div className="flex items-start gap-2 sm:gap-3 text-[10px] sm:text-xs md:text-sm">
-                    <Check className="h-3 w-3 sm:h-4 sm:w-4 md:h-5 md:w-5 text-accent flex-shrink-0 mt-0.5" />
-                    <span className="text-muted-foreground">Еженедельные отчеты</span>
-                  </div>
-                  <div className="flex items-start gap-2 sm:gap-3 text-[10px] sm:text-xs md:text-sm">
-                    <Check className="h-3 w-3 sm:h-4 sm:w-4 md:h-5 md:w-5 text-accent flex-shrink-0 mt-0.5" />
-                    <span className="text-muted-foreground">Гарантия снижения CPL</span>
-                  </div>
-                </div>
-
-                <div className="bg-primary/5 rounded-lg p-2 sm:p-3 md:p-4 border border-primary/20">
-                  <div className="flex items-start gap-2 sm:gap-3">
-                    <TrendingUp className="h-4 w-4 sm:h-5 sm:w-5 md:h-6 md:w-6 text-primary flex-shrink-0 mt-0.5" />
-                    <div className="space-y-0.5 min-w-0">
-                      <p className="text-[10px] sm:text-xs md:text-sm lg:text-base font-semibold text-primary">
-                        {roiTitle}
-                      </p>
-                      <p className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold">{roiValue}</p>
-                      <p className="text-[10px] sm:text-xs md:text-sm text-muted-foreground">{roiSubtitle}</p>
-                    </div>
-                  </div>
-                </div>
-              </Card>
+            {/* Social proof */}
+            <div className="mt-4 flex items-center justify-center gap-2 text-[11px] text-muted-foreground">
+              <Sparkles className="h-3 w-3 text-primary" />
+              <span>
+                <span className="font-bold text-foreground">+247</span> расчётов на этой неделе
+              </span>
             </div>
           </div>
-        </div>
+        </motion.div>
       </div>
     </section>
   );
