@@ -166,82 +166,40 @@ const Header = () => {
         </div>
       </header>
 
-      {/* Mobile Bottom Tab Bar */}
-      <div className="md:hidden fixed bottom-0 left-0 right-0 z-50">
-        <div className="bg-background/95 backdrop-blur-2xl border-t-2 border-primary/20 px-3 pb-[env(safe-area-inset-bottom)] shadow-[0_-4px_30px_-4px_hsl(0_0%_0%/0.15)]">
-          <nav className="flex items-center justify-around h-20 relative">
+      {/* Mobile Bottom Tab Bar — editorial, compact */}
+      <div className="md:hidden fixed bottom-0 left-0 right-0 z-50 px-3 pb-[max(0.5rem,env(safe-area-inset-bottom))]">
+        <div className="bg-background/95 backdrop-blur-xl border border-foreground/10 rounded-2xl shadow-[0_10px_40px_-12px_hsl(0_0%_0%/0.18)]">
+          <nav className="flex items-stretch justify-around h-16 px-1">
             {mobileNav.map((item) => {
               const Icon = item.icon;
               const isActive = location.pathname === item.href;
               const isCenter = item.center;
 
-              if (isCenter) {
-                return (
-                  <Link
-                    key={item.name}
-                    to={item.href}
-                    className="flex flex-col items-center flex-1 relative py-2"
-                  >
-                    {/* FAB circle positioned above the bar */}
-                    <motion.div
-                      whileTap={{ scale: 0.9 }}
-                      className={cn(
-                        "absolute -top-5 flex items-center justify-center w-12 h-12 rounded-full shadow-lg ring-4 ring-background",
-                        isActive
-                          ? "gradient-primary shadow-cta"
-                          : "bg-primary/90 shadow-cta"
-                      )}
-                    >
-                      <Icon className="h-5 w-5 text-primary-foreground" strokeWidth={2} />
-                    </motion.div>
-                    {/* Spacer to push label down to same level as other items */}
-                    <div className="w-10 h-10" />
-                    <span className={cn(
-                      "text-[11px] leading-none tracking-wide mt-1.5",
-                      isActive ? "font-extrabold text-primary" : "font-semibold text-muted-foreground"
-                    )}>
-                      {item.name}
-                    </span>
-                  </Link>
-                );
-              }
-
               return (
                 <Link
                   key={item.name}
                   to={item.href}
-                  className="flex flex-col items-center justify-center flex-1 relative py-2"
+                  className="flex flex-col items-center justify-center flex-1 relative gap-0.5"
                 >
-                  {isActive && (
-                    <motion.div
-                      className="absolute top-0 inset-x-0 mx-auto w-12 h-[3px] rounded-b-full bg-primary shadow-[0_2px_12px_hsl(var(--primary)/0.5)]"
-                      layoutId="activeTab"
-                      transition={{ type: "spring", stiffness: 400, damping: 30 }}
-                    />
-                  )}
                   <motion.div
-                    whileTap={{ scale: 0.9 }}
+                    whileTap={{ scale: 0.88 }}
                     className={cn(
-                      "flex flex-col items-center gap-1.5 transition-all duration-200",
-                      isActive ? "text-primary" : "text-muted-foreground"
+                      "flex items-center justify-center w-9 h-9 rounded-xl transition-colors",
+                      isCenter
+                        ? "bg-primary text-primary-foreground shadow-[0_4px_14px_-2px_hsl(var(--primary)/0.45)]"
+                        : isActive
+                          ? "bg-primary/10 text-primary"
+                          : "text-foreground/60"
                     )}
                   >
-                    <div className={cn(
-                      "flex items-center justify-center w-10 h-10 rounded-2xl transition-all duration-200",
-                      isActive ? "bg-primary/10" : ""
-                    )}>
-                      <Icon 
-                        className={cn("h-6 w-6", isActive && "drop-shadow-[0_0_10px_hsl(var(--primary)/0.6)]")} 
-                        strokeWidth={isActive ? 2.5 : 1.8} 
-                      />
-                    </div>
-                    <span className={cn(
-                      "text-[11px] leading-none tracking-wide",
-                      isActive ? "font-extrabold" : "font-semibold"
-                    )}>
-                      {item.name}
-                    </span>
+                    <Icon className="h-[18px] w-[18px]" strokeWidth={isActive || isCenter ? 2.4 : 1.9} />
                   </motion.div>
+                  <span className={cn(
+                    "text-[10px] leading-none tracking-wide",
+                    isActive ? "font-bold text-foreground" : "font-medium text-foreground/55"
+                  )}>
+                    {item.name}
+                  </span>
                 </Link>
               );
             })}
