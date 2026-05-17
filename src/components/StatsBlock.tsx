@@ -84,98 +84,111 @@ const StatsBlock = () => {
   ];
 
   return (
-    <section ref={ref} className="py-16 md:py-24 overflow-hidden">
+    <section ref={ref} className="py-20 md:py-32 overflow-hidden border-t border-foreground/10">
       <div className="container mx-auto px-4">
-        {/* Headline */}
-        <div className="max-w-3xl mx-auto mb-12 md:mb-16">
-          <motion.h2
-            className="text-3xl sm:text-4xl md:text-5xl font-black text-foreground text-center leading-[1.1] mb-4"
+        {/* Editorial header */}
+        <div className="grid grid-cols-12 gap-4 mb-14 md:mb-20">
+          <div className="col-span-12 md:col-span-3">
+            <span className="editorial-eyebrow text-foreground/60">§ 01 — Цифры</span>
+            <div className="editorial-rule mt-4" />
+          </div>
+          <motion.div
+            className="col-span-12 md:col-span-9"
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
+            transition={{ duration: 0.7 }}
           >
-            Почему бизнес{" "}
-            <span className="text-primary">выбирает нас</span>,{" "}
-            а не фрилансеров
-          </motion.h2>
-          <motion.p
-            className="text-center text-muted-foreground text-base md:text-lg max-w-xl mx-auto"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.15 }}
-          >
-            Цифры, которые мы показываем клиентам на первой встрече
-          </motion.p>
+            <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black tracking-[-0.035em] leading-[0.95] uppercase">
+              Почему бизнес <span className="font-display-italic font-normal normal-case text-primary">выбирает</span> нас,
+              <br className="hidden sm:block" /> а не фрилансеров
+            </h2>
+            <p className="mt-6 text-base md:text-lg text-foreground/60 max-w-xl">
+              Цифры, которые мы показываем клиентам на первой встрече.
+            </p>
+          </motion.div>
         </div>
 
-        {/* Stats — bento cards */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-5 max-w-5xl mx-auto">
+        {/* Stats — editorial bento */}
+        <div className="grid grid-cols-12 gap-3 md:gap-4">
           {stats.map((stat, index) => {
             const Icon = stat.icon;
             const isAccent = stat.accent;
+            const spans = [
+              "col-span-12 md:col-span-7 md:row-span-2",
+              "col-span-6 md:col-span-5",
+              "col-span-6 md:col-span-5",
+              "col-span-12 md:col-span-7",
+            ];
             return (
               <motion.div
                 key={index}
-                className={`relative group rounded-3xl p-5 md:p-7 overflow-hidden transition-all duration-300 ${
+                className={`${spans[index]} relative group rounded-[28px] p-6 md:p-10 overflow-hidden flex flex-col justify-between min-h-[200px] md:min-h-[260px] transition-all duration-500 ${
                   isAccent
-                    ? "bg-accent text-accent-foreground col-span-2 md:col-span-1"
-                    : "bg-secondary/70 hover:bg-secondary"
+                    ? "bg-foreground text-background"
+                    : "bg-secondary hover:bg-secondary/60 border border-foreground/5"
                 }`}
                 initial={{ opacity: 0, y: 40 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
+                transition={{ duration: 0.6, delay: index * 0.08 }}
               >
-                <div className={`w-10 h-10 md:w-11 md:h-11 rounded-2xl flex items-center justify-center mb-4 ${
-                  isAccent ? "bg-primary-foreground/15" : "bg-primary/10"
-                }`}>
-                  <Icon className={`h-5 w-5 ${isAccent ? "text-primary-foreground" : "text-primary"}`} />
+                <div className="flex items-start justify-between">
+                  <span className={`editorial-eyebrow ${isAccent ? "text-background/50" : "text-foreground/40"}`}>
+                    № {String(index + 1).padStart(2, "0")}
+                  </span>
+                  <Icon className={`h-5 w-5 ${isAccent ? "text-primary" : "text-foreground/40"}`} />
                 </div>
 
-                <div className={`text-4xl md:text-5xl font-black tracking-tight mb-2 ${
-                  isAccent ? "" : "text-foreground"
-                }`}>
-                  {stat.numValue ? (
-                    <AnimatedCounter
-                      value={stat.numValue}
-                      suffix={stat.suffix || ""}
-                      prefix={stat.prefix || ""}
-                    />
-                  ) : (
-                    stat.value
-                  )}
+                <div>
+                  <div className={`font-display text-[clamp(4rem,11vw,9rem)] leading-[0.85] tracking-[-0.04em] ${
+                    isAccent ? "text-background" : "text-foreground"
+                  }`}>
+                    {stat.numValue ? (
+                      <>
+                        {stat.prefix || ""}
+                        <AnimatedCounter value={stat.numValue} />
+                        <span className="text-primary">{stat.suffix || ""}</span>
+                      </>
+                    ) : (
+                      <span>{stat.value}</span>
+                    )}
+                  </div>
+                  <div className={`mt-4 editorial-rule ${isAccent ? "bg-background" : ""}`} />
+                  <p className={`mt-4 text-sm md:text-base font-medium uppercase tracking-wider leading-snug ${
+                    isAccent ? "text-background/70" : "text-foreground/60"
+                  }`}>
+                    {stat.label}
+                  </p>
                 </div>
-
-                <p className={`text-sm md:text-base font-medium leading-snug ${
-                  isAccent ? "text-accent-foreground/70" : "text-muted-foreground"
-                }`}>
-                  {stat.label}
-                </p>
 
                 {isAccent && (
-                  <div className="absolute -top-8 -right-8 w-32 h-32 rounded-full bg-primary/20 blur-3xl pointer-events-none" />
+                  <div className="absolute -top-20 -right-20 w-64 h-64 rounded-full bg-primary/30 blur-3xl pointer-events-none" />
                 )}
               </motion.div>
             );
           })}
         </div>
 
-        {/* CTA */}
+        {/* Editorial CTA */}
         <motion.div
-          className="flex justify-center mt-10 md:mt-14"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          className="flex items-center justify-between mt-16 pt-8 border-t border-foreground/10"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
-          transition={{ delay: 0.5 }}
+          transition={{ delay: 0.4 }}
         >
+          <span className="font-display-italic text-3xl md:text-4xl text-foreground/30 hidden sm:block">
+            Готовы убедиться?
+          </span>
           <Link
             to="/contacts"
-            className="inline-flex items-center gap-2 text-primary font-bold text-sm md:text-base hover:gap-3 transition-all duration-300 group"
+            className="inline-flex items-center gap-3 text-sm font-bold uppercase tracking-[0.18em] group"
           >
-            Получить бесплатный аудит
-            <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+            <span>Получить аудит</span>
+            <span className="flex h-12 w-12 items-center justify-center rounded-full bg-foreground text-background group-hover:bg-primary transition-colors">
+              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+            </span>
           </Link>
         </motion.div>
       </div>
