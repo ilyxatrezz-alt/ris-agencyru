@@ -1,172 +1,124 @@
-import { ArrowUpRight, Star } from "lucide-react";
-import { Button } from "./ui/button";
 import { Link } from "react-router-dom";
-import { motion, useScroll, useTransform } from "framer-motion";
-import { useRef } from "react";
+import { motion } from "framer-motion";
 import { useSiteSettingsMap, getSetting } from "@/hooks/useSiteSettings";
 
-const services = [
-  "Реклама", "Сайты", "SMM", "Видео", "Аналитика",
-  "SEO", "Яндекс.Директ", "VK Ads", "Контент",
+const tickerItems = [
+  "STRATEGY", "GROWTH", "ROI", "SCALE", "PROFITS",
+  "EDITORIAL", "2026", "РЕКЛАМА", "САЙТЫ", "SMM", "SEO",
 ];
 
 const Hero = () => {
-  const containerRef = useRef(null);
   const { settings } = useSiteSettingsMap();
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start start", "end start"],
-  });
-
   const heroCtaPrimary = getSetting(settings, "hero_cta_primary", "Получить аудит бесплатно");
   const heroCtaSecondary = getSetting(settings, "hero_cta_secondary", "Смотреть кейсы");
 
-  const blockY = useTransform(scrollYProgress, [0, 1], [0, -120]);
-  const fadeOut = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
-
   return (
-    <section
-      ref={containerRef}
-      className="relative min-h-screen flex flex-col bg-background text-foreground overflow-hidden"
-    >
-      {/* Top editorial bar */}
-      <div className="relative z-10 border-b border-foreground/10">
-        <div className="container mx-auto px-4 py-3 flex items-center justify-between text-[11px] tracking-[0.22em] uppercase font-semibold text-foreground/60">
-          <span>Vol. 14 — Est. 2014</span>
-          <span className="hidden sm:inline">Реклама / Сайты / Рост</span>
-          <span className="flex items-center gap-1.5">
-            <span className="inline-block w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
-            На связи
-          </span>
-        </div>
-      </div>
-
-      {/* Main editorial composition */}
+    <section className="relative bg-[#f4f4f2] text-foreground py-4 sm:py-10 lg:py-14 px-3 sm:px-6">
       <motion.div
-        className="container relative z-10 mx-auto px-4 pt-12 sm:pt-16 pb-12 flex-1 flex flex-col"
-        style={{ opacity: fadeOut }}
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+        className="mx-auto w-full max-w-[420px] sm:max-w-3xl lg:max-w-6xl bg-background border border-foreground shadow-[6px_6px_0_0_hsl(var(--foreground))] sm:shadow-[10px_10px_0_0_hsl(var(--foreground))] flex flex-col overflow-hidden"
       >
-        {/* Top meta row */}
-        <div className="grid grid-cols-12 gap-4 mb-10 sm:mb-14">
-          <div className="col-span-6 sm:col-span-4 flex items-center gap-2">
-            <div className="flex">
-              {[...Array(5)].map((_, i) => (
-                <Star key={i} className="h-3 w-3 fill-foreground text-foreground" />
-              ))}
-            </div>
-            <span className="text-[11px] uppercase tracking-[0.18em] font-semibold text-foreground/60">
-              200+ проектов
+        {/* Masthead */}
+        <div className="p-4 sm:p-6 border-b-2 border-foreground flex flex-col gap-2">
+          <div className="flex justify-between items-end border-b border-foreground pb-1.5 gap-2">
+            <span className="text-[10px] sm:text-xs font-bold uppercase tracking-tighter">Issue №01</span>
+            <span className="text-[10px] sm:text-xs font-bold uppercase tracking-tighter text-primary text-center">
+              Price: Your Growth
             </span>
+            <span className="text-[10px] sm:text-xs font-bold uppercase tracking-tighter">Editorial 2026</span>
           </div>
-          <div className="hidden sm:flex col-span-4 items-center justify-center gap-3">
-            <span className="editorial-rule w-10" />
-            <span className="font-display-italic text-2xl text-primary">№ 001</span>
-            <span className="editorial-rule w-10" />
-          </div>
-          <div className="col-span-6 sm:col-span-4 flex items-center justify-end">
-            <span className="text-[11px] uppercase tracking-[0.18em] font-semibold text-foreground/60">
-              Donetsk · Russia
-            </span>
-          </div>
+          <h1 className="text-5xl sm:text-7xl lg:text-8xl font-black tracking-tighter leading-none text-center">
+            РИС
+          </h1>
         </div>
 
-        {/* MASSIVE headline — clean confident statement */}
-        <motion.div
-          className="mb-10 sm:mb-14"
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
-          style={{ y: blockY }}
-        >
-          {/* Line 1 */}
-          <h1 className="text-[16vw] sm:text-[13vw] lg:text-[11.5vw] font-black tracking-[-0.05em] leading-[0.82] uppercase">
-            Больше
-          </h1>
+        {/* Main */}
+        <div className="p-4 sm:p-6 lg:p-10 flex flex-col gap-5 sm:gap-7">
+          {/* Headline */}
+          <div className="border-b-2 border-foreground pb-4 sm:pb-6">
+            <h2 className="text-[42px] sm:text-[72px] lg:text-[104px] leading-[0.9] font-black uppercase tracking-tight">
+              БОЛЬШЕ{" "}
+              <span className="text-primary font-display-italic font-normal normal-case tracking-normal">
+                клиентов,
+              </span>
+              <br />
+              БОЛЬШЕ{" "}
+              <span className="bg-foreground text-background px-1.5 sm:px-3">
+                ПРИБЫЛИ.
+              </span>
+            </h2>
+          </div>
 
-          {/* Line 2 — with side description */}
-          <div className="grid grid-cols-12 gap-4 items-end mt-2">
-            <div className="hidden lg:block col-span-3 pb-6">
-              <div className="editorial-rule mb-4" />
-              <p className="text-sm leading-relaxed text-foreground/60 max-w-[16rem]">
-                Создаём сайты, запускаем рекламу, выстраиваем стабильный поток клиентов. 10+ лет в digital.
+          {/* Editorial columns */}
+          <div className="grid grid-cols-12 gap-4 sm:gap-6">
+            <div className="col-span-7 flex flex-col gap-2 sm:gap-3">
+              <div className="aspect-square sm:aspect-[4/3] bg-muted border border-foreground relative overflow-hidden">
+                <div className="absolute inset-0 opacity-20 bg-[radial-gradient(circle,hsl(var(--foreground))_1px,transparent_0)] bg-[length:4px_4px]" />
+                <div className="absolute inset-0 flex items-end p-3">
+                  <span className="text-[10px] sm:text-xs font-bold uppercase opacity-60">
+                    Photo: Agency Case 2026
+                  </span>
+                </div>
+                <div className="absolute top-3 right-3 bg-primary text-background w-10 h-10 sm:w-14 sm:h-14 flex items-center justify-center font-black text-xs sm:text-base uppercase">
+                  NEW
+                </div>
+              </div>
+              <p className="text-[11px] sm:text-sm leading-tight">
+                <span className="font-bold uppercase">Эксклюзив:</span> Мы внедряем стратегии, которые трансформируют рынок маркетинга. Масштабирование без границ.
               </p>
             </div>
-            <h1 className="col-span-12 lg:col-span-9 text-[16vw] sm:text-[13vw] lg:text-[11.5vw] font-black tracking-[-0.05em] leading-[0.82] uppercase text-right lg:text-left">
-              <span className="font-display-italic font-normal normal-case tracking-tight text-foreground/40">клиентов,</span>
-            </h1>
+            <div className="col-span-5 border-l border-foreground pl-3 sm:pl-5 flex flex-col justify-between gap-4">
+              <div className="flex flex-col gap-2">
+                <div className="h-px bg-foreground w-full" />
+                <p className="text-[10px] sm:text-xs leading-none uppercase font-bold">Аналитика</p>
+                <p className="text-[14px] sm:text-xl font-display-italic leading-tight">
+                  «Рынок требует радикальных решений»
+                </p>
+                <div className="h-px bg-foreground w-full" />
+              </div>
+              <div className="flex flex-col gap-1.5">
+                <div className="text-3xl sm:text-5xl font-black leading-none text-primary">01</div>
+                <div className="text-[9px] sm:text-xs leading-tight uppercase font-bold">
+                  Первый шаг к доминированию
+                </div>
+              </div>
+            </div>
           </div>
 
-          {/* Line 3 — bold red accent */}
-          <h1 className="text-[16vw] sm:text-[13vw] lg:text-[11.5vw] font-black tracking-[-0.05em] leading-[0.82] uppercase text-primary mt-2">
-            больше прибыли.
-          </h1>
-        </motion.div>
-
-        {/* CTA + side meta row */}
-        <div className="grid grid-cols-12 gap-4 items-end mt-auto">
-          {/* Left: CTAs */}
-          <motion.div
-            className="col-span-12 lg:col-span-7 flex flex-col sm:flex-row gap-3"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.5 }}
-          >
-            <Button
-              asChild
-              size="lg"
-              className="group bg-foreground hover:bg-primary text-background rounded-full h-14 px-7 text-sm font-bold uppercase tracking-wider transition-colors"
+          {/* CTAs */}
+          <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 mt-1">
+            <Link
+              to="/contacts"
+              className="flex-1 bg-primary text-background font-black py-4 sm:py-5 px-4 text-center uppercase tracking-tight border-2 border-foreground hover:bg-foreground transition-colors text-sm sm:text-base"
             >
-              <Link to="/contacts">
-                {heroCtaPrimary}
-                <ArrowUpRight className="ml-2 h-5 w-5 transition-transform group-hover:rotate-45" />
-              </Link>
-            </Button>
-            <Button
-              asChild
-              variant="ghost"
-              size="lg"
-              className="rounded-full h-14 px-7 text-sm font-bold uppercase tracking-wider border border-foreground/20 hover:bg-foreground hover:text-background"
+              {heroCtaPrimary}
+            </Link>
+            <Link
+              to="/cases"
+              className="flex-1 bg-background text-foreground font-bold py-3 sm:py-4 px-4 uppercase tracking-tight border-2 border-foreground hover:bg-muted transition-colors flex justify-between items-center text-sm sm:text-base"
             >
-              <Link to="/cases">
-                {heroCtaSecondary} →
-              </Link>
-            </Button>
-          </motion.div>
+              <span>{heroCtaSecondary}</span>
+              <span className="text-xl">→</span>
+            </Link>
+          </div>
+        </div>
 
-          {/* Right: editorial stat */}
-          <motion.div
-            className="hidden lg:flex col-span-5 justify-end items-end gap-6"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.7 }}
-          >
-            <div className="text-right">
-              <div className="font-display text-7xl leading-none text-foreground">−40<span className="text-primary">%</span></div>
-              <div className="text-[10px] uppercase tracking-[0.2em] text-foreground/60 mt-1">CPL ниже рынка</div>
-            </div>
-            <div className="editorial-rule rotate-90 w-12" />
-            <div className="text-right">
-              <div className="font-display text-7xl leading-none text-foreground">10<span className="text-primary">+</span></div>
-              <div className="text-[10px] uppercase tracking-[0.2em] text-foreground/60 mt-1">Лет в digital</div>
-            </div>
-          </motion.div>
+        {/* Ticker */}
+        <div className="bg-foreground text-background py-1.5 sm:py-2 overflow-hidden whitespace-nowrap border-t-2 border-foreground">
+          <div className="flex animate-marquee">
+            {[...tickerItems, ...tickerItems, ...tickerItems].map((item, i) => (
+              <span
+                key={i}
+                className="text-[10px] sm:text-xs font-bold uppercase tracking-widest px-3 sm:px-4"
+              >
+                {item} •
+              </span>
+            ))}
+          </div>
         </div>
       </motion.div>
-
-      {/* Bottom marquee — editorial ticker */}
-      <div className="relative z-10 border-t border-b border-foreground/10 py-4 bg-background">
-        <div className="flex animate-marquee whitespace-nowrap">
-          {[...services, ...services, ...services].map((service, i) => (
-            <span
-              key={i}
-              className="inline-flex items-center gap-6 mx-6 text-foreground"
-            >
-              <span className="text-2xl font-display-italic text-primary">✦</span>
-              <span className="text-base sm:text-lg font-bold uppercase tracking-wider">{service}</span>
-            </span>
-          ))}
-        </div>
-      </div>
     </section>
   );
 };
