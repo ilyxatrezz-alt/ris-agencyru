@@ -1,8 +1,8 @@
 // Конфигурация сайта - редактируемые данные
 export const siteConfig = {
   // Контактные данные
-  phone: "+7 949 882 3351",
-  phoneRaw: "+79498823351",
+  phone: "+7 949 021 5151",
+  phoneRaw: "+79490215151",
   email: "info@ris-agency.ru",
   telegram: "@ris_agency",
   telegramUrl: "https://t.me/ris_agency",

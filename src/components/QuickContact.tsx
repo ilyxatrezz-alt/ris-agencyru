@@ -27,8 +27,8 @@ const QuickContact = () => {
     niche: "",
   });
 
-  const phoneDisplay = getSetting(settings, "phone", "+7 (949) 882-33-51");
-  const phoneRaw = getSetting(settings, "phone_raw", "+79498823351");
+  const phoneDisplay = getSetting(settings, "phone", "+7 (949) 021-51-51");
+  const phoneRaw = getSetting(settings, "phone_raw", "+79490215151");
 
   const badgeText = getSetting(settings, "home_quick_contact_badge", "Быстрая связь");
   const title = getSetting(settings, "home_quick_contact_title", "Позвоните прямо сейчас");
