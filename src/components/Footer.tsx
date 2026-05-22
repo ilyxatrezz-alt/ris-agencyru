@@ -7,8 +7,8 @@ const Footer = () => {
   const { settings, isLoading } = useSiteSettingsMap();
 
   // Fallback values while loading
-  const phone = getSetting(settings, "phone", "+7 (949) 882-33-51");
-  const phoneRaw = getSetting(settings, "phone_raw", "+79498823351");
+  const phone = getSetting(settings, "phone", "+7 (949) 021-51-51");
+  const phoneRaw = getSetting(settings, "phone_raw", "+79490215151");
   const email = getSetting(settings, "email", "info@ris-agency.ru");
   const telegramUrl = getSetting(settings, "telegram_url", "https://t.me/ris_agency");
   const location = getSetting(settings, "location", "Работаем по всей России");

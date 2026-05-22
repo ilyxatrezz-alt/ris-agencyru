@@ -9,8 +9,8 @@ import { useSiteSettingsMap, getSetting } from "@/hooks/useSiteSettings";
 const Contacts = () => {
   const { settings } = useSiteSettingsMap();
 
-  const phone = getSetting(settings, "phone", "+7 (949) 882-33-51");
-  const phoneRaw = getSetting(settings, "phone_raw", "+79498823351");
+  const phone = getSetting(settings, "phone", "+7 (949) 021-51-51");
+  const phoneRaw = getSetting(settings, "phone_raw", "+79490215151");
   const email = getSetting(settings, "email", "info@ris-agency.ru");
   const telegram = getSetting(settings, "telegram", "@ris_agency");
   const telegramUrl = getSetting(settings, "telegram_url", "https://t.me/ris_agency");
