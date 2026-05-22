@@ -183,45 +183,53 @@ const StatsBlock = () => {
 
       {/* Kinetic editorial composition (sm+) */}
       <div className="hidden sm:block relative w-full px-4 sm:px-6 pt-8 pb-16 md:pb-28">
-        <div className="relative w-full max-w-7xl mx-auto h-[640px] md:h-[680px] lg:h-[720px]">
+        <div className="relative w-full max-w-7xl mx-auto h-[560px] md:h-[620px] lg:h-[680px]">
           {/* Watermark word — МЫ */}
-          <div className="absolute inset-0 flex items-center justify-center opacity-[0.06] pointer-events-none select-none">
-            <span className="text-[60vw] sm:text-[48vw] md:text-[40vw] font-black text-background leading-[0.8] tracking-[-0.06em]">
+          <div className="absolute inset-0 flex items-center justify-center opacity-[0.06] pointer-events-none select-none overflow-hidden">
+            <span className="font-black text-background leading-[0.8] tracking-[-0.06em]"
+              style={{ fontSize: "clamp(12rem, 32vw, 28rem)" }}
+            >
               МЫ
             </span>
           </div>
 
-          {/* Metric 1 — top-left, primary red, massive */}
+          {/* Metric 1 — top-left */}
           <motion.div
-            className="absolute top-0 left-0 sm:-translate-x-2 md:-translate-x-6 z-30"
+            className="absolute top-0 left-0 z-30 max-w-[46%]"
             initial={{ opacity: 0, x: -40 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
           >
             <div className="flex flex-col">
-              <span className="text-primary text-[22vw] sm:text-[18vw] md:text-[14vw] lg:text-[12.5vw] font-black leading-[0.8] tracking-[-0.05em]">
+              <span
+                className="text-primary font-black leading-[0.8] tracking-[-0.05em] whitespace-nowrap"
+                style={{ fontSize: "clamp(3.5rem, 13vw, 11rem)" }}
+              >
                 <AnimatedCounter value={v1} prefix={p1} suffix={s1} />
               </span>
-              <span className="font-display-italic text-xl sm:text-2xl md:text-4xl text-background italic ml-2 sm:ml-4 mt-2 max-w-[12rem] md:max-w-[18rem] leading-tight">
+              <span className="font-display-italic text-xl sm:text-2xl md:text-3xl lg:text-4xl text-background italic ml-2 sm:ml-4 mt-2 max-w-[14rem] md:max-w-[18rem] leading-tight">
                 {l1}
               </span>
             </div>
           </motion.div>
 
-          {/* Metric 2 — top-right (moved up so sticker doesn't clash) */}
+          {/* Metric 2 — top-right */}
           <motion.div
-            className="absolute top-[6%] sm:top-[4%] right-0 sm:translate-x-4 md:translate-x-10 z-10 text-right"
+            className="absolute top-[4%] right-0 z-10 text-right max-w-[48%]"
             initial={{ opacity: 0, x: 60 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.9, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
           >
             <div className="flex flex-col items-end">
-              <span className="text-[26vw] sm:text-[20vw] md:text-[16vw] lg:text-[14vw] font-black leading-[0.72] tracking-[-0.05em] text-background/90">
+              <span
+                className="font-black leading-[0.72] tracking-[-0.05em] text-background/90 whitespace-nowrap"
+                style={{ fontSize: "clamp(4rem, 14vw, 12rem)" }}
+              >
                 <AnimatedCounter value={v2} suffix={s2} suffixClass="text-primary" />
               </span>
-              <span className="font-display-italic text-2xl sm:text-3xl md:text-5xl italic text-primary mr-4 md:mr-12 mt-1 md:mt-2">
+              <span className="font-display-italic text-2xl sm:text-3xl md:text-4xl lg:text-5xl italic text-primary mr-2 md:mr-6 mt-1 md:mt-2">
                 {l2}
               </span>
             </div>
@@ -229,7 +237,7 @@ const StatsBlock = () => {
 
           {/* Metric 3 — bottom-left */}
           <motion.div
-            className="absolute bottom-2 left-2 sm:bottom-10 sm:left-6 md:left-16 z-40"
+            className="absolute bottom-2 left-2 sm:bottom-10 sm:left-6 md:left-16 z-40 max-w-[55%]"
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -240,17 +248,17 @@ const StatsBlock = () => {
                 <AnimatedCounter value={v3} suffix={s3} />
               </span>
               <div className="flex flex-col">
-                <span className="font-display-italic text-base sm:text-xl md:text-3xl text-background italic leading-tight">
+                <span className="font-display-italic text-base sm:text-xl md:text-2xl lg:text-3xl text-background italic leading-tight">
                   {l3}
                 </span>
-                <span className="text-sm sm:text-base md:text-2xl font-black uppercase tracking-widest text-primary leading-tight">
+                <span className="text-sm sm:text-base md:text-xl lg:text-2xl font-black uppercase tracking-widest text-primary leading-tight">
                   3+ года
                 </span>
               </div>
             </div>
           </motion.div>
 
-          {/* Metric 4 — angled red sticker, bottom-right corner clear of 200+ */}
+          {/* Metric 4 — angled red sticker */}
           <motion.div
             className="absolute bottom-0 right-0 sm:right-2 md:right-6 z-50 bg-primary p-4 sm:p-6 md:p-8 shadow-[0_20px_50px_-12px_hsl(var(--primary)/0.6)]"
             initial={{ opacity: 0, rotate: 0, scale: 0.85 }}
