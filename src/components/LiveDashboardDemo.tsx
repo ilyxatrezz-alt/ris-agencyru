@@ -167,18 +167,18 @@ const LiveDashboardDemo = () => {
                       animate={{ opacity: 1, x: 0, height: "auto" }}
                       exit={{ opacity: 0, height: 0 }}
                       transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-                      className={`flex items-center gap-3 rounded-xl px-3 py-2.5 ${
+                      className={`flex items-center gap-2 sm:gap-3 rounded-xl px-2 sm:px-3 py-2 sm:py-2.5 min-w-0 ${
                         pulseId === lead.id ? "bg-primary/15 ring-1 ring-primary/40" : "hover:bg-background/[0.04]"
                       } transition-colors`}
                     >
-                      <div className="text-[10px] tabular-nums text-background/40 w-10 shrink-0">{lead.time}</div>
-                      <div className="font-semibold text-sm w-28 shrink-0 truncate">{lead.name}</div>
-                      <div className="text-xs text-background/50 hidden sm:block flex-1 truncate">{lead.source}</div>
-                      <div className="text-xs tabular-nums text-background/70 w-16 shrink-0 text-right">
+                      <div className="text-[10px] tabular-nums text-background/40 w-9 sm:w-10 shrink-0">{lead.time}</div>
+                      <div className="font-semibold text-xs sm:text-sm flex-1 min-w-0 truncate">{lead.name}</div>
+                      <div className="text-xs text-background/50 hidden md:block flex-1 truncate">{lead.source}</div>
+                      <div className="text-[11px] sm:text-xs tabular-nums text-background/70 w-12 sm:w-16 shrink-0 text-right">
                         {lead.cost} ₽
                       </div>
                       <span
-                        className={`text-[10px] uppercase tracking-wider font-bold px-2 py-1 rounded-full shrink-0 ${STATUS_META[lead.status].cls}`}
+                        className={`text-[9px] sm:text-[10px] uppercase tracking-wider font-bold px-1.5 sm:px-2 py-0.5 sm:py-1 rounded-full shrink-0 ${STATUS_META[lead.status].cls}`}
                       >
                         {STATUS_META[lead.status].label}
                       </span>
