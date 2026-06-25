@@ -243,10 +243,11 @@ const Hero = () => {
           transition={{ duration: 0.8, delay: 0.5 }}
           className="mt-10 sm:mt-14 border-t border-black/10 pt-4"
         >
-          <div className="flex items-center gap-4 text-[10px] sm:text-xs uppercase tracking-[0.2em] font-bold text-black/40 mb-2">
+          <div className="flex items-center gap-3 text-xs sm:text-sm font-display font-extrabold uppercase tracking-[0.12em] text-black/60 mb-2">
             <span>CPL по нишам</span>
-            <span className="text-primary normal-case tracking-normal">/ live</span>
+            <span className="text-primary">· LIVE</span>
           </div>
+
           <div className="overflow-hidden">
             <motion.div
               className="flex shrink-0 gap-8 pr-8 whitespace-nowrap"
