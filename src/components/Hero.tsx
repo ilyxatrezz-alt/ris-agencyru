@@ -78,12 +78,12 @@ const Hero = () => {
               initial={{ opacity: 0, y: 18 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-              className="font-black tracking-[-0.035em] leading-[0.95] uppercase text-[clamp(2.25rem,6.5vw,5rem)]"
+              className="font-black tracking-[-0.035em] leading-[0.95] uppercase text-[clamp(1.75rem,6vw,5rem)] break-words hyphens-auto"
             >
-              <span className="text-primary">РИС</span>кни получить
-              <br />
-              гарантированный результат.
+              <span className="text-primary">РИС</span>кни получить{" "}
+              <span className="block sm:inline">гарантированный результат.</span>
             </motion.h1>
+
 
 
 
