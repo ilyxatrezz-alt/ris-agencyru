@@ -138,9 +138,8 @@ const Hero = () => {
               </a>
             </motion.div>
 
-            <p className="mt-4 text-xs text-black/45">
-              Ответим в течение 30 минут в рабочее время. Без спама.
-            </p>
+            <p className="mt-3 text-xs text-black/45">Ответим за 30 минут · без спама</p>
+
           </div>
 
           {/* RIGHT — Service picker card */}
