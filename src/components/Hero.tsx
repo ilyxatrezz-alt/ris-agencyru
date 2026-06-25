@@ -78,47 +78,41 @@ const Hero = () => {
               initial={{ opacity: 0, y: 18 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-              className="font-display font-semibold leading-[1.02] tracking-[-0.02em] text-[clamp(2.25rem,6vw,4.75rem)]"
+              className="font-display font-semibold leading-[1.04] tracking-[-0.02em] text-[clamp(2rem,6vw,4.5rem)]"
             >
-              Хватит доверять
+              <span className="text-primary">РИС</span>кни получить
               <br />
-              непрофессионалам —{" "}
-              <span className="text-primary">РИС</span>кни
-              <br />
-              получить <span className="italic font-light text-black/70">гарантированный</span> результат.
+              <span className="italic font-light text-black/70">гарантированный</span> результат.
             </motion.h1>
 
             <motion.p
               initial={{ opacity: 0, y: 14 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, delay: 0.15 }}
-              className="mt-6 sm:mt-7 text-base sm:text-lg text-black/60 max-w-xl leading-relaxed"
+              className="mt-5 text-base sm:text-lg text-black/60 max-w-md leading-relaxed"
             >
-              Создаём сайты и запускаем рекламу, которая приносит клиентов.
-              <span className="text-foreground font-semibold"> Первые заявки — со 2-го дня после старта.</span>
+              Сайты и реклама, которые приносят клиентов{" "}
+              <span className="text-foreground font-semibold">со 2-го дня после старта.</span>
             </motion.p>
 
-            {/* Bullets */}
-            <motion.ul
+            {/* Quick proof chips */}
+            <motion.div
               initial={{ opacity: 0, y: 14 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, delay: 0.25 }}
-              className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-2.5 max-w-xl"
+              className="mt-5 flex flex-wrap gap-2"
             >
-              {[
-                "Прозрачная отчётность каждую неделю",
-                "Договор и гарантия результата",
-                "Опыт в 30+ нишах",
-                "Запуск за 5 рабочих дней",
-              ].map((t) => (
-                <li key={t} className="flex items-start gap-2 text-sm text-black/75">
-                  <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
-                    <Check className="w-3 h-3" strokeWidth={3} />
-                  </span>
+              {["200+ проектов", "с 2014 года", "Гарантия в договоре"].map((t) => (
+                <span
+                  key={t}
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white border border-black/10 text-xs font-medium text-black/70"
+                >
+                  <Check className="w-3 h-3 text-primary" strokeWidth={3} />
                   {t}
-                </li>
+                </span>
               ))}
-            </motion.ul>
+            </motion.div>
+
 
             {/* CTAs */}
             <motion.div
@@ -144,9 +138,8 @@ const Hero = () => {
               </a>
             </motion.div>
 
-            <p className="mt-4 text-xs text-black/45">
-              Ответим в течение 30 минут в рабочее время. Без спама.
-            </p>
+            <p className="mt-3 text-xs text-black/45">Ответим за 30 минут · без спама</p>
+
           </div>
 
           {/* RIGHT — Service picker card */}
