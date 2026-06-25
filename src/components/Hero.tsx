@@ -78,7 +78,7 @@ const Hero = () => {
               initial={{ opacity: 0, y: 18 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-              className="font-display font-semibold leading-[1.04] tracking-[-0.02em] text-[clamp(2rem,6vw,4.5rem)]"
+              className="font-display font-bold leading-[1.02] tracking-[-0.035em] text-[clamp(2rem,6vw,4.5rem)]"
             >
               <span className="text-primary">РИС</span>кни получить
               <br />
