@@ -57,7 +57,7 @@ export default {
       },
       fontFamily: {
         sans: ['Figtree', 'Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
-        display: ['"Inter Tight"', 'Figtree', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        display: ['Figtree', '"Inter Tight"', 'ui-sans-serif', 'system-ui', 'sans-serif'],
       },
       borderRadius: {
         lg: "var(--radius)",
