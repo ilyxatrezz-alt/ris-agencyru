@@ -78,12 +78,13 @@ const Hero = () => {
               initial={{ opacity: 0, y: 18 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-              className="font-display font-bold leading-[1.02] tracking-[-0.035em] text-[clamp(2rem,6vw,4.5rem)]"
+              className="font-display font-extrabold leading-[0.98] tracking-[-0.04em] text-[clamp(2.25rem,6.5vw,5rem)] uppercase"
             >
-              <span className="text-primary">РИС</span>кни получить
+              <span className="text-primary font-black">РИС</span><span className="lowercase">кни получить</span>
               <br />
-              <span className="italic font-light text-black/70">гарантированный</span> результат.
+              <span className="text-black/80 lowercase">гарантированный</span> <span className="lowercase">результат.</span>
             </motion.h1>
+
 
             <motion.p
               initial={{ opacity: 0, y: 14 }}
