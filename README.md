@@ -1,73 +1,26 @@
-# Welcome to your Lovable project
+# G-TARGET Growth Engine (25)
 
-## Project info
+Техническое Задание на Создание Сайта Рекламного Агентства G-TARGET🎯 Общая ИнформацияЗаказчик: Рекламное агентство G-TARGET.Исполнитель: Lovable.Тематика: Digital-реклама (таргетированная, контекстная) и создание сайтов.Цель сайта: Привлечение новых клиентов, демонстрация экспертизы и портфолио, генерация заявок.Специализация G-TARGET: Реклама с 2014 года. Запуск таргетированной и контекстной рекламы (Яндекс, ВК) по всей стране. Создание сайтов.🧱 Структура СайтаСайт должен иметь четкую, логичную структуру.Главная страница (Home): Краткий обзор услуг, ключевые преимущества, блок с кейсами, продающие блоки, призыв к действию.Услуги (Services):Контекстная реклама (Яндекс Директ: Поиск и РСЯ).Таргетированная реклама (ВКонтакте).Создание сайтов.Кейсы/Портфолио (Cases/Portfolio):Общий раздел с фильтрацией по нишам.Отдельные страницы для каждой ниши (см. ниже).О нас/Экспертиза (About Us): История с 2014 года, команда, принципы работы.Контакты (Contacts): Формы связи, телефон, адрес, карта.🎨 Дизайн и Технические ТребованияСтиль: Современный, профессиональный, вызывающий доверие. Акцент на результаты и аналитику.Адаптивность: Полная кроссбраузерная и адаптивная верстка (Desktop, Tablet, Mobile).Система управления (CMS): Рекомендовать наиболее удобную для дальнейшего самостоятельного наполнения (например, WordPress, Tilda, Bitrix — по согласованию).Скорость загрузки: Максимально высокая.Интеграция: Установка Яндекс.Метрики, Google Analytics, настройка целей.💼 Детализация Контента (Специфика Ниш и Кейсов)1. Страницы Кейсов по НишамДля каждой ниши (категории) требуется отдельная страница с общими кейсами по рекламе и блоком по созданию сайтов.Категория (URL: /cases/[slug])НишиТребования к контентуМедицина & Beauty (/cases/medicine-beauty)Косметологи, Стоматологи, Урологи, Пластические хирурги.2 сгенерированных кейса по Яндекс.Директ (Поиск/РСЯ) + 2 сгенерированных кейса по ВК (Таргет).Строительство & Коттеджи (/cases/construction)Строительство домов, коттеджей.2 сгенерированных кейса по Яндекс.Директ (Поиск/РСЯ) + 1 сгенерированный кейс по ВК (Таргет).Рестораны & Общепит (/cases/horeca)Рестораны, кафе, доставка еды.1 сгенерированный кейс по Яндекс.Директ (РСЯ) + 2 сгенерированных кейса по ВК (Таргет).Формат Кейса по Рекламе (Сгенерировать):Каждый кейс должен быть структурирован:Название: (Пример: "Рост записей на имплантацию на 150% для Стоматологии X").Проблема клиента: Что было до обращения?Решение G-TARGET: Какие инструменты и стратегии были применены (ключевые слова, креативы, аудитории, ставки).Результат:Бюджет: $Х$ ₽Период: $Y$ мес.Лиды/Заявки: $Z$ шт.Стоимость Лида (CPL): $W$ ₽ (должна быть ниже рыночной).2. Кейсы по Созданию СайтовНа каждой странице ниши (и на отдельной странице "Создание сайтов") разместить блок с кейсами по созданию сайтов, используя информацию с https://reklamadoneck.ru/website-creation-donetsk.Необходимо взять 3-4 примера сайтов с указанной страницы и оформить их в формате:[Изображение/скриншот сайта]Проект: Название/Тематика.Задача: Что нужно было сделать (Лендинг, Корпоративный сайт, Каталог).Результат: Краткое описание функционала и пользы.📈 Продающие Блоки (Content Blocks)Необходимо разработать 5 ключевых, продающих блоков, которые будут размещаться на Главной и релевантных страницах.1. Блок-Оффер (Hero Section - Главный экран)Заголовок (H1): G-TARGET: Реклама и Сайты, которые приносят $X$ ₽ прибыли, а не $Y$ ₽ расходов.Подзаголовок: Запускаем контекстную (Яндекс) и таргетированную (ВК) рекламу, создаем конверсионные сайты с 2014 года. Гарантируем результат по всей России.Кнопка: Рассчитать бюджет и получить прогноз (CTA).Триггер: 10+ лет опыта, 100+ успешных проектов.2. Блок "Наша Экспертиза в Цифрах"Сфокусироваться на измеримых результатах.Заголовок: Мы знаем, как работает ваш рынок.Подзаголовок: Наша специализация – это не только настройка, но и глубокое погружение в вашу бизнес-нишу.4-6 ярких цифр/фактов:$10+$ лет на рынке.$500$ млн. + ₽ рекламных бюджетов освоено.Средний CPL на $40\%$ ниже, чем у конкурентов.$70\%$ клиентов остаются с нами более $3$ лет.Работаем с $2014$ года.3. Блок "Почему Мы, а Не Фрилансер?" (Сравнение)Заголовок: Выберите стабильность, а не риск.Формат: Таблица или 3 колонки с иконками.G-TARGET (Агентство)Фрилансер (Риски)👥 Команда: Аналитик, таргетолог, контекстолог, дизайнер. Всегда на связи.Один человек: Болезнь, отпуск, пропал, нет запасных компетенций.📈 Прогнозируемый результат: Четкое ТЗ, сроки, договор.Непредсказуемый результат: "Как получится", срыв сроков.📊 Системная аналитика: End-to-end (от клика до продажи).Базовая настройка: Только статистика из рекламного кабинета.4. Блок "Процесс Работы" (От Заявки до Прибыли)Заголовок: Наш путь к вашей прибыли.Этапы (5-6 шагов):Брифинг: Заявка и глубокое интервью по вашему бизнесу.Аудит: Анализ конкурентов, рынка, текущих рекламных кампаний/сайта.Стратегия: Разработка медиаплана и технического задания.Запуск: Создание сайта и/или настройка рекламных кампаний.Оптимизация: Ежедневный контроль, A/B-тестирование, снижение стоимости лида.Отчетность: Прозрачные отчеты и еженедельная связь.5. Блок "Последний Призыв к Действию"Заголовок: Хватит терять клиентов! Получите бесплатный аудит вашей рекламы или сайта.Подзаголовок: Мы проанализируем текущие ошибки и дадим 3 конкретных шага по увеличению конверсии.Форма: Имя, Телефон, Email.Кнопка: Получить бесплатный аудит.
 
-**URL**: https://lovable.dev/projects/3e33df28-271a-43a9-b1b8-c7aa052e31f6
+This project was built with [Lovable](https://lovable.dev).
 
-## How can I edit this code?
+**Live app**: https://ris-agencyru.lovable.app
 
-There are several ways of editing your application.
+## Build with Lovable
 
-**Use Lovable**
+Continue developing this project in the [Lovable editor](https://lovable.dev/projects/0877004f-a773-4148-830b-2444aee67963).
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/3e33df28-271a-43a9-b1b8-c7aa052e31f6) and start prompting.
+- **Ship faster**: describe what you want to build and Lovable handles the code.
+- **Stay in sync**: every change made in Lovable is committed straight to this repository.
+- **Full ownership**: this code is yours. Push to `main` on GitHub and your changes sync back into Lovable, ready for your next prompt.
 
-Changes made via Lovable will be committed automatically to this repo.
+## Development
 
-**Use your preferred IDE**
-
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
+Prefer working locally? You need Node.js and npm — [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating).
 
 ```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
+git clone <this-repository-url>
+cd <repository-name>
 npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
 npm run dev
 ```
-
-**Edit a file directly in GitHub**
-
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
-
-**Use GitHub Codespaces**
-
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
-
-## What technologies are used for this project?
-
-This project is built with:
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/3e33df28-271a-43a9-b1b8-c7aa052e31f6) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
